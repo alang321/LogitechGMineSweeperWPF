@@ -64,6 +64,7 @@ namespace LogitechGMineSweeper
             var file = Path.Combine(systemPath, "Logitech MineSweeper/config.txt");
             var fileUS = Path.Combine(systemPath, "Logitech MineSweeper/US.txt");
             var fileDE = Path.Combine(systemPath, "Logitech MineSweeper/DE.txt");
+            var fileUK = Path.Combine(systemPath, "Logitech MineSweeper/UK.txt");
             var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
 
 
@@ -82,6 +83,10 @@ namespace LogitechGMineSweeper
             if (!File.Exists(fileDE))
             {
                 File.WriteAllLines(fileDE, US);
+            }
+            if (!File.Exists(fileUK))
+            {
+                File.WriteAllLines(fileUK, US);
             }
             if (!File.Exists(fileColors))
             {
@@ -150,7 +155,7 @@ namespace LogitechGMineSweeper
                 {
                     if (wins >= 0 && bombs >= 5 && bombs <= 25)
                     {
-                        if (layout == "US" || layout == "DE")
+                        if (layout == "US" || layout == "DE" || layout == "UK")
                         {
 
                         }
@@ -233,9 +238,16 @@ namespace LogitechGMineSweeper
             {
                 int vkCode = Marshal.ReadInt32(lParam);
                 string key = Convert.ToString((Keys)vkCode);
-                if (key == "D1" || key == "D2" || key == "D3" || key == "D4" || key == "D5" || key == "D6" || key == "D7" || key == "D8" || key == "D9" || key == "D0" || key == "OemOpenBrackets" || key == "Q" || key == "W" || key == "E" || key == "R" || key == "T" || key == "Z" || key == "U" || key == "I" || key == "O" || key == "P" || key == "Oem1" || key == "A" || key == "S" || key == "D" || key == "F" || key == "G" || key == "H" || key == "J" || key == "K" || key == "L" || key == "Oemtilde" || key == "Oem7" || key == "OemBackslash" || key == "Y" || key == "X" || key == "C" || key == "V" || key == "B" || key == "N" || key == "M" || key == "Oemcomma" || key == "OemPeriod" || key == "OemMinus" || key == "Add")
+                Console.WriteLine(key);
+                if (key == "D1" || key == "D2" || key == "D3" || key == "D4" || key == "D5" || key == "D6" || key == "D7" || key == "D8" || key == "D9" || key == "D0" || key == "OemOpenBrackets" || key == "Q" || key == "W" || key == "E" || key == "R" || key == "T" || key == "Z" || key == "U" || key == "I" || key == "O" || key == "P" || key == "Oem1" || key == "A" || key == "S" || key == "D" || key == "F" || key == "G" || key == "H" || key == "J" || key == "K" || key == "L" || key == "Oemtilde" || key == "Oem7" || key == "OemBackslash" || key == "Y" || key == "X" || key == "C" || key == "V" || key == "B" || key == "N" || key == "M" || key == "Oemcomma" || key == "OemPeriod" || key == "OemMinus" || key == "Add" || key == "OemQuestion" || key == "Oem5")
                 {
-                    if (MineSweeper.KeyboardLayout == "US" && key == "OemBackslash")
+                    if (MineSweeper.KeyboardLayout == "US" && (key == "OemBackslash" || key == "Oem5"))
+                    {
+                    }
+                    else if (MineSweeper.KeyboardLayout == "DE" && (key == "OemQuestion" || key == "Oem5"))
+                    {
+                    }
+                    else if (MineSweeper.KeyboardLayout == "UK" && key == "OemBackslash")
                     {
                     }
                     else if (Control.ModifierKeys == Keys.Shift)
@@ -269,54 +281,160 @@ namespace LogitechGMineSweeper
 
         private static void AssignParameter(string key)
         {
-            switch (key)
+            if(MineSweeper.KeyboardLayout == "DE")
             {
-                case "D1": parameter = 1; break;
-                case "D2": parameter = 2; break;
-                case "D3": parameter = 3; break;
-                case "D4": parameter = 4; break;
-                case "D5": parameter = 5; break;
-                case "D6": parameter = 6; break;
-                case "D7": parameter = 7; break;
-                case "D8": parameter = 8; break;
-                case "D9": parameter = 9; break;
-                case "D0": parameter = 10; break;
-                case "OemOpenBrackets": parameter = 11; break;
-                case "Q": parameter = 12; break;
-                case "W": parameter = 13; break;
-                case "E": parameter = 14; break;
-                case "R": parameter = 15; break;
-                case "T": parameter = 16; break;
-                case "Z": parameter = 17; break;
-                case "U": parameter = 18; break;
-                case "I": parameter = 19; break;
-                case "O": parameter = 20; break;
-                case "P": parameter = 21; break;
-                case "Oem1": parameter = 22; break;
-                case "A": parameter = 23; break;
-                case "S": parameter = 24; break;
-                case "D": parameter = 25; break;
-                case "F": parameter = 26; break;
-                case "G": parameter = 27; break;
-                case "H": parameter = 28; break;
-                case "J": parameter = 29; break;
-                case "K": parameter = 30; break;
-                case "L": parameter = 31; break;
-                case "Oemtilde": parameter = 32; break;
-                case "Oem7": parameter = 33; break;
-                case "OemBackslash": parameter = 34; break;
-                case "Y": parameter = 35; break;
-                case "X": parameter = 36; break;
-                case "C": parameter = 37; break;
-                case "V": parameter = 38; break;
-                case "B": parameter = 39; break;
-                case "N": parameter = 40; break;
-                case "M": parameter = 41; break;
-                case "Oemcomma": parameter = 42; break;
-                case "OemPeriod": parameter = 43; break;
-                case "OemMinus": parameter = 44; break;
-                case "Add": parameter = 100; break;
-                default: Console.WriteLine("DEFAULT"); break;
+                switch (key)
+                {
+                    case "D1": parameter = 1; break;
+                    case "D2": parameter = 2; break;
+                    case "D3": parameter = 3; break;
+                    case "D4": parameter = 4; break;
+                    case "D5": parameter = 5; break;
+                    case "D6": parameter = 6; break;
+                    case "D7": parameter = 7; break;
+                    case "D8": parameter = 8; break;
+                    case "D9": parameter = 9; break;
+                    case "D0": parameter = 10; break;
+                    case "OemOpenBrackets": parameter = 11; break;
+                    case "Q": parameter = 12; break;
+                    case "W": parameter = 13; break;
+                    case "E": parameter = 14; break;
+                    case "R": parameter = 15; break;
+                    case "T": parameter = 16; break;
+                    case "Z": parameter = 17; break;
+                    case "U": parameter = 18; break;
+                    case "I": parameter = 19; break;
+                    case "O": parameter = 20; break;
+                    case "P": parameter = 21; break;
+                    case "Oem1": parameter = 22; break;
+                    case "A": parameter = 23; break;
+                    case "S": parameter = 24; break;
+                    case "D": parameter = 25; break;
+                    case "F": parameter = 26; break;
+                    case "G": parameter = 27; break;
+                    case "H": parameter = 28; break;
+                    case "J": parameter = 29; break;
+                    case "K": parameter = 30; break;
+                    case "L": parameter = 31; break;
+                    case "Oemtilde": parameter = 32; break;
+                    case "Oem7": parameter = 33; break;
+                    case "OemBackslash": parameter = 34; break;
+                    case "Y": parameter = 35; break;
+                    case "X": parameter = 36; break;
+                    case "C": parameter = 37; break;
+                    case "V": parameter = 38; break;
+                    case "B": parameter = 39; break;
+                    case "N": parameter = 40; break;
+                    case "M": parameter = 41; break;
+                    case "Oemcomma": parameter = 42; break;
+                    case "OemPeriod": parameter = 43; break;
+                    case "OemMinus": parameter = 44; break;
+                    case "Add": parameter = 100; break;
+                    default: Console.WriteLine("DEFAULT"); break;
+                }
+            }
+            else if(MineSweeper.KeyboardLayout == "US")
+            {
+                switch (key)
+                {
+                    case "D1": parameter = 1; break;
+                    case "D2": parameter = 2; break;
+                    case "D3": parameter = 3; break;
+                    case "D4": parameter = 4; break;
+                    case "D5": parameter = 5; break;
+                    case "D6": parameter = 6; break;
+                    case "D7": parameter = 7; break;
+                    case "D8": parameter = 8; break;
+                    case "D9": parameter = 9; break;
+                    case "D0": parameter = 10; break;
+                    case "OemOpenBrackets": parameter = 22; break;
+                    case "Q": parameter = 12; break;
+                    case "W": parameter = 13; break;
+                    case "E": parameter = 14; break;
+                    case "R": parameter = 15; break;
+                    case "T": parameter = 16; break;
+                    case "Z": parameter = 35; break;
+                    case "U": parameter = 18; break;
+                    case "I": parameter = 19; break;
+                    case "O": parameter = 20; break;
+                    case "P": parameter = 21; break;
+                    case "Oem1": parameter = 32; break;
+                    case "A": parameter = 23; break;
+                    case "S": parameter = 24; break;
+                    case "D": parameter = 25; break;
+                    case "F": parameter = 26; break;
+                    case "G": parameter = 27; break;
+                    case "H": parameter = 28; break;
+                    case "J": parameter = 29; break;
+                    case "K": parameter = 30; break;
+                    case "L": parameter = 31; break;
+                    case "Oem7": parameter = 33; break;
+                    case "Y": parameter = 17; break;
+                    case "X": parameter = 36; break;
+                    case "C": parameter = 37; break;
+                    case "V": parameter = 38; break;
+                    case "B": parameter = 39; break;
+                    case "N": parameter = 40; break;
+                    case "M": parameter = 41; break;
+                    case "Oemcomma": parameter = 42; break;
+                    case "OemPeriod": parameter = 43; break;
+                    case "OemQuestion": parameter = 44; break;
+                    case "OemMinus": parameter = 11; break;
+                    case "Add": parameter = 100; break;
+                    default: Console.WriteLine("DEFAULT"); break;
+                }
+            }
+            else if (MineSweeper.KeyboardLayout == "UK")
+            {
+                switch (key)
+                {
+                    case "D1": parameter = 1; break;
+                    case "D2": parameter = 2; break;
+                    case "D3": parameter = 3; break;
+                    case "D4": parameter = 4; break;
+                    case "D5": parameter = 5; break;
+                    case "D6": parameter = 6; break;
+                    case "D7": parameter = 7; break;
+                    case "D8": parameter = 8; break;
+                    case "D9": parameter = 9; break;
+                    case "D0": parameter = 10; break;
+                    case "OemOpenBrackets": parameter = 22; break;
+                    case "Q": parameter = 12; break;
+                    case "W": parameter = 13; break;
+                    case "E": parameter = 14; break;
+                    case "R": parameter = 15; break;
+                    case "T": parameter = 16; break;
+                    case "Z": parameter = 35; break;
+                    case "U": parameter = 18; break;
+                    case "I": parameter = 19; break;
+                    case "O": parameter = 20; break;
+                    case "P": parameter = 21; break;
+                    case "Oemtilde": parameter = 33; break;
+                    case "A": parameter = 23; break;
+                    case "S": parameter = 24; break;
+                    case "D": parameter = 25; break;
+                    case "F": parameter = 26; break;
+                    case "G": parameter = 27; break;
+                    case "H": parameter = 28; break;
+                    case "J": parameter = 29; break;
+                    case "K": parameter = 30; break;
+                    case "L": parameter = 31; break;
+                    case "Oem1": parameter = 32; break;
+                    case "Oem5": parameter = 34; break;
+                    case "Y": parameter = 17; break;
+                    case "X": parameter = 36; break;
+                    case "C": parameter = 37; break;
+                    case "V": parameter = 38; break;
+                    case "B": parameter = 39; break;
+                    case "N": parameter = 40; break;
+                    case "M": parameter = 41; break;
+                    case "Oemcomma": parameter = 42; break;
+                    case "OemPeriod": parameter = 43; break;
+                    case "OemQuestion": parameter = 44; break;
+                    case "OemMinus": parameter = 11; break;
+                    case "Add": parameter = 100; break;
+                    default: Console.WriteLine("DEFAULT"); break;
+                }
             }
         }
 

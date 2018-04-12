@@ -37,7 +37,7 @@
                 </Style>
             </Button.Style>
             <StackPanel Orientation="Horizontal">
-                <Image Source="min.png" Width="12" Height="9" VerticalAlignment="Center" Margin="0,0,0,0" Opacity="0.5"/>
+                <Image Source="min.png" Width="12" Height="10" VerticalAlignment="Center" Margin="0,0,0,0" Opacity="0.5"/>
             </StackPanel>
         </Button>
 
@@ -48,7 +48,7 @@
                 </Style>
             </Button.Style>
             <StackPanel Orientation="Horizontal">
-                <Image Source="close.png" Width="9" Height="9" VerticalAlignment="Center" Margin="0,0,0,0" Opacity="0.5"/>
+                <Image Source="close.png" Width="10" Height="10" VerticalAlignment="Center" Margin="0,0,0,0" Opacity="0.5"/>
             </StackPanel>
         </Button>
 
@@ -139,8 +139,9 @@
 
                         <Label FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,139,0,0" Content="Change Keyboard-Layout" Height="32" FontSize="16"/>
                         <ComboBox VerticalContentAlignment="Center" BorderThickness="2" FontSize="14" Name="KeyLayout" Margin="124,177,217.8,105.8" SelectionChanged="KeyLayout_SelectionChanged">
-                            <ComboBoxItem Content="ISO 105"/>
-                            <ComboBoxItem Content="ANSI 104"/>
+                            <ComboBoxItem Content="DE"/>
+                            <ComboBoxItem Content="US"/>
+                            <ComboBoxItem Content="UK"/>
                         </ComboBox>
                     </Grid>
                 </Grid>
@@ -605,8 +606,10 @@
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g33mouseup" MouseEnter="g33mousedown" MouseLeave="g33mouseleave" Canvas.Left="635.5" Canvas.Top="190" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h33" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g33mouseup" MouseEnter="g33mousedown" MouseLeave="g33mouseleave" Canvas.Left="641.5" Canvas.Top="193" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g33" Fill="#FFFCFCFC"/>
                                         <Label x:Name="ä" Visibility="Hidden" Content="Ä" MouseUp="g33mouseup" MouseEnter="g33mousedown" MouseLeave="g33mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="642" Canvas.Top="193" Height="40" Width="40"/>
-                                        <Label x:Name="ä1" Visibility="Visible" Padding="0,0,0,0" Content="&quot;" MouseUp="g33mouseup" MouseEnter="g33mousedown" MouseLeave="g33mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="642" Canvas.Top="190" Height="25" Width="40"/>
                                         <Label Visibility="{Binding Visibility, ElementName=ä1}" Padding="0,0,0,0" Content="'" MouseUp="g33mouseup" MouseEnter="g33mousedown" MouseLeave="g33mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="642" Canvas.Top="208" Height="25" Width="40"/>
+                                        <Label x:Name="ä1" Visibility="Hidden" Padding="0,0,0,0" Content="&quot;" MouseUp="g33mouseup" MouseEnter="g33mousedown" MouseLeave="g33mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="642" Canvas.Top="190" Height="25" Width="40"/>
+                                        <Label x:Name="ä2" Visibility="Visible" Padding="0,0,0,0" Content="@" MouseUp="g33mouseup" MouseEnter="g33mousedown" MouseLeave="g33mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="642" Canvas.Top="190" Height="25" Width="40"/>
+                                        <Label Visibility="{Binding Visibility, ElementName=ä2}" Padding="0,0,0,0" Content="'" MouseUp="g33mouseup" MouseEnter="g33mousedown" MouseLeave="g33mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="642" Canvas.Top="210" Height="23" Width="40"/>
                                     </Canvas>
                                     <Canvas x:Name="g750">
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="enter2" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="689.5" Canvas.Top="190" Width="119" Height="52" RadiusX="5" RadiusY="5" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
@@ -628,14 +631,15 @@
                                         <Label Content="6" MouseUp="sixmouseup" MouseEnter="sixmousedown" MouseLeave="sixmouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="1114" Canvas.Top="193" Height="40" Width="40"/>
                                     </Canvas>
                                     <Canvas x:Name="g790">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1" Canvas.Top="244" Width="120" Height="52" RadiusX="5" RadiusY="5" x:Name="rect782" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="7" Canvas.Top="247" Width="107" Height="40" RadiusX="5" RadiusY="5" x:Name="rect788" Fill="{Binding Fill, ElementName=esc}"/>
+                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1" Canvas.Top="244" Width="65.5" Height="52" RadiusX="5" RadiusY="5" x:Name="rect782" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
+                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="7" Canvas.Top="247" Width="53.5" Height="40" RadiusX="5" RadiusY="5" x:Name="rect788" Fill="{Binding Fill, ElementName=esc}"/>
                                     </Canvas>
-                                    <Canvas x:Name="g800" Visibility="Hidden">
+                                    <Canvas x:Name="g800" Visibility="Visible">
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g34mouseup" MouseEnter="g34mousedown" MouseLeave="g34mouseleave" Canvas.Left="68.5" Canvas.Top="244" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h34" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g34mouseup" MouseEnter="g34mousedown" MouseLeave="g34mouseleave" Canvas.Left="74.5" Canvas.Top="247" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g34" Fill="#FFFCFCFC"/>
-                                        <Label Padding="0,0,0,0" Content="&gt;" MouseUp="g34mouseup" MouseEnter="g34mousedown" MouseLeave="g34mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="74.5" Canvas.Top="245" Height="25" Width="40"/>
-                                        <Label Padding="0,0,0,0" Content="&gt;" MouseUp="g34mouseup" MouseEnter="g34mousedown" MouseLeave="g34mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="73" Canvas.Top="261" Height="25" Width="40" RenderTransformOrigin="0.5,0.5">
+                                        <Label Padding="0,0,0,0" Content="&gt;" Name="buttonnexttoleftshiftlabel1" Visibility="Hidden" MouseUp="g34mouseup" MouseEnter="g34mousedown" MouseLeave="g34mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="74.5" Canvas.Top="245" Height="25" Width="40"/>
+                                        <Label Padding="0,0,0,0" Content="|" Name="buttonnexttoleftshiftlabel2" MouseUp="g34mouseup" MouseEnter="g34mousedown" MouseLeave="g34mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="74.5" Canvas.Top="245" Height="22" Width="40"/>
+                                        <Label Padding="0,0,0,0" Content="&gt;" Visibility="{Binding Visibility, ElementName=buttonnexttoleftshiftlabel1}" MouseUp="g34mouseup" MouseEnter="g34mousedown" MouseLeave="g34mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="73" Canvas.Top="261" Height="25" Width="40" RenderTransformOrigin="0.5,0.5">
                                             <Label.RenderTransform>
                                                 <TransformGroup>
                                                     <ScaleTransform ScaleX="-1"/>
@@ -644,6 +648,8 @@
                                                     <TranslateTransform/>
                                                 </TransformGroup>
                                             </Label.RenderTransform>
+                                        </Label>
+                                        <Label Padding="0,0,0,0" Visibility="{Binding Visibility, ElementName=buttonnexttoleftshiftlabel2}" Content="\" MouseUp="g34mouseup" MouseEnter="g34mousedown" MouseLeave="g34mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="74.5" Canvas.Top="263" Height="27" Width="40" RenderTransformOrigin="0.5,0.5">
                                         </Label>
                                     </Canvas>
                                     <Canvas x:Name="g810">

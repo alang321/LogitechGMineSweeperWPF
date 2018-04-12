@@ -112,9 +112,9 @@ namespace LogitechGMineSweeper
             get { return keyboardLayout; }
             set
             {
-                if (value != "DE" && value != "US")
+                if (value != "DE" && value != "US" && value != "UK")
                 {
-                    throw new Exception("Only German or Us layout allowed. (DE or US)");
+                    throw new Exception("Only German, UK or US layout allowed. (DE, UK or US)");
                 }
                 keyboardLayout = value;
             }
@@ -572,6 +572,11 @@ namespace LogitechGMineSweeper
             }
 
             main.esc1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[9, 2], MineSweeper.colors[9, 1], MineSweeper.colors[9, 0]));
+
+            if (main.hovering)
+            {
+                main.toFill.Fill = main.fromFill.Fill; 
+            }
         }
 
         static private void ShowKey(ref System.Windows.Controls.Canvas a)
@@ -821,9 +826,13 @@ namespace LogitechGMineSweeper
             {
                 file = Path.Combine(systemPath, "Logitech MineSweeper/US.txt");
             }
-            else
+            else if(keyboardLayout == "DE")
             {
                 file = Path.Combine(systemPath, "Logitech MineSweeper/DE.txt");
+            }
+            else
+            {
+                file = Path.Combine(systemPath, "Logitech MineSweeper/UK.txt");
             }
 
             string[] US = File.ReadAllLines(file);
