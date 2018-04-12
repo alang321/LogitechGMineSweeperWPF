@@ -238,7 +238,6 @@ namespace LogitechGMineSweeper
             {
                 int vkCode = Marshal.ReadInt32(lParam);
                 string key = Convert.ToString((Keys)vkCode);
-                Console.WriteLine(key);
                 if (key == "D1" || key == "D2" || key == "D3" || key == "D4" || key == "D5" || key == "D6" || key == "D7" || key == "D8" || key == "D9" || key == "D0" || key == "OemOpenBrackets" || key == "Q" || key == "W" || key == "E" || key == "R" || key == "T" || key == "Z" || key == "U" || key == "I" || key == "O" || key == "P" || key == "Oem1" || key == "A" || key == "S" || key == "D" || key == "F" || key == "G" || key == "H" || key == "J" || key == "K" || key == "L" || key == "Oemtilde" || key == "Oem7" || key == "OemBackslash" || key == "Y" || key == "X" || key == "C" || key == "V" || key == "B" || key == "N" || key == "M" || key == "Oemcomma" || key == "OemPeriod" || key == "OemMinus" || key == "Add" || key == "OemQuestion" || key == "Oem5")
                 {
                     if (MineSweeper.KeyboardLayout == "US" && (key == "OemBackslash" || key == "Oemtilde" || key == "Oem5"))
