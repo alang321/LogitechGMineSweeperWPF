@@ -55,7 +55,7 @@
         <Button Name="settings" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="190" Height="45" Margin="0,30,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click" Grid.ColumnSpan="2">
             <Button.Style>
                 <Style TargetType="Button">
-                    <Setter Property="Template" Value="{StaticResource button}"/>
+                    <Setter Property="Template" Value="{StaticResource buttonactive}"/>
                 </Style>
             </Button.Style>
             <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
