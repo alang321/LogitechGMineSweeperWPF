@@ -822,6 +822,7 @@ namespace LogitechGMineSweeper
                 File.WriteAllLines(file, lines);
                 File.WriteAllLines(fileUS, US);
                 File.WriteAllLines(fileUK, US);
+                File.WriteAllLines(fileDE, US);
                 File.WriteAllLines(fileColors, colors);
 
                 MineSweeper.colors = new byte[,] { { 000, 000, 000 }, { 128, 000, 128 }, { 255, 255, 000 }, { 000, 128, 000 }, { 000, 255, 255 }, { 000, 127, 255 }, { 255, 000, 000 }, { 000, 000, 255 }, { 255, 255, 255 }, { 255, 200, 200 }, { 000, 000, 255 }, { 255, 000, 000 }, { 000, 000, 255 }, { 000, 255, 255 }, { 255, 160, 160 }, { 000, 255, 255 } };
