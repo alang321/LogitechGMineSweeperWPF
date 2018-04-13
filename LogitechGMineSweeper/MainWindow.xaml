@@ -138,7 +138,7 @@
                         <Button BorderThickness="2" FontSize="14" Content="Easy" Margin="6,80,332.8,204.8" Click="Button_Click_7"/>
 
                         <Label FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,139,0,0" Content="Change Keyboard-Layout" Height="32" FontSize="16"/>
-                        <ComboBox VerticalContentAlignment="Center" BorderThickness="2" FontSize="14" Name="KeyLayout" Margin="124,177,217.8,105.8" SelectionChanged="KeyLayout_SelectionChanged">
+                        <ComboBox VerticalContentAlignment="Center" BorderThickness="2" FontSize="14" Name="KeyLayout" Margin="146,176,227.8,106.8" SelectionChanged="KeyLayout_SelectionChanged">
                             <ComboBoxItem Content="DE"/>
                             <ComboBoxItem Content="US"/>
                             <ComboBoxItem Content="UK"/>

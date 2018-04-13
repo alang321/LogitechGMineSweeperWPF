@@ -7,6 +7,7 @@ using System.Threading;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
+using System.Diagnostics;
 
 namespace LogitechGMineSweeper
 {
@@ -32,6 +33,7 @@ namespace LogitechGMineSweeper
 
         static int flagged = 0;
 
+        //values actually used anymore just read out of file, also not up to date
         public static byte[,] colors =
             {
                 // bombs sourrounding counter
@@ -336,7 +338,7 @@ namespace LogitechGMineSweeper
 
         #region Print Board
 
-        static private string print()
+        static private string printDisplay()
         {
             string s = "";
             for (int i = 0; i < display.GetLength(1); i++)
@@ -372,10 +374,93 @@ namespace LogitechGMineSweeper
             return s;
         }
 
+        static private string printBombs()
+        {
+            string s = "";
+            for (int i = 1; i <= 4; i++)
+            {
+                for (int j = 1; j <= 11; j++)
+                {
+                    if (j == 1)
+                    {
+                        switch (i - 1)
+                        {
+                            case 0:
+                                s += "";
+                                break;
+                            case 1:
+                                s += " ";
+                                break;
+                            case 2:
+                                s += "  ";
+                                break;
+                            case 3:
+                                s += " ";
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    if (isBomb[j, i]) s += "X ";
+                    else if (!isBomb[j, i]) s += "- ";
+                }
+                s += "\n";
+            }
+            return s;
+        }
+
+        static private string printMap()
+        {
+            string s = "";
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 11; j++)
+                {
+                    if (j == 0)
+                    {
+                        switch (i)
+                        {
+                            case 0:
+                                s += "";
+                                break;
+                            case 1:
+                                s += " ";
+                                break;
+                            case 2:
+                                s += "  ";
+                                break;
+                            case 3:
+                                s += " ";
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    if(map[j, i] == 7)
+                    {
+                        s += "X ";
+                    }
+                    else
+                    {
+                        s += map[j, i].ToString() + " ";
+                    }
+                }
+                s += "\n";
+            }
+            return s;
+        }
+
         static public void printLogiLED()
         {
             byte[] logiLED = new byte[LogitechGSDK.LOGI_LED_BITMAP_SIZE];
             UpdateBackground();
+
+            Debug.WriteLine("Display:\n");
+            Debug.WriteLine(printDisplay());
+            Debug.WriteLine("Bombs:\n");
+            Debug.WriteLine(printBombs());
+            Debug.WriteLine("Map:\n");
+            Debug.WriteLine(printMap());
 
             if (main._menuTabControl.SelectedIndex == 1)
             {
