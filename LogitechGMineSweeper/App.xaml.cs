@@ -43,8 +43,9 @@ namespace LogitechGMineSweeper
         public static string[] colors = { "000,000,000", "128,000,128", "255,255,000", "000,128,000", "000,255,255", "000,127,255", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "255,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255", "000,255,255" };
 
 
-    //for single instance
-    static Mutex mutex = new Mutex(true, "{8F6F0AC4-B9A1-45fd-A8CF-72F04E6BDE8B}");
+
+        //for single instance
+        static Mutex mutex = new Mutex(true, "{8F6F0AC4-B9A1-45fd-A8CF-72F04E6BDE8B}");
 
         #endregion
 
