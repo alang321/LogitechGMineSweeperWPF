@@ -15,6 +15,13 @@ namespace LogitechGMineSweeper
     {
         #region Variables Constructor and Properties
 
+        public enum Layout
+        {
+            DE,
+            US,
+            UK
+        }
+
         static int[,] map;
         static bool[,] isBomb;
         static bool[,] isFlag = new bool[13, 6];
@@ -26,14 +33,14 @@ namespace LogitechGMineSweeper
         static int losses = 0;
         static bool gameRunning;
         static bool firstMove = true;
-        static string keyboardLayout = "US";
+        static int keyboardLayout = (int)Layout.DE;
         static bool setBackground = false;
         public static int currentBack = 0;
         public static LogitechGMineSweeper.MainWindow main;
 
         static int flagged = 0;
 
-        //values actually used anymore just read out of file, also not up to date
+        //values actually not used anymore just read out of file, also values not up to date, just to see what each value is
         public static byte[,] colors =
             {
                 // bombs sourrounding counter
@@ -55,7 +62,7 @@ namespace LogitechGMineSweeper
                 {255,200,200},   //9
 
                 //Flag
-                {255,000,255},   //10
+                {000,000,000},   //10
 
                 //New Game Key
                 {255,000,000},   //11
@@ -109,12 +116,12 @@ namespace LogitechGMineSweeper
             }
         }
 
-        static public string KeyboardLayout
+        static public int KeyboardLayout
         {
             get { return keyboardLayout; }
             set
             {
-                if (value != "DE" && value != "US" && value != "UK")
+                if (value != (int)Layout.DE && value != (int)Layout.US && value != (int)Layout.DE)
                 {
                     throw new Exception("Only German, UK or US layout allowed. (DE, UK or US)");
                 }
@@ -198,7 +205,7 @@ namespace LogitechGMineSweeper
                     if (i > 0 && i < 12 && j > 0 && j < 5)
                     {
                         display[i, j] = 8;
-                        if (keyboardLayout == "US")
+                        if (keyboardLayout == (int)Layout.US)
                         {
                             if (i == 1 && j == 4)
                             {
@@ -213,7 +220,7 @@ namespace LogitechGMineSweeper
                 }
             }
 
-            if (keyboardLayout == "US")
+            if (keyboardLayout == (int)Layout.US)
             {
                 covered = 43;
             }
@@ -246,7 +253,7 @@ namespace LogitechGMineSweeper
             {
                 int a = r.Next(1, isBomb.GetLength(0) - 1);
                 int b = r.Next(1, isBomb.GetLength(1) - 1);
-                if (keyboardLayout == "US")
+                if (keyboardLayout == (int)Layout.US)
                 {
                     if (y == 4 && x == 1)
                     {
@@ -271,7 +278,7 @@ namespace LogitechGMineSweeper
             {
                 int x = r.Next(1, isBomb.GetLength(0) - 1);
                 int y = r.Next(1, isBomb.GetLength(1) - 1);
-                if (keyboardLayout == "US")
+                if (keyboardLayout == (int)Layout.US)
                 {
                     if (y == 4 && x == 1)
                     {
@@ -292,7 +299,7 @@ namespace LogitechGMineSweeper
             {
                 for (int j = 0; j < map.GetLength(1); j++)
                 {
-                    if (keyboardLayout == "US")
+                    if (keyboardLayout == (int)Layout.US)
                     {
                         if (i == 0 && j == 3)
                         {
@@ -337,6 +344,8 @@ namespace LogitechGMineSweeper
         #endregion
 
         #region Print Board
+
+        #region Debug
 
         static private string printDisplay()
         {
@@ -450,23 +459,32 @@ namespace LogitechGMineSweeper
             return s;
         }
 
+        #endregion
+
         static public void printLogiLED()
         {
+            //init bitmap that will be used to create light
             byte[] logiLED = new byte[LogitechGSDK.LOGI_LED_BITMAP_SIZE];
+
+            //implemented background change on loss later so the whole thing is pretty messy so this is necessary
             UpdateBackground();
 
+            /* Debug */
             Debug.WriteLine("Display:\n");
             Debug.WriteLine(printDisplay());
             Debug.WriteLine("Bombs:\n");
             Debug.WriteLine(printBombs());
             Debug.WriteLine("Map:\n");
             Debug.WriteLine(printMap());
+            /* Debug End */
 
+            //only print the in-app keyboard when the tab is selected
             if (main._menuTabControl.SelectedIndex == 1)
             {
                 printQwertz();
             }
 
+            //for actually printing the board
             for (int i = 0; i < display.GetLength(1); i++)
             {
                 for (int j = 0; j < display.GetLength(0); j++)
@@ -496,11 +514,14 @@ namespace LogitechGMineSweeper
                 colorToByte(logiLED, i * 4 + 4, colors[15,0], colors[15, 1], colors[15, 2]);
             }
 
+            //bool trigger for setting background as it would shortlyy flash if set every time
             if (setBackground)
             {
                 setBackground = false;
                 LogitechGSDK.LogiLedSetLighting(Convert.ToInt32((Convert.ToDouble(colors[9, 2]) / 255.0) * 100), Convert.ToInt32((Convert.ToDouble(colors[9, 1]) / 255.0) * 100), Convert.ToInt32((Convert.ToDouble(colors[9, 0]) / 255.0) * 100));
             }
+
+            //display the new color
             LogitechGSDK.LogiLedSetLightingFromBitmap(logiLED);
         }
 
@@ -527,7 +548,8 @@ namespace LogitechGMineSweeper
         }
 
         static private void colorToByte(byte[] logiLED, int start, byte blue, byte green, byte red)
-        {
+        { 
+            //for getting the in app map to the required format, alpha is set to max
             logiLED[start] = blue;
             logiLED[start + 1] = green;
             logiLED[start + 2] = red;
@@ -883,15 +905,16 @@ namespace LogitechGMineSweeper
             
             main.UpdateStats();
             main.StopWatchVictory();
+
             currentBack = 1;
+
             colors[9, 0] = colors[13, 0];
             colors[9, 1] = colors[13, 1];
             colors[9, 2] = colors[13, 2];
 
-            var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
             string[] lines = { "Wins: " + wins, "Bombs: " + bombs, "Layout: " + keyboardLayout, "Total: " + total, "Losses: " + losses };
-            var file = Path.Combine(systemPath, "Logitech MineSweeper/config.txt");
-            File.WriteAllLines(file, lines);
+
+            File.WriteAllLines(Config.fileConfig, lines);
 
             gameOver();
         }
@@ -902,22 +925,19 @@ namespace LogitechGMineSweeper
 
         static private void IncrementWinsBombs(int add)
         {
-            var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-            var directory = Path.Combine(systemPath, "Logitech MineSweeper");
-
             var file = "a";
 
-            if (keyboardLayout == "US")
+            if (keyboardLayout == (int)Layout.US)
             {
-                file = Path.Combine(systemPath, "Logitech MineSweeper/US.txt");
+                file = Config.fileUS;
             }
-            else if(keyboardLayout == "DE")
+            else if(keyboardLayout == (int)Layout.DE)
             {
-                file = Path.Combine(systemPath, "Logitech MineSweeper/DE.txt");
+                file = Config.fileDE;
             }
             else
             {
-                file = Path.Combine(systemPath, "Logitech MineSweeper/UK.txt");
+                file = Config.fileUK;
             }
 
             string[] US = File.ReadAllLines(file);

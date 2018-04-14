@@ -40,9 +40,6 @@ namespace LogitechGMineSweeper
         public static string last = "empty";
         private static int parameter = 0;
 
-        public static string[] colors = { "000,000,000", "128,000,128", "255,255,000", "000,128,000", "000,255,255", "000,127,255", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "255,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255", "000,255,255" };
-
-
 
         //for single instance
         static Mutex mutex = new Mutex(true, "{8F6F0AC4-B9A1-45fd-A8CF-72F04E6BDE8B}");
@@ -56,66 +53,54 @@ namespace LogitechGMineSweeper
             if (!LogitechGSDK.LogiLedInit()) Console.Write("Not connected to GSDK");
             //Create or read in save files
             bool newFile = false;
-            string[] lines = { "Wins: 0", "Bombs: 13", "Layout: DE", "Total: 0", "Losses: 0" };
-            string[] US = { "", "", "", "", "", "5: 30:00", "6: 30:00", "7: 30:00", "8: 30:00", "9: 30:00", "10: 30:00", "11: 30:00", "12: 30:00", "13: 30:00", "14: 30:00", "15: 30:00", "16: 30:00", "17: 30:00", "18: 30:00", "19: 30:00", "20: 30:00", "21: 30:00", "22: 30:00", "23: 30:00", "24: 30:00", "25: 30:00", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" };
 
-            var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-            var directory = Path.Combine(systemPath, "Logitech MineSweeper");
-
-            var file = Path.Combine(systemPath, "Logitech MineSweeper/config.txt");
-            var fileUS = Path.Combine(systemPath, "Logitech MineSweeper/US.txt");
-            var fileDE = Path.Combine(systemPath, "Logitech MineSweeper/DE.txt");
-            var fileUK = Path.Combine(systemPath, "Logitech MineSweeper/UK.txt");
-            var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-
-            Directory.CreateDirectory(directory);
+            Directory.CreateDirectory(Config.directory);
 
             int wins = 0;
             int bombs = 0;
             int total = 0;
             int losses = 0;
-            string layout = "";
+            int layout = 0;
 
-            if (!File.Exists(fileUS))
+            if (!File.Exists(Config.fileUS))
             {
-                File.WriteAllLines(fileUS, US);
+                File.WriteAllLines(Config.fileUS, Config.statisticsDefault);
             }
-            if (!File.Exists(fileDE))
+            if (!File.Exists(Config.fileDE))
             {
-                File.WriteAllLines(fileDE, US);
+                File.WriteAllLines(Config.fileDE, Config.statisticsDefault);
             }
-            if (!File.Exists(fileUK))
+            if (!File.Exists(Config.fileUK))
             {
-                File.WriteAllLines(fileUK, US);
+                File.WriteAllLines(Config.fileUK, Config.statisticsDefault);
             }
-            if (!File.Exists(fileColors))
+            if (!File.Exists(Config.fileColors))
             {
-                File.WriteAllLines(fileColors, colors);
+                File.WriteAllLines(Config.fileColors, Config.colorsDefault);
             }
 
             try
             {
                 for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
                 {
-                    MineSweeper.colors[i, 0] = Convert.ToByte(File.ReadLines(fileColors).Skip(i).Take(1).First().Substring(0, 3));
-                    MineSweeper.colors[i, 1] = Convert.ToByte(File.ReadLines(fileColors).Skip(i).Take(1).First().Substring(4, 3));
-                    MineSweeper.colors[i, 2] = Convert.ToByte(File.ReadLines(fileColors).Skip(i).Take(1).First().Substring(8, 3));
+                    MineSweeper.colors[i, 0] = Convert.ToByte(File.ReadLines(Config.fileColors).Skip(i).Take(1).First().Substring(0, 3));
+                    MineSweeper.colors[i, 1] = Convert.ToByte(File.ReadLines(Config.fileColors).Skip(i).Take(1).First().Substring(4, 3));
+                    MineSweeper.colors[i, 2] = Convert.ToByte(File.ReadLines(Config.fileColors).Skip(i).Take(1).First().Substring(8, 3));
                 }
             }
             catch
             {
-                File.WriteAllLines(fileColors, colors);
+                File.WriteAllLines(Config.fileColors, Config.colorsDefault);
             }
 
 
-            if (File.Exists(file))
+            if (File.Exists(Config.fileConfig))
             {
-                string line1 = File.ReadLines(file).Skip(0).Take(1).First();
-                string line2 = File.ReadLines(file).Skip(1).Take(1).First();
-                string line3 = File.ReadLines(file).Skip(2).Take(1).First();
-                string line4 = File.ReadLines(file).Skip(3).Take(1).First();
-                string line5 = File.ReadLines(file).Skip(4).Take(1).First();
+                string line1 = File.ReadLines(Config.fileConfig).Skip(0).Take(1).First();
+                string line2 = File.ReadLines(Config.fileConfig).Skip(1).Take(1).First();
+                string line3 = File.ReadLines(Config.fileConfig).Skip(2).Take(1).First();
+                string line4 = File.ReadLines(Config.fileConfig).Skip(3).Take(1).First();
+                string line5 = File.ReadLines(Config.fileConfig).Skip(4).Take(1).First();
 
                 int a = 0;
                 string b = "";
@@ -130,9 +115,6 @@ namespace LogitechGMineSweeper
                     b = line2.Substring(a + "Bombs: ".Length);
                     bombs = Convert.ToInt32(b);
 
-                    a = line3.IndexOf("Layout: ");
-                    layout = line3.Substring(a + "Layout: ".Length);
-
                     a = line4.IndexOf("Total: ");
                     b = line4.Substring(a + "Total: ".Length);
                     total = Convert.ToInt32(b);
@@ -144,35 +126,50 @@ namespace LogitechGMineSweeper
                 catch
                 {
                     wins = 0;
-                    bombs = 13;
-                    layout = "DE";
+                    bombs = Config.bombsDefault;
+                    layout = Config.keyboardLayout;
                     total = 0;
                     losses = 0;
-                    File.WriteAllLines(file, lines);
+                    File.WriteAllLines(Config.fileConfig, Config.configDefault);
                     newFile = true;
                 }
+
+                try
+                {
+                    a = line3.IndexOf("Layout: ");
+                    b = line3.Substring(a + "Layout: ".Length);
+                    layout = Convert.ToInt32(b);
+                }
+                catch
+                {
+                    string[] lines = { "Wins: " + wins, "Bombs: " + bombs, "Layout: " + Config.keyboardLayout, "Total: " + total, "Losses: " + losses };
+
+                    File.WriteAllLines(Config.fileConfig, lines);
+                    layout = Config.keyboardLayout;
+                }
+
 
                 if (!newFile)
                 {
                     if (wins >= 0 && bombs >= 5 && bombs <= 25)
                     {
-                        if (layout == "US" || layout == "DE" || layout == "UK")
+                        if (layout == (int)MineSweeper.Layout.US || layout == (int)MineSweeper.Layout.DE || layout == (int)MineSweeper.Layout.UK)
                         {
 
                         }
                         else
                         {
-                            layout = "DE";
-                            File.WriteAllLines(file, lines);
+                            layout = Config.keyboardLayout;
+                            File.WriteAllLines(Config.fileConfig, Config.configDefault);
                             newFile = true;
                         }
                     }
                     else
                     {
                         wins = 0;
-                        bombs = 13;
+                        bombs = Config.bombsDefault;
                         total = 0;
-                        File.WriteAllLines(file, lines);
+                        File.WriteAllLines(Config.fileConfig, Config.configDefault);
                         newFile = true;
                     }
                 }
@@ -180,11 +177,11 @@ namespace LogitechGMineSweeper
             else
             {
                 wins = 0;
-                bombs = 13;
-                layout = "DE";
+                bombs = Config.bombsDefault;
+                layout = Config.keyboardLayout;
                 total = 0;
                 losses = 0;
-                File.WriteAllLines(file, lines);
+                File.WriteAllLines(Config.fileConfig, Config.configDefault);
                 newFile = true;
             }
 
@@ -241,13 +238,13 @@ namespace LogitechGMineSweeper
                 string key = Convert.ToString((Keys)vkCode);
                 if (key == "D1" || key == "D2" || key == "D3" || key == "D4" || key == "D5" || key == "D6" || key == "D7" || key == "D8" || key == "D9" || key == "D0" || key == "OemOpenBrackets" || key == "Q" || key == "W" || key == "E" || key == "R" || key == "T" || key == "Z" || key == "U" || key == "I" || key == "O" || key == "P" || key == "Oem1" || key == "A" || key == "S" || key == "D" || key == "F" || key == "G" || key == "H" || key == "J" || key == "K" || key == "L" || key == "Oemtilde" || key == "Oem7" || key == "OemBackslash" || key == "Y" || key == "X" || key == "C" || key == "V" || key == "B" || key == "N" || key == "M" || key == "Oemcomma" || key == "OemPeriod" || key == "OemMinus" || key == "Add" || key == "OemQuestion" || key == "Oem5")
                 {
-                    if (MineSweeper.KeyboardLayout == "US" && (key == "OemBackslash" || key == "Oemtilde" || key == "Oem5"))
+                    if (MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.US && (key == "OemBackslash" || key == "Oemtilde" || key == "Oem5"))
                     {
                     }
-                    else if (MineSweeper.KeyboardLayout == "DE" && (key == "OemQuestion" || key == "Oem5"))
+                    else if (MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.DE && (key == "OemQuestion" || key == "Oem5"))
                     {
                     }
-                    else if (MineSweeper.KeyboardLayout == "UK" && (key == "OemBackslash" || key == "Oem7"))
+                    else if (MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.UK && (key == "OemBackslash" || key == "Oem7"))
                     {
                     }
                     else if (Control.ModifierKeys == Keys.Shift)
@@ -281,7 +278,7 @@ namespace LogitechGMineSweeper
 
         private static void AssignParameter(string key)
         {
-            if(MineSweeper.KeyboardLayout == "DE")
+            if(MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.DE)
             {
                 switch (key)
                 {
@@ -333,7 +330,7 @@ namespace LogitechGMineSweeper
                     default: Console.WriteLine("DEFAULT"); break;
                 }
             }
-            else if(MineSweeper.KeyboardLayout == "US")
+            else if(MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.US)
             {
                 switch (key)
                 {
@@ -384,7 +381,7 @@ namespace LogitechGMineSweeper
                     default: Console.WriteLine("DEFAULT"); break;
                 }
             }
-            else if (MineSweeper.KeyboardLayout == "UK")
+            else if (MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.UK)
             {
                 switch (key)
                 {

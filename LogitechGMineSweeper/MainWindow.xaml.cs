@@ -59,8 +59,6 @@ namespace LogitechGMineSweeper
     {
         #region constructor and variables
 
-        private string[] colorsDefault = { "000,000,000", "128,000,128", "255,255,000", "000,128,000", "000,255,255", "000,127,255", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "255,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255", "000,255,255" };
-
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
@@ -86,18 +84,7 @@ namespace LogitechGMineSweeper
 
             UpdateTimer();
 
-            if (MineSweeper.KeyboardLayout == "US")
-            {
-                KeyLayout.SelectedIndex = 1;
-            }
-            else if (MineSweeper.KeyboardLayout == "DE")
-            {
-                KeyLayout.SelectedIndex = 0;
-            }
-            else
-            {
-                KeyLayout.SelectedIndex = 2;
-            }
+            KeyLayout.SelectedIndex = MineSweeper.KeyboardLayout;
 
             NUDTextBox.Text = Convert.ToString(MineSweeper.Bombs);
 
@@ -111,25 +98,23 @@ namespace LogitechGMineSweeper
 
         #region Timer
 
-        string BestTime(string layout, int bombs)
+        string BestTime(int bombs)
         {
             var file = "a";
-            string[] US = { "", "", "", "", "", "5: 30:00", "6: 30:00", "7: 30:00", "8: 30:00", "9: 30:00", "10: 30:00", "11: 30:00", "12: 30:00", "13: 30:00", "14: 30:00", "15: 30:00", "16: 30:00", "17: 30:00", "18: 30:00", "19: 30:00", "20: 30:00", "21: 30:00", "22: 30:00", "23: 30:00", "24: 30:00", "25: 30:00", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" };
             string best = "";
             int a = 0;
-
-            var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-            if (MineSweeper.KeyboardLayout == "US")
+            
+            if (MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.US)
             {
-                file = Path.Combine(systemPath, "Logitech MineSweeper/US.txt");
+                file = Config.fileUS;
             }
-            else if (MineSweeper.KeyboardLayout == "DE")
+            else if (MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.DE)
             {
-                file = Path.Combine(systemPath, "Logitech MineSweeper/DE.txt");
+                file = Config.fileDE;
             }
             else
             {
-                file = Path.Combine(systemPath, "Logitech MineSweeper/UK.txt");
+                file = Config.fileUK;
             }
 
             try
@@ -143,11 +128,11 @@ namespace LogitechGMineSweeper
             }
             catch
             {
-                File.WriteAllLines(file, US);
+                File.WriteAllLines(file, Config.statisticsDefault);
             }
             if (best.Length != 5 || best.Substring(2, 1) != ":" || Convert.ToInt32(best.Substring(0, 2)) > 30 || Convert.ToInt32(best.Substring(3, 2)) > 60 || Convert.ToInt32(best.Substring(0, 2)) < 0 || Convert.ToInt32(best.Substring(3, 2)) < 0)
             {
-                File.WriteAllLines(file, US);
+                File.WriteAllLines(file, Config.statisticsDefault);
             }
 
             return best;
@@ -176,33 +161,30 @@ namespace LogitechGMineSweeper
             dispatcherTimer.Enabled = false;
             UpdateTimer();
 
-            string best = BestTime(MineSweeper.KeyboardLayout, MineSweeper.Bombs);
+            string best = BestTime(MineSweeper.Bombs);
 
             if (Convert.ToInt32(best.Substring(0, 2)) * 60 + Convert.ToInt32(best.Substring(3, 2)) >= timer.Elapsed.Minutes * 60 + timer.Elapsed.Seconds)
             {
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var directory = Path.Combine(systemPath, "Logitech MineSweeper");
-
                 var file = "a";
 
-                if (MineSweeper.KeyboardLayout == "US")
+                if (MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.US)
                 {
-                    file = Path.Combine(systemPath, "Logitech MineSweeper/US.txt");
+                    file = Config.fileUS;
                 }
-                else if (MineSweeper.KeyboardLayout == "DE")
+                else if (MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.DE)
                 {
-                    file = Path.Combine(systemPath, "Logitech MineSweeper/DE.txt");
+                    file = Config.fileDE;
                 }
                 else
                 {
-                    file = Path.Combine(systemPath, "Logitech MineSweeper/UK.txt");
+                    file = Config.fileUK;
                 }
 
-                string[] US = File.ReadAllLines(file);
+                string[] updatedStatistics = File.ReadAllLines(file);
 
-                US[MineSweeper.Bombs] = MineSweeper.Bombs.ToString() + ": " + string.Format("{0:00}:{1:00}", timer.Elapsed.Minutes, timer.Elapsed.Seconds);
+                updatedStatistics[MineSweeper.Bombs] = MineSweeper.Bombs.ToString() + ": " + string.Format("{0:00}:{1:00}", timer.Elapsed.Minutes, timer.Elapsed.Seconds);
 
-                File.WriteAllLines(file, US);
+                File.WriteAllLines(file, updatedStatistics);
 
                 UpdateStats();
             }
@@ -316,18 +298,14 @@ namespace LogitechGMineSweeper
 
         #endregion
 
-        #region numeric up down
-
-        int minvalue = 5,
-       maxvalue = 25,
-       startvalue = 13;
+        #region Numeric Up-Down
 
         private void NUDButtonUP_Click(object sender, RoutedEventArgs e)
         {
             int number;
             if (NUDTextBox.Text != "") number = Convert.ToInt32(NUDTextBox.Text);
             else number = 0;
-            if (number < maxvalue)
+            if (number < Config.NumUDmaxvalue)
                 NUDTextBox.Text = Convert.ToString(number + 1);
         }
 
@@ -336,7 +314,7 @@ namespace LogitechGMineSweeper
             int number;
             if (NUDTextBox.Text != "") number = Convert.ToInt32(NUDTextBox.Text);
             else number = 0;
-            if (number > minvalue)
+            if (number > Config.NumUDminvalue)
                 NUDTextBox.Text = Convert.ToString(number - 1);
         }
 
@@ -344,9 +322,9 @@ namespace LogitechGMineSweeper
         {
             int number = 0;
             if (NUDTextBox.Text != "")
-                if (!int.TryParse(NUDTextBox.Text, out number)) NUDTextBox.Text = startvalue.ToString();
-            if (number > maxvalue) NUDTextBox.Text = maxvalue.ToString();
-            if (number < minvalue) NUDTextBox.Text = minvalue.ToString();
+                if (!int.TryParse(NUDTextBox.Text, out number)) NUDTextBox.Text = Config.NumUDstartvalue.ToString();
+            if (number > Config.NumUDmaxvalue) NUDTextBox.Text = Config.NumUDmaxvalue.ToString();
+            if (number < Config.NumUDminvalue) NUDTextBox.Text = Config.NumUDminvalue.ToString();
             NUDTextBox.SelectionStart = NUDTextBox.Text.Length;
             MineSweeper.Bombs = Convert.ToInt32(NUDTextBox.Text);
             MineSweeper.newGame();
@@ -404,7 +382,7 @@ namespace LogitechGMineSweeper
             colors.Style = styleClone;
 
             //for switching keyboard styles
-            if(MineSweeper.KeyboardLayout == "US")
+            if(MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.US)
             {
                 rect782.Width = 120;
                 rect788.Width = 107;
@@ -435,7 +413,7 @@ namespace LogitechGMineSweeper
                 ä1.Visibility = Visibility.Visible;
                 ä2.Visibility = Visibility.Hidden;
             }
-            else if (MineSweeper.KeyboardLayout == "DE")
+            else if (MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.DE)
             {
                 rect782.Width = 65.5;
                 rect788.Width = 53.5;
@@ -592,17 +570,17 @@ namespace LogitechGMineSweeper
         {
             if (KeyLayout.SelectedIndex == 1)
             {
-                MineSweeper.KeyboardLayout = "US";
+                MineSweeper.KeyboardLayout = (int)MineSweeper.Layout.US;
                 MineSweeper.newGame();
             }
             else if (KeyLayout.SelectedIndex == 0)
             {
-                MineSweeper.KeyboardLayout = "DE";
+                MineSweeper.KeyboardLayout = (int)MineSweeper.Layout.DE;
                 MineSweeper.newGame();
             }
             else
             {
-                MineSweeper.KeyboardLayout = "UK";
+                MineSweeper.KeyboardLayout = (int)MineSweeper.Layout.UK;
                 MineSweeper.newGame();
             }
 
@@ -653,30 +631,25 @@ namespace LogitechGMineSweeper
 
         public void UpdateFile()
         {
-            var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
             string[] lines = { "Wins: " + MineSweeper.Wins, "Bombs: " + MineSweeper.Bombs, "Layout: " + MineSweeper.KeyboardLayout, "Total: " + MineSweeper.Total.ToString(), "Losses: " + MineSweeper.Losses.ToString() };
-            var file = Path.Combine(systemPath, "Logitech MineSweeper/config.txt");
-            File.WriteAllLines(file, lines);
+            File.WriteAllLines(Config.fileConfig, lines);
         }
 
         public void UpdateStats()
         {
-            var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-            var directory = Path.Combine(systemPath, "Logitech MineSweeper");
-
             var file = "a";
 
-            if (MineSweeper.KeyboardLayout == "US")
+            if (MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.US)
             {
-                file = Path.Combine(systemPath, "Logitech MineSweeper/US.txt");
+                file = Config.fileUS;
             }
-            else if (MineSweeper.KeyboardLayout == "DE")
+            else if (MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.DE)
             {
-                file = Path.Combine(systemPath, "Logitech MineSweeper/DE.txt");
+                file = Config.fileDE;
             }
             else
             {
-                file = Path.Combine(systemPath, "Logitech MineSweeper/UK.txt");
+                file = Config.fileUK;
             }
 
             gloWins.Content = MineSweeper.Wins.ToString();
@@ -684,9 +657,9 @@ namespace LogitechGMineSweeper
             gloTotal.Content = MineSweeper.Total.ToString();
             locTotal.Content = File.ReadLines(file).Skip(MineSweeper.Bombs + 63).Take(1).First().ToString();
             locLosses.Content = File.ReadLines(file).Skip(MineSweeper.Bombs + 42).Take(1).First().ToString();
-            local.Content = "Statistics for " + (MineSweeper.KeyboardLayout == "US" ? "US" : MineSweeper.KeyboardLayout == "DE" ? "DE" : "UK") + " with " + MineSweeper.Bombs.ToString() + " Bombs:";
+            local.Content = "Statistics for " + (MineSweeper.KeyboardLayout == 1 ? "US" : MineSweeper.KeyboardLayout == 0 ? "DE" : "UK") + " with " + MineSweeper.Bombs.ToString() + " Bombs:";
             locWins.Content = File.ReadLines(file).Skip(MineSweeper.Bombs + 21).Take(1).First().ToString();
-            locBest.Content = BestTime(MineSweeper.KeyboardLayout, MineSweeper.Bombs);
+            locBest.Content = BestTime(MineSweeper.Bombs);
 
             UpdateFile();
         }
@@ -697,17 +670,17 @@ namespace LogitechGMineSweeper
         
         private void Button_Click_7(object sender, RoutedEventArgs e)
         {
-            NUDTextBox.Text = "7";
+            NUDTextBox.Text = Config.easy.ToString();
         }
 
         private void Button_Click_8(object sender, RoutedEventArgs e)
         {
-            NUDTextBox.Text = "10";
+            NUDTextBox.Text = Config.medium.ToString();
         }
 
         private void Button_Click_9(object sender, RoutedEventArgs e)
         {
-            NUDTextBox.Text = "13";
+            NUDTextBox.Text = Config.hard.ToString();
         }
 
         #endregion
@@ -719,22 +692,7 @@ namespace LogitechGMineSweeper
             if ((MessageBox.Show("Reset settings", "Are you sure you want to reset? All settings will be lost.",
             MessageBoxButton.OKCancel) == MessageBoxResult.OK))
             {
-                string[] lines = { "Wins: 0", "Bombs: 13", "Layout: DE", "Total: 0", "Losses: 0" };
-
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var directory = Path.Combine(systemPath, "Logitech MineSweeper");
-
-                var file = Path.Combine(systemPath, "Logitech MineSweeper/config.txt");
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                File.WriteAllLines(file, lines);
-
-                MineSweeper.Bombs = 13;
-                MineSweeper.KeyboardLayout = "DE";
-                KeyLayout.SelectedIndex = 0;
-                NUDTextBox.Text = "13";
-
-                UpdateStats();
+                ResetSettings();
 
                 MineSweeper.newGame();
 
@@ -748,23 +706,7 @@ namespace LogitechGMineSweeper
             if ((MessageBox.Show("Reset colors", "Are you sure you want to reset? All colors will be lost.",
             MessageBoxButton.OKCancel) == MessageBoxResult.OK))
             {
-                string[] colors = { "000,000,000", "128,000,128", "255,255,000", "000,128,000", "000,255,255", "000,127,255", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "255,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255", "000,255,255" };
-
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var directory = Path.Combine(systemPath, "Logitech MineSweeper");
-
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                File.WriteAllLines(fileColors, colorsDefault);
-
-                MineSweeper.colors = new byte[,] { { 000, 000, 000 }, { 128, 000, 128 }, { 255, 255, 000 }, { 000, 128, 000 }, { 000, 255, 255 }, { 000, 127, 255 }, { 255, 000, 000 }, { 000, 000, 255 }, { 255, 255, 255 }, { 255, 200, 200 }, { 255, 000, 255 }, { 255, 000, 000 }, { 000, 000, 255 }, { 000, 255, 255 }, { 255, 160, 160 }, { 000, 255, 255 } };
-
-                UpdateColors();
-
-                StopWatchDefeat();
-                ResetWatch();
-
-                MineSweeper.printLogiLED();
+                ResetColors();
             }
         }
 
@@ -773,30 +715,8 @@ namespace LogitechGMineSweeper
             if ((MessageBox.Show("Reset statistics", "Are you sure you want to reset? All statistics will be lost.",
             MessageBoxButton.OKCancel) == MessageBoxResult.OK))
             {
-                string[] US = { "", "", "", "", "", "5: 30:00", "6: 30:00", "7: 30:00", "8: 30:00", "9: 30:00", "10: 30:00", "11: 30:00", "12: 30:00", "13: 30:00", "14: 30:00", "15: 30:00", "16: 30:00", "17: 30:00", "18: 30:00", "19: 30:00", "20: 30:00", "21: 30:00", "22: 30:00", "23: 30:00", "24: 30:00", "25: 30:00", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" };
-                string[] lines = { "Wins: 0", "Bombs: " + MineSweeper.Bombs, "Layout: " + MineSweeper.KeyboardLayout, "Total: " + MineSweeper.Total.ToString(), "Losses: " + MineSweeper.Losses.ToString() };
-
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var directory = Path.Combine(systemPath, "Logitech MineSweeper");
-
-                var fileUS = Path.Combine(systemPath, "Logitech MineSweeper/US.txt");
-                var fileDE = Path.Combine(systemPath, "Logitech MineSweeper/DE.txt");
-                var fileUK = Path.Combine(systemPath, "Logitech MineSweeper/UK.txt");
-                var file = Path.Combine(systemPath, "Logitech MineSweeper/config.txt");
-
-                File.WriteAllLines(file, lines);
-
-                File.WriteAllLines(fileUS, US);
-                File.WriteAllLines(fileDE, US);
-                File.WriteAllLines(fileUK, US);
-
-                timer1.Content = "30:00";
-                MineSweeper.Wins = 0;
-                MineSweeper.Losses = 0;
-                MineSweeper.Total = 0;
-
-                UpdateStats();
-
+                ResetStatistics();
+                
                 StopWatchDefeat();
                 ResetWatch();
 
@@ -809,40 +729,9 @@ namespace LogitechGMineSweeper
             if ((MessageBox.Show("Reset all settings and statistics", "Are you sure you want to reset?",
                MessageBoxButton.OKCancel) == MessageBoxResult.OK))
             {
-                string[] lines = { "Wins: 0", "Bombs: 13", "Layout: DE", "Total: 0", "Losses: 0" };
-                string[] US = { "", "", "", "", "", "5: 30:00", "6: 30:00", "7: 30:00", "8: 30:00", "9: 30:00", "10: 30:00", "11: 30:00", "12: 30:00", "13: 30:00", "14: 30:00", "15: 30:00", "16: 30:00", "17: 30:00", "18: 30:00", "19: 30:00", "20: 30:00", "21: 30:00", "22: 30:00", "23: 30:00", "24: 30:00", "25: 30:00", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" };
-
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var directory = Path.Combine(systemPath, "Logitech MineSweeper");
-
-                var fileUS = Path.Combine(systemPath, "Logitech MineSweeper/US.txt");
-                var fileDE = Path.Combine(systemPath, "Logitech MineSweeper/DE.txt");
-                var fileUK = Path.Combine(systemPath, "Logitech MineSweeper/UK.txt");
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-                var file = Path.Combine(systemPath, "Logitech MineSweeper/config.txt");
-
-                File.WriteAllLines(file, lines);
-                File.WriteAllLines(fileUS, US);
-                File.WriteAllLines(fileUK, US);
-                File.WriteAllLines(fileDE, US);
-                File.WriteAllLines(fileColors, colorsDefault);
-
-                MineSweeper.colors = new byte[,] { { 000, 000, 000 }, { 128, 000, 128 }, { 255, 255, 000 }, { 000, 128, 000 }, { 000, 255, 255 }, { 000, 127, 255 }, { 255, 000, 000 }, { 000, 000, 255 }, { 255, 255, 255 }, { 255, 200, 200 }, { 255, 000, 255 }, { 255, 000, 000 }, { 000, 000, 255 }, { 000, 255, 255 }, { 255, 160, 160 }, { 000, 255, 255 } };
-
-                UpdateColors();
-
-                MineSweeper.Wins = 0;
-                MineSweeper.Total = 0;
-                MineSweeper.Losses = 0;
-                MineSweeper.Bombs = 13;
-                MineSweeper.KeyboardLayout = "DE";
-
-                timer1.Content = "30:00";
-                KeyLayout.SelectedIndex = 0;
-                NUDTextBox.Text = "13";
-
-                UpdateStats();
-                UpdateFile();
+                ResetStatistics();
+                ResetColors();
+                ResetSettings();
 
                 MineSweeper.newGame();
 
@@ -850,54 +739,81 @@ namespace LogitechGMineSweeper
                 ResetWatch();
             }
         }
-        #endregion
 
-        #region Keyboard buttons
+        private void ResetColors()
+        { 
+            //writing the file
+            File.WriteAllLines(Config.fileColors, Config.colorsDefault);
 
-
-        #region offboard
-        //ESC
-        private void escmouseup(object sender, RoutedEventArgs e)
-        {
-            int index = 8;
-            System.Windows.Shapes.Rectangle rect = esc;
-            string text = "Default Background";
-
-            switch (MineSweeper.currentBack)
+            //then reading the values out of it so you dont have to have seperate color array in config
+            try
             {
-                case 0:
-                    index = 14;
-                    rect = esc;
-                    text = "Default Background";
-                    break;
-                case 1:
-                    index = 13;
-                    rect = esc;
-                    text = "Victory Background";
-                    break;
-                case 2:
-                    index = 12;
-                    rect = esc;
-                    text = "Defeat Background";
-                    break;
-            }
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "128,000,128", "255,255,000", "000,128,000", "000,255,255", "000,127,255", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
                 for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
                 {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
+                    MineSweeper.colors[i, 0] = Convert.ToByte(File.ReadLines(Config.fileColors).Skip(i).Take(1).First().Substring(0, 3));
+                    MineSweeper.colors[i, 1] = Convert.ToByte(File.ReadLines(Config.fileColors).Skip(i).Take(1).First().Substring(4, 3));
+                    MineSweeper.colors[i, 2] = Convert.ToByte(File.ReadLines(Config.fileColors).Skip(i).Take(1).First().Substring(8, 3));
                 }
+            }
+            catch
+            {
+                File.WriteAllLines(Config.fileColors, Config.colorsDefault);
+            }
 
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
+            UpdateColors();
 
-                File.WriteAllLines(fileColors, colors);
+            MineSweeper.printLogiLED();
+        }
+
+        private void ResetSettings()
+        {
+            File.WriteAllLines(Config.fileConfig, Config.configDefault);
+
+            MineSweeper.Bombs = Config.bombsDefault;
+            MineSweeper.KeyboardLayout = Config.keyboardLayout;
+            KeyLayout.SelectedIndex = Config.keyboardLayout;
+            NUDTextBox.Text = Config.bombsDefault.ToString();
+
+            UpdateStats();
+        }
+
+        private void ResetStatistics()
+        {
+            string[] lines = { "Wins: 0", "Bombs: " + MineSweeper.Bombs, "Layout: " + MineSweeper.KeyboardLayout, "Total: 0", "Losses: 0" };
+
+            File.WriteAllLines(Config.fileConfig, lines);
+
+            File.WriteAllLines(Config.fileUS, Config.statisticsDefault);
+            File.WriteAllLines(Config.fileDE, Config.statisticsDefault);
+            File.WriteAllLines(Config.fileUK, Config.statisticsDefault);
+
+            timer1.Content = "30:00";
+            MineSweeper.Wins = 0;
+            MineSweeper.Losses = 0;
+            MineSweeper.Total = 0;
+
+            UpdateStats();
+        }
+
+        #endregion
+
+        #region Color Tab Item
+
+        //popup creator for less code
+        private void ColorPopupCreator(int index, string text, System.Windows.Shapes.Rectangle rect1, System.Windows.Shapes.Rectangle rect2)
+        {
+            //saving color before so it can later be set again if cancel is pressed
+            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
+
+            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect1) == MessageBoxResult.OK))
+            {
+                string[] colors = new string[Config.colorsDefault.Length];
+                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
+                {
+                    colors[i] = File.ReadLines(Config.fileColors).Skip(i).Take(1).First();
+                }
+                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0');
+                File.WriteAllLines(Config.fileColors, colors);
             }
             else
             {
@@ -906,7 +822,103 @@ namespace LogitechGMineSweeper
                 MineSweeper.colors[index, 0] = current[0];
                 UpdateColors();
             }
-            rect.Fill = a;
+            rect1.Fill = a;
+            rect2.Stroke = new SolidColorBrush(Colors.Black);
+            rect2.StrokeThickness = 1;
+        }
+        
+        //seperate function for gamefieldkeys so the switch function doesnt have to be in every single function
+        private void ColorPopupCreator(int index, System.Windows.Shapes.Rectangle rect1, System.Windows.Shapes.Rectangle rect2)
+        {
+            string text = "";
+            switch (index)
+            {
+                case 0:
+                    text = "0 Bombs";
+                    break;
+                case 1:
+                    text = "1 Bomb";
+                    break;
+                case 2:
+                    text = "2 Bombs";
+                    break;
+                case 3:
+                    text = "3 Bombs";
+                    break;
+                case 4:
+                    text = "4 Bombs";
+                    break;
+                case 5:
+                    text = "5 Bombs";
+                    break;
+                case 6:
+                    text = "6 Bombs";
+                    break;
+                case 7:
+                    text = "Bomb Field";
+                    break;
+                case 8:
+                    text = "Covered Field";
+                    break;
+                case 9:
+                    throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString());
+                case 10:
+                    text = "Flag";
+                    break;
+            }
+
+            ColorPopupCreator(index, text, rect1, rect2);
+        }
+
+        // for the color picker list
+        private void ColorPopupCreator(int index, string text)
+        {
+            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
+
+            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index) == MessageBoxResult.OK))
+            {
+                string[] colors = new string[Config.colorsDefault.Length];
+
+                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
+                {
+                    colors[i] = File.ReadLines(Config.fileColors).Skip(i).Take(1).First();
+                }
+                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0');
+                File.WriteAllLines(Config.fileColors, colors);
+            }
+            else
+            {
+                MineSweeper.colors[index, 2] = current[2];
+                MineSweeper.colors[index, 1] = current[1];
+                MineSweeper.colors[index, 0] = current[0];
+                UpdateColors();
+            }
+        }
+
+        #region offboard
+        //ESC
+        private void escmouseup(object sender, RoutedEventArgs e)
+        {
+            int index = 8;
+            string text = "Default Background";
+
+            switch (MineSweeper.currentBack)
+            {
+                case 0:
+                    index = 14;
+                    text = "Default Background";
+                    break;
+                case 1:
+                    index = 13;
+                    text = "Victory Background";
+                    break;
+                case 2:
+                    index = 12;
+                    text = "Defeat Background";
+                    break;
+            }
+
+            ColorPopupCreator(index, text, esc, esc1);
         }
 
         //actually enter
@@ -931,35 +943,7 @@ namespace LogitechGMineSweeper
         //FUNCTION
         private void f1mouseup(object sender, RoutedEventArgs e)
         {
-            int index = 15;
-            System.Windows.Shapes.Rectangle rect = f1;
-            string text = "Bomb Counter";
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "128,000,128", "255,255,000", "000,128,000", "000,255,255", "000,127,255", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
-                }
-
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
-
-                File.WriteAllLines(fileColors, colors);
-            }
-            else
-            {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
-                UpdateColors();
-            }
-            rect.Fill = a;
+            ColorPopupCreator(15, "Bomb Counter", f1, d1);
         }
 
         //actually leave
@@ -977,137 +961,139 @@ namespace LogitechGMineSweeper
 
         #region gamefield event handler
 
-        //BOARD
-        private void g1mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[1, 1]; System.Windows.Shapes.Rectangle rect = g1; System.Windows.Shapes.Rectangle rect1 = h1; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "128,000,128", "255,255,000", "000,128,000", "000,255,255", "000,127,255", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255"}; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        //event handlers for each button press
+
+        //index is found by checking the game map and then using the found number to see what is currently printed
+        private void g1mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[1, 1], g1, h1); }
         private void g1mousedown(object sender, RoutedEventArgs e) { g1.Fill = h1.Fill; h1.Stroke = new SolidColorBrush(Colors.Red); h1.StrokeThickness = 2; hovering = true; toFill = g1; fromFill = h1; }
         private void g1mouseleave(object sender, RoutedEventArgs e) { g1.Fill = a; h1.Stroke = new SolidColorBrush(Colors.Black); h1.StrokeThickness = 1; hovering = false; }
-        private void g2mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[2, 1]; System.Windows.Shapes.Rectangle rect = g2; System.Windows.Shapes.Rectangle rect1 = h2; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g2mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[2, 1], g2, h2); }
         private void g2mousedown(object sender, RoutedEventArgs e) { g2.Fill = h2.Fill; h2.Stroke = new SolidColorBrush(Colors.Red); h2.StrokeThickness = 2; hovering = true; toFill = g2; fromFill = h2; }
         private void g2mouseleave(object sender, RoutedEventArgs e) { g2.Fill = a; h2.Stroke = new SolidColorBrush(Colors.Black); h2.StrokeThickness = 1; hovering = false; }
-        private void g3mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[3, 1]; System.Windows.Shapes.Rectangle rect = g3; System.Windows.Shapes.Rectangle rect1 = h3; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g3mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[3, 1], g3, h3); }
         private void g3mousedown(object sender, RoutedEventArgs e) { g3.Fill = h3.Fill; h3.Stroke = new SolidColorBrush(Colors.Red); h3.StrokeThickness = 2; hovering = true; toFill = g3; fromFill = h3; }
         private void g3mouseleave(object sender, RoutedEventArgs e) { g3.Fill = a; h3.Stroke = new SolidColorBrush(Colors.Black); h3.StrokeThickness = 1; hovering = false; }
-        private void g4mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[4, 1]; System.Windows.Shapes.Rectangle rect = g4; System.Windows.Shapes.Rectangle rect1 = h4; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g4mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[4, 1], g4, h4); }
         private void g4mousedown(object sender, RoutedEventArgs e) { g4.Fill = h4.Fill; h4.Stroke = new SolidColorBrush(Colors.Red); h4.StrokeThickness = 2; hovering = true; toFill = g4; fromFill = h4; }
         private void g4mouseleave(object sender, RoutedEventArgs e) { g4.Fill = a; h4.Stroke = new SolidColorBrush(Colors.Black); h4.StrokeThickness = 1; hovering = false; }
-        private void g5mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[5, 1]; System.Windows.Shapes.Rectangle rect = g5; System.Windows.Shapes.Rectangle rect1 = h5; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g5mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[5, 1], g5, h5); }
         private void g5mousedown(object sender, RoutedEventArgs e) { g5.Fill = h5.Fill; h5.Stroke = new SolidColorBrush(Colors.Red); h5.StrokeThickness = 2; hovering = true; toFill = g5; fromFill = h5; }
         private void g5mouseleave(object sender, RoutedEventArgs e) { g5.Fill = a; h5.Stroke = new SolidColorBrush(Colors.Black); h5.StrokeThickness = 1; hovering = false; }
-        private void g6mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[6, 1]; System.Windows.Shapes.Rectangle rect = g6; System.Windows.Shapes.Rectangle rect1 = h6; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g6mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[6, 1], g6, h6); }
         private void g6mousedown(object sender, RoutedEventArgs e) { g6.Fill = h6.Fill; h6.Stroke = new SolidColorBrush(Colors.Red); h6.StrokeThickness = 2; hovering = true; toFill = g6; fromFill = h6; }
         private void g6mouseleave(object sender, RoutedEventArgs e) { g6.Fill = a; h6.Stroke = new SolidColorBrush(Colors.Black); h6.StrokeThickness = 1; hovering = false; }
-        private void g7mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[7, 1]; System.Windows.Shapes.Rectangle rect = g7; System.Windows.Shapes.Rectangle rect1 = h7; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g7mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[7, 1], g7, h7); }
         private void g7mousedown(object sender, RoutedEventArgs e) { g7.Fill = h7.Fill; h7.Stroke = new SolidColorBrush(Colors.Red); h7.StrokeThickness = 2; hovering = true; toFill = g7; fromFill = h7; }
         private void g7mouseleave(object sender, RoutedEventArgs e) { g7.Fill = a; h7.Stroke = new SolidColorBrush(Colors.Black); h7.StrokeThickness = 1; hovering = false; }
-        private void g8mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[8, 1]; System.Windows.Shapes.Rectangle rect = g8; System.Windows.Shapes.Rectangle rect1 = h8; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g8mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[8, 1], g8, h8); }
         private void g8mousedown(object sender, RoutedEventArgs e) { g8.Fill = h8.Fill; h8.Stroke = new SolidColorBrush(Colors.Red); h8.StrokeThickness = 2; hovering = true; toFill = g8; fromFill = h8; }
         private void g8mouseleave(object sender, RoutedEventArgs e) { g8.Fill = a; h8.Stroke = new SolidColorBrush(Colors.Black); h8.StrokeThickness = 1; hovering = false; }
-        private void g9mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[9, 1]; System.Windows.Shapes.Rectangle rect = g9; System.Windows.Shapes.Rectangle rect1 = h9; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g9mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[9, 1], g9, h9); }
         private void g9mousedown(object sender, RoutedEventArgs e) { g9.Fill = h9.Fill; h9.Stroke = new SolidColorBrush(Colors.Red); h9.StrokeThickness = 2; hovering = true; toFill = g9; fromFill = h9; }
         private void g9mouseleave(object sender, RoutedEventArgs e) { g9.Fill = a; h9.Stroke = new SolidColorBrush(Colors.Black); h9.StrokeThickness = 1; hovering = false; }
-        private void g10mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[10, 1]; System.Windows.Shapes.Rectangle rect = g10; System.Windows.Shapes.Rectangle rect1 = h10; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g10mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[10, 1], g10, h10); }
         private void g10mousedown(object sender, RoutedEventArgs e) { g10.Fill = h10.Fill; h10.Stroke = new SolidColorBrush(Colors.Red); h10.StrokeThickness = 2; hovering = true; toFill = g10; fromFill = h10; }
         private void g10mouseleave(object sender, RoutedEventArgs e) { g10.Fill = a; h10.Stroke = new SolidColorBrush(Colors.Black); h10.StrokeThickness = 1; hovering = false; }
-        private void g11mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[11, 1]; System.Windows.Shapes.Rectangle rect = g11; System.Windows.Shapes.Rectangle rect1 = h11; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g11mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[11, 1], g11, h11); }
         private void g11mousedown(object sender, RoutedEventArgs e) { g11.Fill = h11.Fill; h11.Stroke = new SolidColorBrush(Colors.Red); h11.StrokeThickness = 2; hovering = true; toFill = g11; fromFill = h11; }
         private void g11mouseleave(object sender, RoutedEventArgs e) { g11.Fill = a; h11.Stroke = new SolidColorBrush(Colors.Black); h11.StrokeThickness = 1; hovering = false; }
-        private void g12mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[1, 2]; System.Windows.Shapes.Rectangle rect = g12; System.Windows.Shapes.Rectangle rect1 = h12; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g12mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[1, 2], g12, h12); }
         private void g12mousedown(object sender, RoutedEventArgs e) { g12.Fill = h12.Fill; h12.Stroke = new SolidColorBrush(Colors.Red); h12.StrokeThickness = 2; hovering = true; toFill = g12; fromFill = h12; }
         private void g12mouseleave(object sender, RoutedEventArgs e) { g12.Fill = a; h12.Stroke = new SolidColorBrush(Colors.Black); h12.StrokeThickness = 1; hovering = false; }
-        private void g13mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[2, 2]; System.Windows.Shapes.Rectangle rect = g13; System.Windows.Shapes.Rectangle rect1 = h13; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g13mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[2, 2], g13, h13); }
         private void g13mousedown(object sender, RoutedEventArgs e) { g13.Fill = h13.Fill; h13.Stroke = new SolidColorBrush(Colors.Red); h13.StrokeThickness = 2; hovering = true; toFill = g13; fromFill = h13; }
         private void g13mouseleave(object sender, RoutedEventArgs e) { g13.Fill = a; h13.Stroke = new SolidColorBrush(Colors.Black); h13.StrokeThickness = 1; hovering = false; }
-        private void g14mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[3, 2]; System.Windows.Shapes.Rectangle rect = g14; System.Windows.Shapes.Rectangle rect1 = h14; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g14mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[3, 2], g14, h14); }
         private void g14mousedown(object sender, RoutedEventArgs e) { g14.Fill = h14.Fill; h14.Stroke = new SolidColorBrush(Colors.Red); h14.StrokeThickness = 2; hovering = true; toFill = g14; fromFill = h14; }
         private void g14mouseleave(object sender, RoutedEventArgs e) { g14.Fill = a; h14.Stroke = new SolidColorBrush(Colors.Black); h14.StrokeThickness = 1; hovering = false; }
-        private void g15mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[4, 2]; System.Windows.Shapes.Rectangle rect = g15; System.Windows.Shapes.Rectangle rect1 = h15; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g15mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[4, 2], g15, h15); }
         private void g15mousedown(object sender, RoutedEventArgs e) { g15.Fill = h15.Fill; h15.Stroke = new SolidColorBrush(Colors.Red); h15.StrokeThickness = 2; hovering = true; toFill = g15; fromFill = h15; }
         private void g15mouseleave(object sender, RoutedEventArgs e) { g15.Fill = a; h15.Stroke = new SolidColorBrush(Colors.Black); h15.StrokeThickness = 1; hovering = false; }
-        private void g16mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[5, 2]; System.Windows.Shapes.Rectangle rect = g16; System.Windows.Shapes.Rectangle rect1 = h16; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g16mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[5, 2], g16, h16); }
         private void g16mousedown(object sender, RoutedEventArgs e) { g16.Fill = h16.Fill; h16.Stroke = new SolidColorBrush(Colors.Red); h16.StrokeThickness = 2; hovering = true; toFill = g16; fromFill = h16; }
         private void g16mouseleave(object sender, RoutedEventArgs e) { g16.Fill = a; h16.Stroke = new SolidColorBrush(Colors.Black); h16.StrokeThickness = 1; hovering = false; }
-        private void g17mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[6, 2]; System.Windows.Shapes.Rectangle rect = g17; System.Windows.Shapes.Rectangle rect1 = h17; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g17mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[6, 2], g17, h17); }
         private void g17mousedown(object sender, RoutedEventArgs e) { g17.Fill = h17.Fill; h17.Stroke = new SolidColorBrush(Colors.Red); h17.StrokeThickness = 2; hovering = true; toFill = g17; fromFill = h17; }
         private void g17mouseleave(object sender, RoutedEventArgs e) { g17.Fill = a; h17.Stroke = new SolidColorBrush(Colors.Black); h17.StrokeThickness = 1; hovering = false; }
-        private void g18mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[7, 2]; System.Windows.Shapes.Rectangle rect = g18; System.Windows.Shapes.Rectangle rect1 = h18; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g18mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[7, 2], g18, h18); }
         private void g18mousedown(object sender, RoutedEventArgs e) { g18.Fill = h18.Fill; h18.Stroke = new SolidColorBrush(Colors.Red); h18.StrokeThickness = 2; hovering = true; toFill = g18; fromFill = h18; }
         private void g18mouseleave(object sender, RoutedEventArgs e) { g18.Fill = a; h18.Stroke = new SolidColorBrush(Colors.Black); h18.StrokeThickness = 1; hovering = false; }
-        private void g19mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[8, 2]; System.Windows.Shapes.Rectangle rect = g19; System.Windows.Shapes.Rectangle rect1 = h19; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g19mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[8, 2], g19, h19); }
         private void g19mousedown(object sender, RoutedEventArgs e) { g19.Fill = h19.Fill; h19.Stroke = new SolidColorBrush(Colors.Red); h19.StrokeThickness = 2; hovering = true; toFill = g19; fromFill = h19; }
         private void g19mouseleave(object sender, RoutedEventArgs e) { g19.Fill = a; h19.Stroke = new SolidColorBrush(Colors.Black); h19.StrokeThickness = 1; hovering = false; }
-        private void g20mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[9, 2]; System.Windows.Shapes.Rectangle rect = g20; System.Windows.Shapes.Rectangle rect1 = h20; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g20mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[9, 2], g20, h20); }
         private void g20mousedown(object sender, RoutedEventArgs e) { g20.Fill = h20.Fill; h20.Stroke = new SolidColorBrush(Colors.Red); h20.StrokeThickness = 2; hovering = true; toFill = g20; fromFill = h20; }
         private void g20mouseleave(object sender, RoutedEventArgs e) { g20.Fill = a; h20.Stroke = new SolidColorBrush(Colors.Black); h20.StrokeThickness = 1; hovering = false; }
-        private void g21mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[10, 2]; System.Windows.Shapes.Rectangle rect = g21; System.Windows.Shapes.Rectangle rect1 = h21; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g21mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[10, 2], g21, h21); }
         private void g21mousedown(object sender, RoutedEventArgs e) { g21.Fill = h21.Fill; h21.Stroke = new SolidColorBrush(Colors.Red); h21.StrokeThickness = 2; hovering = true; toFill = g21; fromFill = h21; }
         private void g21mouseleave(object sender, RoutedEventArgs e) { g21.Fill = a; h21.Stroke = new SolidColorBrush(Colors.Black); h21.StrokeThickness = 1; hovering = false; }
-        private void g22mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[11, 2]; System.Windows.Shapes.Rectangle rect = g22; System.Windows.Shapes.Rectangle rect1 = h22; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g22mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[11, 2], g22, h22); }
         private void g22mousedown(object sender, RoutedEventArgs e) { g22.Fill = h22.Fill; h22.Stroke = new SolidColorBrush(Colors.Red); h22.StrokeThickness = 2; hovering = true; toFill = g22; fromFill = h22; }
         private void g22mouseleave(object sender, RoutedEventArgs e) { g22.Fill = a; h22.Stroke = new SolidColorBrush(Colors.Black); h22.StrokeThickness = 1; hovering = false; }
-        private void g23mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[1, 3]; System.Windows.Shapes.Rectangle rect = g23; System.Windows.Shapes.Rectangle rect1 = h23; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g23mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[1, 3], g23, h23); }
         private void g23mousedown(object sender, RoutedEventArgs e) { g23.Fill = h23.Fill; h23.Stroke = new SolidColorBrush(Colors.Red); h23.StrokeThickness = 2; hovering = true; toFill = g23; fromFill = h23; }
         private void g23mouseleave(object sender, RoutedEventArgs e) { g23.Fill = a; h23.Stroke = new SolidColorBrush(Colors.Black); h23.StrokeThickness = 1; hovering = false; }
-        private void g24mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[2, 3]; System.Windows.Shapes.Rectangle rect = g24; System.Windows.Shapes.Rectangle rect1 = h24; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g24mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[2, 3], g24, h24); }
         private void g24mousedown(object sender, RoutedEventArgs e) { g24.Fill = h24.Fill; h24.Stroke = new SolidColorBrush(Colors.Red); h24.StrokeThickness = 2; hovering = true; toFill = g24; fromFill = h24; }
         private void g24mouseleave(object sender, RoutedEventArgs e) { g24.Fill = a; h24.Stroke = new SolidColorBrush(Colors.Black); h24.StrokeThickness = 1; hovering = false; }
-        private void g25mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[3, 3]; System.Windows.Shapes.Rectangle rect = g25; System.Windows.Shapes.Rectangle rect1 = h25; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g25mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[3, 3], g25, h25); }
         private void g25mousedown(object sender, RoutedEventArgs e) { g25.Fill = h25.Fill; h25.Stroke = new SolidColorBrush(Colors.Red); h25.StrokeThickness = 2; hovering = true; toFill = g25; fromFill = h25; }
         private void g25mouseleave(object sender, RoutedEventArgs e) { g25.Fill = a; h25.Stroke = new SolidColorBrush(Colors.Black); h25.StrokeThickness = 1; hovering = false; }
-        private void g26mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[4, 3]; System.Windows.Shapes.Rectangle rect = g26; System.Windows.Shapes.Rectangle rect1 = h26; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g26mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[4, 3], g26, h26); }
         private void g26mousedown(object sender, RoutedEventArgs e) { g26.Fill = h26.Fill; h26.Stroke = new SolidColorBrush(Colors.Red); h26.StrokeThickness = 2; hovering = true; toFill = g26; fromFill = h26; }
         private void g26mouseleave(object sender, RoutedEventArgs e) { g26.Fill = a; h26.Stroke = new SolidColorBrush(Colors.Black); h26.StrokeThickness = 1; hovering = false; }
-        private void g27mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[5, 3]; System.Windows.Shapes.Rectangle rect = g27; System.Windows.Shapes.Rectangle rect1 = h27; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g27mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[5, 3], g27, h27); }
         private void g27mousedown(object sender, RoutedEventArgs e) { g27.Fill = h27.Fill; h27.Stroke = new SolidColorBrush(Colors.Red); h27.StrokeThickness = 2; hovering = true; toFill = g27; fromFill = h27; }
         private void g27mouseleave(object sender, RoutedEventArgs e) { g27.Fill = a; h27.Stroke = new SolidColorBrush(Colors.Black); h27.StrokeThickness = 1; hovering = false; }
-        private void g28mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[6, 3]; System.Windows.Shapes.Rectangle rect = g28; System.Windows.Shapes.Rectangle rect1 = h28; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g28mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[6, 3], g28, h28); }
         private void g28mousedown(object sender, RoutedEventArgs e) { g28.Fill = h28.Fill; h28.Stroke = new SolidColorBrush(Colors.Red); h28.StrokeThickness = 2; hovering = true; toFill = g28; fromFill = h28; }
         private void g28mouseleave(object sender, RoutedEventArgs e) { g28.Fill = a; h28.Stroke = new SolidColorBrush(Colors.Black); h28.StrokeThickness = 1; hovering = false; }
-        private void g29mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[7, 3]; System.Windows.Shapes.Rectangle rect = g29; System.Windows.Shapes.Rectangle rect1 = h29; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g29mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[7, 3], g29, h29); }
         private void g29mousedown(object sender, RoutedEventArgs e) { g29.Fill = h29.Fill; h29.Stroke = new SolidColorBrush(Colors.Red); h29.StrokeThickness = 2; hovering = true; toFill = g29; fromFill = h29; }
         private void g29mouseleave(object sender, RoutedEventArgs e) { g29.Fill = a; h29.Stroke = new SolidColorBrush(Colors.Black); h29.StrokeThickness = 1; hovering = false; }
-        private void g30mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[8, 3]; System.Windows.Shapes.Rectangle rect = g30; System.Windows.Shapes.Rectangle rect1 = h30; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g30mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[8, 3], g30, h30); }
         private void g30mousedown(object sender, RoutedEventArgs e) { g30.Fill = h30.Fill; h30.Stroke = new SolidColorBrush(Colors.Red); h30.StrokeThickness = 2; hovering = true; toFill = g30; fromFill = h30; }
         private void g30mouseleave(object sender, RoutedEventArgs e) { g30.Fill = a; h30.Stroke = new SolidColorBrush(Colors.Black); h30.StrokeThickness = 1; hovering = false; }
-        private void g31mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[9, 3]; System.Windows.Shapes.Rectangle rect = g31; System.Windows.Shapes.Rectangle rect1 = h31; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g31mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[9, 3], g31, h31); }
         private void g31mousedown(object sender, RoutedEventArgs e) { g31.Fill = h31.Fill; h31.Stroke = new SolidColorBrush(Colors.Red); h31.StrokeThickness = 2; hovering = true; toFill = g31; fromFill = h31; }
         private void g31mouseleave(object sender, RoutedEventArgs e) { g31.Fill = a; h31.Stroke = new SolidColorBrush(Colors.Black); h31.StrokeThickness = 1; hovering = false; }
-        private void g32mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[10, 3]; System.Windows.Shapes.Rectangle rect = g32; System.Windows.Shapes.Rectangle rect1 = h32; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g32mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[10, 3], g32, h32); }
         private void g32mousedown(object sender, RoutedEventArgs e) { g32.Fill = h32.Fill; h32.Stroke = new SolidColorBrush(Colors.Red); h32.StrokeThickness = 2; hovering = true; toFill = g32; fromFill = h32; }
         private void g32mouseleave(object sender, RoutedEventArgs e) { g32.Fill = a; h32.Stroke = new SolidColorBrush(Colors.Black); h32.StrokeThickness = 1; hovering = false; }
-        private void g33mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[11, 3]; System.Windows.Shapes.Rectangle rect = g33; System.Windows.Shapes.Rectangle rect1 = h33; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g33mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[11, 3], g33, h33); }
         private void g33mousedown(object sender, RoutedEventArgs e) { g33.Fill = h33.Fill; h33.Stroke = new SolidColorBrush(Colors.Red); h33.StrokeThickness = 2; hovering = true; toFill = g33; fromFill = h33; }
         private void g33mouseleave(object sender, RoutedEventArgs e) { g33.Fill = a; h33.Stroke = new SolidColorBrush(Colors.Black); h33.StrokeThickness = 1; hovering = false; }
-        private void g34mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[1, 4]; System.Windows.Shapes.Rectangle rect = g34; System.Windows.Shapes.Rectangle rect1 = h34; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g34mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[1, 4], g34, h34); }
         private void g34mousedown(object sender, RoutedEventArgs e) { g34.Fill = h34.Fill; h34.Stroke = new SolidColorBrush(Colors.Red); h34.StrokeThickness = 2; hovering = true; toFill = g34; fromFill = h34; }
         private void g34mouseleave(object sender, RoutedEventArgs e) { g34.Fill = a; h34.Stroke = new SolidColorBrush(Colors.Black); h34.StrokeThickness = 1; hovering = false; }
-        private void g35mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[2, 4]; System.Windows.Shapes.Rectangle rect = g35; System.Windows.Shapes.Rectangle rect1 = h35; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g35mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[2, 4], g35, h35); }
         private void g35mousedown(object sender, RoutedEventArgs e) { g35.Fill = h35.Fill; h35.Stroke = new SolidColorBrush(Colors.Red); h35.StrokeThickness = 2; hovering = true; toFill = g35; fromFill = h35; }
         private void g35mouseleave(object sender, RoutedEventArgs e) { g35.Fill = a; h35.Stroke = new SolidColorBrush(Colors.Black); h35.StrokeThickness = 1; hovering = false; }
-        private void g36mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[3, 4]; System.Windows.Shapes.Rectangle rect = g36; System.Windows.Shapes.Rectangle rect1 = h36; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g36mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[3, 4], g36, h36); }
         private void g36mousedown(object sender, RoutedEventArgs e) { g36.Fill = h36.Fill; h36.Stroke = new SolidColorBrush(Colors.Red); h36.StrokeThickness = 2; hovering = true; toFill = g36; fromFill = h36; }
         private void g36mouseleave(object sender, RoutedEventArgs e) { g36.Fill = a; h36.Stroke = new SolidColorBrush(Colors.Black); h36.StrokeThickness = 1; hovering = false; }
-        private void g37mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[4, 4]; System.Windows.Shapes.Rectangle rect = g37; System.Windows.Shapes.Rectangle rect1 = h37; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g37mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[4, 4], g37, h37); }
         private void g37mousedown(object sender, RoutedEventArgs e) { g37.Fill = h37.Fill; h37.Stroke = new SolidColorBrush(Colors.Red); h37.StrokeThickness = 2; hovering = true; toFill = g37; fromFill = h37; }
         private void g37mouseleave(object sender, RoutedEventArgs e) { g37.Fill = a; h37.Stroke = new SolidColorBrush(Colors.Black); h37.StrokeThickness = 1; hovering = false; }
-        private void g38mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[5, 4]; System.Windows.Shapes.Rectangle rect = g38; System.Windows.Shapes.Rectangle rect1 = h38; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g38mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[5, 4], g38, h38); }
         private void g38mousedown(object sender, RoutedEventArgs e) { g38.Fill = h38.Fill; h38.Stroke = new SolidColorBrush(Colors.Red); h38.StrokeThickness = 2; hovering = true; toFill = g38; fromFill = h38; }
         private void g38mouseleave(object sender, RoutedEventArgs e) { g38.Fill = a; h38.Stroke = new SolidColorBrush(Colors.Black); h38.StrokeThickness = 1; hovering = false; }
-        private void g39mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[6, 4]; System.Windows.Shapes.Rectangle rect = g39; System.Windows.Shapes.Rectangle rect1 = h39; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g39mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[6, 4], g39, h39); }
         private void g39mousedown(object sender, RoutedEventArgs e) { g39.Fill = h39.Fill; h39.Stroke = new SolidColorBrush(Colors.Red); h39.StrokeThickness = 2; hovering = true; toFill = g39; fromFill = h39; }
         private void g39mouseleave(object sender, RoutedEventArgs e) { g39.Fill = a; h39.Stroke = new SolidColorBrush(Colors.Black); h39.StrokeThickness = 1; hovering = false; }
-        private void g40mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[7, 4]; System.Windows.Shapes.Rectangle rect = g40; System.Windows.Shapes.Rectangle rect1 = h40; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g40mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[7, 4], g40, h40); }
         private void g40mousedown(object sender, RoutedEventArgs e) { g40.Fill = h40.Fill; h40.Stroke = new SolidColorBrush(Colors.Red); h40.StrokeThickness = 2; hovering = true; toFill = g40; fromFill = h40; }
         private void g40mouseleave(object sender, RoutedEventArgs e) { g40.Fill = a; h40.Stroke = new SolidColorBrush(Colors.Black); h40.StrokeThickness = 1; hovering = false; }
-        private void g41mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[8, 4]; System.Windows.Shapes.Rectangle rect = g41; System.Windows.Shapes.Rectangle rect1 = h41; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g41mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[8, 4], g41, h41); }
         private void g41mousedown(object sender, RoutedEventArgs e) { g41.Fill = h41.Fill; h41.Stroke = new SolidColorBrush(Colors.Red); h41.StrokeThickness = 2; hovering = true; toFill = g41; fromFill = h41; }
         private void g41mouseleave(object sender, RoutedEventArgs e) { g41.Fill = a; h41.Stroke = new SolidColorBrush(Colors.Black); h41.StrokeThickness = 1; hovering = false; }
-        private void g42mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[9, 4]; System.Windows.Shapes.Rectangle rect = g42; System.Windows.Shapes.Rectangle rect1 = h42; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g42mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[9, 4], g42, h42); }
         private void g42mousedown(object sender, RoutedEventArgs e) { g42.Fill = h42.Fill; h42.Stroke = new SolidColorBrush(Colors.Red); h42.StrokeThickness = 2; hovering = true; toFill = g42; fromFill = h42; }
         private void g42mouseleave(object sender, RoutedEventArgs e) { g42.Fill = a; h42.Stroke = new SolidColorBrush(Colors.Black); h42.StrokeThickness = 1; hovering = false; }
-        private void g43mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[10, 4]; System.Windows.Shapes.Rectangle rect = g43; System.Windows.Shapes.Rectangle rect1 = h43; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g43mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[10, 4], g43, h43); }
         private void g43mousedown(object sender, RoutedEventArgs e) { g43.Fill = h43.Fill; h43.Stroke = new SolidColorBrush(Colors.Red); h43.StrokeThickness = 2; hovering = true; toFill = g43; fromFill = h43; }
         private void g43mouseleave(object sender, RoutedEventArgs e) { g43.Fill = a; h43.Stroke = new SolidColorBrush(Colors.Black); h43.StrokeThickness = 1; hovering = false; }
-        private void g44mouseup(object sender, RoutedEventArgs e) { int index = MineSweeper.display[11, 4]; System.Windows.Shapes.Rectangle rect = g44; System.Windows.Shapes.Rectangle rect1 = h44; string text = "0 Bombs"; switch (index) { case 0: text = "0 Bombs"; break; case 1: text = "1 Bomb"; break; case 2: text = "2 Bombs"; break; case 3: text = "3 Bombs"; break; case 4: text = "4 Bombs"; break; case 5: text = "5 Bombs"; break; case 6: text = "6 Bombs"; break; case 7: text = "Bomb Field"; break; case 8: text = "Covered Field"; break; case 9: throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString()); case 10: text = "Flag"; break; } byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] }; if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK)) { string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" }; var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData); var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt"); for (int i = 0; i < MineSweeper.colors.GetLength(0); i++) { colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First(); } colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ; File.WriteAllLines(fileColors, colors); } else { MineSweeper.colors[index, 2] = current[2]; MineSweeper.colors[index, 1] = current[1]; MineSweeper.colors[index, 0] = current[0]; UpdateColors(); } rect.Fill = a; rect1.Stroke = new SolidColorBrush(Colors.Black); rect1.StrokeThickness = 1; }
+        private void g44mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[11, 4], g44, h44); }
         private void g44mousedown(object sender, RoutedEventArgs e) { g44.Fill = h44.Fill; h44.Stroke = new SolidColorBrush(Colors.Red); h44.StrokeThickness = 2; hovering = true; toFill = g44; fromFill = h44; }
         private void g44mouseleave(object sender, RoutedEventArgs e) { g44.Fill = a; h44.Stroke = new SolidColorBrush(Colors.Black); h44.StrokeThickness = 1; hovering = false; }
 
@@ -1117,38 +1103,7 @@ namespace LogitechGMineSweeper
 
         private void zeromouseup(object sender, RoutedEventArgs e)
         {
-            int index = 0;
-            System.Windows.Shapes.Rectangle rect = zero;
-            System.Windows.Shapes.Rectangle rect1 = zero1;
-            string text = "0 Bombs";
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
-                }
-
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
-
-                File.WriteAllLines(fileColors, colors);
-            }
-            else
-            {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
-                UpdateColors();
-            }
-            rect.Fill = a;
-            rect1.Stroke = new SolidColorBrush(Colors.Black);
-            rect1.StrokeThickness = 1;
+            ColorPopupCreator(0, "0 Bombs", zero, zero1);
         }
 
         //actually enter
@@ -1169,38 +1124,7 @@ namespace LogitechGMineSweeper
         //ONE
         private void onemouseup(object sender, RoutedEventArgs e)
         {
-            int index = 1;
-            System.Windows.Shapes.Rectangle rect = one;
-            System.Windows.Shapes.Rectangle rect1 = one1;
-            string text = "1 Bomb";
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
-                }
-
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
-
-                File.WriteAllLines(fileColors, colors);
-            }
-            else
-            {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
-                UpdateColors();
-            }
-            rect.Fill = a;
-            rect1.Stroke = new SolidColorBrush(Colors.Black);
-            rect1.StrokeThickness = 1;
+            ColorPopupCreator(1, "1 Bomb", one, one1);
         }
 
         //actually enter
@@ -1220,42 +1144,11 @@ namespace LogitechGMineSweeper
 
         //TWO
         private void twomouseup(object sender, RoutedEventArgs e)
-        {
-            int index = 2;
-            System.Windows.Shapes.Rectangle rect = two;
-            System.Windows.Shapes.Rectangle rect1 = two1;
-            string text = "2 Bombs";
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
-                }
-
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
-
-                File.WriteAllLines(fileColors, colors);
-            }
-            else
-            {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
-                UpdateColors();
-            }
-            rect.Fill = a;
-            rect1.Stroke = new SolidColorBrush(Colors.Black);
-            rect1.StrokeThickness = 1;
+        { 
+            ColorPopupCreator(2, "2 Bombs", two, two1);
         }
 
-        //actually leave
+        //actually enter
         private void twomousedown(object sender, RoutedEventArgs e)
         {
             two.Fill = two1.Fill;
@@ -1273,41 +1166,10 @@ namespace LogitechGMineSweeper
         //three
         private void threemouseup(object sender, RoutedEventArgs e)
         {
-            int index = 3;
-            System.Windows.Shapes.Rectangle rect = three;
-            System.Windows.Shapes.Rectangle rect1 = three1;
-            string text = "3 Bombs";
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
-                }
-
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
-
-                File.WriteAllLines(fileColors, colors);
-            }
-            else
-            {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
-                UpdateColors();
-            }
-            rect.Fill = a;
-            rect1.Stroke = new SolidColorBrush(Colors.Black);
-            rect1.StrokeThickness = 1;
+            ColorPopupCreator(3, "3 Bombs", three, three1);
         }
 
-        //actually leave
+        //actually enter
         private void threemousedown(object sender, RoutedEventArgs e)
         {
             three.Fill = three1.Fill;
@@ -1325,41 +1187,10 @@ namespace LogitechGMineSweeper
         //four
         private void fourmouseup(object sender, RoutedEventArgs e)
         {
-            int index = 4;
-            System.Windows.Shapes.Rectangle rect = four;
-            System.Windows.Shapes.Rectangle rect1 = four1;
-            string text = "4 Bombs";
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
-                }
-
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
-
-                File.WriteAllLines(fileColors, colors);
-            }
-            else
-            {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
-                UpdateColors();
-            }
-            rect.Fill = a;
-            rect1.Stroke = new SolidColorBrush(Colors.Black);
-            rect1.StrokeThickness = 1;
+            ColorPopupCreator(4, "4 Bombs", four, four1);
         }
 
-        //actually leave
+        //actually enter
         private void fourmousedown(object sender, RoutedEventArgs e)
         {
             four.Fill = four1.Fill;
@@ -1377,41 +1208,10 @@ namespace LogitechGMineSweeper
         //five
         private void fivemouseup(object sender, RoutedEventArgs e)
         {
-            int index = 5;
-            System.Windows.Shapes.Rectangle rect = five;
-            System.Windows.Shapes.Rectangle rect1 = five1;
-            string text = "5 Bombs";
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
-                }
-
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
-
-                File.WriteAllLines(fileColors, colors);
-            }
-            else
-            {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
-                UpdateColors();
-            }
-            rect.Fill = a;
-            rect1.Stroke = new SolidColorBrush(Colors.Black);
-            rect1.StrokeThickness = 1;
+            ColorPopupCreator(5, "5 Bombs", five, five1);
         }
 
-        //actually leave
+        //actually enter
         private void fivemousedown(object sender, RoutedEventArgs e)
         {
             five.Fill = five1.Fill;
@@ -1429,41 +1229,10 @@ namespace LogitechGMineSweeper
         //six
         private void sixmouseup(object sender, RoutedEventArgs e)
         {
-            int index = 6;
-            System.Windows.Shapes.Rectangle rect = six;
-            System.Windows.Shapes.Rectangle rect1 = six1;
-            string text = "6 Bombs";
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
-                }
-
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
-
-                File.WriteAllLines(fileColors, colors);
-            }
-            else
-            {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
-                UpdateColors();
-            }
-            rect.Fill = a;
-            rect1.Stroke = new SolidColorBrush(Colors.Black);
-            rect1.StrokeThickness = 1;
+            ColorPopupCreator(6, "6 Bombs", six, six1);
         }
 
-        //actually leave
+        //actually enter
         private void sixmousedown(object sender, RoutedEventArgs e)
         {
             six.Fill = six1.Fill;
@@ -1481,41 +1250,10 @@ namespace LogitechGMineSweeper
         //new
         private void newmouseup(object sender, RoutedEventArgs e)
         {
-            int index = 11;
-            System.Windows.Shapes.Rectangle rect = newGame;
-            System.Windows.Shapes.Rectangle rect1 = newGame1;
-            string text = "New Game Key";
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index, rect) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
-                }
-
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
-
-                File.WriteAllLines(fileColors, colors);
-            }
-            else
-            {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
-                UpdateColors();
-            }
-            rect.Fill = a;
-            rect1.Stroke = new SolidColorBrush(Colors.Black);
-            rect1.StrokeThickness = 1;
+            ColorPopupCreator(11, "New Game Key", newGame, newGame1);
         }
 
-        //actually leave
+        //actually enter
         private void newmousedown(object sender, RoutedEventArgs e)
         {
             newGame.Fill = newGame1.Fill;
@@ -1530,441 +1268,110 @@ namespace LogitechGMineSweeper
             newGame1.StrokeThickness = 1;
         }
 
+        #endregion
+
+        #region Color Picker List
+
         private void One_Click(object sender, RoutedEventArgs e)
         {
             int index = 1;
             string text = "1 Bomb";
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
-                }
-
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
-
-                File.WriteAllLines(fileColors, colors);
-            }
-            else
-            {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
-                UpdateColors();
-            }
+            ColorPopupCreator(index, text);
         }
 
         private void Two_Click(object sender, RoutedEventArgs e)
         {
             int index = 2;
             string text = "2 Bombs";
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
-                }
-
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
-
-                File.WriteAllLines(fileColors, colors);
-            }
-            else
-            {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
-                UpdateColors();
-            }
+            ColorPopupCreator(index, text);
         }
 
         private void Three_Click(object sender, RoutedEventArgs e)
         {
             int index = 3;
             string text = "3 Bombs";
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
-                }
-
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
-
-                File.WriteAllLines(fileColors, colors);
-            }
-            else
-            {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
-                UpdateColors();
-            }
+            ColorPopupCreator(index, text);
         }
 
         private void Four_Click(object sender, RoutedEventArgs e)
         {
             int index = 4;
             string text = "4 Bombs";
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
-                }
-
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
-
-                File.WriteAllLines(fileColors, colors);
-            }
-            else
-            {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
-                UpdateColors();
-            }
+            ColorPopupCreator(index, text);
         }
 
         private void Five_Click(object sender, RoutedEventArgs e)
         {
             int index = 5;
             string text = "5 Bombs";
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
-                }
-
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
-
-                File.WriteAllLines(fileColors, colors);
-            }
-            else
-            {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
-                UpdateColors();
-            }
+            ColorPopupCreator(index, text);
         }
 
         private void Six_Click(object sender, RoutedEventArgs e)
         {
             int index = 6;
             string text = "6 Bombs";
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
-                }
-
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
-
-                File.WriteAllLines(fileColors, colors);
-            }
-            else
-            {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
-                UpdateColors();
-            }
+            ColorPopupCreator(index, text);
         }
 
         private void Zero_Click(object sender, RoutedEventArgs e)
         {
             int index = 0;
             string text = "0 Bombs";
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
-                }
-
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
-
-                File.WriteAllLines(fileColors, colors);
-            }
-            else
-            {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
-                UpdateColors();
-            }
+            ColorPopupCreator(index, text);
         }
 
         private void Flag_Click(object sender, RoutedEventArgs e)
         {
             int index = 10;
             string text = "Flag";
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
-                }
-
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
-
-                File.WriteAllLines(fileColors, colors);
-            }
-            else
-            {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
-                UpdateColors();
-            }
+            ColorPopupCreator(index, text);
         }
 
         private void Bomb_Click(object sender, RoutedEventArgs e)
         {
             int index = 7;
             string text = "Bomb Field";
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
-                }
-
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
-
-                File.WriteAllLines(fileColors, colors);
-            }
-            else
-            {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
-                UpdateColors();
-            }
+            ColorPopupCreator(index, text);
         }
 
         private void Covered_Click(object sender, RoutedEventArgs e)
         {
             int index = 8;
             string text = "Covered Field";
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
-                }
-
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
-
-                File.WriteAllLines(fileColors, colors);
-            }
-            else
-            {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
-                UpdateColors();
-            }
+            ColorPopupCreator(index, text);
         }
 
         private void New_Click(object sender, RoutedEventArgs e)
         {
             int index = 11;
             string text = "New Game Key";
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
-                }
-
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
-
-                File.WriteAllLines(fileColors, colors);
-            }
-            else
-            {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
-                UpdateColors();
-            }
+            ColorPopupCreator(index, text);
         }
 
         private void Default_Click(object sender, RoutedEventArgs e)
         {
             int index = 14;
             string text = "Default Background";
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
-                }
-
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
-
-                File.WriteAllLines(fileColors, colors);
-            }
-            else
-            {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
-                UpdateColors();
-            }
+            ColorPopupCreator(index, text);
         }
 
         private void Victory_Click(object sender, RoutedEventArgs e)
         {
             int index = 13;
             string text = "Victory Background";
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
-                }
-
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
-
-                File.WriteAllLines(fileColors, colors);
-            }
-            else
-            {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
-                UpdateColors();
-            }
+            ColorPopupCreator(index, text);
         }
 
         private void Defeat_Click(object sender, RoutedEventArgs e)
         {
             int index = 12;
             string text = "Defeat Background";
-
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
-            if ((ColorPopup.Show(text, System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]),
-            MessageBoxButton.OKCancel, index) == MessageBoxResult.OK))
-            {
-                string[] colors = { "000,000,000", "000,127,255", "255,255,000", "000,128,000", "000,255,255", "128,000,064", "255,000,000", "000,000,255", "255,255,255", "255,200,200", "000,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255" };
-                var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var fileColors = Path.Combine(systemPath, "Logitech MineSweeper/colors.txt");
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(fileColors).Skip(i).Take(1).First();
-                }
-
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0'); ;
-
-                File.WriteAllLines(fileColors, colors);
-            }
-            else
-            {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
-                UpdateColors();
-            }
+            ColorPopupCreator(index, text);
         }
 
         #endregion
+
         #endregion
     }
 }
