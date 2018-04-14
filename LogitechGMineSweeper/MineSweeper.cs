@@ -121,7 +121,7 @@ namespace LogitechGMineSweeper
             get { return keyboardLayout; }
             set
             {
-                if (value != (int)Layout.DE && value != (int)Layout.US && value != (int)Layout.DE)
+                if (value != (int)Layout.DE && value != (int)Layout.US && value != (int)Layout.UK)
                 {
                     throw new Exception("Only German, UK or US layout allowed. (DE, UK or US)");
                 }
