@@ -25,7 +25,6 @@ namespace LogitechGMineSweeper
         int index = 0;
         public static LogitechGMineSweeper.MainWindow main;
         private System.Windows.Shapes.Rectangle c;
-        bool setteras = false;
 
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
@@ -41,7 +40,6 @@ namespace LogitechGMineSweeper
             MineSweeper.colors[index, 0] = ClrPcker_Background.B;
             MineSweeper.colors[index, 1] = ClrPcker_Background.G;
             MineSweeper.colors[index, 2] = ClrPcker_Background.R;
-            //if(setteras)c.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]));
 
             main.UpdateColors();
         }
@@ -170,7 +168,6 @@ namespace LogitechGMineSweeper
             _messageBox = new ColorPopup
             { MessageTitle = { Content = caption } };
             main = App.Current.MainWindow as MainWindow;
-            _messageBox.setteras = true;
             _messageBox.c = c;
             _messageBox.index = b;
             _messageBox.ClrPcker_Background.SelectedColor = a;
@@ -185,7 +182,6 @@ namespace LogitechGMineSweeper
             _messageBox = new ColorPopup
             { MessageTitle = { Content = caption } };
             main = App.Current.MainWindow as MainWindow;
-            _messageBox.setteras = false;
             _messageBox.index = b;
             _messageBox.ClrPcker_Background.SelectedColor = a;
             SetVisibilityOfButtons(button);

@@ -15,13 +15,6 @@ namespace LogitechGMineSweeper
     {
         #region Variables Constructor and Properties
 
-        public enum Layout
-        {
-            DE,
-            US,
-            UK
-        }
-
         static int[,] map;
         static bool[,] isBomb;
         static bool[,] isFlag = new bool[13, 6];
@@ -33,7 +26,7 @@ namespace LogitechGMineSweeper
         static int losses = 0;
         static bool gameRunning;
         static bool firstMove = true;
-        static int keyboardLayout = (int)Layout.DE;
+        static int keyboardLayout = (int)Config.Layout.DE;
         static bool setBackground = false;
         public static int currentBack = 0;
         public static LogitechGMineSweeper.MainWindow main;
@@ -121,9 +114,9 @@ namespace LogitechGMineSweeper
             get { return keyboardLayout; }
             set
             {
-                if (value != (int)Layout.DE && value != (int)Layout.US && value != (int)Layout.UK)
+                if (((Config.Layout)(value)).ToString() == value.ToString())
                 {
-                    throw new Exception("Only German, UK or US layout allowed. (DE, UK or US)");
+                    throw new Exception("Layout not Supported!");
                 }
                 keyboardLayout = value;
             }
@@ -194,75 +187,53 @@ namespace LogitechGMineSweeper
         static public void newGame()
         {
             currentBack = 0;
-            //damit man mit jeder taste starten kanN
+
+            //so you cant start with every key
             App.last = "Add";
 
-            display = new int[21, 6];
-            for (int i = 0; i < 21; i++)
-            {
-                for (int j = 0; j < 6; j++)
-                {
-                    if (i > 0 && i < 12 && j > 0 && j < 5)
-                    {
-                        display[i, j] = 8;
-                        if (keyboardLayout == (int)Layout.US)
-                        {
-                            if (i == 1 && j == 4)
-                            {
-                                display[i, j] = 9;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        display[i, j] = 9;
-                    }
-                }
-            }
+            ResetMap();
 
-            if (keyboardLayout == (int)Layout.US)
-            {
-                covered = 43;
-            }
-            else
-            {
-                covered = 44;
-            }
+            covered = Config.CoveredFieldsLayout[keyboardLayout];
 
+            //so timer can be started when key i spressed and firstmove is true
             firstMove = true;
-            genBombs();
 
+            genBombs();
             genMap();
+
             isFlag = new bool[13, 6];
+            flagged = 0;
 
             colors[9, 0] = colors[14, 0];
             colors[9, 1] = colors[14, 1];
             colors[9, 2] = colors[14, 2];
+
             gameRunning = true;
-
-            flagged = 0;
-
+            
             setBackground = true;
+
             printLogiLED();
         }
 
         static private void MoveBomb(int x, int y)
         {
             Random r = new Random();
-            for (int i = 1; i <= 1; i++)
+            while(true)
             {
                 int a = r.Next(1, isBomb.GetLength(0) - 1);
                 int b = r.Next(1, isBomb.GetLength(1) - 1);
-                if (keyboardLayout == (int)Layout.US)
+                if (!isBomb[a, b])
                 {
-                    if (y == 4 && x == 1)
+                    if (keyboardLayout == (int)Config.Layout.US)
                     {
-                        i--;
-                        continue;
+                        if (a == 4 && b == 1)
+                        {
+                            continue;
+                        }
                     }
+                    isBomb[a, b] = true;
+                    break;
                 }
-                if (isBomb[a, b]) i--;
-                else isBomb[a, b] = true;
             }
 
             isBomb[x, y] = false;
@@ -278,7 +249,7 @@ namespace LogitechGMineSweeper
             {
                 int x = r.Next(1, isBomb.GetLength(0) - 1);
                 int y = r.Next(1, isBomb.GetLength(1) - 1);
-                if (keyboardLayout == (int)Layout.US)
+                if (keyboardLayout == (int)Config.Layout.US)
                 {
                     if (y == 4 && x == 1)
                     {
@@ -291,6 +262,30 @@ namespace LogitechGMineSweeper
             }
         }
 
+        static private void ResetMap()
+        {
+            display = new int[21, 6];
+            for (int i = 0; i < 21; i++)
+            {
+                for (int j = 0; j < 6; j++)
+                {
+                    if (i > 0 && i < 12 && j > 0 && j < 5)
+                    {
+                        display[i, j] = 8;
+                    }
+                    else
+                    {
+                        display[i, j] = 9;
+                    }
+                }
+            }
+
+            if (keyboardLayout == (int)Config.Layout.US)
+            {
+                display[1, 4] = 9;
+            }
+        }
+
         static private void genMap()
         {
             map = new int[11, 4];
@@ -299,7 +294,7 @@ namespace LogitechGMineSweeper
             {
                 for (int j = 0; j < map.GetLength(1); j++)
                 {
-                    if (keyboardLayout == (int)Layout.US)
+                    if (keyboardLayout == (int)Config.Layout.US)
                     {
                         if (i == 0 && j == 3)
                         {
@@ -921,24 +916,11 @@ namespace LogitechGMineSweeper
 
         #endregion
 
-        #region Misc
+        #region Increment Wins in the statistics file for specofoc setting
 
         static private void IncrementWinsBombs(int add)
         {
-            var file = "a";
-
-            if (keyboardLayout == (int)Layout.US)
-            {
-                file = Config.fileUS;
-            }
-            else if(keyboardLayout == (int)Layout.DE)
-            {
-                file = Config.fileDE;
-            }
-            else
-            {
-                file = Config.fileUK;
-            }
+            var file = Config.fileStatistics[keyboardLayout];
 
             string[] US = File.ReadAllLines(file);
             

@@ -100,22 +100,10 @@ namespace LogitechGMineSweeper
 
         string BestTime(int bombs)
         {
-            var file = "a";
             string best = "";
             int a = 0;
-            
-            if (MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.US)
-            {
-                file = Config.fileUS;
-            }
-            else if (MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.DE)
-            {
-                file = Config.fileDE;
-            }
-            else
-            {
-                file = Config.fileUK;
-            }
+
+            var file = Config.fileStatistics[MineSweeper.KeyboardLayout];
 
             try
             {
@@ -165,20 +153,7 @@ namespace LogitechGMineSweeper
 
             if (Convert.ToInt32(best.Substring(0, 2)) * 60 + Convert.ToInt32(best.Substring(3, 2)) >= timer.Elapsed.Minutes * 60 + timer.Elapsed.Seconds)
             {
-                var file = "a";
-
-                if (MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.US)
-                {
-                    file = Config.fileUS;
-                }
-                else if (MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.DE)
-                {
-                    file = Config.fileDE;
-                }
-                else
-                {
-                    file = Config.fileUK;
-                }
+                var file = Config.fileStatistics[MineSweeper.KeyboardLayout];
 
                 string[] updatedStatistics = File.ReadAllLines(file);
 
@@ -382,7 +357,7 @@ namespace LogitechGMineSweeper
             colors.Style = styleClone;
 
             //for switching keyboard styles
-            if(MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.US)
+            if(MineSweeper.KeyboardLayout == (int)Config.Layout.US)
             {
                 rect782.Width = 120;
                 rect788.Width = 107;
@@ -413,7 +388,7 @@ namespace LogitechGMineSweeper
                 ä1.Visibility = Visibility.Visible;
                 ä2.Visibility = Visibility.Hidden;
             }
-            else if (MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.DE)
+            else if (MineSweeper.KeyboardLayout == (int)Config.Layout.DE)
             {
                 rect782.Width = 65.5;
                 rect788.Width = 53.5;
@@ -444,7 +419,7 @@ namespace LogitechGMineSweeper
                 ä1.Visibility = Visibility.Visible;
                 ä2.Visibility = Visibility.Hidden;
             }
-            else
+            else if(MineSweeper.KeyboardLayout == (int)Config.Layout.UK)
             {
                 rect782.Width = 65.5;
                 rect788.Width = 53.5;
@@ -568,21 +543,8 @@ namespace LogitechGMineSweeper
 
         private void KeyLayout_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (KeyLayout.SelectedIndex == 1)
-            {
-                MineSweeper.KeyboardLayout = (int)MineSweeper.Layout.US;
-                MineSweeper.newGame();
-            }
-            else if (KeyLayout.SelectedIndex == 0)
-            {
-                MineSweeper.KeyboardLayout = (int)MineSweeper.Layout.DE;
-                MineSweeper.newGame();
-            }
-            else
-            {
-                MineSweeper.KeyboardLayout = (int)MineSweeper.Layout.UK;
-                MineSweeper.newGame();
-            }
+            MineSweeper.KeyboardLayout = KeyLayout.SelectedIndex;
+            MineSweeper.newGame();
 
             StopWatchDefeat();
             ResetWatch();
@@ -637,27 +599,14 @@ namespace LogitechGMineSweeper
 
         public void UpdateStats()
         {
-            var file = "a";
-
-            if (MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.US)
-            {
-                file = Config.fileUS;
-            }
-            else if (MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.DE)
-            {
-                file = Config.fileDE;
-            }
-            else
-            {
-                file = Config.fileUK;
-            }
+            var file = Config.fileStatistics[MineSweeper.KeyboardLayout];
 
             gloWins.Content = MineSweeper.Wins.ToString();
             gloLosses.Content = MineSweeper.Losses.ToString();
             gloTotal.Content = MineSweeper.Total.ToString();
             locTotal.Content = File.ReadLines(file).Skip(MineSweeper.Bombs + 63).Take(1).First().ToString();
             locLosses.Content = File.ReadLines(file).Skip(MineSweeper.Bombs + 42).Take(1).First().ToString();
-            local.Content = "Statistics for " + (MineSweeper.KeyboardLayout == 1 ? "US" : MineSweeper.KeyboardLayout == 0 ? "DE" : "UK") + " with " + MineSweeper.Bombs.ToString() + " Bombs:";
+            local.Content = "Statistics for " + Config.textForLayout[MineSweeper.KeyboardLayout] + " with " + MineSweeper.Bombs.ToString() + " Bombs:";
             locWins.Content = File.ReadLines(file).Skip(MineSweeper.Bombs + 21).Take(1).First().ToString();
             locBest.Content = BestTime(MineSweeper.Bombs);
 
@@ -783,9 +732,10 @@ namespace LogitechGMineSweeper
 
             File.WriteAllLines(Config.fileConfig, lines);
 
-            File.WriteAllLines(Config.fileUS, Config.statisticsDefault);
-            File.WriteAllLines(Config.fileDE, Config.statisticsDefault);
-            File.WriteAllLines(Config.fileUK, Config.statisticsDefault);
+            foreach (string file in Config.fileStatistics)
+            {
+                File.WriteAllLines(file, Config.statisticsDefault);
+            }
 
             timer1.Content = "30:00";
             MineSweeper.Wins = 0;

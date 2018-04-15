@@ -62,18 +62,14 @@ namespace LogitechGMineSweeper
             int losses = 0;
             int layout = 0;
 
-            if (!File.Exists(Config.fileUS))
+            foreach(string file in Config.fileStatistics)
             {
-                File.WriteAllLines(Config.fileUS, Config.statisticsDefault);
+                if (!File.Exists(file))
+                {
+                    File.WriteAllLines(file, Config.statisticsDefault);
+                }
             }
-            if (!File.Exists(Config.fileDE))
-            {
-                File.WriteAllLines(Config.fileDE, Config.statisticsDefault);
-            }
-            if (!File.Exists(Config.fileUK))
-            {
-                File.WriteAllLines(Config.fileUK, Config.statisticsDefault);
-            }
+
             if (!File.Exists(Config.fileColors))
             {
                 File.WriteAllLines(Config.fileColors, Config.colorsDefault);
@@ -153,7 +149,7 @@ namespace LogitechGMineSweeper
                 {
                     if (wins >= 0 && bombs >= 5 && bombs <= 25)
                     {
-                        if (layout == (int)MineSweeper.Layout.US || layout == (int)MineSweeper.Layout.DE || layout == (int)MineSweeper.Layout.UK)
+                        if (layout == (int)Config.Layout.US || layout == (int)Config.Layout.DE || layout == (int)Config.Layout.UK)
                         {
 
                         }
@@ -229,8 +225,7 @@ namespace LogitechGMineSweeper
         private delegate IntPtr LowLevelKeyboardProc(
             int nCode, IntPtr wParam, IntPtr lParam);
 
-        private static IntPtr HookCallback(
-            int nCode, IntPtr wParam, IntPtr lParam)
+        private static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
             if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
             {
@@ -238,36 +233,30 @@ namespace LogitechGMineSweeper
                 string key = Convert.ToString((Keys)vkCode);
                 if (key == "D1" || key == "D2" || key == "D3" || key == "D4" || key == "D5" || key == "D6" || key == "D7" || key == "D8" || key == "D9" || key == "D0" || key == "OemOpenBrackets" || key == "Q" || key == "W" || key == "E" || key == "R" || key == "T" || key == "Z" || key == "U" || key == "I" || key == "O" || key == "P" || key == "Oem1" || key == "A" || key == "S" || key == "D" || key == "F" || key == "G" || key == "H" || key == "J" || key == "K" || key == "L" || key == "Oemtilde" || key == "Oem7" || key == "OemBackslash" || key == "Y" || key == "X" || key == "C" || key == "V" || key == "B" || key == "N" || key == "M" || key == "Oemcomma" || key == "OemPeriod" || key == "OemMinus" || key == "Add" || key == "OemQuestion" || key == "Oem5")
                 {
-                    if (MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.US && (key == "OemBackslash" || key == "Oemtilde" || key == "Oem5"))
-                    {
-                    }
-                    else if (MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.DE && (key == "OemQuestion" || key == "Oem5"))
-                    {
-                    }
-                    else if (MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.UK && (key == "OemBackslash" || key == "Oem7"))
-                    {
-                    }
-                    else if (Control.ModifierKeys == Keys.Shift)
+                    if (Control.ModifierKeys == Keys.Shift)
                     {
                         AssignParameter(key);
-                        if (last != "Add" && key == "Add") MineSweeper.keyPressed(99);
-                        else if (key != "Add")
+                        if (parameter != 99999)
                         {
-                            MineSweeper.SetFlag(parameter - 1);
-                            last = "empty";
+                            if (last != "Add" && key == "Add") MineSweeper.keyPressed(99);
+                            else if (key != "Add")
+                            {
+                                MineSweeper.SetFlag(parameter - 1);
+                                last = "empty";
+                            }
+                            Console.WriteLine("Shift - " + key);
                         }
-                        Console.WriteLine("Shift - " + key);
-
                     }
                     else if (last != key)
                     {
                         last = key;
                         AssignParameter(key);
-
-                        MineSweeper.keyPressed(parameter - 1);
+                        if(parameter != 99999)
+                        {
+                            MineSweeper.keyPressed(parameter - 1);
+                        }
 
                         Console.WriteLine(key);
-
                     }
                 }
             }
@@ -278,7 +267,8 @@ namespace LogitechGMineSweeper
 
         private static void AssignParameter(string key)
         {
-            if(MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.DE)
+            Console.WriteLine(MineSweeper.KeyboardLayout + "<<<<<<<<<<------------------  HEYYYYYYYYY");
+            if(MineSweeper.KeyboardLayout == (int)Config.Layout.DE)
             {
                 switch (key)
                 {
@@ -327,10 +317,10 @@ namespace LogitechGMineSweeper
                     case "OemPeriod": parameter = 43; break;
                     case "OemMinus": parameter = 44; break;
                     case "Add": parameter = 100; break;
-                    default: Console.WriteLine("DEFAULT"); break;
+                    default: Console.WriteLine("DEFAULT"); parameter = 99999; break;
                 }
             }
-            else if(MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.US)
+            else if(MineSweeper.KeyboardLayout == (int)Config.Layout.US)
             {
                 switch (key)
                 {
@@ -344,18 +334,18 @@ namespace LogitechGMineSweeper
                     case "D8": parameter = 8; break;
                     case "D9": parameter = 9; break;
                     case "D0": parameter = 10; break;
-                    case "OemOpenBrackets": parameter = 22; break;
+                    case "OemMinus": parameter = 11; break;
                     case "Q": parameter = 12; break;
                     case "W": parameter = 13; break;
                     case "E": parameter = 14; break;
                     case "R": parameter = 15; break;
                     case "T": parameter = 16; break;
-                    case "Z": parameter = 35; break;
+                    case "Y": parameter = 17; break;
                     case "U": parameter = 18; break;
                     case "I": parameter = 19; break;
                     case "O": parameter = 20; break;
                     case "P": parameter = 21; break;
-                    case "Oem1": parameter = 32; break;
+                    case "OemOpenBrackets": parameter = 22; break;
                     case "A": parameter = 23; break;
                     case "S": parameter = 24; break;
                     case "D": parameter = 25; break;
@@ -365,8 +355,10 @@ namespace LogitechGMineSweeper
                     case "J": parameter = 29; break;
                     case "K": parameter = 30; break;
                     case "L": parameter = 31; break;
+                    case "Oem1": parameter = 32; break;
                     case "Oem7": parameter = 33; break;
-                    case "Y": parameter = 17; break;
+                    //no 34 as that key is not present in us keyboards
+                    case "Z": parameter = 35; break;
                     case "X": parameter = 36; break;
                     case "C": parameter = 37; break;
                     case "V": parameter = 38; break;
@@ -376,12 +368,11 @@ namespace LogitechGMineSweeper
                     case "Oemcomma": parameter = 42; break;
                     case "OemPeriod": parameter = 43; break;
                     case "OemQuestion": parameter = 44; break;
-                    case "OemMinus": parameter = 11; break;
                     case "Add": parameter = 100; break;
-                    default: Console.WriteLine("DEFAULT"); break;
+                    default: Console.WriteLine("DEFAULT"); parameter = 99999; break;
                 }
             }
-            else if (MineSweeper.KeyboardLayout == (int)MineSweeper.Layout.UK)
+            else if (MineSweeper.KeyboardLayout == (int)Config.Layout.UK)
             {
                 switch (key)
                 {
@@ -395,18 +386,18 @@ namespace LogitechGMineSweeper
                     case "D8": parameter = 8; break;
                     case "D9": parameter = 9; break;
                     case "D0": parameter = 10; break;
-                    case "OemOpenBrackets": parameter = 22; break;
+                    case "OemMinus": parameter = 11; break;
                     case "Q": parameter = 12; break;
                     case "W": parameter = 13; break;
                     case "E": parameter = 14; break;
                     case "R": parameter = 15; break;
                     case "T": parameter = 16; break;
-                    case "Z": parameter = 35; break;
+                    case "Y": parameter = 17; break;
                     case "U": parameter = 18; break;
                     case "I": parameter = 19; break;
                     case "O": parameter = 20; break;
                     case "P": parameter = 21; break;
-                    case "Oemtilde": parameter = 33; break;
+                    case "OemOpenBrackets": parameter = 22; break;
                     case "A": parameter = 23; break;
                     case "S": parameter = 24; break;
                     case "D": parameter = 25; break;
@@ -417,8 +408,9 @@ namespace LogitechGMineSweeper
                     case "K": parameter = 30; break;
                     case "L": parameter = 31; break;
                     case "Oem1": parameter = 32; break;
+                    case "Oemtilde": parameter = 33; break;
                     case "Oem5": parameter = 34; break;
-                    case "Y": parameter = 17; break;
+                    case "Z": parameter = 35; break;
                     case "X": parameter = 36; break;
                     case "C": parameter = 37; break;
                     case "V": parameter = 38; break;
@@ -428,9 +420,8 @@ namespace LogitechGMineSweeper
                     case "Oemcomma": parameter = 42; break;
                     case "OemPeriod": parameter = 43; break;
                     case "OemQuestion": parameter = 44; break;
-                    case "OemMinus": parameter = 11; break;
                     case "Add": parameter = 100; break;
-                    default: Console.WriteLine("DEFAULT"); break;
+                    default: Console.WriteLine("DEFAULT"); parameter = 99999; break;
                 }
             }
         }
