@@ -280,7 +280,7 @@ namespace LogitechGMineSweeper
             int number;
             if (NUDTextBox.Text != "") number = Convert.ToInt32(NUDTextBox.Text);
             else number = 0;
-            if (number < Config.NumUDmaxvalue)
+            if (number < Config.maxBombs)
                 NUDTextBox.Text = Convert.ToString(number + 1);
         }
 
@@ -289,7 +289,7 @@ namespace LogitechGMineSweeper
             int number;
             if (NUDTextBox.Text != "") number = Convert.ToInt32(NUDTextBox.Text);
             else number = 0;
-            if (number > Config.NumUDminvalue)
+            if (number > Config.minBombs)
                 NUDTextBox.Text = Convert.ToString(number - 1);
         }
 
@@ -298,8 +298,8 @@ namespace LogitechGMineSweeper
             int number = 0;
             if (NUDTextBox.Text != "")
                 if (!int.TryParse(NUDTextBox.Text, out number)) NUDTextBox.Text = Config.NumUDstartvalue.ToString();
-            if (number > Config.NumUDmaxvalue) NUDTextBox.Text = Config.NumUDmaxvalue.ToString();
-            if (number < Config.NumUDminvalue) NUDTextBox.Text = Config.NumUDminvalue.ToString();
+            if (number > Config.maxBombs) NUDTextBox.Text = Config.maxBombs.ToString();
+            if (number < Config.minBombs) NUDTextBox.Text = Config.minBombs.ToString();
             NUDTextBox.SelectionStart = NUDTextBox.Text.Length;
             MineSweeper.Bombs = Convert.ToInt32(NUDTextBox.Text);
             MineSweeper.newGame();

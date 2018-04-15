@@ -267,7 +267,6 @@ namespace LogitechGMineSweeper
 
         private static void AssignParameter(string key)
         {
-            Console.WriteLine(MineSweeper.KeyboardLayout + "<<<<<<<<<<------------------  HEYYYYYYYYY");
             if(MineSweeper.KeyboardLayout == (int)Config.Layout.DE)
             {
                 switch (key)

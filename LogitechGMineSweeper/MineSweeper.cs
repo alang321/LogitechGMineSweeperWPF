@@ -105,7 +105,14 @@ namespace LogitechGMineSweeper
             get { return bombs; }
             set
             {
-                bombs = value;
+                if (value >= Config.minBombs && value <= Config.maxBombs)
+                {
+                    bombs = value;
+                }
+                else
+                {
+                    throw new Exception("Amount of Bombs not supported!");
+                }
             }
         }
 
@@ -116,7 +123,6 @@ namespace LogitechGMineSweeper
             {
                 if (((Config.Layout)(value)).ToString() == value.ToString())
                 {
-                    throw new Exception("Layout not Supported!");
                 }
                 keyboardLayout = value;
             }
