@@ -100,6 +100,7 @@
       <DependentUpon>MessageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Config.cs" />
+    <Compile Include="WinInterop\WindowInteropHelper.cs" />
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -187,6 +188,7 @@
     <Resource Include="min.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="closeWhite.png" />
     <Content Include="LogitechLedEnginesWrapper.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

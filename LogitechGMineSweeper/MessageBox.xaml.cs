@@ -37,6 +37,18 @@ namespace LogitechGMineSweeper
             DragMove();
         }
 
+        private void image1_MouseEnter(object sender, MouseEventArgs e)
+        {
+            string packUri = @"pack://application:,,,/closeWhite.png";
+            image1.Source = new ImageSourceConverter().ConvertFromString(packUri) as ImageSource;
+        }
+
+        private void image1_MouseLeave(object sender, MouseEventArgs e)
+        {
+            string packUri = @"pack://application:,,,/close.png";
+            image1.Source = new ImageSourceConverter().ConvertFromString(packUri) as ImageSource;
+        }
+
 
         #region blur
 

@@ -15,7 +15,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows.Threading;
 using System.Collections.Generic;
-using System.Windows.Media.Animation;
+using System.Text;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Shapes;
+
 
 namespace LogitechGMineSweeper
 {
@@ -64,6 +68,8 @@ namespace LogitechGMineSweeper
 
         public static System.Timers.Timer dispatcherTimer = new System.Timers.Timer();
         private static readonly Stopwatch timer = new Stopwatch();
+
+        //default brush of the keyboard button foreground so you dont need to type it out
         public static SolidColorBrush a = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0xFF, 0xFC, 0xFC, 0xFC));
 
         //for changing color of hovereffect when key color changes in game
@@ -74,6 +80,14 @@ namespace LogitechGMineSweeper
         public MainWindow()
         {
             InitializeComponent();
+
+            //norammly wpf application maximize over taskbar, fix from LesterLobo https://blogs.msdn.microsoft.com/llobo/2006/08/01/maximizing-window-with-windowstylenone-considering-taskbar/
+            //diesnt work perfectly with multiple monitors
+            win.SourceInitialized += new EventHandler(win_SourceInitialized);
+            //
+
+            win.SizeChanged += new SizeChangedEventHandler(SizeChangedWin);
+
             _menuTabControl.SelectedIndex = 0;
             MineSweeper.main = App.Current.MainWindow as MainWindow;
 
@@ -81,7 +95,6 @@ namespace LogitechGMineSweeper
             dispatcherTimer.Interval = 1000;
             dispatcherTimer.Stop();
             
-
             UpdateTimer();
 
             KeyLayout.SelectedIndex = MineSweeper.KeyboardLayout;
@@ -92,6 +105,266 @@ namespace LogitechGMineSweeper
             UpdateStats();
 
             MineSweeper.newGame();
+        }
+
+        #endregion
+
+        #region maximize not over taskbar
+
+        void win_SourceInitialized(object sender, EventArgs e)
+        {
+            System.IntPtr handle = new WindowInteropHelper(Application.Current.MainWindow).Handle;
+            System.Windows.Interop.HwndSource.FromHwnd(handle).AddHook(new System.Windows.Interop.HwndSourceHook(WindowProc));
+        }
+
+
+        //public override void OnApplyTemplate()
+        //{
+        //    System.IntPtr handle = (new WinInterop.WindowInteropHelper(this)).Handle;
+        //    WinInterop.HwndSource.FromHwnd(handle).AddHook(new WinInterop.HwndSourceHook(WindowProc));
+        //}
+
+        private static System.IntPtr WindowProc(
+              System.IntPtr hwnd,
+              int msg,
+              System.IntPtr wParam,
+              System.IntPtr lParam,
+              ref bool handled)
+        {
+            switch (msg)
+            {
+                case 0x0024:
+                    WmGetMinMaxInfo(hwnd, lParam);
+                    handled = true;
+                    break;
+            }
+
+            return (System.IntPtr)0;
+        }
+
+        private static void WmGetMinMaxInfo(System.IntPtr hwnd, System.IntPtr lParam)
+        {
+
+            MINMAXINFO mmi = (MINMAXINFO)Marshal.PtrToStructure(lParam, typeof(MINMAXINFO));
+
+            // Adjust the maximized size and position to fit the work area of the correct monitor
+            int MONITOR_DEFAULTTONEAREST = 0x00000002;
+            System.IntPtr monitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
+
+            if (monitor != System.IntPtr.Zero)
+            {
+
+                MONITORINFO monitorInfo = new MONITORINFO();
+                GetMonitorInfo(monitor, monitorInfo);
+                RECT rcWorkArea = monitorInfo.rcWork;
+                RECT rcMonitorArea = monitorInfo.rcMonitor;
+                mmi.ptMaxPosition.x = Math.Abs(rcWorkArea.left - rcMonitorArea.left);
+                mmi.ptMaxPosition.y = Math.Abs(rcWorkArea.top - rcMonitorArea.top);
+                mmi.ptMaxSize.x = Math.Abs(rcWorkArea.right - rcWorkArea.left);
+                mmi.ptMaxSize.y = Math.Abs(rcWorkArea.bottom - rcWorkArea.top);
+            }
+
+            Marshal.StructureToPtr(mmi, lParam, true);
+        }
+
+
+        /// <summary>
+        /// POINT aka POINTAPI
+        /// </summary>
+        [StructLayout(LayoutKind.Sequential)]
+        public struct POINT
+        {
+            /// <summary>
+            /// x coordinate of point.
+            /// </summary>
+            public int x;
+            /// <summary>
+            /// y coordinate of point.
+            /// </summary>
+            public int y;
+
+            /// <summary>
+            /// Construct a point of coordinates (x,y).
+            /// </summary>
+            public POINT(int x, int y)
+            {
+                this.x = x;
+                this.y = y;
+            }
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct MINMAXINFO
+        {
+            public POINT ptReserved;
+            public POINT ptMaxSize;
+            public POINT ptMaxPosition;
+            public POINT ptMinTrackSize;
+            public POINT ptMaxTrackSize;
+        };
+
+
+        /// <summary>
+        /// </summary>
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        public class MONITORINFO
+        {
+            /// <summary>
+            /// </summary>            
+            public int cbSize = Marshal.SizeOf(typeof(MONITORINFO));
+
+            /// <summary>
+            /// </summary>            
+            public RECT rcMonitor = new RECT();
+
+            /// <summary>
+            /// </summary>            
+            public RECT rcWork = new RECT();
+
+            /// <summary>
+            /// </summary>            
+            public int dwFlags = 0;
+        }
+
+
+        /// <summary> Win32 </summary>
+        [StructLayout(LayoutKind.Sequential, Pack = 0)]
+        public struct RECT
+        {
+            /// <summary> Win32 </summary>
+            public int left;
+            /// <summary> Win32 </summary>
+            public int top;
+            /// <summary> Win32 </summary>
+            public int right;
+            /// <summary> Win32 </summary>
+            public int bottom;
+
+            /// <summary> Win32 </summary>
+            public static readonly RECT Empty = new RECT();
+
+            /// <summary> Win32 </summary>
+            public int Width
+            {
+                get { return Math.Abs(right - left); }  // Abs needed for BIDI OS
+            }
+            /// <summary> Win32 </summary>
+            public int Height
+            {
+                get { return bottom - top; }
+            }
+
+            /// <summary> Win32 </summary>
+            public RECT(int left, int top, int right, int bottom)
+            {
+                this.left = left;
+                this.top = top;
+                this.right = right;
+                this.bottom = bottom;
+            }
+
+
+            /// <summary> Win32 </summary>
+            public RECT(RECT rcSrc)
+            {
+                this.left = rcSrc.left;
+                this.top = rcSrc.top;
+                this.right = rcSrc.right;
+                this.bottom = rcSrc.bottom;
+            }
+
+            /// <summary> Win32 </summary>
+            public bool IsEmpty
+            {
+                get
+                {
+                    // BUGBUG : On Bidi OS (hebrew arabic) left > right
+                    return left >= right || top >= bottom;
+                }
+            }
+            /// <summary> Return a user friendly representation of this struct </summary>
+            public override string ToString()
+            {
+                if (this == RECT.Empty) { return "RECT {Empty}"; }
+                return "RECT { left : " + left + " / top : " + top + " / right : " + right + " / bottom : " + bottom + " }";
+            }
+
+            /// <summary> Determine if 2 RECT are equal (deep compare) </summary>
+            public override bool Equals(object obj)
+            {
+                if (!(obj is Rect)) { return false; }
+                return (this == (RECT)obj);
+            }
+
+            /// <summary>Return the HashCode for this struct (not garanteed to be unique)</summary>
+            public override int GetHashCode()
+            {
+                return left.GetHashCode() + top.GetHashCode() + right.GetHashCode() + bottom.GetHashCode();
+            }
+
+
+            /// <summary> Determine if 2 RECT are equal (deep compare)</summary>
+            public static bool operator ==(RECT rect1, RECT rect2)
+            {
+                return (rect1.left == rect2.left && rect1.top == rect2.top && rect1.right == rect2.right && rect1.bottom == rect2.bottom);
+            }
+
+            /// <summary> Determine if 2 RECT are different(deep compare)</summary>
+            public static bool operator !=(RECT rect1, RECT rect2)
+            {
+                return !(rect1 == rect2);
+            }
+
+
+        }
+
+        [DllImport("user32")]
+        internal static extern bool GetMonitorInfo(IntPtr hMonitor, MONITORINFO lpmi);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DllImport("User32")]
+        internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
+
+        #endregion
+        
+        #region blur
+
+        protected override void OnStateChanged(EventArgs e)
+        {
+            if (WindowState == System.Windows.WindowState.Minimized)
+            {
+                this.Hide();
+            }
+            base.OnStateChanged(e);
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            EnableBlur();
+        }
+
+        internal void EnableBlur()
+        {
+            var windowHelper = new WindowInteropHelper(this);
+
+            var accent = new AccentPolicy();
+            accent.AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND;
+
+            var accentStructSize = Marshal.SizeOf(accent);
+
+            var accentPtr = Marshal.AllocHGlobal(accentStructSize);
+            Marshal.StructureToPtr(accent, accentPtr, false);
+
+            var data = new WindowCompositionAttributeData();
+            data.Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY;
+            data.SizeOfData = accentStructSize;
+            data.Data = accentPtr;
+
+            SetWindowCompositionAttribute(windowHelper.Handle, ref data);
+
+            Marshal.FreeHGlobal(accentPtr);
         }
 
         #endregion
@@ -208,46 +481,6 @@ namespace LogitechGMineSweeper
 
         #endregion
 
-        #region blur
-
-        protected override void OnStateChanged(EventArgs e)
-        {
-            if (WindowState == System.Windows.WindowState.Minimized)
-            {
-                this.Hide();
-            }
-            base.OnStateChanged(e);
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            EnableBlur();
-        }
-
-        internal void EnableBlur()
-        {
-            var windowHelper = new WindowInteropHelper(this);
-
-            var accent = new AccentPolicy();
-            accent.AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND;
-
-            var accentStructSize = Marshal.SizeOf(accent);
-
-            var accentPtr = Marshal.AllocHGlobal(accentStructSize);
-            Marshal.StructureToPtr(accent, accentPtr, false);
-
-            var data = new WindowCompositionAttributeData();
-            data.Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY;
-            data.SizeOfData = accentStructSize;
-            data.Data = accentPtr;
-
-            SetWindowCompositionAttribute(windowHelper.Handle, ref data);
-
-            Marshal.FreeHGlobal(accentPtr);
-        }
-
-        #endregion
-
         #region minimize, close and drag window
 
         private void Window_MouseEnter(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -255,9 +488,34 @@ namespace LogitechGMineSweeper
             //DragMove();
         }
 
+        private void image1_MouseEnter(object sender, MouseEventArgs e)
+        {
+            string packUri = @"pack://application:,,,/closeWhite.png";
+            image1.Source = new ImageSourceConverter().ConvertFromString(packUri) as ImageSource;
+        }
+
+        private void image1_MouseLeave(object sender, MouseEventArgs e)
+        {
+            string packUri = @"pack://application:,,,/close.png";
+            image1.Source = new ImageSourceConverter().ConvertFromString(packUri) as ImageSource;
+        }
+
         private void Stack_mousedown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             DragMove();
+        }
+
+        private void SizeChangedWin(object sender, System.Windows.SizeChangedEventArgs e)
+        {
+            if(win.Width < 685)
+            {
+                win.Width = 685;
+            }
+            if (win.Height < 394)
+            {
+                win.Height = 394;
+            }
+
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
@@ -356,8 +614,10 @@ namespace LogitechGMineSweeper
             SetAllButtonsNormal();
             colors.Style = styleClone;
 
+            FlagUseBackground.IsChecked = MineSweeper.useBackground;
+
             //for switching keyboard styles
-            if(MineSweeper.KeyboardLayout == (int)Config.Layout.US)
+            if (MineSweeper.KeyboardLayout == (int)Config.Layout.US)
             {
                 rect782.Width = 120;
                 rect788.Width = 107;
@@ -581,6 +841,20 @@ namespace LogitechGMineSweeper
             Five.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[5, 2], MineSweeper.colors[5, 1], MineSweeper.colors[5, 0]));
             Six.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[6, 2], MineSweeper.colors[6, 1], MineSweeper.colors[6, 0]));
             Flag.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[10, 2], MineSweeper.colors[10, 1], MineSweeper.colors[10, 0]));
+            
+            //shift keys
+            if (MineSweeper.useBackground)
+            {
+                ShiftFlag.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[9, 2], MineSweeper.colors[9, 1], MineSweeper.colors[9, 0]));
+                shift1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[9, 2], MineSweeper.colors[9, 1], MineSweeper.colors[9, 0]));
+            }
+            else
+            {
+                ShiftFlag.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[16, 2], MineSweeper.colors[16, 1], MineSweeper.colors[16, 0]));
+                shift1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[16, 2], MineSweeper.colors[16, 1], MineSweeper.colors[16, 0]));
+            }
+
+            ShiftFlag.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[16, 2], MineSweeper.colors[16, 1], MineSweeper.colors[16, 0]));
             Bomb.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[7, 2], MineSweeper.colors[7, 1], MineSweeper.colors[7, 0]));
             Covered.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[8, 2], MineSweeper.colors[8, 1], MineSweeper.colors[8, 0]));
             New.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[11, 2], MineSweeper.colors[11, 1], MineSweeper.colors[11, 0]));
@@ -593,7 +867,7 @@ namespace LogitechGMineSweeper
 
         public void UpdateFile()
         {
-            string[] lines = { "Wins: " + MineSweeper.Wins, "Bombs: " + MineSweeper.Bombs, "Layout: " + MineSweeper.KeyboardLayout, "Total: " + MineSweeper.Total.ToString(), "Losses: " + MineSweeper.Losses.ToString() };
+            string[] lines = { "Wins: " + MineSweeper.Wins, "Bombs: " + MineSweeper.Bombs, "Layout: " + MineSweeper.KeyboardLayout, "Total: " + MineSweeper.Total.ToString(), "Losses: " + MineSweeper.Losses.ToString(), "UseBackground: " + MineSweeper.useBackground };
             File.WriteAllLines(Config.fileConfig, lines);
         }
 
@@ -716,11 +990,14 @@ namespace LogitechGMineSweeper
 
         private void ResetSettings()
         {
+            string[] lines = { "Wins: " + MineSweeper.Wins, "Bombs: " + Config.bombsDefault, "Layout: " + Config.keyboardLayoutDefault, "Total: 0", "Losses: 0", "UseBackground: " + Config.useBackgroundDefault };
+
             File.WriteAllLines(Config.fileConfig, Config.configDefault);
 
+            MineSweeper.useBackground = Config.useBackgroundDefault; ;
             MineSweeper.Bombs = Config.bombsDefault;
-            MineSweeper.KeyboardLayout = Config.keyboardLayout;
-            KeyLayout.SelectedIndex = Config.keyboardLayout;
+            MineSweeper.KeyboardLayout = Config.keyboardLayoutDefault;
+            KeyLayout.SelectedIndex = Config.keyboardLayoutDefault;
             NUDTextBox.Text = Config.bombsDefault.ToString();
 
             UpdateStats();
@@ -728,7 +1005,7 @@ namespace LogitechGMineSweeper
 
         private void ResetStatistics()
         {
-            string[] lines = { "Wins: 0", "Bombs: " + MineSweeper.Bombs, "Layout: " + MineSweeper.KeyboardLayout, "Total: 0", "Losses: 0" };
+            string[] lines = { "Wins: 0", "Bombs: " + MineSweeper.Bombs, "Layout: " + MineSweeper.KeyboardLayout, "Total: 0", "Losses: 0", "UseBackground: " + MineSweeper.useBackground };
 
             File.WriteAllLines(Config.fileConfig, lines);
 
@@ -811,7 +1088,22 @@ namespace LogitechGMineSweeper
                     text = "Covered Field";
                     break;
                 case 9:
-                    throw new Exception("Offboard square " + MineSweeper.display[3, 5].ToString());
+                    switch (MineSweeper.currentBack)
+                    {
+                        case 0:
+                            index = 14;
+                            text = "Default Background";
+                            break;
+                        case 1:
+                            index = 13;
+                            text = "Victory Background";
+                            break;
+                        case 2:
+                            index = 12;
+                            text = "Defeat Background";
+                            break;
+                    }
+                    break;
                 case 10:
                     text = "Flag";
                     break;
@@ -883,6 +1175,33 @@ namespace LogitechGMineSweeper
         private void escmouseleave(object sender, RoutedEventArgs e)
         {
             esc.Fill = a;
+            hovering = false;
+        }
+
+        #endregion
+        
+        #region Shift
+        //ESC
+        private void shiftmouseup(object sender, RoutedEventArgs e)
+        {
+            int index = 16;
+            string text = "Shift Keys";
+
+            ColorPopupCreator(index, text, shift, shift1);
+        }
+
+        //actually enter
+        private void shiftmousedown(object sender, RoutedEventArgs e)
+        {
+            shift.Fill = shift1.Fill;
+            toFill = shift;
+            fromFill = shift1;
+            hovering = true;
+        }
+
+        private void shiftmouseleave(object sender, RoutedEventArgs e)
+        {
+            shift.Fill = a;
             hovering = false;
         }
 
@@ -1318,6 +1637,34 @@ namespace LogitechGMineSweeper
             int index = 12;
             string text = "Defeat Background";
             ColorPopupCreator(index, text);
+        }
+        
+        private void ShiftFlag_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(bool)FlagUseBackground.IsChecked)
+            {
+                int index = 16;
+                string text = "Shift Keys";
+                ColorPopupCreator(index, text);
+            }
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            ShiftFlag.Opacity = 0.4;
+            MineSweeper.useBackground = true;
+            UpdateColors();
+            ShiftL.Visibility = Visibility.Hidden;
+            UpdateFile();
+        }
+
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ShiftFlag.Opacity = 1;
+            MineSweeper.useBackground = false;
+            UpdateColors();
+            ShiftL.Visibility = Visibility.Visible;
+            UpdateFile();
         }
 
         #endregion

@@ -14,12 +14,12 @@
                     <VisualState x:Name="Normal"/>
                     <VisualState x:Name="MouseOver">
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Color" To="#B2C32828" Duration="0:0:0"/>
+                            <ColorAnimation Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Color" To="#FFe81123" Duration="0:0:0"/>
                         </Storyboard>
                     </VisualState>
                     <VisualState x:Name="Pressed">
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Color" To="#FFC32828" Duration="0:0:0.2"/>
+                            <ColorAnimation Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Color" To="#B2f2707a" Duration="0:0:0.2"/>
                         </Storyboard>
                     </VisualState>
                 </VisualStateGroup>

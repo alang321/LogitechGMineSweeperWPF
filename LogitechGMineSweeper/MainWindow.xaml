@@ -4,115 +4,121 @@
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" x:Class="LogitechGMineSweeper.MainWindow"
-    Title="LogitechG Minesweeper" Height="394.8" Width="642"
+    Title="LogitechG Minesweeper" Height="394" Width="685"
     Background="#BAFFFFFF"
     AllowsTransparency="True"
     WindowStyle="None"
     ResizeMode="NoResize"
     BorderThickness="1"
-    Icon="icon.ico"
+    Icon="icon.ico" 
+	Name="win"
     xmlns:local="clr-namespace:LogitechGMineSweeper"
     WindowStartupLocation="CenterScreen"
+    MinHeight="394"
+    MinWidth="600"
     Loaded="Window_Loaded" MouseLeftButtonDown="Window_MouseEnter" BorderBrush="Black">
 
-
-    <Grid>
+    <Grid Margin="0,0,0,-0.4">
         <Grid.RowDefinitions>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="187.2" />
+            <ColumnDefinition Width="204" />
 
-            <ColumnDefinition Width="462.4"/>
+            <ColumnDefinition />
 
         </Grid.ColumnDefinitions>
-        <StackPanel Name="Test" Visibility="Visible" Background="White" Grid.Column="1" Margin="2.8,0,9.6,0"></StackPanel>
+        <Rectangle Panel.ZIndex="-500" Name="Test" Visibility="Visible" Fill="White" Grid.Column="1" Margin="2,0,0.2,0.4"></Rectangle>
 
-        <StackPanel Orientation="Horizontal" Margin="0,0,70.6,363.6" Grid.ColumnSpan="2" Panel.ZIndex="500" MouseDown="Stack_mousedown" Background="Transparent" Height="30" VerticalAlignment="Bottom"/>
+        <Label Panel.ZIndex="-500" VerticalAlignment="Top" HorizontalAlignment="Left" Content="LogitechG MineSweeper" VerticalContentAlignment="Center" FontSize="11" Height="30" Foreground="#FF3E3A3A" Width="128"/>
 
-        <Label Content="LogitechG MineSweeper" VerticalContentAlignment="Center" FontSize="11" Margin="0,0,0.2,363.6" Foreground="#FF3E3A3A"/>
-        <Button Grid.Column="1" HorizontalAlignment="Left" Margin="392,0,0,0" VerticalAlignment="Top" Width="30" Height="30" Click="Button_Click_3">
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="Template" Value="{StaticResource button}"/>
-                </Style>
-            </Button.Style>
-            <StackPanel Orientation="Horizontal">
-                <Image Source="min.png" Width="12" Height="10" VerticalAlignment="Center" Margin="0,0,0,0" Opacity="0.5"/>
-            </StackPanel>
-        </Button>
+        <Rectangle Fill="Transparent" Stretch="Fill"  Grid.ColumnSpan="2" Panel.ZIndex="500" MouseLeftButtonDown="Stack_mousedown" Height="30" VerticalAlignment="Top" Margin="0,0,0.2,0" />
+        <DockPanel Background="Transparent" Height="30" Panel.ZIndex="600" VerticalAlignment="Top" Margin="0,0,0.2,0" HorizontalAlignment="Right" Grid.Column="1" Width="80">
+            <Button Grid.Column="1" HorizontalAlignment="Right" Panel.ZIndex="600" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Height="30" Click="Button_Click_3">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Template" Value="{StaticResource button}"/>
+                    </Style>
+                </Button.Style>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="min.png" Width="12" Height="10" VerticalAlignment="Center" Margin="0,0,0,0" Opacity="0.5"/>
+                </StackPanel>
+            </Button>
 
-        <Button Grid.Column="1" HorizontalAlignment="Left" Margin="422.8,0,0,0" VerticalAlignment="Top" Width="30.5" Height="30" Click="Button_Click_4">
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="Template" Value="{StaticResource buttonred}"/>
-                </Style>
-            </Button.Style>
-            <StackPanel Orientation="Horizontal">
-                <Image Source="close.png" Width="10" Height="10" VerticalAlignment="Center" Margin="0,0,0,0" Opacity="0.5"/>
-            </StackPanel>
-        </Button>
+            <Button Grid.Column="1" HorizontalAlignment="Right" MouseEnter="image1_MouseEnter" MouseLeave="image1_MouseLeave" Panel.ZIndex="600" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Height="30" Click="Button_Click_4">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Template" Value="{StaticResource buttonred}"/>
+                    </Style>
+                </Button.Style>
+                <StackPanel Width="40" Margin="-4,-1,0,0.4"  Height="30" VerticalAlignment="Center" Orientation="Horizontal" Opacity="0.5">
+                    <Image Name="image1" Width="40.5" Height="30" Source="close.png" Margin="0,0,0,0">
+                    </Image>
+                </StackPanel>
+            </Button>
+        </DockPanel>
 
-        <Button Name="settings" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="190" Height="45" Margin="0,30,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click" Grid.ColumnSpan="2">
+
+        <Button Name="settings" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,30,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click" Grid.ColumnSpan="2">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Template" Value="{StaticResource buttonactive}"/>
                 </Style>
             </Button.Style>
-            <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+            <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
                 <Image Source="settings.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
                 <TextBlock Text="  Settings" VerticalAlignment="Center" Height="25" />
             </StackPanel>
         </Button>
 
-        <Button Name="reset" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="190" Height="45" Margin="0,165,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click_5" Grid.ColumnSpan="2">
+        <Button Name="reset" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,165,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click_5" Grid.ColumnSpan="2">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Template" Value="{StaticResource button}"/>
                 </Style>
             </Button.Style>
-            <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+            <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
                 <Image Source="reset.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
                 <TextBlock VerticalAlignment="Center" Height="25" ><Run Text="  "/><Run Text="Reset"/></TextBlock>
             </StackPanel>
         </Button>
 
-        <Button Name="stats" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="190" Height="45" Margin="0,120,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click_2" Grid.ColumnSpan="2">
+        <Button Name="stats" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,120,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click_2" Grid.ColumnSpan="2">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Template" Value="{StaticResource button}"/>
                 </Style>
             </Button.Style>
-            <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+            <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
                 <Image Source="stats.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
                 <TextBlock Text="  Statistics" VerticalAlignment="Center" Height="25" />
             </StackPanel>
         </Button>
 
-        <Button Name="colors" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="190" Height="45" Margin="0,75,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click_1" Grid.ColumnSpan="2">
+        <Button Name="colors" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,75,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click_1" Grid.ColumnSpan="2">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Template" Value="{StaticResource button}"/>
                 </Style>
             </Button.Style>
-            <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+            <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
                 <Image Source="color.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
                 <TextBlock Text="  Colors" VerticalAlignment="Center" Height="25" />
             </StackPanel>
         </Button>
 
-        <Button Visibility="Hidden" Name="about" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="190" Height="45" Margin="0,349,0,-0.4" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click_6" Grid.ColumnSpan="2">
+        <Button Visibility="Hidden" Name="about" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="190" Height="45" Margin="0,349,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click_6">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Template" Value="{StaticResource button}"/>
                 </Style>
             </Button.Style>
-            <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+            <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
                 <Image Source="about.png" Width="18" Height="18" VerticalAlignment="Center" Margin="5,0,0,0"/>
                 <TextBlock Text="  About" VerticalAlignment="Center" Height="25" />
             </StackPanel>
         </Button>
 
-        <TabControl Name="_menuTabControl" Width="auto" Margin="13.8,30,9.6,-1" TabStripPlacement="Top" BorderBrush="#00ACACAC" Grid.Column="1" Height="363" VerticalAlignment="Top">
+        <TabControl Name="_menuTabControl" Width="auto" Margin="13,30,10,0" TabStripPlacement="Top" BorderBrush="#00ACACAC" Grid.Column="1" Height="363" VerticalAlignment="Top">
             <TabItem Background="#00000000" BorderBrush="#00ACACAC" Width="0">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal"/>
@@ -121,7 +127,7 @@
                     <Label Margin="0,0,0,0" Content="Settings" FontWeight="{Binding FontWeight, ElementName=fonttitle}" FontSize="26" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Grid Margin="0,52,0,0.2">
                         <Label FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Content="Change Bomb-Number" Height="32" FontSize="16"/>
-                        <Grid Margin="52,40,281.8,246.8" >
+                        <Grid HorizontalAlignment="Left" Height="22.5" Margin="52,40,0,246.8" >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="9*"/>
                                 <RowDefinition Height="16*"/>
@@ -130,15 +136,18 @@
                             <RepeatButton HorizontalAlignment="Left" VerticalAlignment="Top" Interval="220" x:Name="NUDButtonUP" FontSize="8" FontFamily="Marlett" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="NUDButtonUP_Click" Margin="83,0,0,0" Content="5" Height="12" Width="15" Grid.RowSpan="2"/>
                             <RepeatButton HorizontalAlignment="Left" VerticalAlignment="Top" Height="12" Interval="220" x:Name="NUDButtonDown" FontSize="8"  FontFamily="Marlett" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="NUDButtonDown_Click" Margin="83,2.667,0,0" Content="6" Width="15" Grid.Row="1"></RepeatButton>
                         </Grid>
-                        <Label FontSize="14" Content="Bombs:" Width="100" Margin="0,35,332.8,246.8"/>
+                        <Label FontSize="14" HorizontalAlignment="Left" Content="Bombs:" Width="100" Margin="0,35,0,0"/>
 
-                        <Label FontSize="14" Content="Keyboard-Layout:" Margin="0,174,-0.2,3.8"/>
-                        <Button BorderThickness="2" FontSize="14" Content="Hard" Margin="234,80,104.8,204.8" Click="Button_Click_9"/>
-                        <Button BorderThickness="2" FontSize="14" Content="Medium" Margin="121,80,217.8,204.8" Click="Button_Click_8" RenderTransformOrigin="0.056,0.343"/>
-                        <Button BorderThickness="2" FontSize="14" Content="Easy" Margin="6,80,332.8,204.8" Click="Button_Click_7"/>
+                        <Label HorizontalAlignment="Left" FontSize="14" Content="Keyboard-Layout:" Margin="0,174,0,106.8"/>
 
-                        <Label FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,139,0,0" Content="Change Keyboard-Layout" Height="32" FontSize="16"/>
-                        <ComboBox VerticalContentAlignment="Center" BorderThickness="2" FontSize="14" Name="KeyLayout" Margin="146,176,227.8,106.8" SelectionChanged="KeyLayout_SelectionChanged">
+                        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="6,80,0,204.8" Height="27">
+                            <Button BorderThickness="2" FontSize="14" Content="Easy" Click="Button_Click_7" Height="27" Width="95"/>
+                            <Button BorderThickness="2" FontSize="14" Content="Medium" Click="Button_Click_8" Margin="19,0,0,0" Width="95"/>
+                            <Button BorderThickness="2" FontSize="14" Content="Hard" Margin="19,0,0,0" Width="95"  Click="Button_Click_9"/>
+                        </StackPanel>
+
+                        <Label HorizontalAlignment="Left" FontWeight="DemiBold" VerticalAlignment="Top" Margin="0,139,0,0" Content="Change Keyboard-Layout" Height="32" FontSize="16"/>
+                        <ComboBox HorizontalAlignment="Left" VerticalContentAlignment="Center" BorderThickness="2" FontSize="14" Name="KeyLayout" Margin="146,176,0,106.8" SelectionChanged="KeyLayout_SelectionChanged" Width="57">
                             <ComboBoxItem Content="DE"/>
                             <ComboBoxItem Content="US"/>
                             <ComboBoxItem Content="UK"/>
@@ -152,8 +161,6 @@
                 </TabItem.Header>
                 <Grid Margin="0,-13,-0.2,0" Height="364" VerticalAlignment="Top">
                     <Label Name="fonttitle" Margin="0,0,0,0" Content="Colors" FontWeight="Normal" FontSize="26" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
-
 
                     <Label VerticalAlignment="Top" HorizontalAlignment="Left" FontWeight="DemiBold" Margin="0,52,0,0" Content="Click on a key to change its color" FontSize="16"/>
 
@@ -215,6 +222,8 @@
                                     <Canvas.RenderTransform>
                                         <TranslateTransform X="5" Y="5"/>
                                     </Canvas.RenderTransform>
+                                    <Rectangle x:Name="us1" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="244" Width="120" Height="106" Fill="Transparent" Canvas.Left="1"/>
+
                                     <Canvas x:Name="g422">
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="-15" Canvas.Top="-15" Width="1244" Height="380" RadiusX="5" RadiusY="5" x:Name="background" Fill="#FFCCCCCC"/>
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Stroke="Black" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="esc1" Fill="#FFCCCCCC"/>
@@ -550,6 +559,8 @@
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1" Canvas.Top="190" Width="92.5" Height="52" RadiusX="5" RadiusY="5" x:Name="rect622" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="7" Canvas.Top="193" Width="80.5" Height="40" RadiusX="5" RadiusY="5" x:Name="rect628" Fill="{Binding Fill, ElementName=esc}"/>
                                     </Canvas>
+                                    <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="136" Width="66" Height="214" Fill="Transparent" Canvas.Left="1"/>
+
                                     <Canvas x:Name="g640">
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g23mouseup" MouseEnter="g23mousedown" MouseLeave="g23mouseleave" Canvas.Left="95.5" Canvas.Top="190" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h23" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g23mouseup" MouseEnter="g23mousedown" MouseLeave="g23mouseleave" Canvas.Left="101.5" Canvas.Top="193" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g23" Fill="#FFFCFCFC"/>
@@ -710,8 +721,6 @@
                                         <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="1" Width="160" Height="52" Fill="Transparent" Panel.ZIndex="500" Canvas.Left="825"/>
                                         <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="244" Width="75" Height="106" Fill="Transparent" Panel.ZIndex="500" Canvas.Left="662"/>
                                         <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="82" Width="75" Height="106" Fill="Transparent" Panel.ZIndex="500" Canvas.Left="676"/>
-                                        <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="136" Width="66" Height="214" Fill="Transparent" Panel.ZIndex="500" Canvas.Left="1"/>
-                                        <Rectangle x:Name="us1" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="244" Width="120" Height="106" Fill="Transparent" Panel.ZIndex="500" Canvas.Left="1"/>
                                         <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="82" Width="52" Height="75" Fill="Transparent" Panel.ZIndex="500" Canvas.Left="1"/>
                                         <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="136" Width="52" Height="75" Fill="Transparent" Panel.ZIndex="500" Canvas.Left="28"/>
                                         <Rectangle x:Name="us2" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="190" Width="52" Height="76" Fill="Transparent" Panel.ZIndex="500" Canvas.Left="42"/>
@@ -731,8 +740,8 @@
                                         <Label Visibility="{Binding Visibility, ElementName=hyphen1}" Padding="0,0,0,0" Content="/" MouseUp="g44mouseup" MouseEnter="g44mousedown" MouseLeave="g44mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="614" Canvas.Top="262" Height="25" Width="40"/>
                                     </Canvas>
                                     <Canvas x:Name="g910">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="662.5" Canvas.Top="244" Width="146.5" Height="52" RadiusX="5" RadiusY="5" x:Name="rect902" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="668.5" Canvas.Top="247" Width="134.5" Height="40" RadiusX="5" RadiusY="5" x:Name="rect908" Fill="{Binding Fill, ElementName=esc}"/>
+                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="662.5" Canvas.Top="244" Width="146.5" Height="52" RadiusX="5" RadiusY="5" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
+                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="668.5" Canvas.Top="247" Width="134.5" Height="40" RadiusX="5" RadiusY="5" Fill="{Binding Fill, ElementName=esc}"/>
                                     </Canvas>
                                     <Canvas x:Name="g920">
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="878.5" Canvas.Top="244" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect912" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
@@ -810,26 +819,20 @@
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1108" Canvas.Top="298" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect1082" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1114" Canvas.Top="301" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="rect1088" Fill="{Binding Fill, ElementName=esc}"/>
                                     </Canvas>
+                                    <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="298" Width="809" Height="53" Fill="Transparent"/>
+                                    <Canvas x:Name="ShiftL">
+                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="shiftmouseup" MouseEnter="shiftmousedown" MouseLeave="shiftmouseleave" Canvas.Left="1" Canvas.Top="244" Width="{Binding Width, ElementName=rect782}" Height="52" RadiusX="5" RadiusY="5" Fill="{Binding Fill, ElementName=shift1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
+                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="shiftmouseup" MouseEnter="shiftmousedown" MouseLeave="shiftmouseleave" Canvas.Left="7" Canvas.Top="247" Width="{Binding Width, ElementName=rect788}" Height="40" RadiusX="5" RadiusY="5" Fill="{Binding Fill, ElementName=shift}"/>
+                                    </Canvas>
+                                    <Canvas x:Name="g910wahaha" Visibility="{Binding Visibility, ElementName=ShiftL}">
+                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="shiftmouseup" MouseEnter="shiftmousedown" MouseLeave="shiftmouseleave" Canvas.Left="662.5" Canvas.Top="244" Width="146.5" Height="52" RadiusX="5" RadiusY="5" x:Name="shift1" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
+                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="shiftmouseup" MouseEnter="shiftmousedown" MouseLeave="shiftmouseleave" Canvas.Left="668.5" Canvas.Top="247" Width="134.5" Height="40" RadiusX="5" RadiusY="5" x:Name="shift" Fill="#FFFCFCFC"/>
+                                    </Canvas>
                                 </Canvas>
                             </Canvas>
                         </Canvas>
                     </Viewbox>
                     <Label FontWeight="DemiBold" Content="Change colors" VerticalAlignment="Top" Margin="0,209,0,0" FontSize="16"/>
-                    <!--Keyboard Display
-                    <Button BorderThickness="3" VerticalContentAlignment="Center" FontSize="14" Name="One" Content="One" Margin="63,238,307,93" Click="One_Click"/>
-                    <Button BorderThickness="{Binding BorderThickness, ElementName=One}" VerticalContentAlignment="Center" FontSize="14" Name="Two" Content="Two" Margin="133,238,237,93" Click="Two_Click"/>
-                    <Button BorderThickness="{Binding BorderThickness, ElementName=One}" VerticalContentAlignment="Center" FontSize="14" Name="Three" Content="Three" Margin="203,238,167,93" Click="Three_Click"/>
-                    <Button BorderThickness="{Binding BorderThickness, ElementName=One}" VerticalContentAlignment="Center" FontSize="14" Name="Four" Content="Four" Margin="273,238,97,93" Click="Four_Click"/>
-                    <Button BorderThickness="{Binding BorderThickness, ElementName=One}" VerticalContentAlignment="Center" FontSize="14" Name="Five" Content="Five" Margin="343,238,27,93" Click="Five_Click"/>
-                    <Button BorderThickness="{Binding BorderThickness, ElementName=One}" VerticalContentAlignment="Center" FontSize="14" Name="Six" Content="Six" Margin="413,238,-43,93" Click="Six_Click"/>
-                    <Button BorderThickness="{Binding BorderThickness, ElementName=One}" VerticalContentAlignment="Center" FontSize="14" Name="Flag" Content="Flag" Margin="148,275,209,56" Click="Flag_Click"/>
-                    <Button BorderThickness="{Binding BorderThickness, ElementName=One}" VerticalContentAlignment="Center" FontSize="14" Name="Bomb" Content="Bomb" Margin="232,275,125,56" Click="Bomb_Click"/>
-                    <Button BorderThickness="{Binding BorderThickness, ElementName=One}" VerticalContentAlignment="Center" FontSize="14" Name="Covered" Content="Covered" Margin="316,275,41,56" Click="Covered_Click"/>
-                    <Button BorderThickness="{Binding BorderThickness, ElementName=One}" VerticalContentAlignment="Center" FontSize="14" Name="New" Content="New Game" Margin="400,275,-43,56" Click="New_Click"/>
-                    <Button BorderThickness="{Binding BorderThickness, ElementName=One}" VerticalContentAlignment="Center" FontSize="14" Name="Default" Content="Background Default" Margin="63,312,237,19" Click="Default_Click"/>
-                    <Button BorderThickness="{Binding BorderThickness, ElementName=One}" VerticalContentAlignment="Center" FontSize="14" Name="Defeat" Content="Background Defeat" Margin="343,312,-43,19" Click="Defeat_Click"/>
-                    <Button BorderThickness="{Binding BorderThickness, ElementName=One}" VerticalContentAlignment="Center" FontSize="14" Name="Victory" Content="Background Victory" Margin="203,312,97,19" Click="Victory_Click"/>
-                    <Button BorderThickness="{Binding BorderThickness, ElementName=One}" VerticalContentAlignment="Center" FontSize="14" x:Name="Zero" Content="Zero" Margin="63,275,293,56" Click="Zero_Click"/>-->
 
 
                     <ListView VirtualizingPanel.ScrollUnit="Pixel" HorizontalAlignment="Left" Height="101" Margin="21,246,0,0" VerticalAlignment="Top" Width="381">
@@ -893,6 +896,15 @@
                                 <Rectangle Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Flag" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
                             </StackPanel>
                         </ListViewItem>
+                        <ListViewItem MouseUp="ShiftFlag_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Opacity="{Binding Opacity, ElementName=ShiftFlag}" Width="142"><Run Text="Shift"/></TextBlock>
+
+                                <CheckBox IsThreeState="False" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" HorizontalAlignment="Left" Name="FlagUseBackground" Content="Use Background Color" Margin="0,0,0,0" VerticalAlignment="Top">
+                                </CheckBox>
+                                <Rectangle Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="ShiftFlag" Margin="15,0,0,0" Width="{Binding Width, ElementName=One}"/>
+                            </StackPanel>
+                        </ListViewItem>
                         <ListViewItem  MouseUp="Default_Click">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Width="190"><Run Text="Background Default"/></TextBlock>
@@ -954,11 +966,13 @@
                 <Grid Margin="0,-13,0,0.2">
                     <Label Margin="0,0,0,0" Content="Reset" FontWeight="{Binding FontWeight, ElementName=fonttitle}" FontSize="26" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Label FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,52,0,0" Content="Reset settings, statistics or colors" Height="32" FontSize="16"/>
-                    <Button BorderThickness="2" FontSize="14" Content="Reset Settings" Margin="6,88,311.8,244" Click="Button_set"/>
                     <Label FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,148,0,0" Content="Reset all preferences and statistics" Height="32" FontSize="16"/>
-                    <Button BorderThickness="2" FontSize="14" Content="Reset Statistics" Margin="136,88,181.8,244" Click="Button_sta"/>
-                    <Button BorderThickness="2" FontSize="14" Content="Reset Colors" Margin="266,88,51.8,244" Click="Button_col"/>
-                    <Button BorderThickness="2" FontSize="14" Content="Reset Everything" Margin="6,185,311.8,147" Click="Button_all"/>
+                    <Button BorderThickness="2" HorizontalAlignment="Left" FontSize="14" Content="Reset Everything" Click="Button_all" Height="32" Margin="6,37,0,0" Width="120"/>
+                    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="6,88,0,0" Height="32">
+                        <Button BorderThickness="2" FontSize="14" Content="Reset Settings" Click="Button_set" Width="120"/>
+                        <Button BorderThickness="2" FontSize="14" Content="Reset Statistics" Click="Button_col" Width="120" Margin="14,0,0,0"/>
+                        <Button BorderThickness="2" FontSize="14" Content="Reset Colors" Margin="14,0,0,0" Width="120"  Click="Button_sta"/>
+                    </StackPanel>
                 </Grid>
             </TabItem>
             <TabItem Background="#00000000" BorderBrush="#00ACACAC" Width="0">
@@ -972,7 +986,10 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Label Content="30:00" Opacity="1" Name="timer1" FontSize="16" HorizontalAlignment="Left" Margin="58,355,0,0" VerticalAlignment="Top" Foreground="black" Height="30" Width="48"/>
-        <Label Content="Timer:" Opacity="1" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="black" Height="30" Margin="10,355,0,0" Width="53"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="27" Margin="10,0,0,9" Width="148">
+            <Label HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Timer:" Opacity="1" FontSize="16" Foreground="black" Height="30" Width="53"/>
+            <Label HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="30:00" Opacity="1" Name="timer1" FontSize="16" Margin="0,0,0,0" Foreground="black" Height="30" Width="48"/>
+
+        </StackPanel>
     </Grid>
 </Window>

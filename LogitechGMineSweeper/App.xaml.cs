@@ -40,7 +40,6 @@ namespace LogitechGMineSweeper
         public static string last = "empty";
         private static int parameter = 0;
 
-
         //for single instance
         static Mutex mutex = new Mutex(true, "{8F6F0AC4-B9A1-45fd-A8CF-72F04E6BDE8B}");
 
@@ -61,8 +60,9 @@ namespace LogitechGMineSweeper
             int total = 0;
             int losses = 0;
             int layout = 0;
+            bool useBackground = Config.useBackgroundDefault; ;
 
-            foreach(string file in Config.fileStatistics)
+            foreach (string file in Config.fileStatistics)
             {
                 if (!File.Exists(file))
                 {
@@ -87,6 +87,12 @@ namespace LogitechGMineSweeper
             catch
             {
                 File.WriteAllLines(Config.fileColors, Config.colorsDefault);
+                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
+                {
+                    MineSweeper.colors[i, 0] = Convert.ToByte(File.ReadLines(Config.fileColors).Skip(i).Take(1).First().Substring(0, 3));
+                    MineSweeper.colors[i, 1] = Convert.ToByte(File.ReadLines(Config.fileColors).Skip(i).Take(1).First().Substring(4, 3));
+                    MineSweeper.colors[i, 2] = Convert.ToByte(File.ReadLines(Config.fileColors).Skip(i).Take(1).First().Substring(8, 3));
+                }
             }
 
 
@@ -123,9 +129,10 @@ namespace LogitechGMineSweeper
                 {
                     wins = 0;
                     bombs = Config.bombsDefault;
-                    layout = Config.keyboardLayout;
+                    layout = Config.keyboardLayoutDefault;
                     total = 0;
                     losses = 0;
+                    useBackground = Config.useBackgroundDefault;
                     File.WriteAllLines(Config.fileConfig, Config.configDefault);
                     newFile = true;
                 }
@@ -138,10 +145,36 @@ namespace LogitechGMineSweeper
                 }
                 catch
                 {
-                    string[] lines = { "Wins: " + wins, "Bombs: " + bombs, "Layout: " + Config.keyboardLayout, "Total: " + total, "Losses: " + losses };
+                    string[] lines = { "Wins: " + wins, "Bombs: " + bombs, "Layout: " + Config.keyboardLayoutDefault, "Total: " + total, "Losses: " + losses, "UseBackground: False" };
 
                     File.WriteAllLines(Config.fileConfig, lines);
-                    layout = Config.keyboardLayout;
+                    layout = Config.keyboardLayoutDefault;
+                }
+
+                try
+                {
+                    string line6 = File.ReadLines(Config.fileConfig).Skip(5).Take(1).First();
+                    a = line6.IndexOf("UseBackground: ");
+                    b = line6.Substring(a + "UseBackground: ".Length);
+                    if(b == "False")
+                    {
+                        useBackground = false;
+                    }
+                    else if(b == "True")
+                    {
+                        useBackground = true;
+                    }
+                    else
+                    {
+                        throw new Exception("Invalid Value for Use Background in config.txt");
+                    }
+                }
+                catch
+                {
+                    string[] lines = { "Wins: " + wins, "Bombs: " + bombs, "Layout: " + layout, "Total: " + total, "Losses: " + losses, "UseBackground: False"};
+
+                    File.WriteAllLines(Config.fileConfig, lines);
+                    layout = Config.keyboardLayoutDefault;
                 }
 
 
@@ -155,7 +188,7 @@ namespace LogitechGMineSweeper
                         }
                         else
                         {
-                            layout = Config.keyboardLayout;
+                            layout = Config.keyboardLayoutDefault;
                             File.WriteAllLines(Config.fileConfig, Config.configDefault);
                             newFile = true;
                         }
@@ -174,13 +207,15 @@ namespace LogitechGMineSweeper
             {
                 wins = 0;
                 bombs = Config.bombsDefault;
-                layout = Config.keyboardLayout;
+                layout = Config.keyboardLayoutDefault;
                 total = 0;
                 losses = 0;
+                useBackground = Config.useBackgroundDefault;
                 File.WriteAllLines(Config.fileConfig, Config.configDefault);
                 newFile = true;
             }
-
+            
+            MineSweeper.useBackground = useBackground;
             MineSweeper.Wins = wins;
             MineSweeper.Total = total;
             MineSweeper.Bombs = bombs;

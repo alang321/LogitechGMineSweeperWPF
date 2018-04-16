@@ -5,7 +5,7 @@
         <Border Name="RootElement">
             <Grid Margin="0" >
                 <Grid.Background>
-                    <SolidColorBrush x:Name="ButtonBackground" Color="#17000000"/>
+                    <SolidColorBrush x:Name="ButtonBackground" Color="#20000000"/>
                 </Grid.Background>
                 <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="4,5,4,4"/>
             </Grid>
@@ -14,7 +14,7 @@
                     <VisualState x:Name="Normal"/>
                     <VisualState x:Name="MouseOver">
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Color" To="#17000000" Duration="0:0:0"/>
+                            <ColorAnimation Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Color" To="#20000000" Duration="0:0:0"/>
                         </Storyboard>
                     </VisualState>
                     <VisualState x:Name="Pressed">

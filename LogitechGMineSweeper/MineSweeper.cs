@@ -30,6 +30,9 @@ namespace LogitechGMineSweeper
         public static int currentBack = 0;
         public static LogitechGMineSweeper.MainWindow main;
 
+        //use Background for window bad design but easy
+        public static bool useBackground = false;
+
         //covered key count for current layout
         static int coveredReset;
 
@@ -58,7 +61,7 @@ namespace LogitechGMineSweeper
                 {255,200,200},   //9
 
                 //Flag
-                {000,000,000},   //10
+                {255,000,255},   //10
 
                 //New Game Key
                 {255,000,000},   //11
@@ -74,6 +77,9 @@ namespace LogitechGMineSweeper
 
                 //Bomb-Flag Counter
                 {000,255,255},   //15
+
+                //Flag Key Color
+                {255,000,255},   //16
         };
 
         static public int Wins
@@ -135,7 +141,7 @@ namespace LogitechGMineSweeper
                 {
                     for (int j = 0; j < 11; j++)
                     {
-                        if (Config.keyLayout[keyboardLayout,i,j]) coveredReset++;
+                        if (Config.keyLayoutEnabledKeys[keyboardLayout,i,j]) coveredReset++;
                     }
                 }
             }
@@ -210,7 +216,7 @@ namespace LogitechGMineSweeper
             //so you cant start with every key
             App.last = "Add";
 
-            ResetMap();
+            ResetDisplay();
 
             covered = coveredReset;
 
@@ -268,7 +274,7 @@ namespace LogitechGMineSweeper
             {
                 int x = r.Next(1, isBomb.GetLength(0) - 1);
                 int y = r.Next(1, isBomb.GetLength(1) - 1);
-                if (!Config.keyLayout[keyboardLayout, y - 1, x - 1])
+                if (!Config.keyLayoutEnabledKeys[keyboardLayout, y - 1, x - 1])
                 {
                     i--;
                     continue;
@@ -278,7 +284,7 @@ namespace LogitechGMineSweeper
             }
         }
 
-        static private void ResetMap()
+        static private void ResetDisplay()
         {
             display = new int[21, 6];
             for (int i = 0; i < 21; i++)
@@ -287,9 +293,9 @@ namespace LogitechGMineSweeper
                 {
                     if (i > 0 && i < 12 && j > 0 && j < 5)
                     {
-                        if (!Config.keyLayout[keyboardLayout, j-1, i-1])
+                        if (!Config.keyLayoutEnabledKeys[keyboardLayout, j - 1, i - 1])
                         {
-                            display[1, 4] = 9;
+                            display[i, j] = 9;
                         }
                         else
                         {
@@ -302,8 +308,6 @@ namespace LogitechGMineSweeper
                     }
                 }
             }
-
-            
         }
 
         static private void genMap()
@@ -314,13 +318,10 @@ namespace LogitechGMineSweeper
             {
                 for (int j = 0; j < map.GetLength(1); j++)
                 {
-                    if (keyboardLayout == (int)Config.Layout.US)
+                    if (!Config.keyLayoutEnabledKeys[keyboardLayout, j, i])
                     {
-                        if (i == 0 && j == 3)
-                        {
-                            map[i, j] = 8;
-                            continue;
-                        }
+                        map[i, j] = 8;
+                        continue;
                     }
                     if (isBomb[i + 1, j + 1]) map[i, j] = 7;
                     else
@@ -520,6 +521,18 @@ namespace LogitechGMineSweeper
             colorToByte(logiLED, (3 * 21 + 17) * 4, colors[4, 0], colors[4, 1], colors[4, 2]);
             colorToByte(logiLED, (3 * 21 + 18) * 4, colors[5, 0], colors[5, 1], colors[5, 2]);
             colorToByte(logiLED, (3 * 21 + 19) * 4, colors[6, 0], colors[6, 1], colors[6, 2]);
+
+            //shift keys
+            if (useBackground)
+            {
+                colorToByte(logiLED, (4 * 21 + 0) * 4, colors[9, 0], colors[9, 1], colors[9, 2]);
+                colorToByte(logiLED, (4 * 21 + 13) * 4, colors[9, 0], colors[9, 1], colors[9, 2]);
+            }
+            else
+            {
+                colorToByte(logiLED, (4 * 21 + 0) * 4, colors[16, 0], colors[16, 1], colors[16, 2]);
+                colorToByte(logiLED, (4 * 21 + 13) * 4, colors[16, 0], colors[16, 1], colors[16, 2]);
+            }
 
             //New Game
             colorToByte(logiLED, 248, colors[11, 0], colors[11, 1], colors[11, 2]);
@@ -929,7 +942,7 @@ namespace LogitechGMineSweeper
             colors[9, 1] = colors[13, 1];
             colors[9, 2] = colors[13, 2];
 
-            string[] lines = { "Wins: " + wins, "Bombs: " + bombs, "Layout: " + keyboardLayout, "Total: " + total, "Losses: " + losses };
+            string[] lines = { "Wins: " + wins, "Bombs: " + bombs, "Layout: " + keyboardLayout, "Total: " + total, "Losses: " + losses, "UseBackground: " + MineSweeper.useBackground };
 
             File.WriteAllLines(Config.fileConfig, lines);
 

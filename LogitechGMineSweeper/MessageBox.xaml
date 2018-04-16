@@ -19,7 +19,7 @@
     BorderThickness="0" CornerRadius="0">
         <Grid  >
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" MinHeight="40"/>
+                <RowDefinition Height="Auto" MinHeight="63.2"/>
                 <RowDefinition/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
@@ -29,43 +29,42 @@
             </Grid.ColumnDefinitions>
             <Rectangle Grid.Column="0" 
 
-            Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="0,30,0,0"/>
+            Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="0,30,-0.2,0.4"/>
             <Rectangle Grid.Row="0" 
 
-            Grid.Column="0"  Grid.ColumnSpan="2">
+            Grid.Column="0"  Grid.ColumnSpan="2" Margin="0,0,-0.2,33.2">
                 <Rectangle.Fill>
                     <SolidColorBrush Color="transparent"></SolidColorBrush>
                 </Rectangle.Fill>
             </Rectangle>
             <Grid Grid.Row="0" Grid.ColumnSpan="2" 
 
-            MinHeight="40" >
-                <TextBlock Margin="0,0,40,0" Name="MessageTitle"  
+            MinHeight="40" Margin="0,0,-0.2,27.2" >
+                <TextBlock Text="Hello" Name="MessageTitle"  
 
                 FontWeight="Bold" TextTrimming="CharacterEllipsis" 
 
                 LineHeight="22" FontSize="16" 
                            Padding="10,8,0,0"
 
-                VerticalAlignment="Center" Foreground="Black" Panel.ZIndex="500" Height="40"/>
-
-                <Button HorizontalAlignment="Left" Margin="348,0,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="Button_Click_4">
+                VerticalAlignment="Center" Foreground="Black" Panel.ZIndex="500" Height="40" HorizontalAlignment="Left" Width="349"/>
+                <Button HorizontalAlignment="Right" MouseEnter="image1_MouseEnter" MouseLeave="image1_MouseLeave" Panel.ZIndex="600" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="Button_Click_4">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="Template" Value="{StaticResource buttonred}"/>
                         </Style>
                     </Button.Style>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="close.png" Width="13" Height="13" VerticalAlignment="Center" Margin="0,0,0,0" Opacity="0.5"/>
+                    <StackPanel Width="40" Margin="-4,-1,0,0.4"  Height="30" VerticalAlignment="Center" Orientation="Horizontal" Opacity="0.5">
+                        <Image Name="image1" Width="41" Source="close.png" Margin="0,0,0,0.4"/>
                     </StackPanel>
                 </Button>
             </Grid>
-            <Label Margin="10,0,9.8,44.4" VerticalContentAlignment="Center" Panel.ZIndex="500" Foreground="Black" Grid.Row="1" Grid.Column="1" FontSize="14" Height="74" Grid.RowSpan="2">
+            <Label Margin="10,45,9.8,39.4" VerticalContentAlignment="Center" Panel.ZIndex="500" Foreground="Black" Grid.Column="1" FontSize="14" Grid.RowSpan="3">
                 <TextBlock Name="txtMsg" LineHeight="30"/>
             </Label>
             <Grid Grid.Row="2" Grid.ColumnSpan="2"  
 
-            Grid.Column="0" >
+            Grid.Column="0" Margin="0,0.2,-0.2,0.4" >
                 <StackPanel Orientation="Horizontal"  
 
                 HorizontalAlignment="Right" >
