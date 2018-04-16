@@ -641,12 +641,16 @@ namespace LogitechGMineSweeper
                 hyphen.Visibility = Visibility.Hidden;
                 hyphen1.Visibility = Visibility.Visible;
                 enter.Visibility = Visibility.Hidden;
-                enter2.Width = 119;
-                enter3.Width = 108;
+                usenter.Visibility = Visibility.Visible;
                 buttonnexttoleftshiftlabel1.Visibility = Visibility.Visible;
                 buttonnexttoleftshiftlabel2.Visibility = Visibility.Hidden;
                 ä1.Visibility = Visibility.Visible;
                 ä2.Visibility = Visibility.Hidden;
+                h12newus.Visibility = Visibility.Visible;
+                h23newus.Visibility = Visibility.Visible;
+                h12newde.Visibility = Visibility.Hidden;
+                h23newde.Visibility = Visibility.Hidden;
+                showus.Visibility = Visibility.Visible;
             }
             else if (MineSweeper.KeyboardLayout == (int)Config.Layout.DE)
             {
@@ -672,12 +676,18 @@ namespace LogitechGMineSweeper
                 hyphen.Visibility = Visibility.Visible;
                 hyphen1.Visibility = Visibility.Hidden;
                 enter.Visibility = Visibility.Visible;
-                enter2.Width = 52;
-                enter3.Width = 40;
+                usenter.Visibility = Visibility.Hidden;
                 buttonnexttoleftshiftlabel1.Visibility = Visibility.Visible;
                 buttonnexttoleftshiftlabel2.Visibility = Visibility.Hidden;
                 ä1.Visibility = Visibility.Visible;
                 ä2.Visibility = Visibility.Hidden;
+                h12newus.Visibility = Visibility.Hidden;
+                h23newus.Visibility = Visibility.Hidden;
+                h34newuk.Visibility = Visibility.Hidden;
+                h12newde.Visibility = Visibility.Visible;
+                h23newde.Visibility = Visibility.Visible;
+                h34newde.Visibility = Visibility.Visible;
+                showus.Visibility = Visibility.Hidden;
             }
             else if(MineSweeper.KeyboardLayout == (int)Config.Layout.UK)
             {
@@ -703,12 +713,18 @@ namespace LogitechGMineSweeper
                 hyphen.Visibility = Visibility.Hidden;
                 hyphen1.Visibility = Visibility.Visible;
                 enter.Visibility = Visibility.Visible;
-                enter2.Width = 52;
-                enter3.Width = 40;
+                usenter.Visibility = Visibility.Hidden;
                 buttonnexttoleftshiftlabel1.Visibility = Visibility.Hidden;
                 buttonnexttoleftshiftlabel2.Visibility = Visibility.Visible;
                 ä1.Visibility = Visibility.Hidden;
                 ä2.Visibility = Visibility.Visible;
+                h12newus.Visibility = Visibility.Visible;
+                h23newus.Visibility = Visibility.Visible;
+                h34newuk.Visibility = Visibility.Visible;
+                h12newde.Visibility = Visibility.Hidden;
+                h23newde.Visibility = Visibility.Hidden;
+                h34newde.Visibility = Visibility.Hidden;
+                showus.Visibility = Visibility.Hidden;
             }
 
             UpdateColors();
@@ -1365,6 +1381,19 @@ namespace LogitechGMineSweeper
         private void g44mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[11, 4], g44, h44); }
         private void g44mousedown(object sender, RoutedEventArgs e) { g44.Fill = h44.Fill; h44.Stroke = new SolidColorBrush(Colors.Red); h44.StrokeThickness = 2; hovering = true; toFill = g44; fromFill = h44; }
         private void g44mouseleave(object sender, RoutedEventArgs e) { g44.Fill = a; h44.Stroke = new SolidColorBrush(Colors.Black); h44.StrokeThickness = 1; hovering = false; }
+
+
+        private void g12newmouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[12, 1], g12new, h12new); }
+        private void g12newmousedown(object sender, RoutedEventArgs e) { g12new.Fill = h12new.Fill; h12new.Stroke = new SolidColorBrush(Colors.Red); h12new.StrokeThickness = 2; hovering = true; toFill = g12new; fromFill = h12new; }
+        private void g12newmouseleave(object sender, RoutedEventArgs e) { g12new.Fill = a; h12new.Stroke = new SolidColorBrush(Colors.Black); h12new.StrokeThickness = 1; hovering = false; }
+
+        private void g23newmouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[12, 2], g23new, h23new); }
+        private void g23newmousedown(object sender, RoutedEventArgs e) { g23new.Fill = h23new.Fill; h23new.Stroke = new SolidColorBrush(Colors.Red); h23new.StrokeThickness = 2; hovering = true; toFill = g23new; fromFill = h23new; }
+        private void g23newmouseleave(object sender, RoutedEventArgs e) { g23new.Fill = a; h23new.Stroke = new SolidColorBrush(Colors.Black); h23new.StrokeThickness = 1; hovering = false; }
+
+        private void g34newmouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[12, 3], g34new, h34new); }
+        private void g34newmousedown(object sender, RoutedEventArgs e) { g34new.Fill = h34new.Fill; h34new.Stroke = new SolidColorBrush(Colors.Red); h34new.StrokeThickness = 2; hovering = true; toFill = g34new; fromFill = h34new; }
+        private void g34newmouseleave(object sender, RoutedEventArgs e) { g34new.Fill = a; h34new.Stroke = new SolidColorBrush(Colors.Black); h34new.StrokeThickness = 1; hovering = false; }
 
         #endregion
 

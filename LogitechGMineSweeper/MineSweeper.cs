@@ -29,8 +29,6 @@ namespace LogitechGMineSweeper
         static bool setBackground = false;
         public static int currentBack = 0;
         public static LogitechGMineSweeper.MainWindow main;
-
-        //use Background for window bad design but easy
         public static bool useBackground = false;
 
         //covered key count for current layout
@@ -137,9 +135,9 @@ namespace LogitechGMineSweeper
 
                 coveredReset = 0;
 
-                for(int i = 0; i < 4; i++)
+                for(int i = 0; i < Config.keyLayoutEnabledKeys.GetLength(1); i++)
                 {
-                    for (int j = 0; j < 11; j++)
+                    for (int j = 0; j < Config.keyLayoutEnabledKeys.GetLength(2); j++)
                     {
                         if (Config.keyLayoutEnabledKeys[keyboardLayout,i,j]) coveredReset++;
                     }
@@ -171,19 +169,19 @@ namespace LogitechGMineSweeper
                 newGame();
             }
             //Dont take key press if Flag is present
-            else if (display[(i % 11) + 1, (i / 11) + 1] == 10)
+            else if (display[(i % 12) + 1, (i / 12) + 1] == 10)
             {
             }
-            else if (display[(i % 11) + 1, (i / 11) + 1] <= 6 && display[(i % 11) + 1, (i / 11) + 1] >= 0)
+            else if (display[(i % 12) + 1, (i / 12) + 1] <= 6 && display[(i % 12) + 1, (i / 12) + 1] >= 0)
             {
-                uncoverFlags(i % 11, i / 11);
+                uncoverFlags(i % 12, i / 12);
             }
             //dont uncover bomb on first move
             else if (firstMove)
             {
-                if (isBomb[(i % 11) + 1, (i / 11) + 1])
+                if (isBomb[(i % 12) + 1, (i / 12) + 1])
                 {
-                    MoveBomb((i % 11) + 1, (i / 11) + 1);
+                    MoveBomb((i % 12) + 1, (i / 12) + 1);
                 }
 
                 //start timer on first move
@@ -195,14 +193,48 @@ namespace LogitechGMineSweeper
                 IncrementWinsBombs(42);
 
                 firstMove = false;
-                uncover(i % 11, i / 11);
+                uncover(i % 12, i / 12);
                 printLogiLED();
             }
             else
             {
-                uncover(i % 11, i / 11);
+                uncover(i % 12, i / 12);
                 printLogiLED();
             }
+        }
+
+        static public void SetFlag(int i)
+        {
+            //event handler for newgame because it calls setflag wenn shift is pressed so you can restart with pressed shift
+            if (i == 99)
+            {
+                main.UpdateStats();
+                main.StopWatchDefeat();
+                main.ResetWatch();
+                newGame();
+            }
+            else if (!gameRunning)
+            {
+                // If not a static method, this.MainWindow would work
+                main.UpdateStats();
+                main.ResetWatch();
+                newGame();
+            }
+            //take away flag if already present
+            else if (display[(i % 12) + 1, (i / 12) + 1] == 10)
+            {
+                display[(i % 12) + 1, (i / 12) + 1] = 8;
+                isFlag[(i % 12) + 1, (i / 12) + 1] = false;
+                flagged--;
+            }
+            //place flag if field is empty
+            else if (display[(i % 12) + 1, (i / 12) + 1] == 8)
+            {
+                display[(i % 12) + 1, (i / 12) + 1] = 10;
+                isFlag[(i % 12) + 1, (i / 12) + 1] = true;
+                flagged++;
+            }
+            printLogiLED();
         }
 
         #endregion
@@ -226,7 +258,7 @@ namespace LogitechGMineSweeper
             genBombs();
             genMap();
 
-            isFlag = new bool[13, 6];
+            isFlag = new bool[14, 6];
             flagged = 0;
 
             colors[9, 0] = colors[14, 0];
@@ -268,7 +300,7 @@ namespace LogitechGMineSweeper
 
         static private void genBombs()
         {
-            isBomb = new bool[13, 6];
+            isBomb = new bool[14, 6];
             Random r = new Random();
             for (int i = 1; i <= bombs; i++)
             {
@@ -291,7 +323,7 @@ namespace LogitechGMineSweeper
             {
                 for (int j = 0; j < 6; j++)
                 {
-                    if (i > 0 && i < 12 && j > 0 && j < 5)
+                    if (i > 0 && i < 13 && j > 0 && j < 5)
                     {
                         if (!Config.keyLayoutEnabledKeys[keyboardLayout, j - 1, i - 1])
                         {
@@ -312,7 +344,7 @@ namespace LogitechGMineSweeper
 
         static private void genMap()
         {
-            map = new int[11, 4];
+            map = new int[12, 4];
 
             for (int i = 0; i < map.GetLength(0); i++)
             {
@@ -404,7 +436,7 @@ namespace LogitechGMineSweeper
             string s = "";
             for (int i = 1; i <= 4; i++)
             {
-                for (int j = 1; j <= 11; j++)
+                for (int j = 1; j <= 12; j++)
                 {
                     if (j == 1)
                     {
@@ -439,7 +471,7 @@ namespace LogitechGMineSweeper
             string s = "";
             for (int i = 0; i < 4; i++)
             {
-                for (int j = 0; j < 11; j++)
+                for (int j = 0; j < 12; j++)
                 {
                     if (j == 0)
                     {
@@ -588,12 +620,17 @@ namespace LogitechGMineSweeper
 
         static public void printQwertz()
         {
-            System.Windows.Shapes.Rectangle[] board = { main.h1, main.h2, main.h3, main.h4, main.h5, main.h6, main.h7, main.h8, main.h9, main.h10, main.h11, main.h12, main.h13, main.h14, main.h15, main.h16, main.h17, main.h18, main.h19, main.h20, main.h21, main.h22, main.h23, main.h24, main.h25, main.h26, main.h27, main.h28, main.h29, main.h30, main.h31, main.h32, main.h33, main.h34, main.h35, main.h36, main.h37, main.h38, main.h39, main.h40, main.h41, main.h42, main.h43, main.h44, };
+            //messed up because playing field enlarged
+            System.Windows.Shapes.Rectangle[] board = { main.h1, main.h2, main.h3, main.h4, main.h5, main.h6, main.h7, main.h8, main.h9, main.h10, main.h11, main.h12new,
+                                                        main.h12, main.h13, main.h14, main.h15, main.h16, main.h17, main.h18, main.h19, main.h20, main.h21, main.h22, main.h23new,
+                                                        main.h23, main.h24, main.h25, main.h26, main.h27, main.h28, main.h29, main.h30, main.h31, main.h32, main.h33, main.h34new,
+                                                        main.h34, main.h35, main.h36, main.h37, main.h38, main.h39, main.h40, main.h41, main.h42, main.h43, main.h44, };
             int counter = 0;
             for (int i = 1; i <= 4; i++)
             {
-                for (int j = 1; j <= 11; j++)
+                for (int j = 1; j <= 12; j++)
                 {
+                    if (i == 4 && j == 12) continue;
                     board[counter++].Fill = new SolidColorBrush(Color.FromArgb(255, colors[display[j, i], 2], colors[display[j, i], 1], colors[display[j, i], 0]));
                 }
             }
@@ -729,40 +766,6 @@ namespace LogitechGMineSweeper
         #endregion
 
         #region Game Logic
-
-        static public void SetFlag(int i)
-        {
-            //event handler for newgame because it calls setflag wenn shift is pressed so you can restart with pressed shift
-            if (i == 99)
-            {
-                main.UpdateStats();
-                main.StopWatchDefeat();
-                main.ResetWatch();
-                newGame();
-            }
-            else if (!gameRunning)
-            {
-                // If not a static method, this.MainWindow would work
-                main.UpdateStats();
-                main.ResetWatch();
-                newGame();
-            }
-            //take away flag if already present
-            else if (display[(i % 11) + 1, (i / 11) + 1] == 10)
-            {
-                display[(i % 11) + 1, (i / 11) + 1] = 8;
-                isFlag[(i % 11) + 1, (i / 11) + 1] = false;
-                flagged--;
-            }
-            //place flag if field is empty
-            else if (display[(i % 11) + 1, (i / 11) + 1] == 8)
-            {
-                display[(i % 11) + 1, (i / 11) + 1] = 10;
-                isFlag[(i % 11) + 1, (i / 11) + 1] = true;
-                flagged++;
-            }
-            printLogiLED();
-        }
 
         static private void uncover(int x, int y)
         {
