@@ -20,7 +20,6 @@ namespace LogitechGMineSweeper
         static bool[,] isFlag = new bool[13, 6];
         public static int[,] display;
         static int bombs = 13;
-        static int covered = 11 * 4;
         static int wins = 0;
         static int total = 0;
         static int losses = 0;
@@ -31,6 +30,10 @@ namespace LogitechGMineSweeper
         public static int currentBack = 0;
         public static LogitechGMineSweeper.MainWindow main;
 
+        //covered key count for current layout
+        static int coveredReset;
+
+        static int covered = 11 * 4;
         static int flagged = 0;
 
         //values actually not used anymore just read out of file, also values not up to date, just to see what each value is
@@ -125,6 +128,16 @@ namespace LogitechGMineSweeper
                 {
                 }
                 keyboardLayout = value;
+
+                coveredReset = 0;
+
+                for(int i = 0; i < 4; i++)
+                {
+                    for (int j = 0; j < 11; j++)
+                    {
+                        if (Config.keyLayout[keyboardLayout,i,j]) coveredReset++;
+                    }
+                }
             }
         }
 
@@ -199,7 +212,7 @@ namespace LogitechGMineSweeper
 
             ResetMap();
 
-            covered = Config.CoveredFieldsLayout[keyboardLayout];
+            covered = coveredReset;
 
             //so timer can be started when key i spressed and firstmove is true
             firstMove = true;
@@ -255,13 +268,10 @@ namespace LogitechGMineSweeper
             {
                 int x = r.Next(1, isBomb.GetLength(0) - 1);
                 int y = r.Next(1, isBomb.GetLength(1) - 1);
-                if (keyboardLayout == (int)Config.Layout.US)
+                if (!Config.keyLayout[keyboardLayout, y - 1, x - 1])
                 {
-                    if (y == 4 && x == 1)
-                    {
-                        i--;
-                        continue;
-                    }
+                    i--;
+                    continue;
                 }
                 if (isBomb[x, y]) i--;
                 else isBomb[x, y] = true;
@@ -277,7 +287,14 @@ namespace LogitechGMineSweeper
                 {
                     if (i > 0 && i < 12 && j > 0 && j < 5)
                     {
-                        display[i, j] = 8;
+                        if (!Config.keyLayout[keyboardLayout, j-1, i-1])
+                        {
+                            display[1, 4] = 9;
+                        }
+                        else
+                        {
+                            display[i, j] = 8;
+                        }
                     }
                     else
                     {
@@ -286,10 +303,7 @@ namespace LogitechGMineSweeper
                 }
             }
 
-            if (keyboardLayout == (int)Config.Layout.US)
-            {
-                display[1, 4] = 9;
-            }
+            
         }
 
         static private void genMap()
@@ -477,6 +491,8 @@ namespace LogitechGMineSweeper
             Debug.WriteLine(printBombs());
             Debug.WriteLine("Map:\n");
             Debug.WriteLine(printMap());
+            Debug.Write("Covered: ");
+            Debug.Write (covered + "\n");
             /* Debug End */
 
             //only print the in-app keyboard when the tab is selected

@@ -30,6 +30,26 @@ namespace LogitechGMineSweeper
         public static int bombsDefault = 13;
         public static int keyboardLayout = (int)Config.Layout.DE;
 
+        //1 for enabled, 0 for disabled
+        public static bool[,,] keyLayout =
+        //DE
+        {{{ true, true, true, true, true, true, true, true, true, true, true },
+           { true, true, true, true, true, true, true, true, true, true, true },
+            { true, true, true, true, true, true, true, true, true, true, true },
+           { true, true, true, true, true, true, true, true, true, true, true }},
+
+        //US
+        {{ true, true, true, true, true, true, true, true, true, true, true },
+           { true, true, true, true, true, true, true, true, true, true, true },
+            { true, true, true, true, true, true, true, true, true, true, true },
+           { false, true, true, true, true, true, true, true, true, true, true }},
+
+        //UK
+        {{ true, true, true, true, true, true, true, true, true, true, true },
+           { true, true, true, true, true, true, true, true, true, true, true },
+            { true, true, true, true, true, true, true, true, true, true, true },
+           { true, true, true, true, true, true, true, true, true, true, true }}};
+
         public static string[] statisticsDefault = { "", "1: 30:00", "2: 30:00", "3: 30:00", "4: 30:00", "5: 30:00", "6: 30:00", "7: 30:00", "8: 30:00", "9: 30:00", "10: 30:00", "11: 30:00", "12: 30:00", "13: 30:00", "14: 30:00", "15: 30:00", "16: 30:00", "17: 30:00", "18: 30:00", "19: 30:00", "20: 30:00", "21: 30:00", "22: 30:00", "23: 30:00", "24: 30:00", "25: 30:00", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" };
         public static string[] colorsDefault = { "000,000,000", "255,000,000", "255,255,000", "000,128,000", "000,255,255", "000,127,255", "128,000,128", "000,000,255", "255,255,255", "255,200,200", "255,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255", "000,255,255" };
         public static string[] configDefault = { "Wins: 0", "Bombs: " + bombsDefault.ToString(), "Layout: " + keyboardLayout, "Total: 0", "Losses: 0" };
@@ -44,3 +64,4 @@ namespace LogitechGMineSweeper
         public static int NumUDstartvalue = bombsDefault;
     }
 }
+
