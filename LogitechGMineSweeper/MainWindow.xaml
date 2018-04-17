@@ -70,15 +70,15 @@
             </StackPanel>
         </Button>
 
-        <Button Name="reset" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,165,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click_5" Grid.ColumnSpan="2">
+        <Button Name="colors" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,75,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click_1" Grid.ColumnSpan="2">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Template" Value="{StaticResource button}"/>
                 </Style>
             </Button.Style>
             <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
-                <Image Source="reset.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                <TextBlock VerticalAlignment="Center" Height="25" ><Run Text="  "/><Run Text="Reset"/></TextBlock>
+                <Image Source="color.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                <TextBlock Text="  Colors" VerticalAlignment="Center" Height="25" />
             </StackPanel>
         </Button>
 
@@ -93,28 +93,16 @@
                 <TextBlock Text="  Statistics" VerticalAlignment="Center" Height="25" />
             </StackPanel>
         </Button>
-
-        <Button Name="colors" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,75,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click_1" Grid.ColumnSpan="2">
+       
+         <Button Name="reset" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,165,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click_5" Grid.ColumnSpan="2">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Template" Value="{StaticResource button}"/>
                 </Style>
             </Button.Style>
             <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
-                <Image Source="color.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                <TextBlock Text="  Colors" VerticalAlignment="Center" Height="25" />
-            </StackPanel>
-        </Button>
-
-        <Button Visibility="Hidden" Name="about" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="190" Height="45" Margin="0,349,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click_6">
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="Template" Value="{StaticResource button}"/>
-                </Style>
-            </Button.Style>
-            <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
-                <Image Source="about.png" Width="18" Height="18" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                <TextBlock Text="  About" VerticalAlignment="Center" Height="25" />
+                <Image Source="reset.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                <TextBlock VerticalAlignment="Center" Height="25" ><Run Text="  "/><Run Text="Reset"/></TextBlock>
             </StackPanel>
         </Button>
 
@@ -280,62 +268,62 @@
                                     <Canvas x:Name="f1v">
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="109" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d1" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="115" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="f1" Fill="#FFFCFCFC"/>
-                                        <Label Content="F1" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="115" Canvas.Top="4" Height="40" Width="40"/>
+                                        <Label Content="F1" Name="FunctionForeground" Foreground="Black" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="115" Canvas.Top="4" Height="40" Width="40"/>
                                     </Canvas>
                                     <Canvas x:Name="f2">
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="163" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d2" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=d1}"/>
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="169" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="gh" Fill="{Binding Fill, ElementName=f1}"/>
-                                        <Label Content="F2" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="169" Canvas.Top="4" Height="40" Width="40"/>
+                                        <Label Foreground="{Binding Foreground, ElementName=FunctionForeground}" Content="F2" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="169" Canvas.Top="4" Height="40" Width="40"/>
                                     </Canvas>
                                     <Canvas x:Name="f3">
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="217" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d3" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=d1}"/>
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="223" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="ghg" Fill="{Binding Fill, ElementName=f1}"/>
-                                        <Label Content="F3" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="223" Canvas.Top="4" Height="40" Width="40"/>
+                                        <Label Foreground="{Binding Foreground, ElementName=FunctionForeground}" Content="F3" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="223" Canvas.Top="4" Height="40" Width="40"/>
                                     </Canvas>
                                     <Canvas x:Name="f4">
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="271" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d4" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=d1}"/>
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="277" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="gb" Fill="{Binding Fill, ElementName=f1}"/>
-                                        <Label Content="F4" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="277" Canvas.Top="4" Height="40" Width="40"/>
+                                        <Label Foreground="{Binding Foreground, ElementName=FunctionForeground}" Content="F4" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="277" Canvas.Top="4" Height="40" Width="40"/>
                                     </Canvas>
                                     <Canvas x:Name="f5">
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="352" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d5" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=d1}"/>
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="358" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="gbh" Fill="{Binding Fill, ElementName=f1}"/>
-                                        <Label Content="F5" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="358" Canvas.Top="4" Height="40" Width="40"/>
+                                        <Label Foreground="{Binding Foreground, ElementName=FunctionForeground}" Content="F5" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="358" Canvas.Top="4" Height="40" Width="40"/>
                                     </Canvas>
                                     <Canvas x:Name="f6">
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="406" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d6" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=d1}"/>
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="412" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="ghb" Fill="{Binding Fill, ElementName=f1}"/>
-                                        <Label Content="F6" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="412" Canvas.Top="4" Height="40" Width="40"/>
+                                        <Label Foreground="{Binding Foreground, ElementName=FunctionForeground}" Content="F6" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="412" Canvas.Top="4" Height="40" Width="40"/>
                                     </Canvas>
                                     <Canvas x:Name="f7">
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="460" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d7" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=d1}"/>
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="466" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="gj" Fill="{Binding Fill, ElementName=f1}"/>
-                                        <Label Content="F7" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="466" Canvas.Top="4" Height="40" Width="40"/>
+                                        <Label Foreground="{Binding Foreground, ElementName=FunctionForeground}" Content="F7" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="466" Canvas.Top="4" Height="40" Width="40"/>
                                     </Canvas>
                                     <Canvas x:Name="f8">
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="514" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d8" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=d1}"/>
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="520" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="gk" Fill="{Binding Fill, ElementName=f1}"/>
-                                        <Label Content="F8" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="520" Canvas.Top="4" Height="40" Width="40"/>
+                                        <Label Foreground="{Binding Foreground, ElementName=FunctionForeground}" Content="F8" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="520" Canvas.Top="4" Height="40" Width="40"/>
                                     </Canvas>
                                     <Canvas x:Name="f9">
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="595" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d9" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=d1}"/>
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="601" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="gl" Fill="{Binding Fill, ElementName=f1}"/>
-                                        <Label Content="F9" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="601" Canvas.Top="4" Height="40" Width="40"/>
+                                        <Label Foreground="{Binding Foreground, ElementName=FunctionForeground}" Content="F9" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="601" Canvas.Top="4" Height="40" Width="40"/>
                                     </Canvas>
                                     <Canvas x:Name="f10">
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="649" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d10" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=d1}"/>
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="655" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="fg" Fill="{Binding Fill, ElementName=f1}"/>
-                                        <Label Content="F10" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="654" Canvas.Top="4" Height="40" Width="42"/>
+                                        <Label Foreground="{Binding Foreground, ElementName=FunctionForeground}" Content="F10" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="654" Canvas.Top="4" Height="40" Width="42"/>
                                     </Canvas>
                                     <Canvas x:Name="f11">
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="703" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d11" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=d1}"/>
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="709" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="dg" Fill="{Binding Fill, ElementName=f1}"/>
-                                        <Label Content="F11" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="708" Canvas.Top="4" Height="40" Width="42"/>
+                                        <Label Foreground="{Binding Foreground, ElementName=FunctionForeground}" Content="F11" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="708" Canvas.Top="4" Height="40" Width="42"/>
                                     </Canvas>
                                     <Canvas x:Name="f12">
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="757" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d12" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=d1}"/>
                                         <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="763" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="th" Fill="{Binding Fill, ElementName=f1}"/>
-                                        <Label Content="F12" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="762.5" Canvas.Top="4" Height="40" Width="42"/>
+                                        <Label Foreground="{Binding Foreground, ElementName=FunctionForeground}" Content="F12" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="762.5" Canvas.Top="4" Height="40" Width="42"/>
                                     </Canvas>
                                     <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="109" Canvas.Top="1" Width="214" Height="52" x:Name="board1" Fill="#00900000"/>
                                     <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="352" Canvas.Top="1" Width="214" Height="52" x:Name="board2" Fill="#00900000"/>
@@ -1009,16 +997,6 @@
                         <Button BorderThickness="2" FontSize="14" Content="Reset Statistics" Click="Button_sta" Width="120" Margin="14,0,0,0"/>
                         <Button BorderThickness="2" FontSize="14" Content="Reset Colors" Margin="14,0,0,0" Width="120" Click="Button_col"/>
                     </StackPanel>
-                </Grid>
-            </TabItem>
-            <TabItem Background="#00000000" BorderBrush="#00ACACAC" Width="0">
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal"/>
-                </TabItem.Header>
-                <Grid Margin="0,-13,0,0">
-                    <Label Margin="0,0,0,0" Content="About" FontWeight="{Binding FontWeight, ElementName=fonttitle}" FontSize="26" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Grid Margin="0,52,0,0.2">
-                    </Grid>
                 </Grid>
             </TabItem>
         </TabControl>

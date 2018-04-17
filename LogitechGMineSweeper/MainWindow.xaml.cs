@@ -772,27 +772,6 @@ namespace LogitechGMineSweeper
             reset.Style = styleClone;
         }
 
-        private void Button_Click_6(object sender, RoutedEventArgs e)
-        {
-            _menuTabControl.SelectedIndex = 4;
-            var style = new Style();
-
-            style.Setters.Add(new Setter(TemplateProperty, this.FindResource("buttonactive")));
-
-            var styleClone = new Style();
-            foreach (var setter in style.Setters)
-            {
-                var typedSetter = setter as Setter;
-                if (typedSetter != null)
-                {
-                    var newSetter = new Setter(typedSetter.Property, typedSetter.Value);
-                    styleClone.Setters.Add(newSetter);
-                }
-            }
-            SetAllButtonsNormal();
-            about.Style = styleClone;
-        }
-
         private void SetAllButtonsNormal()
         {
             var style = new Style();
@@ -814,7 +793,6 @@ namespace LogitechGMineSweeper
             stats.Style = styleClone;
             reset.Style = styleClone;
             colors.Style = styleClone;
-            about.Style = styleClone;
         }
 
         private void KeyLayout_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1232,11 +1210,17 @@ namespace LogitechGMineSweeper
         //actually leave
         private void f1mousedown(object sender, RoutedEventArgs e)
         {
+            SolidColorBrush brush = d1.Fill as SolidColorBrush;
+            if ((brush.Color.R + brush.Color.G + brush.Color.B) < 260)
+            {
+                FunctionForeground.Foreground = new SolidColorBrush(System.Windows.Media.Colors.White);
+            }
             f1.Fill = d1.Fill;
         }
 
         private void f1mouseleave(object sender, RoutedEventArgs e)
         {
+            FunctionForeground.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Black);
             f1.Fill = a;
         }
 
