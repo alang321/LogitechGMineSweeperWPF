@@ -1000,8 +1000,6 @@ namespace LogitechGMineSweeper
             }
 
             UpdateColors();
-
-            MineSweeper.printLogiLED();
         }
 
         private void ResetSettings()
@@ -1246,154 +1244,186 @@ namespace LogitechGMineSweeper
 
         #region gamefield event handler
 
+        private void MouseEnterGameKeys(System.Windows.Shapes.Rectangle back, System.Windows.Shapes.Rectangle front)
+        {
+            SolidColorBrush brush = back.Fill as SolidColorBrush;
+            if ((brush.Color.R + brush.Color.G + brush.Color.B) < 260)
+            {
+                Label[] t = ((Canvas)LogicalTreeHelper.GetParent(front)).Children.OfType<Label>().ToArray();
+
+                foreach (Label a in t)
+                {
+                    a.Foreground = new SolidColorBrush(System.Windows.Media.Colors.White);
+                }
+            }
+
+            front.Fill = back.Fill;
+            back.Stroke = new SolidColorBrush(Colors.Red);
+            back.StrokeThickness = 2;
+            hovering = true;
+            toFill = front;
+            fromFill = back;
+        }
+
+        private void MouseLeaveGameKeys(System.Windows.Shapes.Rectangle back, System.Windows.Shapes.Rectangle front)
+        {
+            Label[] t = ((Canvas)LogicalTreeHelper.GetParent(front)).Children.OfType<Label>().ToArray();
+            foreach (Label a in t)
+            {
+                a.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Black);
+            }
+
+            front.Fill = a;
+            back.Stroke = new SolidColorBrush(Colors.Black);
+            back.StrokeThickness = 1;
+            hovering = false;
+        }
+
         //event handlers for each button press
 
         //index is found by checking the game map and then using the found number to see what is currently printed
         private void g1mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[1, 1], g1, h1); }
-        private void g1mousedown(object sender, RoutedEventArgs e) { g1.Fill = h1.Fill; h1.Stroke = new SolidColorBrush(Colors.Red); h1.StrokeThickness = 2; hovering = true; toFill = g1; fromFill = h1; }
-        private void g1mouseleave(object sender, RoutedEventArgs e) { g1.Fill = a; h1.Stroke = new SolidColorBrush(Colors.Black); h1.StrokeThickness = 1; hovering = false; }
+        private void g1mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h1, g1); }
+        private void g1mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h1, g1); }
         private void g2mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[2, 1], g2, h2); }
-        private void g2mousedown(object sender, RoutedEventArgs e) { g2.Fill = h2.Fill; h2.Stroke = new SolidColorBrush(Colors.Red); h2.StrokeThickness = 2; hovering = true; toFill = g2; fromFill = h2; }
-        private void g2mouseleave(object sender, RoutedEventArgs e) { g2.Fill = a; h2.Stroke = new SolidColorBrush(Colors.Black); h2.StrokeThickness = 1; hovering = false; }
+        private void g2mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h2, g2); }
+        private void g2mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h2, g2); }
         private void g3mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[3, 1], g3, h3); }
-        private void g3mousedown(object sender, RoutedEventArgs e) { g3.Fill = h3.Fill; h3.Stroke = new SolidColorBrush(Colors.Red); h3.StrokeThickness = 2; hovering = true; toFill = g3; fromFill = h3; }
-        private void g3mouseleave(object sender, RoutedEventArgs e) { g3.Fill = a; h3.Stroke = new SolidColorBrush(Colors.Black); h3.StrokeThickness = 1; hovering = false; }
+        private void g3mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h3, g3); }
+        private void g3mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h3, g3); }
         private void g4mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[4, 1], g4, h4); }
-        private void g4mousedown(object sender, RoutedEventArgs e) { g4.Fill = h4.Fill; h4.Stroke = new SolidColorBrush(Colors.Red); h4.StrokeThickness = 2; hovering = true; toFill = g4; fromFill = h4; }
-        private void g4mouseleave(object sender, RoutedEventArgs e) { g4.Fill = a; h4.Stroke = new SolidColorBrush(Colors.Black); h4.StrokeThickness = 1; hovering = false; }
+        private void g4mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h4, g4); }
+        private void g4mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h4, g4); }
         private void g5mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[5, 1], g5, h5); }
-        private void g5mousedown(object sender, RoutedEventArgs e) { g5.Fill = h5.Fill; h5.Stroke = new SolidColorBrush(Colors.Red); h5.StrokeThickness = 2; hovering = true; toFill = g5; fromFill = h5; }
-        private void g5mouseleave(object sender, RoutedEventArgs e) { g5.Fill = a; h5.Stroke = new SolidColorBrush(Colors.Black); h5.StrokeThickness = 1; hovering = false; }
+        private void g5mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h5, g5); }
+        private void g5mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h5, g5); }
         private void g6mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[6, 1], g6, h6); }
-        private void g6mousedown(object sender, RoutedEventArgs e) { g6.Fill = h6.Fill; h6.Stroke = new SolidColorBrush(Colors.Red); h6.StrokeThickness = 2; hovering = true; toFill = g6; fromFill = h6; }
-        private void g6mouseleave(object sender, RoutedEventArgs e) { g6.Fill = a; h6.Stroke = new SolidColorBrush(Colors.Black); h6.StrokeThickness = 1; hovering = false; }
+        private void g6mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h6, g6); }
+        private void g6mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h6, g6); }
         private void g7mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[7, 1], g7, h7); }
-        private void g7mousedown(object sender, RoutedEventArgs e) { g7.Fill = h7.Fill; h7.Stroke = new SolidColorBrush(Colors.Red); h7.StrokeThickness = 2; hovering = true; toFill = g7; fromFill = h7; }
-        private void g7mouseleave(object sender, RoutedEventArgs e) { g7.Fill = a; h7.Stroke = new SolidColorBrush(Colors.Black); h7.StrokeThickness = 1; hovering = false; }
+        private void g7mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h7, g7); }
+        private void g7mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h7, g7); }
         private void g8mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[8, 1], g8, h8); }
-        private void g8mousedown(object sender, RoutedEventArgs e) { g8.Fill = h8.Fill; h8.Stroke = new SolidColorBrush(Colors.Red); h8.StrokeThickness = 2; hovering = true; toFill = g8; fromFill = h8; }
-        private void g8mouseleave(object sender, RoutedEventArgs e) { g8.Fill = a; h8.Stroke = new SolidColorBrush(Colors.Black); h8.StrokeThickness = 1; hovering = false; }
+        private void g8mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h8, g8); }
+        private void g8mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h8, g8); }
         private void g9mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[9, 1], g9, h9); }
-        private void g9mousedown(object sender, RoutedEventArgs e) { g9.Fill = h9.Fill; h9.Stroke = new SolidColorBrush(Colors.Red); h9.StrokeThickness = 2; hovering = true; toFill = g9; fromFill = h9; }
-        private void g9mouseleave(object sender, RoutedEventArgs e) { g9.Fill = a; h9.Stroke = new SolidColorBrush(Colors.Black); h9.StrokeThickness = 1; hovering = false; }
+        private void g9mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h9, g9); }
+        private void g9mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h9, g9); }
         private void g10mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[10, 1], g10, h10); }
-        private void g10mousedown(object sender, RoutedEventArgs e) { g10.Fill = h10.Fill; h10.Stroke = new SolidColorBrush(Colors.Red); h10.StrokeThickness = 2; hovering = true; toFill = g10; fromFill = h10; }
-        private void g10mouseleave(object sender, RoutedEventArgs e) { g10.Fill = a; h10.Stroke = new SolidColorBrush(Colors.Black); h10.StrokeThickness = 1; hovering = false; }
+        private void g10mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h10, g10); }
+        private void g10mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h10, g10); }
         private void g11mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[11, 1], g11, h11); }
-        private void g11mousedown(object sender, RoutedEventArgs e) { g11.Fill = h11.Fill; h11.Stroke = new SolidColorBrush(Colors.Red); h11.StrokeThickness = 2; hovering = true; toFill = g11; fromFill = h11; }
-        private void g11mouseleave(object sender, RoutedEventArgs e) { g11.Fill = a; h11.Stroke = new SolidColorBrush(Colors.Black); h11.StrokeThickness = 1; hovering = false; }
-        private void g12mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[1, 2], g12, h12); }
-        private void g12mousedown(object sender, RoutedEventArgs e) { g12.Fill = h12.Fill; h12.Stroke = new SolidColorBrush(Colors.Red); h12.StrokeThickness = 2; hovering = true; toFill = g12; fromFill = h12; }
-        private void g12mouseleave(object sender, RoutedEventArgs e) { g12.Fill = a; h12.Stroke = new SolidColorBrush(Colors.Black); h12.StrokeThickness = 1; hovering = false; }
-        private void g13mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[2, 2], g13, h13); }
-        private void g13mousedown(object sender, RoutedEventArgs e) { g13.Fill = h13.Fill; h13.Stroke = new SolidColorBrush(Colors.Red); h13.StrokeThickness = 2; hovering = true; toFill = g13; fromFill = h13; }
-        private void g13mouseleave(object sender, RoutedEventArgs e) { g13.Fill = a; h13.Stroke = new SolidColorBrush(Colors.Black); h13.StrokeThickness = 1; hovering = false; }
-        private void g14mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[3, 2], g14, h14); }
-        private void g14mousedown(object sender, RoutedEventArgs e) { g14.Fill = h14.Fill; h14.Stroke = new SolidColorBrush(Colors.Red); h14.StrokeThickness = 2; hovering = true; toFill = g14; fromFill = h14; }
-        private void g14mouseleave(object sender, RoutedEventArgs e) { g14.Fill = a; h14.Stroke = new SolidColorBrush(Colors.Black); h14.StrokeThickness = 1; hovering = false; }
-        private void g15mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[4, 2], g15, h15); }
-        private void g15mousedown(object sender, RoutedEventArgs e) { g15.Fill = h15.Fill; h15.Stroke = new SolidColorBrush(Colors.Red); h15.StrokeThickness = 2; hovering = true; toFill = g15; fromFill = h15; }
-        private void g15mouseleave(object sender, RoutedEventArgs e) { g15.Fill = a; h15.Stroke = new SolidColorBrush(Colors.Black); h15.StrokeThickness = 1; hovering = false; }
-        private void g16mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[5, 2], g16, h16); }
-        private void g16mousedown(object sender, RoutedEventArgs e) { g16.Fill = h16.Fill; h16.Stroke = new SolidColorBrush(Colors.Red); h16.StrokeThickness = 2; hovering = true; toFill = g16; fromFill = h16; }
-        private void g16mouseleave(object sender, RoutedEventArgs e) { g16.Fill = a; h16.Stroke = new SolidColorBrush(Colors.Black); h16.StrokeThickness = 1; hovering = false; }
-        private void g17mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[6, 2], g17, h17); }
-        private void g17mousedown(object sender, RoutedEventArgs e) { g17.Fill = h17.Fill; h17.Stroke = new SolidColorBrush(Colors.Red); h17.StrokeThickness = 2; hovering = true; toFill = g17; fromFill = h17; }
-        private void g17mouseleave(object sender, RoutedEventArgs e) { g17.Fill = a; h17.Stroke = new SolidColorBrush(Colors.Black); h17.StrokeThickness = 1; hovering = false; }
-        private void g18mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[7, 2], g18, h18); }
-        private void g18mousedown(object sender, RoutedEventArgs e) { g18.Fill = h18.Fill; h18.Stroke = new SolidColorBrush(Colors.Red); h18.StrokeThickness = 2; hovering = true; toFill = g18; fromFill = h18; }
-        private void g18mouseleave(object sender, RoutedEventArgs e) { g18.Fill = a; h18.Stroke = new SolidColorBrush(Colors.Black); h18.StrokeThickness = 1; hovering = false; }
-        private void g19mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[8, 2], g19, h19); }
-        private void g19mousedown(object sender, RoutedEventArgs e) { g19.Fill = h19.Fill; h19.Stroke = new SolidColorBrush(Colors.Red); h19.StrokeThickness = 2; hovering = true; toFill = g19; fromFill = h19; }
-        private void g19mouseleave(object sender, RoutedEventArgs e) { g19.Fill = a; h19.Stroke = new SolidColorBrush(Colors.Black); h19.StrokeThickness = 1; hovering = false; }
-        private void g20mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[9, 2], g20, h20); }
-        private void g20mousedown(object sender, RoutedEventArgs e) { g20.Fill = h20.Fill; h20.Stroke = new SolidColorBrush(Colors.Red); h20.StrokeThickness = 2; hovering = true; toFill = g20; fromFill = h20; }
-        private void g20mouseleave(object sender, RoutedEventArgs e) { g20.Fill = a; h20.Stroke = new SolidColorBrush(Colors.Black); h20.StrokeThickness = 1; hovering = false; }
-        private void g21mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[10, 2], g21, h21); }
-        private void g21mousedown(object sender, RoutedEventArgs e) { g21.Fill = h21.Fill; h21.Stroke = new SolidColorBrush(Colors.Red); h21.StrokeThickness = 2; hovering = true; toFill = g21; fromFill = h21; }
-        private void g21mouseleave(object sender, RoutedEventArgs e) { g21.Fill = a; h21.Stroke = new SolidColorBrush(Colors.Black); h21.StrokeThickness = 1; hovering = false; }
-        private void g22mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[11, 2], g22, h22); }
-        private void g22mousedown(object sender, RoutedEventArgs e) { g22.Fill = h22.Fill; h22.Stroke = new SolidColorBrush(Colors.Red); h22.StrokeThickness = 2; hovering = true; toFill = g22; fromFill = h22; }
-        private void g22mouseleave(object sender, RoutedEventArgs e) { g22.Fill = a; h22.Stroke = new SolidColorBrush(Colors.Black); h22.StrokeThickness = 1; hovering = false; }
-        private void g23mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[1, 3], g23, h23); }
-        private void g23mousedown(object sender, RoutedEventArgs e) { g23.Fill = h23.Fill; h23.Stroke = new SolidColorBrush(Colors.Red); h23.StrokeThickness = 2; hovering = true; toFill = g23; fromFill = h23; }
-        private void g23mouseleave(object sender, RoutedEventArgs e) { g23.Fill = a; h23.Stroke = new SolidColorBrush(Colors.Black); h23.StrokeThickness = 1; hovering = false; }
-        private void g24mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[2, 3], g24, h24); }
-        private void g24mousedown(object sender, RoutedEventArgs e) { g24.Fill = h24.Fill; h24.Stroke = new SolidColorBrush(Colors.Red); h24.StrokeThickness = 2; hovering = true; toFill = g24; fromFill = h24; }
-        private void g24mouseleave(object sender, RoutedEventArgs e) { g24.Fill = a; h24.Stroke = new SolidColorBrush(Colors.Black); h24.StrokeThickness = 1; hovering = false; }
-        private void g25mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[3, 3], g25, h25); }
-        private void g25mousedown(object sender, RoutedEventArgs e) { g25.Fill = h25.Fill; h25.Stroke = new SolidColorBrush(Colors.Red); h25.StrokeThickness = 2; hovering = true; toFill = g25; fromFill = h25; }
-        private void g25mouseleave(object sender, RoutedEventArgs e) { g25.Fill = a; h25.Stroke = new SolidColorBrush(Colors.Black); h25.StrokeThickness = 1; hovering = false; }
-        private void g26mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[4, 3], g26, h26); }
-        private void g26mousedown(object sender, RoutedEventArgs e) { g26.Fill = h26.Fill; h26.Stroke = new SolidColorBrush(Colors.Red); h26.StrokeThickness = 2; hovering = true; toFill = g26; fromFill = h26; }
-        private void g26mouseleave(object sender, RoutedEventArgs e) { g26.Fill = a; h26.Stroke = new SolidColorBrush(Colors.Black); h26.StrokeThickness = 1; hovering = false; }
-        private void g27mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[5, 3], g27, h27); }
-        private void g27mousedown(object sender, RoutedEventArgs e) { g27.Fill = h27.Fill; h27.Stroke = new SolidColorBrush(Colors.Red); h27.StrokeThickness = 2; hovering = true; toFill = g27; fromFill = h27; }
-        private void g27mouseleave(object sender, RoutedEventArgs e) { g27.Fill = a; h27.Stroke = new SolidColorBrush(Colors.Black); h27.StrokeThickness = 1; hovering = false; }
-        private void g28mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[6, 3], g28, h28); }
-        private void g28mousedown(object sender, RoutedEventArgs e) { g28.Fill = h28.Fill; h28.Stroke = new SolidColorBrush(Colors.Red); h28.StrokeThickness = 2; hovering = true; toFill = g28; fromFill = h28; }
-        private void g28mouseleave(object sender, RoutedEventArgs e) { g28.Fill = a; h28.Stroke = new SolidColorBrush(Colors.Black); h28.StrokeThickness = 1; hovering = false; }
-        private void g29mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[7, 3], g29, h29); }
-        private void g29mousedown(object sender, RoutedEventArgs e) { g29.Fill = h29.Fill; h29.Stroke = new SolidColorBrush(Colors.Red); h29.StrokeThickness = 2; hovering = true; toFill = g29; fromFill = h29; }
-        private void g29mouseleave(object sender, RoutedEventArgs e) { g29.Fill = a; h29.Stroke = new SolidColorBrush(Colors.Black); h29.StrokeThickness = 1; hovering = false; }
-        private void g30mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[8, 3], g30, h30); }
-        private void g30mousedown(object sender, RoutedEventArgs e) { g30.Fill = h30.Fill; h30.Stroke = new SolidColorBrush(Colors.Red); h30.StrokeThickness = 2; hovering = true; toFill = g30; fromFill = h30; }
-        private void g30mouseleave(object sender, RoutedEventArgs e) { g30.Fill = a; h30.Stroke = new SolidColorBrush(Colors.Black); h30.StrokeThickness = 1; hovering = false; }
-        private void g31mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[9, 3], g31, h31); }
-        private void g31mousedown(object sender, RoutedEventArgs e) { g31.Fill = h31.Fill; h31.Stroke = new SolidColorBrush(Colors.Red); h31.StrokeThickness = 2; hovering = true; toFill = g31; fromFill = h31; }
-        private void g31mouseleave(object sender, RoutedEventArgs e) { g31.Fill = a; h31.Stroke = new SolidColorBrush(Colors.Black); h31.StrokeThickness = 1; hovering = false; }
-        private void g32mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[10, 3], g32, h32); }
-        private void g32mousedown(object sender, RoutedEventArgs e) { g32.Fill = h32.Fill; h32.Stroke = new SolidColorBrush(Colors.Red); h32.StrokeThickness = 2; hovering = true; toFill = g32; fromFill = h32; }
-        private void g32mouseleave(object sender, RoutedEventArgs e) { g32.Fill = a; h32.Stroke = new SolidColorBrush(Colors.Black); h32.StrokeThickness = 1; hovering = false; }
-        private void g33mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[11, 3], g33, h33); }
-        private void g33mousedown(object sender, RoutedEventArgs e) { g33.Fill = h33.Fill; h33.Stroke = new SolidColorBrush(Colors.Red); h33.StrokeThickness = 2; hovering = true; toFill = g33; fromFill = h33; }
-        private void g33mouseleave(object sender, RoutedEventArgs e) { g33.Fill = a; h33.Stroke = new SolidColorBrush(Colors.Black); h33.StrokeThickness = 1; hovering = false; }
-        private void g34mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[1, 4], g34, h34); }
-        private void g34mousedown(object sender, RoutedEventArgs e) { g34.Fill = h34.Fill; h34.Stroke = new SolidColorBrush(Colors.Red); h34.StrokeThickness = 2; hovering = true; toFill = g34; fromFill = h34; }
-        private void g34mouseleave(object sender, RoutedEventArgs e) { g34.Fill = a; h34.Stroke = new SolidColorBrush(Colors.Black); h34.StrokeThickness = 1; hovering = false; }
-        private void g35mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[2, 4], g35, h35); }
-        private void g35mousedown(object sender, RoutedEventArgs e) { g35.Fill = h35.Fill; h35.Stroke = new SolidColorBrush(Colors.Red); h35.StrokeThickness = 2; hovering = true; toFill = g35; fromFill = h35; }
-        private void g35mouseleave(object sender, RoutedEventArgs e) { g35.Fill = a; h35.Stroke = new SolidColorBrush(Colors.Black); h35.StrokeThickness = 1; hovering = false; }
-        private void g36mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[3, 4], g36, h36); }
-        private void g36mousedown(object sender, RoutedEventArgs e) { g36.Fill = h36.Fill; h36.Stroke = new SolidColorBrush(Colors.Red); h36.StrokeThickness = 2; hovering = true; toFill = g36; fromFill = h36; }
-        private void g36mouseleave(object sender, RoutedEventArgs e) { g36.Fill = a; h36.Stroke = new SolidColorBrush(Colors.Black); h36.StrokeThickness = 1; hovering = false; }
-        private void g37mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[4, 4], g37, h37); }
-        private void g37mousedown(object sender, RoutedEventArgs e) { g37.Fill = h37.Fill; h37.Stroke = new SolidColorBrush(Colors.Red); h37.StrokeThickness = 2; hovering = true; toFill = g37; fromFill = h37; }
-        private void g37mouseleave(object sender, RoutedEventArgs e) { g37.Fill = a; h37.Stroke = new SolidColorBrush(Colors.Black); h37.StrokeThickness = 1; hovering = false; }
-        private void g38mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[5, 4], g38, h38); }
-        private void g38mousedown(object sender, RoutedEventArgs e) { g38.Fill = h38.Fill; h38.Stroke = new SolidColorBrush(Colors.Red); h38.StrokeThickness = 2; hovering = true; toFill = g38; fromFill = h38; }
-        private void g38mouseleave(object sender, RoutedEventArgs e) { g38.Fill = a; h38.Stroke = new SolidColorBrush(Colors.Black); h38.StrokeThickness = 1; hovering = false; }
-        private void g39mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[6, 4], g39, h39); }
-        private void g39mousedown(object sender, RoutedEventArgs e) { g39.Fill = h39.Fill; h39.Stroke = new SolidColorBrush(Colors.Red); h39.StrokeThickness = 2; hovering = true; toFill = g39; fromFill = h39; }
-        private void g39mouseleave(object sender, RoutedEventArgs e) { g39.Fill = a; h39.Stroke = new SolidColorBrush(Colors.Black); h39.StrokeThickness = 1; hovering = false; }
-        private void g40mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[7, 4], g40, h40); }
-        private void g40mousedown(object sender, RoutedEventArgs e) { g40.Fill = h40.Fill; h40.Stroke = new SolidColorBrush(Colors.Red); h40.StrokeThickness = 2; hovering = true; toFill = g40; fromFill = h40; }
-        private void g40mouseleave(object sender, RoutedEventArgs e) { g40.Fill = a; h40.Stroke = new SolidColorBrush(Colors.Black); h40.StrokeThickness = 1; hovering = false; }
-        private void g41mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[8, 4], g41, h41); }
-        private void g41mousedown(object sender, RoutedEventArgs e) { g41.Fill = h41.Fill; h41.Stroke = new SolidColorBrush(Colors.Red); h41.StrokeThickness = 2; hovering = true; toFill = g41; fromFill = h41; }
-        private void g41mouseleave(object sender, RoutedEventArgs e) { g41.Fill = a; h41.Stroke = new SolidColorBrush(Colors.Black); h41.StrokeThickness = 1; hovering = false; }
-        private void g42mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[9, 4], g42, h42); }
-        private void g42mousedown(object sender, RoutedEventArgs e) { g42.Fill = h42.Fill; h42.Stroke = new SolidColorBrush(Colors.Red); h42.StrokeThickness = 2; hovering = true; toFill = g42; fromFill = h42; }
-        private void g42mouseleave(object sender, RoutedEventArgs e) { g42.Fill = a; h42.Stroke = new SolidColorBrush(Colors.Black); h42.StrokeThickness = 1; hovering = false; }
-        private void g43mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[10, 4], g43, h43); }
-        private void g43mousedown(object sender, RoutedEventArgs e) { g43.Fill = h43.Fill; h43.Stroke = new SolidColorBrush(Colors.Red); h43.StrokeThickness = 2; hovering = true; toFill = g43; fromFill = h43; }
-        private void g43mouseleave(object sender, RoutedEventArgs e) { g43.Fill = a; h43.Stroke = new SolidColorBrush(Colors.Black); h43.StrokeThickness = 1; hovering = false; }
-        private void g44mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[11, 4], g44, h44); }
-        private void g44mousedown(object sender, RoutedEventArgs e) { g44.Fill = h44.Fill; h44.Stroke = new SolidColorBrush(Colors.Red); h44.StrokeThickness = 2; hovering = true; toFill = g44; fromFill = h44; }
-        private void g44mouseleave(object sender, RoutedEventArgs e) { g44.Fill = a; h44.Stroke = new SolidColorBrush(Colors.Black); h44.StrokeThickness = 1; hovering = false; }
-
-
+        private void g11mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h11, g11); }
+        private void g11mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h11, g11); }
         private void g12newmouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[12, 1], g12new, h12new); }
-        private void g12newmousedown(object sender, RoutedEventArgs e) { g12new.Fill = h12new.Fill; h12new.Stroke = new SolidColorBrush(Colors.Red); h12new.StrokeThickness = 2; hovering = true; toFill = g12new; fromFill = h12new; }
-        private void g12newmouseleave(object sender, RoutedEventArgs e) { g12new.Fill = a; h12new.Stroke = new SolidColorBrush(Colors.Black); h12new.StrokeThickness = 1; hovering = false; }
-
+        private void g12newmousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h12new, g12new); }
+        private void g12newmouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h12new, g12new); }
+        private void g12mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[1, 2], g12, h12); }
+        private void g12mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h12, g12); }
+        private void g12mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h12, g12); }
+        private void g13mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[2, 2], g13, h13); }
+        private void g13mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h13, g13); }
+        private void g13mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h13, g13); }
+        private void g14mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[3, 2], g14, h14); }
+        private void g14mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h14, g14); }
+        private void g14mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h14, g14); }
+        private void g15mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[4, 2], g15, h15); }
+        private void g15mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h15, g15); }
+        private void g15mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h15, g15); }
+        private void g16mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[5, 2], g16, h16); }
+        private void g16mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h16, g16); }
+        private void g16mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h16, g16); }
+        private void g17mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[6, 2], g17, h17); }
+        private void g17mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h17, g17); }
+        private void g17mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h17, g17); }
+        private void g18mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[7, 2], g18, h18); }
+        private void g18mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h18, g18); }
+        private void g18mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h18, g18); }
+        private void g19mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[8, 2], g19, h19); }
+        private void g19mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h19, g19); }
+        private void g19mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h19, g19); }
+        private void g20mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[9, 2], g20, h20); }
+        private void g20mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h20, g20); }
+        private void g20mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h20, g20); }
+        private void g21mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[10, 2], g21, h21); }
+        private void g21mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h21, g21); }
+        private void g21mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h21, g21); }
+        private void g22mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[11, 2], g22, h22); }
+        private void g22mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h22, g22); }
+        private void g22mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h22, g22); }
         private void g23newmouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[12, 2], g23new, h23new); }
-        private void g23newmousedown(object sender, RoutedEventArgs e) { g23new.Fill = h23new.Fill; h23new.Stroke = new SolidColorBrush(Colors.Red); h23new.StrokeThickness = 2; hovering = true; toFill = g23new; fromFill = h23new; }
-        private void g23newmouseleave(object sender, RoutedEventArgs e) { g23new.Fill = a; h23new.Stroke = new SolidColorBrush(Colors.Black); h23new.StrokeThickness = 1; hovering = false; }
-
+        private void g23newmousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h23new, g23new); }
+        private void g23newmouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h23new, g23new); }
+        private void g23mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[1, 3], g23, h23); }
+        private void g23mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h23, g23); }
+        private void g23mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h23, g23); }
+        private void g24mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[2, 3], g24, h24); }
+        private void g24mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h24, g24); }
+        private void g24mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h24, g24); }
+        private void g25mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[3, 3], g25, h25); }
+        private void g25mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h25, g25); }
+        private void g25mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h25, g25); }
+        private void g26mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[4, 3], g26, h26); }
+        private void g26mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h26, g26); }
+        private void g26mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h26, g26); }
+        private void g27mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[5, 3], g27, h27); }
+        private void g27mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h27, g27); }
+        private void g27mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h27, g27); }
+        private void g28mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[6, 3], g28, h28); }
+        private void g28mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h28, g28); }
+        private void g28mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h28, g28); }
+        private void g29mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[7, 3], g29, h29); }
+        private void g29mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h29, g29); }
+        private void g29mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h29, g29); }
+        private void g30mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[8, 3], g30, h30); }
+        private void g30mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h30, g30); }
+        private void g30mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h30, g30); }
+        private void g31mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[9, 3], g31, h31); }
+        private void g31mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h31, g31); }
+        private void g31mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h31, g31); }
+        private void g32mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[10, 3], g32, h32); }
+        private void g32mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h32, g32); }
+        private void g32mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h32, g32); }
+        private void g33mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[11, 3], g33, h33); }
+        private void g33mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h33, g33); }
+        private void g33mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h33, g33); }
         private void g34newmouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[12, 3], g34new, h34new); }
-        private void g34newmousedown(object sender, RoutedEventArgs e) { g34new.Fill = h34new.Fill; h34new.Stroke = new SolidColorBrush(Colors.Red); h34new.StrokeThickness = 2; hovering = true; toFill = g34new; fromFill = h34new; }
-        private void g34newmouseleave(object sender, RoutedEventArgs e) { g34new.Fill = a; h34new.Stroke = new SolidColorBrush(Colors.Black); h34new.StrokeThickness = 1; hovering = false; }
+        private void g34newmousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h34new, g34new); }
+        private void g34newmouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h34new, g34new); }
+        private void g34mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[1, 4], g34, h34); }
+        private void g34mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h34, g34); }
+        private void g34mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h34, g34); }
+        private void g35mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[2, 4], g35, h35); }
+        private void g35mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h35, g35); }
+        private void g35mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h35, g35); }
+        private void g36mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[3, 4], g36, h36); }
+        private void g36mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h36, g36); }
+        private void g36mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h36, g36); }
+        private void g37mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[4, 4], g37, h37); }
+        private void g37mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h37, g37); }
+        private void g37mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h37, g37); }
+        private void g38mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[5, 4], g38, h38); }
+        private void g38mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h38, g38); }
+        private void g38mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h38, g38); }
+        private void g39mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[6, 4], g39, h39); }
+        private void g39mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h39, g39); }
+        private void g39mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h39, g39); }
+        private void g40mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[7, 4], g40, h40); }
+        private void g40mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h40, g40); }
+        private void g40mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h40, g40); }
+        private void g41mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[8, 4], g41, h41); }
+        private void g41mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h41, g41); }
+        private void g41mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h41, g41); }
+        private void g42mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[9, 4], g42, h42); }
+        private void g42mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h42, g42); }
+        private void g42mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h42, g42); }
+        private void g43mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[10, 4], g43, h43); }
+        private void g43mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h43, g43); }
+        private void g43mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h43, g43); }
+        private void g44mouseup(object sender, RoutedEventArgs e) { ColorPopupCreator(MineSweeper.display[11, 4], g44, h44); }
+        private void g44mousedown(object sender, RoutedEventArgs e) { MouseEnterGameKeys(h44, g44); }
+        private void g44mouseleave(object sender, RoutedEventArgs e) { MouseLeaveGameKeys(h44, g44); }
+
 
         #endregion
 
@@ -1407,16 +1437,12 @@ namespace LogitechGMineSweeper
         //actually enter
         private void zeromousedown(object sender, RoutedEventArgs e)
         {
-            zero.Fill = zero1.Fill;
-            zero1.Stroke = new SolidColorBrush(Colors.Red);
-            zero1.StrokeThickness = 2;
+            MouseEnterGameKeys(zero1, zero);
         }
 
         private void zeromouseleave(object sender, RoutedEventArgs e)
         {
-            zero.Fill = a;
-            zero1.Stroke = new SolidColorBrush(Colors.Black);
-            zero1.StrokeThickness = 1;
+            MouseLeaveGameKeys(zero1, zero);
         }
 
         //ONE
@@ -1428,16 +1454,12 @@ namespace LogitechGMineSweeper
         //actually enter
         private void onemousedown(object sender, RoutedEventArgs e)
         {
-            one.Fill = one1.Fill;
-            one1.Stroke = new SolidColorBrush(Colors.Red);
-            one1.StrokeThickness = 2;
+            MouseEnterGameKeys(one1, one);
         }
 
         private void onemouseleave(object sender, RoutedEventArgs e)
         {
-            one.Fill = a;
-            one1.Stroke = new SolidColorBrush(Colors.Black);
-            one1.StrokeThickness = 1;
+            MouseLeaveGameKeys(one1, one);
         }
 
         //TWO
@@ -1449,16 +1471,12 @@ namespace LogitechGMineSweeper
         //actually enter
         private void twomousedown(object sender, RoutedEventArgs e)
         {
-            two.Fill = two1.Fill;
-            two1.Stroke = new SolidColorBrush(Colors.Red);
-            two1.StrokeThickness = 2;
+            MouseEnterGameKeys(two1, two);
         }
 
         private void twomouseleave(object sender, RoutedEventArgs e)
         {
-            two.Fill = a;
-            two1.Stroke = new SolidColorBrush(Colors.Black);
-            two1.StrokeThickness = 1;
+            MouseLeaveGameKeys(two1, two);
         }
         
         //three
@@ -1470,16 +1488,12 @@ namespace LogitechGMineSweeper
         //actually enter
         private void threemousedown(object sender, RoutedEventArgs e)
         {
-            three.Fill = three1.Fill;
-            three1.Stroke = new SolidColorBrush(Colors.Red);
-            three1.StrokeThickness = 2;
+            MouseEnterGameKeys(three1, three);
         }
 
         private void threemouseleave(object sender, RoutedEventArgs e)
         {
-            three.Fill = a;
-            three1.Stroke = new SolidColorBrush(Colors.Black);
-            three1.StrokeThickness = 1;
+            MouseLeaveGameKeys(three1, three);
         }
 
         //four
@@ -1491,16 +1505,12 @@ namespace LogitechGMineSweeper
         //actually enter
         private void fourmousedown(object sender, RoutedEventArgs e)
         {
-            four.Fill = four1.Fill;
-            four1.Stroke = new SolidColorBrush(Colors.Red);
-            four1.StrokeThickness = 2;
+            MouseEnterGameKeys(four1, four);
         }
 
         private void fourmouseleave(object sender, RoutedEventArgs e)
         {
-            four.Fill = a;
-            four1.Stroke = new SolidColorBrush(Colors.Black);
-            four1.StrokeThickness = 1;
+            MouseLeaveGameKeys(four1, four);
         }
 
         //five
@@ -1512,16 +1522,12 @@ namespace LogitechGMineSweeper
         //actually enter
         private void fivemousedown(object sender, RoutedEventArgs e)
         {
-            five.Fill = five1.Fill;
-            five1.Stroke = new SolidColorBrush(Colors.Red);
-            five1.StrokeThickness = 2;
+            MouseEnterGameKeys(five1, five);
         }
 
         private void fivemouseleave(object sender, RoutedEventArgs e)
         {
-            five.Fill = a;
-            five1.Stroke = new SolidColorBrush(Colors.Black);
-            five1.StrokeThickness = 1;
+            MouseLeaveGameKeys(five1, five);
         }
 
         //six
@@ -1533,16 +1539,12 @@ namespace LogitechGMineSweeper
         //actually enter
         private void sixmousedown(object sender, RoutedEventArgs e)
         {
-            six.Fill = six1.Fill;
-            six1.Stroke = new SolidColorBrush(Colors.Red);
-            six1.StrokeThickness = 2;
+            MouseEnterGameKeys(six1, six);
         }
 
         private void sixmouseleave(object sender, RoutedEventArgs e)
         {
-            six.Fill = a;
-            six1.Stroke = new SolidColorBrush(Colors.Black);
-            six1.StrokeThickness = 1;
+            MouseLeaveGameKeys(six1, six);
         }
 
         //new
@@ -1554,16 +1556,12 @@ namespace LogitechGMineSweeper
         //actually enter
         private void newmousedown(object sender, RoutedEventArgs e)
         {
-            newGame.Fill = newGame1.Fill;
-            newGame1.Stroke = new SolidColorBrush(Colors.Red);
-            newGame1.StrokeThickness = 2;
+            MouseEnterGameKeys(newGame1, newGame);
         }
 
         private void newmouseleave(object sender, RoutedEventArgs e)
         {
-            newGame.Fill = a;
-            newGame1.Stroke = new SolidColorBrush(Colors.Black);
-            newGame1.StrokeThickness = 1;
+            MouseLeaveGameKeys(newGame1, newGame);
         }
 
         #endregion
