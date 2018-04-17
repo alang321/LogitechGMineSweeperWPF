@@ -978,6 +978,10 @@ namespace LogitechGMineSweeper
             }
 
             UpdateColors();
+
+            MineSweeper.useBackground = Config.useBackgroundDefault;
+
+            UpdateFile();
         }
 
         private void ResetSettings()
@@ -986,7 +990,7 @@ namespace LogitechGMineSweeper
 
             File.WriteAllLines(Config.fileConfig, Config.configDefault);
 
-            MineSweeper.useBackground = Config.useBackgroundDefault; ;
+            MineSweeper.useBackground = Config.useBackgroundDefault;
             MineSweeper.Bombs = Config.bombsDefault;
             MineSweeper.KeyboardLayout = Config.keyboardLayoutDefault;
             KeyLayout.SelectedIndex = Config.keyboardLayoutDefault;
