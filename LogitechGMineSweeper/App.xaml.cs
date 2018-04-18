@@ -529,6 +529,8 @@ namespace LogitechGMineSweeper
             mainWnd.Topmost = true;  // important
             mainWnd.Topmost = false; // important
             mainWnd.Focus();
+
+            mainWnd.UpdateColors();
         }
 
         private void Application_Exit(object sender, ExitEventArgs e)

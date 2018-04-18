@@ -529,7 +529,7 @@ namespace LogitechGMineSweeper
             /* Debug End */
 
             //only print the in-app keyboard when the tab is selected
-            if (main._menuTabControl.SelectedIndex == 1)
+            if (main._menuTabControl.SelectedIndex == 1 && main.WindowState != WindowState.Minimized)
             {
                 printQwertz();
             }
