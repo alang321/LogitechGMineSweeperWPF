@@ -275,18 +275,15 @@ namespace LogitechGMineSweeper
         static private void MoveBomb(int x, int y)
         {
             Random r = new Random();
-            while(true)
+            while (true)
             {
                 int a = r.Next(1, isBomb.GetLength(0) - 1);
                 int b = r.Next(1, isBomb.GetLength(1) - 1);
                 if (!isBomb[a, b])
                 {
-                    if (keyboardLayout == (int)Config.Layout.US)
+                    if (!Config.keyLayoutEnabledKeys[keyboardLayout, b - 1, a - 1])
                     {
-                        if (a == 4 && b == 1)
-                        {
-                            continue;
-                        }
+                        continue;
                     }
                     isBomb[a, b] = true;
                     break;
@@ -960,13 +957,13 @@ namespace LogitechGMineSweeper
         {
             var file = Config.fileStatistics[keyboardLayout];
 
-            string[] US = File.ReadAllLines(file);
+            string[] stats = File.ReadAllLines(file);
             
-            int line = Convert.ToInt32(US[bombs + 21 + add]) + 1;
+            int line = Convert.ToInt32(stats[bombs + 21 + add]) + 1;
 
-            US[bombs + 21 + add] = line.ToString();
+            stats[bombs + 21 + add] = line.ToString();
             
-            File.WriteAllLines(file, US);
+            File.WriteAllLines(file, stats);
 
             try
             {
