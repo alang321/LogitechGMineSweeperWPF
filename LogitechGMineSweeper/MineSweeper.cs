@@ -8,6 +8,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Diagnostics;
+using System.Windows.Controls;
 
 namespace LogitechGMineSweeper
 {
@@ -746,7 +747,27 @@ namespace LogitechGMineSweeper
 
             if (main.hovering)
             {
-                main.toFill.Fill = main.fromFill.Fill; 
+                main.toFill.Fill = main.fromFill.Fill;
+
+                SolidColorBrush brush = main.fromFill.Fill as SolidColorBrush;
+                if ((brush.Color.R + brush.Color.G + brush.Color.B) < 260)
+                {
+                    Label[] t = ((Canvas)LogicalTreeHelper.GetParent(main.toFill)).Children.OfType<Label>().ToArray();
+
+                    foreach (Label a in t)
+                    {
+                        a.Foreground = new SolidColorBrush(System.Windows.Media.Colors.White);
+                    }
+                }
+                else
+                {
+                    Label[] t = ((Canvas)LogicalTreeHelper.GetParent(main.toFill)).Children.OfType<Label>().ToArray();
+
+                    foreach (Label a in t)
+                    {
+                        a.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Black);
+                    }
+                }
             }
         }
 

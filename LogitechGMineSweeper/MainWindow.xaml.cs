@@ -809,6 +809,25 @@ namespace LogitechGMineSweeper
 
         #endregion
 
+        #region button difficulties
+        
+        private void Button_Click_7(object sender, RoutedEventArgs e)
+        {
+            NUDTextBox.Text = Config.easy.ToString();
+        }
+
+        private void Button_Click_8(object sender, RoutedEventArgs e)
+        {
+            NUDTextBox.Text = Config.medium.ToString();
+        }
+
+        private void Button_Click_9(object sender, RoutedEventArgs e)
+        {
+            NUDTextBox.Text = Config.hard.ToString();
+        }
+
+        #endregion
+
         #region Update statistics and color and file
 
         public void UpdateColors()
@@ -879,25 +898,6 @@ namespace LogitechGMineSweeper
             locBest.Content = BestTime(MineSweeper.Bombs);
 
             UpdateFile();
-        }
-
-        #endregion
-
-        #region button difficulties
-        
-        private void Button_Click_7(object sender, RoutedEventArgs e)
-        {
-            NUDTextBox.Text = Config.easy.ToString();
-        }
-
-        private void Button_Click_8(object sender, RoutedEventArgs e)
-        {
-            NUDTextBox.Text = Config.medium.ToString();
-        }
-
-        private void Button_Click_9(object sender, RoutedEventArgs e)
-        {
-            NUDTextBox.Text = Config.hard.ToString();
         }
 
         #endregion
