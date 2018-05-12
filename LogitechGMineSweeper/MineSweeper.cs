@@ -567,11 +567,14 @@ namespace LogitechGMineSweeper
             //New Game
             colorToByte(logiLED, 248, colors[11, 0], colors[11, 1], colors[11, 2]);
 
-            //score
-            for (int i = 0; i < bombs-flagged; i++)
+            //bomb counter
+            if (currentBack == 0)
             {
-                if (i >= 12) break;
-                colorToByte(logiLED, i * 4 + 4, colors[15,0], colors[15, 1], colors[15, 2]);
+                for (int i = 0; i < bombs-flagged; i++)
+                {
+                    if (i >= 12) break;
+                    colorToByte(logiLED, i * 4 + 4, colors[15,0], colors[15, 1], colors[15, 2]);
+                }
             }
 
             //bool trigger for setting background as it would shortlyy flash if set every time
@@ -633,114 +636,124 @@ namespace LogitechGMineSweeper
                 }
             }
 
-            switch (bombs - flagged)
+            if (currentBack == 0)
             {
-                case 1:
-                    ShowKey(ref main.f1v); HideKey(ref main.f2); HideKey(ref main.f3); HideKey(ref main.f4); HideKey(ref main.f5); HideKey(ref main.f6); HideKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
-                    main.function1.Visibility = Visibility.Visible;
-                    main.function2.Visibility = Visibility.Hidden;
-                    main.function3.Visibility = Visibility.Hidden;
-                    main.function1.Width = 52;
-                    break;
-                case 2:
-                    ShowKey(ref main.f1v); ShowKey(ref main.f2); HideKey(ref main.f3); HideKey(ref main.f4); HideKey(ref main.f5); HideKey(ref main.f6); HideKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
-                    main.function1.Visibility = Visibility.Visible;
-                    main.function2.Visibility = Visibility.Hidden;
-                    main.function3.Visibility = Visibility.Hidden;
-                    main.function1.Width = 106;
-                    break;
-                case 3:
-                    ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); HideKey(ref main.f4); HideKey(ref main.f5); HideKey(ref main.f6); HideKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
-                    main.function1.Visibility = Visibility.Visible;
-                    main.function2.Visibility = Visibility.Hidden;
-                    main.function3.Visibility = Visibility.Hidden;
-                    main.function1.Width = 160;
-                    break;
-                case 4:
-                    ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); HideKey(ref main.f5); HideKey(ref main.f6); HideKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
-                    main.function1.Visibility = Visibility.Visible;
-                    main.function2.Visibility = Visibility.Hidden;
-                    main.function3.Visibility = Visibility.Hidden;
-                    main.function1.Width = 214;
-                    break;
-                case 5:
-                    ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); HideKey(ref main.f6); HideKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
-                    main.function1.Visibility = Visibility.Visible;
-                    main.function2.Visibility = Visibility.Visible;
-                    main.function3.Visibility = Visibility.Hidden;
-                    main.function1.Width = 214;
-                    main.function2.Width = 52;
-                    break;
-                case 6:
-                    ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); ShowKey(ref main.f6); HideKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
-                    main.function1.Visibility = Visibility.Visible;
-                    main.function2.Visibility = Visibility.Visible;
-                    main.function3.Visibility = Visibility.Hidden;
-                    main.function1.Width = 214;
-                    main.function2.Width = 106;
-                    break;
-                case 7:
-                    ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); ShowKey(ref main.f6); ShowKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
-                    main.function1.Visibility = Visibility.Visible;
-                    main.function2.Visibility = Visibility.Visible;
-                    main.function3.Visibility = Visibility.Hidden;
-                    main.function1.Width = 214;
-                    main.function2.Width = 160;
-                    break;
-                case 8:
-                    ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); ShowKey(ref main.f6); ShowKey(ref main.f7); ShowKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
-                    main.function1.Visibility = Visibility.Visible;
-                    main.function2.Visibility = Visibility.Visible;
-                    main.function3.Visibility = Visibility.Hidden;
-                    main.function1.Width = 214;
-                    main.function2.Width = 214;
-                    break;
-                case 9:
-                    ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); ShowKey(ref main.f6); ShowKey(ref main.f7); ShowKey(ref main.f8); ShowKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
-                    main.function1.Visibility = Visibility.Visible;
-                    main.function2.Visibility = Visibility.Visible;
-                    main.function3.Visibility = Visibility.Visible;
-                    main.function1.Width = 214;
-                    main.function2.Width = 214;
-                    main.function3.Width = 52;
-                    break;
-                case 10:
-                    ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); ShowKey(ref main.f6); ShowKey(ref main.f7); ShowKey(ref main.f8); ShowKey(ref main.f9); ShowKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
-                    main.function1.Visibility = Visibility.Visible;
-                    main.function2.Visibility = Visibility.Visible;
-                    main.function3.Visibility = Visibility.Visible;
-                    main.function1.Width = 214;
-                    main.function2.Width = 214;
-                    main.function3.Width = 106;
-                    break;
-                case 11:
-                        ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); ShowKey(ref main.f6); ShowKey(ref main.f7); ShowKey(ref main.f8); ShowKey(ref main.f9); ShowKey(ref main.f10); ShowKey(ref main.f11); HideKey(ref main.f12);
-                    main.function1.Visibility = Visibility.Visible;
-                    main.function2.Visibility = Visibility.Visible;
-                    main.function3.Visibility = Visibility.Visible;
-                    main.function1.Width = 214;
-                    main.function2.Width = 214;
-                    main.function3.Width = 160;
-                    break;
-                default:
-                    if((bombs - flagged) > 11)
-                    {
-                        ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); ShowKey(ref main.f6); ShowKey(ref main.f7); ShowKey(ref main.f8); ShowKey(ref main.f9); ShowKey(ref main.f10); ShowKey(ref main.f11); ShowKey(ref main.f12);
+                switch (bombs - flagged)
+                {
+                    case 1:
+                        ShowKey(ref main.f1v); HideKey(ref main.f2); HideKey(ref main.f3); HideKey(ref main.f4); HideKey(ref main.f5); HideKey(ref main.f6); HideKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
+                        main.function1.Visibility = Visibility.Visible;
+                        main.function2.Visibility = Visibility.Hidden;
+                        main.function3.Visibility = Visibility.Hidden;
+                        main.function1.Width = 52;
+                        break;
+                    case 2:
+                        ShowKey(ref main.f1v); ShowKey(ref main.f2); HideKey(ref main.f3); HideKey(ref main.f4); HideKey(ref main.f5); HideKey(ref main.f6); HideKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
+                        main.function1.Visibility = Visibility.Visible;
+                        main.function2.Visibility = Visibility.Hidden;
+                        main.function3.Visibility = Visibility.Hidden;
+                        main.function1.Width = 106;
+                        break;
+                    case 3:
+                        ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); HideKey(ref main.f4); HideKey(ref main.f5); HideKey(ref main.f6); HideKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
+                        main.function1.Visibility = Visibility.Visible;
+                        main.function2.Visibility = Visibility.Hidden;
+                        main.function3.Visibility = Visibility.Hidden;
+                        main.function1.Width = 160;
+                        break;
+                    case 4:
+                        ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); HideKey(ref main.f5); HideKey(ref main.f6); HideKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
+                        main.function1.Visibility = Visibility.Visible;
+                        main.function2.Visibility = Visibility.Hidden;
+                        main.function3.Visibility = Visibility.Hidden;
+                        main.function1.Width = 214;
+                        break;
+                    case 5:
+                        ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); HideKey(ref main.f6); HideKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
+                        main.function1.Visibility = Visibility.Visible;
+                        main.function2.Visibility = Visibility.Visible;
+                        main.function3.Visibility = Visibility.Hidden;
+                        main.function1.Width = 214;
+                        main.function2.Width = 52;
+                        break;
+                    case 6:
+                        ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); ShowKey(ref main.f6); HideKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
+                        main.function1.Visibility = Visibility.Visible;
+                        main.function2.Visibility = Visibility.Visible;
+                        main.function3.Visibility = Visibility.Hidden;
+                        main.function1.Width = 214;
+                        main.function2.Width = 106;
+                        break;
+                    case 7:
+                        ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); ShowKey(ref main.f6); ShowKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
+                        main.function1.Visibility = Visibility.Visible;
+                        main.function2.Visibility = Visibility.Visible;
+                        main.function3.Visibility = Visibility.Hidden;
+                        main.function1.Width = 214;
+                        main.function2.Width = 160;
+                        break;
+                    case 8:
+                        ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); ShowKey(ref main.f6); ShowKey(ref main.f7); ShowKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
+                        main.function1.Visibility = Visibility.Visible;
+                        main.function2.Visibility = Visibility.Visible;
+                        main.function3.Visibility = Visibility.Hidden;
+                        main.function1.Width = 214;
+                        main.function2.Width = 214;
+                        break;
+                    case 9:
+                        ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); ShowKey(ref main.f6); ShowKey(ref main.f7); ShowKey(ref main.f8); ShowKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
                         main.function1.Visibility = Visibility.Visible;
                         main.function2.Visibility = Visibility.Visible;
                         main.function3.Visibility = Visibility.Visible;
                         main.function1.Width = 214;
                         main.function2.Width = 214;
-                        main.function3.Width = 214;
-                    }
-                    else
-                    {
-                        HideKey(ref main.f1v); HideKey(ref main.f2); HideKey(ref main.f3); HideKey(ref main.f4); HideKey(ref main.f5); HideKey(ref main.f6); HideKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
-                        main.function1.Visibility = Visibility.Hidden;
-                        main.function2.Visibility = Visibility.Hidden;
-                        main.function3.Visibility = Visibility.Hidden;
-                    }
-                    break;
+                        main.function3.Width = 52;
+                        break;
+                    case 10:
+                        ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); ShowKey(ref main.f6); ShowKey(ref main.f7); ShowKey(ref main.f8); ShowKey(ref main.f9); ShowKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
+                        main.function1.Visibility = Visibility.Visible;
+                        main.function2.Visibility = Visibility.Visible;
+                        main.function3.Visibility = Visibility.Visible;
+                        main.function1.Width = 214;
+                        main.function2.Width = 214;
+                        main.function3.Width = 106;
+                        break;
+                    case 11:
+                        ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); ShowKey(ref main.f6); ShowKey(ref main.f7); ShowKey(ref main.f8); ShowKey(ref main.f9); ShowKey(ref main.f10); ShowKey(ref main.f11); HideKey(ref main.f12);
+                        main.function1.Visibility = Visibility.Visible;
+                        main.function2.Visibility = Visibility.Visible;
+                        main.function3.Visibility = Visibility.Visible;
+                        main.function1.Width = 214;
+                        main.function2.Width = 214;
+                        main.function3.Width = 160;
+                        break;
+                    default:
+                        if ((bombs - flagged) > 11)
+                        {
+                            ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); ShowKey(ref main.f6); ShowKey(ref main.f7); ShowKey(ref main.f8); ShowKey(ref main.f9); ShowKey(ref main.f10); ShowKey(ref main.f11); ShowKey(ref main.f12);
+                            main.function1.Visibility = Visibility.Visible;
+                            main.function2.Visibility = Visibility.Visible;
+                            main.function3.Visibility = Visibility.Visible;
+                            main.function1.Width = 214;
+                            main.function2.Width = 214;
+                            main.function3.Width = 214;
+                        }
+                        else
+                        {
+                            HideKey(ref main.f1v); HideKey(ref main.f2); HideKey(ref main.f3); HideKey(ref main.f4); HideKey(ref main.f5); HideKey(ref main.f6); HideKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
+                            main.function1.Visibility = Visibility.Hidden;
+                            main.function2.Visibility = Visibility.Hidden;
+                            main.function3.Visibility = Visibility.Hidden;
+                        }
+                        break;
+                }
+            }
+            else
+            {
+                HideKey(ref main.f1v); HideKey(ref main.f2); HideKey(ref main.f3); HideKey(ref main.f4); HideKey(ref main.f5); HideKey(ref main.f6); HideKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
+                main.function1.Visibility = Visibility.Hidden;
+                main.function2.Visibility = Visibility.Hidden;
+                main.function3.Visibility = Visibility.Hidden;
             }
 
             main.esc1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[9, 2], MineSweeper.colors[9, 1], MineSweeper.colors[9, 0]));
