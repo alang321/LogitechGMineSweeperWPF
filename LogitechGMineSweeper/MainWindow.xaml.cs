@@ -572,14 +572,14 @@ namespace LogitechGMineSweeper
         #endregion
 
         #region Nav-Buttons
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        
+        //if you use num keys to change selection
+        private void TabSelectionChanged(object sender, RoutedEventArgs e)
         {
-            _menuTabControl.SelectedIndex = 0;
             var style = new Style();
 
             style.Setters.Add(new Setter(TemplateProperty, this.FindResource("buttonactive")));
-
+            
             var styleClone = new Style();
             foreach (var setter in style.Setters)
             {
@@ -590,29 +590,36 @@ namespace LogitechGMineSweeper
                     styleClone.Setters.Add(newSetter);
                 }
             }
-            SetAllButtonsNormal();
-            settings.Style = styleClone;
+
+            switch (_menuTabControl.SelectedIndex)
+            {
+                case 0:
+                    SetAllButtonsNormal();
+                    settings.Style = styleClone;
+                    break;
+                case 1:
+                    SetAllButtonsNormal();
+                    colors.Style = styleClone;
+                    break;
+                case 2:
+                    SetAllButtonsNormal();
+                    stats.Style = styleClone;
+                    break;
+                case 3:
+                    SetAllButtonsNormal();
+                    reset.Style = styleClone;
+                    break;
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            _menuTabControl.SelectedIndex = 0;
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             _menuTabControl.SelectedIndex = 1;
-            var style = new Style();
-
-            style.Setters.Add(new Setter(TemplateProperty, this.FindResource("buttonactive")));
-
-            var styleClone = new Style();
-            foreach (var setter in style.Setters)
-            {
-                var typedSetter = setter as Setter;
-                if (typedSetter != null)
-                {
-                    var newSetter = new Setter(typedSetter.Property, typedSetter.Value);
-                    styleClone.Setters.Add(newSetter);
-                }
-            }
-            SetAllButtonsNormal();
-            colors.Style = styleClone;
 
             FlagUseBackground.IsChecked = MineSweeper.useBackground;
 
@@ -733,43 +740,11 @@ namespace LogitechGMineSweeper
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             _menuTabControl.SelectedIndex = 2;
-            var style = new Style();
-
-            style.Setters.Add(new Setter(TemplateProperty, this.FindResource("buttonactive")));
-
-            var styleClone = new Style();
-            foreach (var setter in style.Setters)
-            {
-                var typedSetter = setter as Setter;
-                if (typedSetter != null)
-                {
-                    var newSetter = new Setter(typedSetter.Property, typedSetter.Value);
-                    styleClone.Setters.Add(newSetter);
-                }
-            }
-            SetAllButtonsNormal();
-            stats.Style = styleClone;
         }
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
             _menuTabControl.SelectedIndex = 3;
-            var style = new Style();
-
-            style.Setters.Add(new Setter(TemplateProperty, this.FindResource("buttonactive")));
-
-            var styleClone = new Style();
-            foreach (var setter in style.Setters)
-            {
-                var typedSetter = setter as Setter;
-                if (typedSetter != null)
-                {
-                    var newSetter = new Setter(typedSetter.Property, typedSetter.Value);
-                    styleClone.Setters.Add(newSetter);
-                }
-            }
-            SetAllButtonsNormal();
-            reset.Style = styleClone;
         }
 
         private void SetAllButtonsNormal()

@@ -106,7 +106,7 @@
             </StackPanel>
         </Button>
 
-        <TabControl Name="_menuTabControl" Width="auto" Margin="13,30,10,0" TabStripPlacement="Top" BorderBrush="#00ACACAC" Grid.Column="1" Height="363" VerticalAlignment="Top">
+        <TabControl SelectionChanged="TabSelectionChanged" Name="_menuTabControl" Width="auto" Margin="13,30,10,0" TabStripPlacement="Top" BorderBrush="#00ACACAC" Grid.Column="1" Height="363" VerticalAlignment="Top">
             <TabItem Background="#00000000" BorderBrush="#00ACACAC" Width="0">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal"/>
