@@ -16,6 +16,10 @@ namespace LogitechGMineSweeper
     {
         #region Variables Constructor and Properties
 
+        public delegate void PrintdisplayEventHandler(EventArgs e);
+
+        public static event PrintdisplayEventHandler PrintEvent;
+
         static int[,] map;
         static bool[,] isBomb;
         static bool[,] isFlag = new bool[13, 6];
@@ -81,6 +85,8 @@ namespace LogitechGMineSweeper
                 {255,000,255},   //16
         };
 
+        private static EventArgs e;
+
         static public int Wins
         {
             get { return wins; }
@@ -108,6 +114,11 @@ namespace LogitechGMineSweeper
             }
         }
 
+        static public int Flagged
+        {
+            get { return flagged; }
+        }
+
         static public int Bombs
         {
             get { return bombs; }
@@ -129,18 +140,15 @@ namespace LogitechGMineSweeper
             get { return keyboardLayout; }
             set
             {
-                if (((Config.Layout)(value)).ToString() == value.ToString())
-                {
-                }
                 keyboardLayout = value;
 
                 coveredReset = 0;
 
-                for(int i = 0; i < Config.keyLayoutEnabledKeys.GetLength(1); i++)
+                for (int i = 0; i < Config.KeyboardLayouts[keyboardLayout].EnabledKeys.GetLength(0); i++)
                 {
-                    for (int j = 0; j < Config.keyLayoutEnabledKeys.GetLength(2); j++)
+                    for (int j = 0; j < Config.KeyboardLayouts[keyboardLayout].EnabledKeys.GetLength(1); j++)
                     {
-                        if (Config.keyLayoutEnabledKeys[keyboardLayout,i,j]) coveredReset++;
+                        if (Config.KeyboardLayouts[keyboardLayout].EnabledKeys[i,j]) coveredReset++;
                     }
                 }
             }
@@ -162,7 +170,7 @@ namespace LogitechGMineSweeper
                 newGame();
             }
             //Restart Game if plus is pressed
-            else if (i == 99)
+            else if (i == 47)
             {
                 main.UpdateStats();
                 main.StopWatchDefeat();
@@ -207,7 +215,7 @@ namespace LogitechGMineSweeper
         static public void SetFlag(int i)
         {
             //event handler for newgame because it calls setflag wenn shift is pressed so you can restart with pressed shift
-            if (i == 99)
+            if (i == 47)
             {
                 main.UpdateStats();
                 main.StopWatchDefeat();
@@ -247,7 +255,7 @@ namespace LogitechGMineSweeper
             currentBack = 0;
 
             //so you cant start with every key
-            App.last = "Add";
+            App.last = 107;
 
             ResetDisplay();
 
@@ -282,7 +290,7 @@ namespace LogitechGMineSweeper
                 int b = r.Next(1, isBomb.GetLength(1) - 1);
                 if (!isBomb[a, b])
                 {
-                    if (!Config.keyLayoutEnabledKeys[keyboardLayout, b - 1, a - 1])
+                    if (!Config.KeyboardLayouts[keyboardLayout].EnabledKeys[b - 1, a - 1])
                     {
                         continue;
                     }
@@ -304,7 +312,7 @@ namespace LogitechGMineSweeper
             {
                 int x = r.Next(1, isBomb.GetLength(0) - 1);
                 int y = r.Next(1, isBomb.GetLength(1) - 1);
-                if (!Config.keyLayoutEnabledKeys[keyboardLayout, y - 1, x - 1])
+                if (!Config.KeyboardLayouts[keyboardLayout].EnabledKeys[y - 1, x - 1])
                 {
                     i--;
                     continue;
@@ -323,7 +331,7 @@ namespace LogitechGMineSweeper
                 {
                     if (i > 0 && i < 13 && j > 0 && j < 5)
                     {
-                        if (!Config.keyLayoutEnabledKeys[keyboardLayout, j - 1, i - 1])
+                        if (!Config.KeyboardLayouts[keyboardLayout].EnabledKeys[j - 1, i - 1])
                         {
                             display[i, j] = 9;
                         }
@@ -348,7 +356,7 @@ namespace LogitechGMineSweeper
             {
                 for (int j = 0; j < map.GetLength(1); j++)
                 {
-                    if (!Config.keyLayoutEnabledKeys[keyboardLayout, j, i])
+                    if (!Config.KeyboardLayouts[keyboardLayout].EnabledKeys[j, i])
                     {
                         map[i, j] = 8;
                         continue;
@@ -509,27 +517,21 @@ namespace LogitechGMineSweeper
 
         static public void printLogiLED()
         {
+            printLogiLED(true);
+        }
+
+        static public void printLogiLED(bool printDisplay)
+        {
             //init bitmap that will be used to create light
             byte[] logiLED = new byte[LogitechGSDK.LOGI_LED_BITMAP_SIZE];
 
             //implemented background change on loss later so the whole thing is pretty messy so this is necessary
             UpdateBackground();
 
-            /* Debug */
-            Debug.WriteLine("Display:\n");
-            Debug.WriteLine(printDisplay());
-            Debug.WriteLine("Bombs:\n");
-            Debug.WriteLine(printBombs());
-            Debug.WriteLine("Map:\n");
-            Debug.WriteLine(printMap());
-            Debug.Write("Covered: ");
-            Debug.Write (covered + "\n");
-            /* Debug End */
-
             //only print the in-app keyboard when the tab is selected
-            if (main._menuTabControl.SelectedIndex == 1 && main.WindowState != WindowState.Minimized)
+            if (main._menuTabControl.SelectedIndex == 1 && main.WindowState != WindowState.Minimized && printDisplay)
             {
-                printQwertz();
+                PrintEvent(e);
             }
 
             //for actually printing the board
@@ -577,8 +579,9 @@ namespace LogitechGMineSweeper
                 }
             }
 
-            //bool trigger for setting background as it would shortlyy flash if set every time
-            if (setBackground)
+            //disabled
+            //bool trigger for setting background as it would shortly flash if set every time
+            if (Config.setLogiLogo && setBackground)
             {
                 setBackground = false;
                 LogitechGSDK.LogiLedSetLighting(Convert.ToInt32((Convert.ToDouble(colors[9, 2]) / 255.0) * 100), Convert.ToInt32((Convert.ToDouble(colors[9, 1]) / 255.0) * 100), Convert.ToInt32((Convert.ToDouble(colors[9, 0]) / 255.0) * 100));
@@ -619,181 +622,6 @@ namespace LogitechGMineSweeper
             logiLED[start + 3] = byte.MaxValue;
         }
 
-        static public void printQwertz()
-        {
-            //messed up because playing field enlarged
-            System.Windows.Shapes.Rectangle[] board = { main.h1, main.h2, main.h3, main.h4, main.h5, main.h6, main.h7, main.h8, main.h9, main.h10, main.h11, main.h12new,
-                                                        main.h12, main.h13, main.h14, main.h15, main.h16, main.h17, main.h18, main.h19, main.h20, main.h21, main.h22, main.h23new,
-                                                        main.h23, main.h24, main.h25, main.h26, main.h27, main.h28, main.h29, main.h30, main.h31, main.h32, main.h33, main.h34new,
-                                                        main.h34, main.h35, main.h36, main.h37, main.h38, main.h39, main.h40, main.h41, main.h42, main.h43, main.h44, };
-            int counter = 0;
-            for (int i = 1; i <= 4; i++)
-            {
-                for (int j = 1; j <= 12; j++)
-                {
-                    if (i == 4 && j == 12) continue;
-                    board[counter++].Fill = new SolidColorBrush(Color.FromArgb(255, colors[display[j, i], 2], colors[display[j, i], 1], colors[display[j, i], 0]));
-                }
-            }
-
-            if (currentBack == 0)
-            {
-                switch (bombs - flagged)
-                {
-                    case 1:
-                        ShowKey(ref main.f1v); HideKey(ref main.f2); HideKey(ref main.f3); HideKey(ref main.f4); HideKey(ref main.f5); HideKey(ref main.f6); HideKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
-                        main.function1.Visibility = Visibility.Visible;
-                        main.function2.Visibility = Visibility.Hidden;
-                        main.function3.Visibility = Visibility.Hidden;
-                        main.function1.Width = 52;
-                        break;
-                    case 2:
-                        ShowKey(ref main.f1v); ShowKey(ref main.f2); HideKey(ref main.f3); HideKey(ref main.f4); HideKey(ref main.f5); HideKey(ref main.f6); HideKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
-                        main.function1.Visibility = Visibility.Visible;
-                        main.function2.Visibility = Visibility.Hidden;
-                        main.function3.Visibility = Visibility.Hidden;
-                        main.function1.Width = 106;
-                        break;
-                    case 3:
-                        ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); HideKey(ref main.f4); HideKey(ref main.f5); HideKey(ref main.f6); HideKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
-                        main.function1.Visibility = Visibility.Visible;
-                        main.function2.Visibility = Visibility.Hidden;
-                        main.function3.Visibility = Visibility.Hidden;
-                        main.function1.Width = 160;
-                        break;
-                    case 4:
-                        ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); HideKey(ref main.f5); HideKey(ref main.f6); HideKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
-                        main.function1.Visibility = Visibility.Visible;
-                        main.function2.Visibility = Visibility.Hidden;
-                        main.function3.Visibility = Visibility.Hidden;
-                        main.function1.Width = 214;
-                        break;
-                    case 5:
-                        ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); HideKey(ref main.f6); HideKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
-                        main.function1.Visibility = Visibility.Visible;
-                        main.function2.Visibility = Visibility.Visible;
-                        main.function3.Visibility = Visibility.Hidden;
-                        main.function1.Width = 214;
-                        main.function2.Width = 52;
-                        break;
-                    case 6:
-                        ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); ShowKey(ref main.f6); HideKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
-                        main.function1.Visibility = Visibility.Visible;
-                        main.function2.Visibility = Visibility.Visible;
-                        main.function3.Visibility = Visibility.Hidden;
-                        main.function1.Width = 214;
-                        main.function2.Width = 106;
-                        break;
-                    case 7:
-                        ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); ShowKey(ref main.f6); ShowKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
-                        main.function1.Visibility = Visibility.Visible;
-                        main.function2.Visibility = Visibility.Visible;
-                        main.function3.Visibility = Visibility.Hidden;
-                        main.function1.Width = 214;
-                        main.function2.Width = 160;
-                        break;
-                    case 8:
-                        ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); ShowKey(ref main.f6); ShowKey(ref main.f7); ShowKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
-                        main.function1.Visibility = Visibility.Visible;
-                        main.function2.Visibility = Visibility.Visible;
-                        main.function3.Visibility = Visibility.Hidden;
-                        main.function1.Width = 214;
-                        main.function2.Width = 214;
-                        break;
-                    case 9:
-                        ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); ShowKey(ref main.f6); ShowKey(ref main.f7); ShowKey(ref main.f8); ShowKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
-                        main.function1.Visibility = Visibility.Visible;
-                        main.function2.Visibility = Visibility.Visible;
-                        main.function3.Visibility = Visibility.Visible;
-                        main.function1.Width = 214;
-                        main.function2.Width = 214;
-                        main.function3.Width = 52;
-                        break;
-                    case 10:
-                        ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); ShowKey(ref main.f6); ShowKey(ref main.f7); ShowKey(ref main.f8); ShowKey(ref main.f9); ShowKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
-                        main.function1.Visibility = Visibility.Visible;
-                        main.function2.Visibility = Visibility.Visible;
-                        main.function3.Visibility = Visibility.Visible;
-                        main.function1.Width = 214;
-                        main.function2.Width = 214;
-                        main.function3.Width = 106;
-                        break;
-                    case 11:
-                        ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); ShowKey(ref main.f6); ShowKey(ref main.f7); ShowKey(ref main.f8); ShowKey(ref main.f9); ShowKey(ref main.f10); ShowKey(ref main.f11); HideKey(ref main.f12);
-                        main.function1.Visibility = Visibility.Visible;
-                        main.function2.Visibility = Visibility.Visible;
-                        main.function3.Visibility = Visibility.Visible;
-                        main.function1.Width = 214;
-                        main.function2.Width = 214;
-                        main.function3.Width = 160;
-                        break;
-                    default:
-                        if ((bombs - flagged) > 11)
-                        {
-                            ShowKey(ref main.f1v); ShowKey(ref main.f2); ShowKey(ref main.f3); ShowKey(ref main.f4); ShowKey(ref main.f5); ShowKey(ref main.f6); ShowKey(ref main.f7); ShowKey(ref main.f8); ShowKey(ref main.f9); ShowKey(ref main.f10); ShowKey(ref main.f11); ShowKey(ref main.f12);
-                            main.function1.Visibility = Visibility.Visible;
-                            main.function2.Visibility = Visibility.Visible;
-                            main.function3.Visibility = Visibility.Visible;
-                            main.function1.Width = 214;
-                            main.function2.Width = 214;
-                            main.function3.Width = 214;
-                        }
-                        else
-                        {
-                            HideKey(ref main.f1v); HideKey(ref main.f2); HideKey(ref main.f3); HideKey(ref main.f4); HideKey(ref main.f5); HideKey(ref main.f6); HideKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
-                            main.function1.Visibility = Visibility.Hidden;
-                            main.function2.Visibility = Visibility.Hidden;
-                            main.function3.Visibility = Visibility.Hidden;
-                        }
-                        break;
-                }
-            }
-            else
-            {
-                HideKey(ref main.f1v); HideKey(ref main.f2); HideKey(ref main.f3); HideKey(ref main.f4); HideKey(ref main.f5); HideKey(ref main.f6); HideKey(ref main.f7); HideKey(ref main.f8); HideKey(ref main.f9); HideKey(ref main.f10); HideKey(ref main.f11); HideKey(ref main.f12);
-                main.function1.Visibility = Visibility.Hidden;
-                main.function2.Visibility = Visibility.Hidden;
-                main.function3.Visibility = Visibility.Hidden;
-            }
-
-            main.esc1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[9, 2], MineSweeper.colors[9, 1], MineSweeper.colors[9, 0]));
-
-            if (main.hovering)
-            {
-                main.toFill.Fill = main.fromFill.Fill;
-
-                SolidColorBrush brush = main.fromFill.Fill as SolidColorBrush;
-                if ((brush.Color.R + brush.Color.G + brush.Color.B) < 260)
-                {
-                    Label[] t = ((Canvas)LogicalTreeHelper.GetParent(main.toFill)).Children.OfType<Label>().ToArray();
-
-                    foreach (Label a in t)
-                    {
-                        a.Foreground = new SolidColorBrush(System.Windows.Media.Colors.White);
-                    }
-                }
-                else
-                {
-                    Label[] t = ((Canvas)LogicalTreeHelper.GetParent(main.toFill)).Children.OfType<Label>().ToArray();
-
-                    foreach (Label a in t)
-                    {
-                        a.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Black);
-                    }
-                }
-            }
-        }
-
-        static private void ShowKey(ref System.Windows.Controls.Canvas a)
-        {
-            a.Visibility = Visibility.Visible;
-        }
-
-        static private void HideKey(ref System.Windows.Controls.Canvas a)
-        {
-            a.Visibility = Visibility.Hidden;
-        }
-
         #endregion
 
         #region Game Logic
@@ -812,9 +640,6 @@ namespace LogitechGMineSweeper
             if (m < 8 && m >= 0)
             {
                 display[x + 1, y + 1] = m;
-
-                //so you can press flag right after starting
-                App.last = "empty";
 
                 if (--covered <= bombs && m != 7)
                 {
@@ -944,7 +769,8 @@ namespace LogitechGMineSweeper
             main.UpdateStats();
 
             //so you cant spam new game
-            App.last = "empty";
+            App.last = -1;
+
             for (int i = 0; i < isBomb.GetLength(0); i++)
             {
                 for (int j = 0; j < isBomb.GetLength(1); j++)
@@ -989,7 +815,7 @@ namespace LogitechGMineSweeper
 
         static private void IncrementWinsBombs(int add)
         {
-            var file = Config.fileStatistics[keyboardLayout];
+            var file = Config.KeyboardLayouts[keyboardLayout].SaveFile;
 
             string[] stats = File.ReadAllLines(file);
             

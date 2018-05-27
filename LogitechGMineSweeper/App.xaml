@@ -6,11 +6,66 @@
              Exit="Application_Exit">
     <Application.Resources>
         <ResourceDictionary>
+            <SolidColorBrush x:Key="gameFieldBackground" Color="#FFFFFF00"/>
+
+            <!--Background Brushes-->
+            <SolidColorBrush x:Key="buttonColorBrush0" Color="#FFFFFFFF"/>
+            <SolidColorBrush x:Key="buttonColorBrush1" Color="#FFFFFFFF"/>
+            <SolidColorBrush x:Key="buttonColorBrush2" Color="#FFFFFFFF"/>
+            <SolidColorBrush x:Key="buttonColorBrush3" Color="#FFFFFFFF"/>
+            <SolidColorBrush x:Key="buttonColorBrush4" Color="#FFFFFFFF"/>
+            <SolidColorBrush x:Key="buttonColorBrush5" Color="#FFFFFFFF"/>
+            <SolidColorBrush x:Key="buttonColorBrush6" Color="#FFFFFFFF"/>
+            <SolidColorBrush x:Key="buttonColorBrush7" Color="#FFFFFFFF"/>
+            <SolidColorBrush x:Key="buttonColorBrush8" Color="#FFFFFFFF"/>
+            <SolidColorBrush x:Key="buttonColorBrush9" Color="#FFFFFFFF"/>
+            <SolidColorBrush x:Key="buttonColorBrush10" Color="#FFFFFFFF"/>
+            <SolidColorBrush x:Key="buttonColorBrush11" Color="#FFFFFFFF"/>
+            <SolidColorBrush x:Key="buttonColorBrush12" Color="#FFFFFFFF"/>
+            <SolidColorBrush x:Key="buttonColorBrush13" Color="#FFFFFFFF"/>
+            <SolidColorBrush x:Key="buttonColorBrush14" Color="#FFFFFFFF"/>
+            <SolidColorBrush x:Key="buttonColorBrush15" Color="#FFFFFFFF"/>
+            <SolidColorBrush x:Key="buttonColorBrush16" Color="#FFFFFFFF"/>
+
+            <!--Foreground Brushes-->
+            <SolidColorBrush x:Key="TextColorBrush0" Color="#FF000000"/>
+            <SolidColorBrush x:Key="TextColorBrush1" Color="#FF000000"/>
+            <SolidColorBrush x:Key="TextColorBrush2" Color="#FF000000"/>
+            <SolidColorBrush x:Key="TextColorBrush3" Color="#FF000000"/>
+            <SolidColorBrush x:Key="TextColorBrush4" Color="#FF000000"/>
+            <SolidColorBrush x:Key="TextColorBrush5" Color="#FF000000"/>
+            <SolidColorBrush x:Key="TextColorBrush6" Color="#FF000000"/>
+            <SolidColorBrush x:Key="TextColorBrush7" Color="#FF000000"/>
+            <SolidColorBrush x:Key="TextColorBrush8" Color="#FF000000"/>
+            <SolidColorBrush x:Key="TextColorBrush10" Color="#FF000000"/>
+            <SolidColorBrush x:Key="TextColorBrush11" Color="#FF000000"/>
+            <SolidColorBrush x:Key="TextColorBrush15" Color="#FF000000"/>
+            <SolidColorBrush x:Key="TextColorBrush16" Color="#FF000000"/>
+
+            <Color x:Key="gameFieldBackgroundTest">#FFFFFF00</Color>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="button.xaml" /> 
-                <ResourceDictionary Source="buttonred.xaml" />
-                <ResourceDictionary Source="buttonActive.xaml" />
-                <ResourceDictionary Source="buttoncolor.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/button.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/buttonred.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/buttonActive.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/buttoncolor.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonEnter.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonKeyboardColor0.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonKeyboardColor1.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonKeyboardColor2.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonKeyboardColor3.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonKeyboardColor4.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonKeyboardColor5.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonKeyboardColor6.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonKeyboardColor7.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonKeyboardColor8.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonKeyboardColor9.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonKeyboardColor10.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonKeyboardColor11.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonKeyboardColor12.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonKeyboardColor13.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonKeyboardColor14.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonKeyboardColor15.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonKeyboardColor16.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

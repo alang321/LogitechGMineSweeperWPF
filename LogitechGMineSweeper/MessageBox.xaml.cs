@@ -31,7 +31,6 @@ namespace LogitechGMineSweeper
             InitializeComponent();
         }
 
-
         private void Window_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             DragMove();
@@ -39,17 +38,16 @@ namespace LogitechGMineSweeper
 
         private void image1_MouseEnter(object sender, MouseEventArgs e)
         {
-            string packUri = @"pack://application:,,,/closeWhite.png";
+            string packUri = @"pack://application:,,,/symbols/closeWhite.png";
             image1.Source = new ImageSourceConverter().ConvertFromString(packUri) as ImageSource;
         }
 
         private void image1_MouseLeave(object sender, MouseEventArgs e)
         {
-            string packUri = @"pack://application:,,,/close.png";
+            string packUri = @"pack://application:,,,/symbols/close.png";
             image1.Source = new ImageSourceConverter().ConvertFromString(packUri) as ImageSource;
         }
-
-
+        
         #region blur
 
         protected override void OnStateChanged(EventArgs e)

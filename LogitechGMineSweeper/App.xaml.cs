@@ -37,8 +37,7 @@ namespace LogitechGMineSweeper
         private static LowLevelKeyboardProc _proc = HookCallback;
         private static IntPtr _hookID = IntPtr.Zero;
 
-        public static string last = "empty";
-        private static int parameter = 0;
+        public static int last = -1;
 
         //for single instance
         static Mutex mutex = new Mutex(true, "{8F6F0AC4-B9A1-45fd-A8CF-72F04E6BDE8B}");
@@ -50,6 +49,7 @@ namespace LogitechGMineSweeper
         public static void Main()
         {
             if (!LogitechGSDK.LogiLedInit()) Console.Write("Not connected to GSDK");
+
             //Create or read in save files
             bool newFile = false;
 
@@ -62,11 +62,11 @@ namespace LogitechGMineSweeper
             int layout = 0;
             bool useBackground = Config.useBackgroundDefault; ;
 
-            foreach (string file in Config.fileStatistics)
+            foreach (KeyboardLayout keyLayout in Config.KeyboardLayouts)
             {
-                if (!File.Exists(file))
+                if (!File.Exists(keyLayout.SaveFile))
                 {
-                    File.WriteAllLines(file, Config.statisticsDefault);
+                    File.WriteAllLines(keyLayout.SaveFile, Config.statisticsDefault);
                 }
             }
 
@@ -257,215 +257,39 @@ namespace LogitechGMineSweeper
             }
         }
 
-        private delegate IntPtr LowLevelKeyboardProc(
-            int nCode, IntPtr wParam, IntPtr lParam);
+        private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
         private static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
             if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
             {
                 int vkCode = Marshal.ReadInt32(lParam);
-                string key = Convert.ToString((Keys)vkCode);
-                if (key == "D1" || key == "Oem6" || key == "Oemplus" || key == "D2" || key == "D3" || key == "D4" || key == "D5" || key == "D6" || key == "D7" || key == "D8" || key == "D9" || key == "D0" || key == "OemOpenBrackets" || key == "Q" || key == "W" || key == "E" || key == "R" || key == "T" || key == "Z" || key == "U" || key == "I" || key == "O" || key == "P" || key == "Oem1" || key == "A" || key == "S" || key == "D" || key == "F" || key == "G" || key == "H" || key == "J" || key == "K" || key == "L" || key == "Oemtilde" || key == "Oem7" || key == "OemBackslash" || key == "Y" || key == "X" || key == "C" || key == "V" || key == "B" || key == "N" || key == "M" || key == "Oemcomma" || key == "OemPeriod" || key == "OemMinus" || key == "Add" || key == "OemQuestion" || key == "Oem5")
+                if (Config.KeyboardLayouts[MineSweeper.KeyboardLayout].KeyIds.Contains(vkCode))
                 {
                     if (Control.ModifierKeys == Keys.Shift)
                     {
-                        AssignParameter(key);
-                        if (parameter != 99999)
+                        if (last != 107 && vkCode == 107) MineSweeper.keyPressed(47);
+                        else if (vkCode != 107)
                         {
-                            if (last != "Add" && key == "Add") MineSweeper.keyPressed(99);
-                            else if (key != "Add")
-                            {
-                                MineSweeper.SetFlag(parameter - 1);
-                                last = "empty";
-                            }
-                            Console.WriteLine("Shift - " + key);
+                            MineSweeper.SetFlag(Array.IndexOf(Config.KeyboardLayouts[MineSweeper.KeyboardLayout].KeyIds, vkCode));
+                            last = -1;
                         }
+                        Debug.WriteLine("Key ID-Code: Shift - " + vkCode);
                     }
-                    else if (last != key)
+                    else if (last != vkCode)
                     {
-                        last = key;
-                        AssignParameter(key);
-                        if(parameter != 99999)
-                        {
-                            MineSweeper.keyPressed(parameter - 1);
-                        }
+                        last = vkCode;
+                        MineSweeper.keyPressed(Array.IndexOf(Config.KeyboardLayouts[MineSweeper.KeyboardLayout].KeyIds, vkCode));
 
-                        Console.WriteLine(key);
+                        Debug.WriteLine("Key ID-Code: " + vkCode);
+                    }
+                    else
+                    {
+                        Debug.WriteLine("REJECTED: Double Press - Key ID-Code: " + vkCode);
                     }
                 }
             }
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
-        }
-
-
-
-        private static void AssignParameter(string key)
-        {
-            if(MineSweeper.KeyboardLayout == (int)Config.Layout.DE)
-            {
-                switch (key)
-                {
-                    case "D1": parameter = 1; break;
-                    case "D2": parameter = 2; break;
-                    case "D3": parameter = 3; break;
-                    case "D4": parameter = 4; break;
-                    case "D5": parameter = 5; break;
-                    case "D6": parameter = 6; break;
-                    case "D7": parameter = 7; break;
-                    case "D8": parameter = 8; break;
-                    case "D9": parameter = 9; break;
-                    case "D0": parameter = 10; break;
-                    case "OemOpenBrackets": parameter = 11; break;
-                    case "Oem6": parameter = 12; break;
-                    case "Q": parameter = 13; break;
-                    case "W": parameter = 14; break;
-                    case "E": parameter = 15; break;
-                    case "R": parameter = 16; break;
-                    case "T": parameter = 17; break;
-                    case "Z": parameter = 18; break;
-                    case "U": parameter = 19; break;
-                    case "I": parameter = 20; break;
-                    case "O": parameter = 21; break;
-                    case "P": parameter = 22; break;
-                    case "Oem1": parameter = 23; break;
-                    case "Oemplus": parameter = 24; break;
-                    case "A": parameter = 25; break;
-                    case "S": parameter = 26; break;
-                    case "D": parameter = 27; break;
-                    case "F": parameter = 28; break;
-                    case "G": parameter = 29; break;
-                    case "H": parameter = 30; break;
-                    case "J": parameter = 31; break;
-                    case "K": parameter = 32; break;
-                    case "L": parameter = 33; break;
-                    case "Oemtilde": parameter = 34; break;
-                    case "Oem7": parameter = 35; break;
-                    case "OemQuestion": parameter = 36; break;
-                    case "OemBackslash": parameter = 37; break;
-                    case "Y": parameter = 38; break;
-                    case "X": parameter = 39; break;
-                    case "C": parameter = 40; break;
-                    case "V": parameter = 41; break;
-                    case "B": parameter = 42; break;
-                    case "N": parameter = 43; break;
-                    case "M": parameter = 44; break;
-                    case "Oemcomma": parameter = 45; break;
-                    case "OemPeriod": parameter = 46; break;
-                    case "OemMinus": parameter = 47; break;
-                    case "Add": parameter = 100; break;
-                    default: Console.WriteLine("DEFAULT"); parameter = 99999; break;
-                }
-            }
-            else if(MineSweeper.KeyboardLayout == (int)Config.Layout.US)
-            {
-                switch (key)
-                {
-                    case "D1": parameter = 1; break;
-                    case "D2": parameter = 2; break;
-                    case "D3": parameter = 3; break;
-                    case "D4": parameter = 4; break;
-                    case "D5": parameter = 5; break;
-                    case "D6": parameter = 6; break;
-                    case "D7": parameter = 7; break;
-                    case "D8": parameter = 8; break;
-                    case "D9": parameter = 9; break;
-                    case "D0": parameter = 10; break;
-                    case "OemMinus": parameter = 11; break;
-                    case "Oemplus": parameter = 12; break;
-                    case "Q": parameter = 13; break;
-                    case "W": parameter = 14; break;
-                    case "E": parameter = 15; break;
-                    case "R": parameter = 16; break;
-                    case "T": parameter = 17; break;
-                    case "Y": parameter = 18; break;
-                    case "U": parameter = 19; break;
-                    case "I": parameter = 20; break;
-                    case "O": parameter = 21; break;
-                    case "P": parameter = 22; break;
-                    case "OemOpenBrackets": parameter = 23; break;
-                    case "Oem6": parameter = 24; break;
-                    case "A": parameter = 25; break;
-                    case "S": parameter = 26; break;
-                    case "D": parameter = 27; break;
-                    case "F": parameter = 28; break;
-                    case "G": parameter = 29; break;
-                    case "H": parameter = 30; break;
-                    case "J": parameter = 31; break;
-                    case "K": parameter = 32; break;
-                    case "L": parameter = 33; break;
-                    case "Oem1": parameter = 34; break;
-                    case "Oem7": parameter = 35; break;
-                    //no 36 and 37 as that key is not present in us keyboards
-                    case "Z": parameter = 38; break;
-                    case "X": parameter = 39; break;
-                    case "C": parameter = 40; break;
-                    case "V": parameter = 41; break;
-                    case "B": parameter = 42; break;
-                    case "N": parameter = 43; break;
-                    case "M": parameter = 44; break;
-                    case "Oemcomma": parameter = 45; break;
-                    case "OemPeriod": parameter = 46; break;
-                    case "OemQuestion": parameter = 47; break;
-                    case "Add": parameter = 100; break;
-                    default: Console.WriteLine("DEFAULT"); parameter = 99999; break;
-                }
-            }
-            else if (MineSweeper.KeyboardLayout == (int)Config.Layout.UK)
-            {
-                switch (key)
-                {
-                    case "D1": parameter = 1; break;
-                    case "D2": parameter = 2; break;
-                    case "D3": parameter = 3; break;
-                    case "D4": parameter = 4; break;
-                    case "D5": parameter = 5; break;
-                    case "D6": parameter = 6; break;
-                    case "D7": parameter = 7; break;
-                    case "D8": parameter = 8; break;
-                    case "D9": parameter = 9; break;
-                    case "D0": parameter = 10; break;
-                    case "OemMinus": parameter = 11; break;
-                    case "Oemplus": parameter = 12; break;
-                    case "Q": parameter = 13; break;
-                    case "W": parameter = 14; break;
-                    case "E": parameter = 15; break;
-                    case "R": parameter = 16; break;
-                    case "T": parameter = 17; break;
-                    case "Y": parameter = 18; break;
-                    case "U": parameter = 19; break;
-                    case "I": parameter = 20; break;
-                    case "O": parameter = 21; break;
-                    case "P": parameter = 22; break;
-                    case "OemOpenBrackets": parameter = 23; break;
-                    case "Oem6": parameter = 24; break;
-                    case "A": parameter = 25; break;
-                    case "S": parameter = 26; break;
-                    case "D": parameter = 27; break;
-                    case "F": parameter = 28; break;
-                    case "G": parameter = 29; break;
-                    case "H": parameter = 30; break;
-                    case "J": parameter = 31; break;
-                    case "K": parameter = 32; break;
-                    case "L": parameter = 33; break;
-                    case "Oem1": parameter = 34; break;
-                    case "Oemtilde": parameter = 35; break;
-                    case "Oem7": parameter = 36; break;
-                    case "Oem5": parameter = 37; break;
-                    case "Z": parameter = 38; break;
-                    case "X": parameter = 39; break;
-                    case "C": parameter = 40; break;
-                    case "V": parameter = 41; break;
-                    case "B": parameter = 42; break;
-                    case "N": parameter = 43; break;
-                    case "M": parameter = 44; break;
-                    case "Oemcomma": parameter = 45; break;
-                    case "OemPeriod": parameter = 46; break;
-                    case "OemQuestion": parameter = 47; break;
-                    case "Add": parameter = 100; break;
-                    default: Console.WriteLine("DEFAULT"); parameter = 99999; break;
-                }
-            }
         }
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
@@ -530,7 +354,7 @@ namespace LogitechGMineSweeper
             mainWnd.Topmost = false; // important
             mainWnd.Focus();
 
-            mainWnd.UpdateColors();
+            MineSweeper.printLogiLED();
         }
 
         private void Application_Exit(object sender, ExitEventArgs e)

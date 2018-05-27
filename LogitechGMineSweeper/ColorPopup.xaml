@@ -104,14 +104,14 @@
     <Grid Height="331" Margin="0,0,-0.4,0" VerticalAlignment="Top">
         <Label MouseDown="Window_MouseDown" VerticalContentAlignment="Center" Content="Hallo" Padding="10,0,0,0" Margin="0,0,30.4,301.2" Name="MessageTitle" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" Foreground="Black" Panel.ZIndex="500" Height="30"/>
 
-        <Button Grid.Column="1" HorizontalAlignment="Right" MouseEnter="image1_MouseEnter" MouseLeave="image1_MouseLeave" Panel.ZIndex="600" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Height="30" Click="Button_Click_4">
+        <Button HorizontalAlignment="Right" MouseEnter="image1_MouseEnter" MouseLeave="image1_MouseLeave" Panel.ZIndex="600" Margin="0,0,0.5,0" VerticalAlignment="Top" Width="40" Height="30" Click="Button_Click_4">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Template" Value="{StaticResource buttonred}"/>
                 </Style>
             </Button.Style>
             <StackPanel Width="40" Margin="-4,-1,0,0.4"  Height="30" VerticalAlignment="Center" Orientation="Horizontal" Opacity="0.5">
-                <Image Name="image1" Width="40.5" Height="30" Source="close.png" Margin="0,0,0,0">
+                <Image Name="image1" Width="40" Height="30" Source="symbols/close.png" Margin="0,0,0,0.4">
                 </Image>
             </StackPanel>
         </Button>
@@ -120,8 +120,6 @@
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,277,0,10" >
             <Button Name="btnOk" Content="OK"  Margin="3,5" MinWidth="70" Height="30" Click="Button_Click" Foreground="Black" FontSize="14" Background="white" VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-            <Button Name="btnYes" Content="Yes" Margin="3,5" MinWidth="70" Height="30" Click="Button_Click" Foreground="Black" FontSize="14" Background="white" VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-            <Button Name="btnNo" Content="No" Margin="3,5" MinWidth="70" Height="30" Click="Button_Click" Foreground="Black" FontSize="14" Background="white" VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
             <Button Name="btnCancel" Margin="3,5" Content="Cancel" MinWidth="70" Height="30" Click="Button_Click" Foreground="Black" Background="white" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
         </StackPanel>
 

@@ -48,14 +48,14 @@
                            Padding="10,8,0,0"
 
                 VerticalAlignment="Center" Foreground="Black" Panel.ZIndex="500" Height="40" HorizontalAlignment="Left" Width="349"/>
-                <Button HorizontalAlignment="Right" MouseEnter="image1_MouseEnter" MouseLeave="image1_MouseLeave" Panel.ZIndex="600" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="Button_Click_4">
+                <Button HorizontalAlignment="Right" MouseEnter="image1_MouseEnter" MouseLeave="image1_MouseLeave" Panel.ZIndex="600" Margin="0,0,0.2,0" VerticalAlignment="Top" Width="40" Height="40" Click="Button_Click_4">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="Template" Value="{StaticResource buttonred}"/>
                         </Style>
                     </Button.Style>
                     <StackPanel Width="40" Margin="-4,-1,0,0.4"  Height="30" VerticalAlignment="Center" Orientation="Horizontal" Opacity="0.5">
-                        <Image Name="image1" Width="41" Source="close.png" Margin="0,0,0,0.4"/>
+                        <Image Name="image1" Width="40" Source="symbols/close.png" Margin="0,0,0,0.4"/>
                     </StackPanel>
                 </Button>
             </Grid>

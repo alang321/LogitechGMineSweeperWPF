@@ -1,0 +1,245 @@
+﻿<UserControl x:Class="LogitechGMineSweeper.KeyboardLayouts.US"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      Height="117.2" 
+      Width="381.867">
+
+    <Grid Margin="0,0,0,0">
+
+        <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Opacity="1" Stretch="Uniform" Margin="0,0,0,0" >
+            <Canvas x:Name="svg1096" Width="1245" Height="381">
+
+                <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0" Canvas.Top="0" Width="1244" Height="380" RadiusX="5" RadiusY="5" x:Name="background" Fill="#FFCCCCCC"/>
+
+
+
+
+                <Button Click="ClickNoFunc" Width="79" Height="52" Margin="0" Canvas.Left="745" Canvas.Top="152" Style="{DynamicResource buttonColor9}" />
+
+                <!--Row 1-->
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="16" />
+
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="124" />
+                <Button Click="ClickCount" Content="F1" Name="f0" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="124" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="178" />
+                <Button Click="ClickCount" Content="F2" Name="f1" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="178" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="232" />
+                <Button Click="ClickCount" Content="F3" Name="f2" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="232" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="286" />
+                <Button Click="ClickCount" Content="F4" Name="f3" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="286" />
+
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="367" />
+                <Button Click="ClickCount" Content="F5" Name="f4" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="367" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="421.5" />
+                <Button Click="ClickCount" Content="F6" Name="f5" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="421.5" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="475" />
+                <Button Click="ClickCount" Content="F7" Name="f6" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="475" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="529" />
+                <Button Click="ClickCount" Content="F8" Name="f7" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="529" />
+
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="610.5" />
+                <Button Click="ClickCount" Content="F9" Name="f8" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="610.5" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="664" />
+                <Button Click="ClickCount" Content="F10" Name="f9" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="664" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="718" />
+                <Button Click="ClickCount" Content="F11" Name="f10" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="718" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="772" />
+                <Button Click="ClickCount" Content="F12" Name="f11" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="772" />
+
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="840" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="893.5" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="948" />
+
+                <!--Row 2-->
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="97" Style="{DynamicResource buttonColor9}" Canvas.Left="16" />
+                <Button Click="ClickGameField" Content="1" Name="p0" Width="52" Height="52" Margin="0" Canvas.Left="70" Canvas.Top="97" Style="{DynamicResource buttonColor8}" />
+                <Button Background="#00000001" Click="ClickGameField" Content="2" Name="p1" Width="52" Height="52" Margin="0" Canvas.Left="124" Canvas.Top="97" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="3" Name="p2" Width="52" Height="52" Margin="0" Canvas.Left="178.5" Canvas.Top="97" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="4" Name="p3" Width="52" Height="52" Margin="0" Canvas.Left="232" Canvas.Top="97" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="5" Name="p4" Width="52" Height="52" Margin="0" Canvas.Left="286" Canvas.Top="97" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="6" Name="p5" Width="52" Height="52" Margin="0" Canvas.Left="340" Canvas.Top="97" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="7" Name="p6" Width="52" Height="52" Margin="0" Canvas.Left="394" Canvas.Top="97" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="8" Name="p7" Width="52" Height="52" Margin="0" Canvas.Left="448" Canvas.Top="97" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="9" Name="p8" Width="52" Height="52" Margin="0" Canvas.Left="502" Canvas.Top="97" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="0" Name="p9" Width="52" Height="52" Margin="0" Canvas.Left="556" Canvas.Top="97" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Name="p10" Width="52" Height="52" Margin="0" Canvas.Left="610" Canvas.Top="97" Style="{DynamicResource buttonColor8}">
+                    <Button.Content>
+                        <Grid>
+                            <Label Foreground="{Binding Foreground, ElementName=p10}" VerticalAlignment="Center" HorizontalAlignment="Left" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Content="-" Width="39" Height="45" Margin="-1,-4,0,3"/>
+                            <Label Foreground="{Binding Foreground, ElementName=p10}" VerticalAlignment="Center" HorizontalAlignment="Left" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Content="-" Width="39" Height="45" Margin="5,-4,-0.8,3"/>
+                            <Label Foreground="{Binding Foreground, ElementName=p10}" VerticalAlignment="Center" HorizontalAlignment="Left" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" Content="-" Width="44" Height="38" Margin="0,9,-1,-3"/>
+                        </Grid>
+                    </Button.Content>
+                </Button>
+                <Button Click="ClickGameField" Name="p11" Width="52" Height="52" Margin="0" Canvas.Left="664" Canvas.Top="97" Style="{DynamicResource buttonColor8}">
+                    <Button.Content>
+                        <Grid>
+                            <Label Foreground="{Binding Foreground, ElementName=p11}" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Content="+" Width="43" Height="43" Margin="0,-4,0.2,5"/>
+                            <Label Foreground="{Binding Foreground, ElementName=p11}" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" Content="=" Width="43" Height="43" Margin="0,5,0.2,-4"/>
+                        </Grid>
+                    </Button.Content>
+                </Button>
+                <Button Click="ClickNoFunc" Width="106" Height="52" Margin="0" Canvas.Left="718" Canvas.Top="97" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="840" Canvas.Top="97" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="893.5" Canvas.Top="97" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="948" Canvas.Top="97" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1015" Canvas.Top="97" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1069.5" Canvas.Top="97" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1123" Canvas.Top="97" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1177" Canvas.Top="97" Style="{DynamicResource buttonColor9}" />
+
+                <!--Row 3-->
+                <Button Click="ClickNoFunc" Width="79" Height="52" Margin="0" Canvas.Left="16" Canvas.Top="151" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickGameField" Content="Q" Name="p12" Width="52" Height="52" Margin="0" Canvas.Left="97" Canvas.Top="151" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="W" Name="p13" Width="52" Height="52" Margin="0" Canvas.Left="151" Canvas.Top="151" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="E" Name="p14" Width="52" Height="52" Margin="0" Canvas.Left="205.5" Canvas.Top="151" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="R" Name="p15" Width="52" Height="52" Margin="0" Canvas.Left="259" Canvas.Top="151" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="T" Name="p16" Width="52" Height="52" Margin="0" Canvas.Left="313" Canvas.Top="151" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="Y" Name="p17" Width="52" Height="52" Margin="0" Canvas.Left="367" Canvas.Top="151" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="U" Name="p18" Width="52" Height="52" Margin="0" Canvas.Left="421" Canvas.Top="151" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="I" Name="p19" Width="52" Height="52" Margin="0" Canvas.Left="475" Canvas.Top="151" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="O" Name="p20" Width="52" Height="52" Margin="0" Canvas.Left="529" Canvas.Top="151" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="P" Name="p21" Width="52" Height="52" Margin="0" Canvas.Left="583" Canvas.Top="151" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Name="p22" Width="52" Height="52" Margin="0" Canvas.Left="689" Canvas.Top="151" Style="{DynamicResource buttonColor8}">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <Button.Content>
+                        <Grid>
+                            <Label Foreground="{Binding Foreground, ElementName=p22}" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Content="}" Width="44" Height="29" Margin="0,-3,-0.8,18" Padding="0,2,0,0"/>
+                            <Label Foreground="{Binding Foreground, ElementName=p22}" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" Content="]" Width="43" Height="39" Margin="0,5,0.2,0" Padding="0,0,0,2"/>
+                        </Grid>
+                    </Button.Content>
+                </Button>
+                <Button Click="ClickGameField" Name="p23" Width="52" Height="52" Margin="0" Canvas.Left="691" Canvas.Top="151" Style="{DynamicResource buttonColor8}">
+                    <Button.Content>
+                        <Grid>
+                            <Label Foreground="{Binding Foreground, ElementName=p23}" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Content="}" Width="44" Height="29" Margin="0,-3,-0.8,18" Padding="0,2,0,0"/>
+                            <Label Foreground="{Binding Foreground, ElementName=p23}" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" Content="]" Width="43" Height="39" Margin="0,5,0.2,0" Padding="0,0,0,2"/>
+                        </Grid>
+                    </Button.Content>
+                </Button>
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="839" Canvas.Top="151" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="893" Canvas.Top="151" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="948" Canvas.Top="151" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1015" Canvas.Top="151" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1069" Canvas.Top="151" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1123" Canvas.Top="151" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickNewGame" Content="+" Name="newGame" Width="53" Height="106.5" Margin="0" Canvas.Left="1177" Canvas.Top="151" Style="{DynamicResource buttonColor11}" />
+
+                <!--Row 4-->
+                <Button Click="ClickNoFunc" Width="93" Height="52" Margin="0" Canvas.Left="16" Canvas.Top="205.5" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickGameField" Content="A" Name="p24" Width="52" Height="52" Margin="0" Canvas.Left="110" Canvas.Top="205.5" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="S" Name="p25" Width="52" Height="52" Margin="0" Canvas.Left="165" Canvas.Top="205.5" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="D" Name="p26" Width="52" Height="52" Margin="0" Canvas.Left="218.5" Canvas.Top="205.5" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="F" Name="p27" Width="52" Height="52" Margin="0" Canvas.Left="273" Canvas.Top="205.5" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="G" Name="p28" Width="52" Height="52" Margin="0" Canvas.Left="326" Canvas.Top="205.5" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="H" Name="p29" Width="52" Height="52" Margin="0" Canvas.Left="381" Canvas.Top="205.5" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="J" Name="p30" Width="52" Height="52" Margin="0" Canvas.Left="434.5" Canvas.Top="205.5" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="K" Name="p31" Width="52" Height="52" Margin="0" Canvas.Left="489" Canvas.Top="205.5" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="L" Name="p32" Width="52" Height="52" Margin="0" Canvas.Left="542" Canvas.Top="205.5" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Name="p33" Width="52" Height="52" Margin="0" Canvas.Left="597" Canvas.Top="205.5" Style="{DynamicResource buttonColor8}">
+                    <Button.Content>
+                        <Grid>
+                            <Label Foreground="{Binding Foreground, ElementName=p33}" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Content=":" Width="43" Height="43" Margin="0,-9,0.2,5"/>
+                            <Label Foreground="{Binding Foreground, ElementName=p33}" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" Content=";" Width="43" Height="40" Margin="0,5,0,-1"/>
+                        </Grid>
+                    </Button.Content>
+                </Button>
+                <Button Click="ClickGameField" Name="p34" Width="52" Height="52" Margin="0" Canvas.Left="650.5" Canvas.Top="205.5" Style="{DynamicResource buttonColor8}">
+                    <Button.Content>
+                        <Grid>
+                            <Label Foreground="{Binding Foreground, ElementName=p34}" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Content="&quot;" Width="43" Height="43" Margin="0,-4,0.2,5"/>
+                            <Label Foreground="{Binding Foreground, ElementName=p34}" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" Content="'" Width="43" Height="43" Margin="0,5,0.2,-4"/>
+                        </Grid>
+                    </Button.Content>
+                </Button>
+                <Button Visibility="Hidden" Click="ClickGameField" Name="p35" Width="52" Height="52" Margin="0" Canvas.Left="705" Canvas.Top="205.5" Style="{DynamicResource buttonColor8}">
+                    <Button.Content>
+                        <Grid>
+                            <Label Foreground="{Binding Foreground, ElementName=p35}" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Content="'" Width="43" Height="43" Margin="0,-4,0.2,5"/>
+                            <Label Foreground="{Binding Foreground, ElementName=p35}" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" Content="#" Width="43" Height="43" Margin="0,5,0.2,-4"/>
+                        </Grid>
+                    </Button.Content>
+                </Button>
+                <Button Click="ClickNoFunc" Width="120" Height="52" Margin="0" Canvas.Left="704" Canvas.Top="205.5" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickKey" Content="4" Name="k4" Width="52" Height="52" Margin="0" Canvas.Left="1015" Canvas.Top="205.5" Style="{DynamicResource buttonColor4}" />
+                <Button Click="ClickKey" Content="5" Name="k5" Width="52" Height="52" Margin="0" Canvas.Left="1069.5" Canvas.Top="205.5" Style="{DynamicResource buttonColor5}" />
+                <Button Click="ClickKey" Content="6" Name="k6" Width="52" Height="52" Margin="0" Canvas.Left="1123.5" Canvas.Top="205.5" Style="{DynamicResource buttonColor6}" />
+
+                <!--Row 5-->
+                <Button Click="ClickNoFunc" Width="119" Height="52" Margin="0" Canvas.Left="16" Canvas.Top="259" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickFlagMod" Visibility="Collapsed" FontFamily="Marlett" Content="5" Name="ShiftL" Width="119" Height="52" Margin="0" Canvas.Left="16" Canvas.Top="259" Style="{DynamicResource buttonColor16}" />
+                <Button Visibility="Hidden" Click="ClickGameField" x:Name="p36" Width="52" Height="52" Margin="0" Canvas.Left="84" Canvas.Top="259" Style="{DynamicResource buttonColor8}">
+                    <Button.Content>
+                        <Grid>
+                            <Label Foreground="{Binding Foreground, ElementName=p36}" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Content=">" Width="43" Height="43" Margin="0,-4,0.2,5"/>
+                            <Label Foreground="{Binding Foreground, ElementName=p36}" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" Content="&lt;" Width="43" Height="41" Margin="0,5,0.2,-2"/>
+                        </Grid>
+                    </Button.Content>
+                </Button>
+                <Button Click="ClickGameField" Content="Z" x:Name="p37" Width="52" Height="52" Margin="0" Canvas.Left="138" Canvas.Top="259" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="X" x:Name="p38" Width="52" Height="52" Margin="0" Canvas.Left="191" Canvas.Top="259" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="C" x:Name="p39" Width="52" Height="52" Margin="0" Canvas.Left="246" Canvas.Top="259" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="V" x:Name="p40" Width="52" Height="52" Margin="0" Canvas.Left="300" Canvas.Top="259" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="B" x:Name="p41" Width="52" Height="52" Margin="0" Canvas.Left="354" Canvas.Top="259" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="N" x:Name="p42" Width="52" Height="52" Margin="0" Canvas.Left="407.5" Canvas.Top="259" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" Content="M" x:Name="p43" Width="52" Height="52" Margin="0" Canvas.Left="461.5" Canvas.Top="259" Style="{DynamicResource buttonColor8}" />
+                <Button Click="ClickGameField" x:Name="p44" Width="52" Height="52" Margin="0" Canvas.Left="516" Canvas.Top="259" Style="{DynamicResource buttonColor8}">
+                    <Button.Content>
+                        <Grid>
+                            <Label Foreground="{Binding Foreground, ElementName=p44}" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Content="&lt;" Width="43" Height="43" Margin="0,-4,0.2,5"/>
+                            <Label Foreground="{Binding Foreground, ElementName=p44}" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" Content="," Width="43" Height="43" Margin="0,5,0.2,-4"/>
+                        </Grid>
+                    </Button.Content>
+                </Button>
+                <Button Click="ClickGameField" x:Name="p45" Width="52" Height="52" Margin="0" Canvas.Left="570" Canvas.Top="259" Style="{DynamicResource buttonColor8}">
+                    <Button.Content>
+                        <Grid>
+                            <Label Foreground="{Binding Foreground, ElementName=p45}" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Content="&gt;" Width="43" Height="43" Margin="0,-4,0.2,5"/>
+                            <Label Foreground="{Binding Foreground, ElementName=p45}" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" Content="." Width="43" Height="43" Margin="0,5,0.2,-4"/>
+                        </Grid>
+                    </Button.Content>
+                </Button>
+                <Button Click="ClickGameField" x:Name="p46" Width="52" Height="52" Margin="0" Canvas.Left="623.5" Canvas.Top="259" Style="{DynamicResource buttonColor8}">
+                    <Button.Content>
+                        <Grid>
+                            <Label Foreground="{Binding Foreground, ElementName=p46}" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Content="?" Width="43" Height="41" Margin="0,-6,0,7"/>
+                            <Label Foreground="{Binding Foreground, ElementName=p46}" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" Content="/" Width="43" Height="41" Margin="0,9,0,-4"/>
+                        </Grid>
+                    </Button.Content>
+                </Button>
+                <Button Click="ClickNoFunc" Width="146" Height="52" Margin="0" Canvas.Left="677.5" Canvas.Top="259" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickFlagMod" Visibility="{Binding Visibility, ElementName=ShiftL}" FontFamily="Marlett" Content="5" Name="ShiftR" Width="146" Height="52" Margin="0" Canvas.Left="677.5" Canvas.Top="259" Style="{DynamicResource buttonColor16}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="893.5" Canvas.Top="259" Style="{DynamicResource buttonColor9}"/>
+                <Button Click="ClickKey" Content="1" Name="k1" Width="52" Height="52" Margin="0" Canvas.Left="1015" Canvas.Top="259" Style="{DynamicResource buttonColor1}" />
+                <Button Click="ClickKey" Content="2" Name="k2" Width="52" Height="52" Margin="0" Canvas.Left="1069.5" Canvas.Top="259" Style="{DynamicResource buttonColor2}" />
+                <Button Click="ClickKey" Content="3" Name="k3" Width="52" Height="52" Margin="0" Canvas.Left="1123" Canvas.Top="259" Style="{DynamicResource buttonColor3}" />
+                <Button Click="ClickNoFunc" Width="52" Height="105.5" Margin="0" Canvas.Left="1177" Canvas.Top="259" Style="{DynamicResource buttonColor9}" />
+
+                <!--Row 6-->
+                <Button Click="ClickNoFunc" Width="66" Height="52" Margin="0" Canvas.Left="16" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
+                <Button Click="ClickNoFunc" Width="65" Height="52" Margin="0" Canvas.Left="84" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
+                <Button Click="ClickNoFunc" Width="65" Height="52" Margin="0" Canvas.Left="151" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
+                <Button Click="ClickNoFunc" Width="335" Height="52" Margin="0" Canvas.Left="218.5" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
+                <Button Click="ClickNoFunc" Width="65" Height="52" Margin="0" Canvas.Left="556" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
+                <Button Click="ClickNoFunc" Width="65" Height="52" Margin="0" Canvas.Left="624" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
+                <Button Click="ClickNoFunc" Width="65" Height="52" Margin="0" Canvas.Left="691" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
+                <Button Click="ClickNoFunc" Width="66" Height="52" Margin="0" Canvas.Left="758" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="840" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="893.5" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="948" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
+                <Button Click="ClickKey" Content="0" Name="k0" Width="105" Height="52" Margin="0" Canvas.Left="1015" Canvas.Top="313" Style="{DynamicResource buttonColor0}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1123" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
+            </Canvas>
+        </Viewbox>
+    </Grid>
+</UserControl>

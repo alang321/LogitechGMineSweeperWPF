@@ -24,7 +24,6 @@ namespace LogitechGMineSweeper
     {
         int index = 0;
         public static LogitechGMineSweeper.MainWindow main;
-        private System.Windows.Shapes.Rectangle c;
 
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
@@ -36,24 +35,46 @@ namespace LogitechGMineSweeper
 
         private void image1_MouseEnter(object sender, MouseEventArgs e)
         {
-            string packUri = @"pack://application:,,,/closeWhite.png";
+            string packUri = @"pack://application:,,,/symbols/closeWhite.png";
             image1.Source = new ImageSourceConverter().ConvertFromString(packUri) as ImageSource;
         }
 
         private void image1_MouseLeave(object sender, MouseEventArgs e)
         {
-            string packUri = @"pack://application:,,,/close.png";
+            string packUri = @"pack://application:,,,/symbols/close.png";
             image1.Source = new ImageSourceConverter().ConvertFromString(packUri) as ImageSource;
         }
 
         #region color picker
+
         private void ClrPcker_Background_SelectedColorChanged(object sender, EventArgs e)
         {
             MineSweeper.colors[index, 0] = ClrPcker_Background.B;
             MineSweeper.colors[index, 1] = ClrPcker_Background.G;
             MineSweeper.colors[index, 2] = ClrPcker_Background.R;
 
-            main.UpdateColors();
+            Application.Current.Resources["buttonColorBrush" + index.ToString()] = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]));
+
+            if(index == 12 || index == 13 || index == 14)
+            {
+                MineSweeper.colors[9, 0] = ClrPcker_Background.B;
+                MineSweeper.colors[9, 1] = ClrPcker_Background.G;
+                MineSweeper.colors[9, 2] = ClrPcker_Background.R;
+                Application.Current.Resources["buttonColorBrush9"] = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[9, 2], MineSweeper.colors[9, 1], MineSweeper.colors[9, 0]));
+            }
+            else
+            {
+                if (MineSweeper.colors[index, 2] + MineSweeper.colors[index, 1] + MineSweeper.colors[index, 0] < 270)
+                {
+                    Application.Current.Resources["TextColorBrush" + index.ToString()] = new SolidColorBrush(Colors.White);
+                }
+                else
+                {
+                    Application.Current.Resources["TextColorBrush" + index.ToString()] = new SolidColorBrush(Colors.Black);
+                }
+            }
+
+            MineSweeper.printLogiLED(false);
         }
         #endregion
         
@@ -129,114 +150,34 @@ namespace LogitechGMineSweeper
 
         static ColorPopup _messageBox;
         static MessageBoxResult _result = MessageBoxResult.No;
-        public static MessageBoxResult Show
-        (string caption, string msg, MessageBoxType type)
-        {
-            switch (type)
-            {
-                case MessageBoxType.ConfirmationWithYesNo:
-                    return Show(caption, msg, MessageBoxButton.YesNo);
-                case MessageBoxType.ConfirmationWithYesNoCancel:
-                    return Show(caption, msg, MessageBoxButton.YesNoCancel);
-                case MessageBoxType.Information:
-                    return Show(caption, msg, MessageBoxButton.OK);
-                case MessageBoxType.Error:
-                    return Show(caption, msg, MessageBoxButton.OK);
-                case MessageBoxType.Warning:
-                    return Show(caption, msg, MessageBoxButton.OK);
-                default:
-                    return MessageBoxResult.No;
-            }
-        }
-        public static MessageBoxResult Show(string msg, MessageBoxType type)
-        {
-            return Show(string.Empty, msg, type);
-        }
-        public static MessageBoxResult Show(string msg)
-        {
-            return Show(string.Empty, msg,
-            MessageBoxButton.OK);
-        }
-        public static MessageBoxResult Show
-        (string caption, string text)
-        {
-            return Show(caption, text,
-            MessageBoxButton.OK);
-        }
-        public static MessageBoxResult Show
-        (string caption, string text, MessageBoxButton button)
-        {
-            _messageBox = new ColorPopup
-            { MessageTitle = { Content = caption } };
-            SetVisibilityOfButtons(button);
-            _messageBox.ShowDialog();
-            return _result;
-        }
+        
 
-
-        public static MessageBoxResult Show
-        (string caption, System.Windows.Media.Color a, MessageBoxButton button, int b, System.Windows.Shapes.Rectangle c)
-        {
-            _messageBox = new ColorPopup
-            { MessageTitle = { Content = caption } };
-            main = App.Current.MainWindow as MainWindow;
-            _messageBox.c = c;
-            _messageBox.index = b;
-            _messageBox.ClrPcker_Background.SelectedColor = a;
-            SetVisibilityOfButtons(button);
-            _messageBox.ShowDialog();
-            return _result;
-        }
-
-        public static MessageBoxResult Show
-        (string caption, System.Windows.Media.Color a, MessageBoxButton button, int b)
+        public static MessageBoxResult Show(string caption, System.Windows.Media.Color a, MessageBoxButton button, int b)
         {
             _messageBox = new ColorPopup
             { MessageTitle = { Content = caption } };
             main = App.Current.MainWindow as MainWindow;
             _messageBox.index = b;
             _messageBox.ClrPcker_Background.SelectedColor = a;
-            SetVisibilityOfButtons(button);
             _messageBox.ShowDialog();
             return _result;
         }
 
-        private static void SetVisibilityOfButtons(MessageBoxButton button)
+        public static MessageBoxResult Show(string caption, System.Windows.Media.Color a, MessageBoxButton button, int b, bool update)
         {
-            switch (button)
-            {
-                case MessageBoxButton.OK:
-                    _messageBox.btnCancel.Visibility = Visibility.Collapsed;
-                    _messageBox.btnNo.Visibility = Visibility.Collapsed;
-                    _messageBox.btnYes.Visibility = Visibility.Collapsed;
-                    _messageBox.btnOk.Focus();
-                    break;
-                case MessageBoxButton.OKCancel:
-                    _messageBox.btnNo.Visibility = Visibility.Collapsed;
-                    _messageBox.btnYes.Visibility = Visibility.Collapsed;
-                    _messageBox.btnCancel.Focus();
-                    break;
-                case MessageBoxButton.YesNo:
-                    _messageBox.btnOk.Visibility = Visibility.Collapsed;
-                    _messageBox.btnCancel.Visibility = Visibility.Collapsed;
-                    _messageBox.btnNo.Focus();
-                    break;
-                case MessageBoxButton.YesNoCancel:
-                    _messageBox.btnOk.Visibility = Visibility.Collapsed;
-                    _messageBox.btnCancel.Focus();
-                    break;
-                default:
-                    break;
-            }
+            _messageBox = new ColorPopup
+            { MessageTitle = { Content = caption } };
+            main = App.Current.MainWindow as MainWindow;
+            _messageBox.index = b;
+            _messageBox.ClrPcker_Background.SelectedColor = a;
+            _messageBox.ShowDialog();
+            return _result;
         }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (sender == btnOk)
                 _result = MessageBoxResult.OK;
-            else if (sender == btnYes)
-                _result = MessageBoxResult.Yes;
-            else if (sender == btnNo)
-                _result = MessageBoxResult.No;
             else if (sender == btnCancel)
                 _result = MessageBoxResult.Cancel;
             else

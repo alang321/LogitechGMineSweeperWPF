@@ -16,7 +16,8 @@
     WindowStartupLocation="CenterScreen"
     MinHeight="394"
     MinWidth="600"
-    Loaded="Window_Loaded" MouseLeftButtonDown="Window_MouseEnter" BorderBrush="Black">
+    Loaded="Window_Loaded"
+    BorderBrush="Black">
 
     <Grid Margin="0,0,0,-0.4">
         <Grid.RowDefinitions>
@@ -40,7 +41,7 @@
                     </Style>
                 </Button.Style>
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="min.png" Width="12" Height="10" VerticalAlignment="Center" Margin="0,0,0,0" Opacity="0.5"/>
+                    <Image Source="symbols/min.png" Width="12" Height="10" VerticalAlignment="Center" Margin="0,0,0,0" Opacity="0.5"/>
                 </StackPanel>
             </Button>
 
@@ -51,7 +52,7 @@
                     </Style>
                 </Button.Style>
                 <StackPanel Width="40" Margin="-4,-1,0,0.4"  Height="30" VerticalAlignment="Center" Orientation="Horizontal" Opacity="0.5">
-                    <Image Name="image1" Width="40.5" Height="30" Source="close.png" Margin="0,0,0,0">
+                    <Image Name="image1" Width="40.5" Height="30" Source="symbols/close.png" Margin="0,0,0,0">
                     </Image>
                 </StackPanel>
             </Button>
@@ -65,7 +66,7 @@
                 </Style>
             </Button.Style>
             <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
-                <Image Source="settings.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                <Image Source="symbols/settings.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
                 <TextBlock Text="  Settings" VerticalAlignment="Center" Height="25" />
             </StackPanel>
         </Button>
@@ -77,7 +78,7 @@
                 </Style>
             </Button.Style>
             <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
-                <Image Source="color.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                <Image Source="symbols/color.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
                 <TextBlock Text="  Colors" VerticalAlignment="Center" Height="25" />
             </StackPanel>
         </Button>
@@ -89,7 +90,7 @@
                 </Style>
             </Button.Style>
             <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
-                <Image Source="stats.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                <Image Source="symbols/stats.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
                 <TextBlock Text="  Statistics" VerticalAlignment="Center" Height="25" />
             </StackPanel>
         </Button>
@@ -101,7 +102,7 @@
                 </Style>
             </Button.Style>
             <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
-                <Image Source="reset.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                <Image Source="symbols/reset.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
                 <TextBlock VerticalAlignment="Center" Height="25" ><Run Text="  "/><Run Text="Reset"/></TextBlock>
             </StackPanel>
         </Button>
@@ -136,9 +137,6 @@
 
                         <Label HorizontalAlignment="Left" FontWeight="DemiBold" VerticalAlignment="Top" Margin="0,139,0,0" Content="Change Keyboard-Layout" Height="32" FontSize="16"/>
                         <ComboBox HorizontalAlignment="Left" VerticalContentAlignment="Center" BorderThickness="2" FontSize="14" Name="KeyLayout" Margin="146,176,0,106.8" SelectionChanged="KeyLayout_SelectionChanged" Width="57">
-                            <ComboBoxItem Content="DE"/>
-                            <ComboBoxItem Content="US"/>
-                            <ComboBoxItem Content="UK"/>
                         </ComboBox>
                     </Grid>
                 </Grid>
@@ -151,773 +149,69 @@
                     <Label Name="fonttitle" Margin="0,0,0,0" Content="Colors" FontWeight="Normal" FontSize="26" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                     <Label VerticalAlignment="Top" HorizontalAlignment="Left" FontWeight="DemiBold" Margin="0,52,0,0" Content="Click on a key to change its color" FontSize="16"/>
+                    
+                    <Grid Name="KeyboardDisplayContainer" Margin="21,84,48.2,155"></Grid>
 
-                    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Opacity="1" Stretch="Uniform" Margin="-10,87,0,160" >
-                        <Canvas x:Name="svg1096" Width="1245" Height="381">
-
-                            <Canvas.Resources>
-                                <LinearGradientBrush xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Key="DCS" MappingMode="RelativeToBoundingBox" StartPoint="0,0" EndPoint="1,1">
-                                    <LinearGradientBrush.GradientStops>
-                                        <GradientStopCollection>
-                                            <GradientStop Color="#00000000" Offset="0"/>
-                                            <GradientStop Color="#000000" Offset="0.4"/>
-                                            <GradientStop Color="#000000" Offset="0.6"/>
-                                            <GradientStop Color="#00000000" Offset="1"/>
-                                        </GradientStopCollection>
-                                    </LinearGradientBrush.GradientStops>
-                                </LinearGradientBrush>
-                                <LinearGradientBrush xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Key="SPACE" MappingMode="RelativeToBoundingBox" StartPoint="0,0" EndPoint="0,1">
-                                    <LinearGradientBrush.GradientStops>
-                                        <GradientStopCollection>
-                                            <GradientStop Color="#000000" Offset="0"/>
-                                            <GradientStop Color="#00000000" Offset="0.2"/>
-                                            <GradientStop Color="#00000000" Offset="0.4"/>
-                                            <GradientStop Color="#000000" Offset="1"/>
-                                        </GradientStopCollection>
-                                    </LinearGradientBrush.GradientStops>
-                                </LinearGradientBrush>
-                                <RadialGradientBrush xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Key="DSA" MappingMode="RelativeToBoundingBox">
-                                    <RadialGradientBrush.GradientStops>
-                                        <GradientStopCollection>
-                                            <GradientStop Color="#000000" Offset="0"/>
-                                            <GradientStop Color="#000000" Offset="0.1"/>
-                                            <GradientStop Color="#00000000" Offset="1"/>
-                                        </GradientStopCollection>
-                                    </RadialGradientBrush.GradientStops>
-                                </RadialGradientBrush>
-                                <RadialGradientBrush xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Key="SA" MappingMode="RelativeToBoundingBox">
-                                    <RadialGradientBrush.GradientStops>
-                                        <GradientStopCollection>
-                                            <GradientStop Color="#000000" Offset="0"/>
-                                            <GradientStop Color="#000000" Offset="0.1"/>
-                                            <GradientStop Color="#00000000" Offset="1"/>
-                                        </GradientStopCollection>
-                                    </RadialGradientBrush.GradientStops>
-                                </RadialGradientBrush>
-                            </Canvas.Resources>
-
-                            <Canvas.RenderTransform>
-                                <TranslateTransform X="0" Y="0"/>
-                            </Canvas.RenderTransform>
-                            <!--Unknown tag: metadata-->
-                            <!--Unknown tag: sodipodi:namedview-->
-                            <Canvas x:Name="g1094">
-                                <Canvas.RenderTransform>
-                                    <TranslateTransform X="10" Y="10"/>
-                                </Canvas.RenderTransform>
-                                <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="1225" Canvas.Top="361" Width="0" Height="0" RadiusX="0" RadiusY="0" x:Name="rect32" Fill="#FFEEEEEE" StrokeThickness="1" Stroke="#FFDDDDDD"/>
-                                <Canvas x:Name="g1092">
-                                    <Canvas.RenderTransform>
-                                        <TranslateTransform X="5" Y="5"/>
-                                    </Canvas.RenderTransform>
-                                    <Rectangle x:Name="us1" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="244" Width="120" Height="106" Fill="Transparent" Canvas.Left="1"/>
-
-                                    <Canvas x:Name="g422">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="-15" Canvas.Top="-15" Width="1244" Height="380" RadiusX="5" RadiusY="5" x:Name="background" Fill="#FFCCCCCC"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Stroke="Black" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="esc1" Fill="#FFCCCCCC"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="7" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="esc" Fill="#FFFCFCFC"/>
-                                    </Canvas>
-                                    <Canvas x:Name="b1">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="109" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="115" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="b2">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="163" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="169" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="b3">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="217" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="223" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="b4">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="271" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="277" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="b5">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="352" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="358" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="b6">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="406" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="412" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="b7">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="460" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="466" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="b8">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="514" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="520" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="b9">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="595" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d9l" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="601" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="gll" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="b10">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="649" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="655" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="b11">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="703" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d1z1" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="709" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="dzg" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="b12">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="757" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="zhzh2" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="763" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="tzhzh" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="f1v">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="109" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d1" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="115" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="f1" Fill="#FFFCFCFC"/>
-                                        <Label Content="F1" Name="FunctionForeground" Foreground="Black" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="115" Canvas.Top="4" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="f2">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="163" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d2" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=d1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="169" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="gh" Fill="{Binding Fill, ElementName=f1}"/>
-                                        <Label Foreground="{Binding Foreground, ElementName=FunctionForeground}" Content="F2" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="169" Canvas.Top="4" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="f3">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="217" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d3" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=d1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="223" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="ghg" Fill="{Binding Fill, ElementName=f1}"/>
-                                        <Label Foreground="{Binding Foreground, ElementName=FunctionForeground}" Content="F3" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="223" Canvas.Top="4" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="f4">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="271" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d4" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=d1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="277" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="gb" Fill="{Binding Fill, ElementName=f1}"/>
-                                        <Label Foreground="{Binding Foreground, ElementName=FunctionForeground}" Content="F4" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="277" Canvas.Top="4" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="f5">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="352" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d5" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=d1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="358" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="gbh" Fill="{Binding Fill, ElementName=f1}"/>
-                                        <Label Foreground="{Binding Foreground, ElementName=FunctionForeground}" Content="F5" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="358" Canvas.Top="4" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="f6">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="406" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d6" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=d1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="412" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="ghb" Fill="{Binding Fill, ElementName=f1}"/>
-                                        <Label Foreground="{Binding Foreground, ElementName=FunctionForeground}" Content="F6" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="412" Canvas.Top="4" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="f7">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="460" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d7" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=d1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="466" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="gj" Fill="{Binding Fill, ElementName=f1}"/>
-                                        <Label Foreground="{Binding Foreground, ElementName=FunctionForeground}" Content="F7" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="466" Canvas.Top="4" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="f8">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="514" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d8" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=d1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="520" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="gk" Fill="{Binding Fill, ElementName=f1}"/>
-                                        <Label Foreground="{Binding Foreground, ElementName=FunctionForeground}" Content="F8" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="520" Canvas.Top="4" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="f9">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="595" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d9" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=d1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="601" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="gl" Fill="{Binding Fill, ElementName=f1}"/>
-                                        <Label Foreground="{Binding Foreground, ElementName=FunctionForeground}" Content="F9" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="601" Canvas.Top="4" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="f10">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="649" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d10" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=d1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="655" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="fg" Fill="{Binding Fill, ElementName=f1}"/>
-                                        <Label Foreground="{Binding Foreground, ElementName=FunctionForeground}" Content="F10" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="654" Canvas.Top="4" Height="40" Width="42"/>
-                                    </Canvas>
-                                    <Canvas x:Name="f11">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="703" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d11" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=d1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="709" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="dg" Fill="{Binding Fill, ElementName=f1}"/>
-                                        <Label Foreground="{Binding Foreground, ElementName=FunctionForeground}" Content="F11" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="708" Canvas.Top="4" Height="40" Width="42"/>
-                                    </Canvas>
-                                    <Canvas x:Name="f12">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="757" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="d12" Stroke="{Binding Stroke, ElementName=esc1}" Fill="{Binding Fill, ElementName=d1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="763" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="th" Fill="{Binding Fill, ElementName=f1}"/>
-                                        <Label Foreground="{Binding Foreground, ElementName=FunctionForeground}" Content="F12" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="762.5" Canvas.Top="4" Height="40" Width="42"/>
-                                    </Canvas>
-                                    <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="109" Canvas.Top="1" Width="214" Height="52" x:Name="board1" Fill="#00900000"/>
-                                    <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="352" Canvas.Top="1" Width="214" Height="52" x:Name="board2" Fill="#00900000"/>
-                                    <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="595" Canvas.Top="1" Width="214" Height="52" x:Name="board3" Fill="#00900000"/>
-                                    <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="f1mouseup" MouseEnter="f1mousedown" MouseLeave="f1mouseleave" Canvas.Left="109" Canvas.Top="1" Width="214" Height="52" x:Name="function1" Fill="#00000000"/>
-                                    <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="f1mouseup" MouseEnter="f1mousedown" MouseLeave="f1mouseleave" Canvas.Left="352" Canvas.Top="1" Width="214" Height="52" x:Name="function2" Fill="#00000000"/>
-                                    <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="f1mouseup" MouseEnter="f1mousedown" MouseLeave="f1mouseleave" Canvas.Left="595" Canvas.Top="1" Width="214" Height="52" x:Name="function3" Fill="#00000000"/>
-                                    <Canvas x:Name="g172">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="824.5" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect164" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="830.5" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="rect170" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g182">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="878.5" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect174" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="884.5" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="rect180" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g192">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="932.5" Canvas.Top="1" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect184" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="938.5" Canvas.Top="4" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="rect190" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g202">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1" Canvas.Top="82" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect194" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="7" Canvas.Top="85" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="rect200" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g212">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g1mouseup" MouseEnter="g1mousedown" MouseLeave="g1mouseleave" Canvas.Left="55" Canvas.Top="82" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h1" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g1mouseup" MouseEnter="g1mousedown" MouseLeave="g1mouseleave" Canvas.Left="61" Canvas.Top="85" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g1" Fill="#FFFCFCFC"/>
-                                        <Label Content="1" MouseUp="g1mouseup" MouseEnter="g1mousedown" MouseLeave="g1mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="61" Canvas.Top="85" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g222">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g2mouseup" MouseEnter="g2mousedown" MouseLeave="g2mouseleave" Canvas.Left="109" Canvas.Top="82" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h2" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g2mouseup" MouseEnter="g2mousedown" MouseLeave="g2mouseleave" Canvas.Left="115" Canvas.Top="85" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g2" Fill="#FFFCFCFC"/>
-                                        <Label Content="2" MouseUp="g2mouseup" MouseEnter="g2mousedown" MouseLeave="g2mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="115" Canvas.Top="85" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g232">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g3mouseup" MouseEnter="g3mousedown" MouseLeave="g3mouseleave" Canvas.Left="163" Canvas.Top="82" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h3" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g3mouseup" MouseEnter="g3mousedown" MouseLeave="g3mouseleave" Canvas.Left="169" Canvas.Top="85" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g3" Fill="#FFFCFCFC"/>
-                                        <Label Content="3" MouseUp="g3mouseup" MouseEnter="g3mousedown" MouseLeave="g3mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="169" Canvas.Top="85" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g242">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g4mouseup" MouseEnter="g4mousedown" MouseLeave="g4mouseleave" Canvas.Left="217" Canvas.Top="82" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h4" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g4mouseup" MouseEnter="g4mousedown" MouseLeave="g4mouseleave" Canvas.Left="223" Canvas.Top="85" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g4" Fill="#FFFCFCFC"/>
-                                        <Label Content="4" MouseUp="g4mouseup" MouseEnter="g4mousedown" MouseLeave="g4mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="223" Canvas.Top="85" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g252">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g5mouseup" MouseEnter="g5mousedown" MouseLeave="g5mouseleave" Canvas.Left="271" Canvas.Top="82" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h5" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g5mouseup" MouseEnter="g5mousedown" MouseLeave="g5mouseleave" Canvas.Left="277" Canvas.Top="85" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g5" Fill="#FFFCFCFC"/>
-                                        <Label Content="5" MouseUp="g5mouseup" MouseEnter="g5mousedown" MouseLeave="g5mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="277" Canvas.Top="85" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g262">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g6mouseup" MouseEnter="g6mousedown" MouseLeave="g6mouseleave" Canvas.Left="325" Canvas.Top="82" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h6" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g6mouseup" MouseEnter="g6mousedown" MouseLeave="g6mouseleave" Canvas.Left="331" Canvas.Top="85" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g6" Fill="#FFFCFCFC"/>
-                                        <Label Content="6" MouseUp="g6mouseup" MouseEnter="g6mousedown" MouseLeave="g6mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="331" Canvas.Top="85" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g272">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g7mouseup" MouseEnter="g7mousedown" MouseLeave="g7mouseleave" Canvas.Left="379" Canvas.Top="82" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h7" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g7mouseup" MouseEnter="g7mousedown" MouseLeave="g7mouseleave" Canvas.Left="385" Canvas.Top="85" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g7" Fill="#FFFCFCFC"/>
-                                        <Label Content="7" MouseUp="g7mouseup" MouseEnter="g7mousedown" MouseLeave="g7mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="385" Canvas.Top="85" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g282">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g8mouseup" MouseEnter="g8mousedown" MouseLeave="g8mouseleave" Canvas.Left="433" Canvas.Top="82" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h8" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g8mouseup" MouseEnter="g8mousedown" MouseLeave="g8mouseleave" Canvas.Left="439" Canvas.Top="85" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g8" Fill="#FFFCFCFC"/>
-                                        <Label Content="8" MouseUp="g8mouseup" MouseEnter="g8mousedown" MouseLeave="g8mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="439" Canvas.Top="85" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g292">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g9mouseup" MouseEnter="g9mousedown" MouseLeave="g9mouseleave" Canvas.Left="487" Canvas.Top="82" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h9" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g9mouseup" MouseEnter="g9mousedown" MouseLeave="g9mouseleave" Canvas.Left="493" Canvas.Top="85" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g9" Fill="#FFFCFCFC"/>
-                                        <Label Content="9" MouseUp="g9mouseup" MouseEnter="g9mousedown" MouseLeave="g9mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="493" Canvas.Top="85" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g302">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g10mouseup" MouseEnter="g10mousedown" MouseLeave="g10mouseleave" Canvas.Left="541" Canvas.Top="82" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h10" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g10mouseup" MouseEnter="g10mousedown" MouseLeave="g10mouseleave" Canvas.Left="547" Canvas.Top="85" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g10" Fill="#FFFCFCFC"/>
-                                        <Label Content="0" MouseUp="g10mouseup" MouseEnter="g10mousedown" MouseLeave="g10mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="547" Canvas.Top="85" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g312">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g11mouseup" MouseEnter="g11mousedown" MouseLeave="g11mouseleave" Canvas.Left="595" Canvas.Top="82" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h11" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g11mouseup" MouseEnter="g11mousedown" MouseLeave="g11mouseleave" Canvas.Left="601" Canvas.Top="85" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g11" Fill="#FFFCFCFC"/>
-                                        <Label Padding="0,0,0,0" Content="?" MouseUp="g11mouseup" x:Name="ß" Visibility="Hidden" MouseEnter="g11mousedown" MouseLeave="g11mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="601" Canvas.Top="82" Height="25" Width="40"/>
-                                        <Label Padding="0,0,0,0" Content="ß" MouseUp="g11mouseup" Visibility="{Binding Visibility, ElementName=ß}" MouseEnter="g11mousedown" MouseLeave="g11mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="601" Canvas.Top="100" Height="25" Width="40"/>
-                                        <Label Padding="0,0,0,0" Content="-" Visibility="Visible" x:Name="ß1" MouseUp="g11mouseup" MouseEnter="g11mousedown" MouseLeave="g11mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="601" Canvas.Top="100" Height="25" Width="40"/>
-                                        <Label Padding="0,0,0,0" Content="-" Visibility="{Binding Visibility, ElementName=ß1}" MouseUp="g11mouseup" MouseEnter="g11mousedown" MouseLeave="g11mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="601" Canvas.Top="82" Height="25" Width="36"/>
-                                        <Label Padding="0,0,0,0" Content="-" MouseUp="g11mouseup" Visibility="{Binding Visibility, ElementName=ß1}" MouseEnter="g11mousedown" MouseLeave="g11mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="605" Canvas.Top="82" Height="25" Width="36"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g322">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g12newmouseup" MouseEnter="g12newmousedown" MouseLeave="g12newmouseleave" Canvas.Left="649" Canvas.Top="82" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h12new" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g12newmouseup" MouseEnter="g12newmousedown" MouseLeave="g12newmouseleave" Canvas.Left="655" Canvas.Top="85" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g12new" Fill="#FFFCFCFC"/>
-                                        <Label x:Name="h12newus" Visibility="Hidden" Padding="0,0,0,0" Content="+" MouseUp="g12newmouseup" MouseEnter="g12newmousedown" MouseLeave="g12newmouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="655" Canvas.Top="82" Height="25" Width="40"/>
-                                        <Label Visibility="{Binding Visibility, ElementName=h12newus}" Padding="0,0,0,0" Content="=" MouseUp="g12newmouseup" MouseEnter="g12newmousedown" MouseLeave="g12newmouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="655" Canvas.Top="100" Height="25" Width="40"/>
-                                        <Label x:Name="h12newde" Visibility="Visible" Padding="0,0,0,0" Content="`" MouseUp="g12newmouseup" MouseEnter="g12newmousedown" MouseLeave="g12newmouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="655" Canvas.Top="90" Height="25" Width="40"/>
-                                        <Label Visibility="{Binding Visibility, ElementName=h12newde}" Padding="0,0,0,0" Content="'" MouseUp="g12newmouseup" MouseEnter="g12newmousedown" MouseLeave="g12newmouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="655" Canvas.Top="109" Height="20" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g332">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="703" Canvas.Top="82" Width="106" Height="52" RadiusX="5" RadiusY="5" x:Name="rect324" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="709" Canvas.Top="85" Width="94" Height="40" RadiusX="5" RadiusY="5" x:Name="rect330" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g342">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="824.5" Canvas.Top="82" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect334" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="830.5" Canvas.Top="85" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="rect340" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g352">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="878.5" Canvas.Top="82" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect344" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="884.5" Canvas.Top="85" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="rect350" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g362">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="932.5" Canvas.Top="82" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect354" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="938.5" Canvas.Top="85" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="rect360" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g372">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1000" Canvas.Top="82" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect364" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1006" Canvas.Top="85" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="rect370" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g382">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1054" Canvas.Top="82" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect374" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1060" Canvas.Top="85" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="rect380" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g392">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1108" Canvas.Top="82" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect384" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1114" Canvas.Top="85" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="rect390" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g402">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1162" Canvas.Top="82" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect394" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1168" Canvas.Top="85" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="rect400" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g412">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1" Canvas.Top="136" Width="79" Height="52" RadiusX="5" RadiusY="5" x:Name="rect404" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="7" Canvas.Top="139" Width="67" Height="40" RadiusX="5" RadiusY="5" x:Name="rect410" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g422w">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g12mouseup" MouseEnter="g12mousedown" MouseLeave="g12mouseleave" Canvas.Left="82" Canvas.Top="136" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h12" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g12mouseup" MouseEnter="g12mousedown" MouseLeave="g12mouseleave" Canvas.Left="88" Canvas.Top="139" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g12" Fill="#FFFCFCFC"/>
-                                        <Label MouseUp="g12mouseup" MouseEnter="g12mousedown" MouseLeave="g12mouseleave" FontWeight="Bold" FontSize="19" x:Name="q" Content="Q" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="88" Canvas.Top="139" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g432">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g13mouseup" MouseEnter="g13mousedown" MouseLeave="g13mouseleave" Canvas.Left="136" Canvas.Top="136" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h13" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g13mouseup" MouseEnter="g13mousedown" MouseLeave="g13mouseleave" Canvas.Left="142" Canvas.Top="139" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g13" Fill="#FFFCFCFC"/>
-                                        <Label MouseUp="g13mouseup" MouseEnter="g13mousedown" MouseLeave="g13mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Content="W" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="142" Canvas.Top="139" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g442">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g14mouseup" MouseEnter="g14mousedown" MouseLeave="g14mouseleave" Canvas.Left="190" Canvas.Top="136" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h14" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g14mouseup" MouseEnter="g14mousedown" MouseLeave="g14mouseleave" Canvas.Left="196" Canvas.Top="139" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g14" Fill="#FFFCFCFC"/>
-                                        <Label MouseUp="g14mouseup" MouseEnter="g14mousedown" MouseLeave="g14mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Content="E" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="196" Canvas.Top="139" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g452">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g15mouseup" MouseEnter="g15mousedown" MouseLeave="g15mouseleave" Canvas.Left="244" Canvas.Top="136" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h15" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g15mouseup" MouseEnter="g15mousedown" MouseLeave="g15mouseleave" Canvas.Left="250" Canvas.Top="139" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g15" Fill="#FFFCFCFC"/>
-                                        <Label MouseUp="g15mouseup" MouseEnter="g15mousedown" MouseLeave="g15mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Content="R" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="250" Canvas.Top="139" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g462">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g16mouseup" MouseEnter="g16mousedown" MouseLeave="g16mouseleave" Canvas.Left="298" Canvas.Top="136" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h16" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g16mouseup" MouseEnter="g16mousedown" MouseLeave="g16mouseleave" Canvas.Left="304" Canvas.Top="139" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g16" Fill="#FFFCFCFC"/>
-                                        <Label MouseUp="g16mouseup" MouseEnter="g16mousedown" MouseLeave="g16mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Content="T" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="304" Canvas.Top="139" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g472">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g17mouseup" MouseEnter="g17mousedown" MouseLeave="g17mouseleave" Canvas.Left="352" Canvas.Top="136" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h17" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g17mouseup" MouseEnter="g17mousedown" MouseLeave="g17mouseleave" Canvas.Left="358" Canvas.Top="139" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g17" Fill="#FFFCFCFC"/>
-                                        <Label x:Name="yx" MouseUp="g17mouseup" MouseEnter="g17mousedown" MouseLeave="g17mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Content="Y" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="358" Canvas.Top="139" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g482">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g18mouseup" MouseEnter="g18mousedown" MouseLeave="g18mouseleave" Canvas.Left="406" Canvas.Top="136" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h18" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g18mouseup" MouseEnter="g18mousedown" MouseLeave="g18mouseleave" Canvas.Left="412" Canvas.Top="139" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g18" Fill="#FFFCFCFC"/>
-                                        <Label MouseUp="g18mouseup" MouseEnter="g18mousedown" MouseLeave="g18mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Content="U" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="412" Canvas.Top="139" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g492">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g19mouseup" MouseEnter="g19mousedown" MouseLeave="g19mouseleave" Canvas.Left="460" Canvas.Top="136" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h19" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g19mouseup" MouseEnter="g19mousedown" MouseLeave="g19mouseleave" Canvas.Left="466" Canvas.Top="139" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g19" Fill="#FFFCFCFC"/>
-                                        <Label MouseUp="g19mouseup" MouseEnter="g19mousedown" MouseLeave="g19mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Content="I" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="466" Canvas.Top="139" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g502">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g20mouseup" MouseEnter="g20mousedown" MouseLeave="g20mouseleave" Canvas.Left="514" Canvas.Top="136" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h20" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g20mouseup" MouseEnter="g20mousedown" MouseLeave="g20mouseleave" Canvas.Left="520" Canvas.Top="139" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g20" Fill="#FFFCFCFC"/>
-                                        <Label MouseUp="g20mouseup" MouseEnter="g20mousedown" MouseLeave="g20mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Content="O" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="520" Canvas.Top="139" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g512">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g21mouseup" MouseEnter="g21mousedown" MouseLeave="g21mouseleave" Canvas.Left="568" Canvas.Top="136" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h21" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g21mouseup" MouseEnter="g21mousedown" MouseLeave="g21mouseleave" Canvas.Left="574" Canvas.Top="139" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g21" Fill="#FFFCFCFC"/>
-                                        <Label MouseUp="g21mouseup" MouseEnter="g21mousedown" MouseLeave="g21mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Content="P" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="574" Canvas.Top="139" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g522w">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g22mouseup" MouseEnter="g22mousedown" MouseLeave="g22mouseleave" Canvas.Left="622" Canvas.Top="136" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h22" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g22mouseup" MouseEnter="g22mousedown" MouseLeave="g22mouseleave" Canvas.Left="628" Canvas.Top="139" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g22" Fill="#FFFCFCFC"/>
-                                        <Label x:Name="ü" Visibility="Hidden" MouseUp="g22mouseup" MouseEnter="g22mousedown" MouseLeave="g22mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Content="Ü" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="628" Canvas.Top="139" Height="40" Width="40"/>
-                                        <Label x:Name="ü1" Visibility="Visible" Padding="0,0,0,0" Content="{Binding Source=\{}" MouseUp="g22mouseup" MouseEnter="g22mousedown" MouseLeave="g22mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="628" Canvas.Top="136" Height="25" Width="40"/>
-                                        <Label Visibility="{Binding Visibility, ElementName=ü1}" Padding="0,0,0,0" Content="[" MouseUp="g22mouseup" MouseEnter="g22mousedown" MouseLeave="g22mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="628" Canvas.Top="154.5" Height="25" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g532">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g23newmouseup" MouseEnter="g23newmousedown" MouseLeave="g23newmouseleave" Canvas.Left="676" Canvas.Top="136" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h23new" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g23newmouseup" MouseEnter="g23newmousedown" MouseLeave="g23newmouseleave" Canvas.Left="682" Canvas.Top="139" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g23new" Fill="#FFFCFCFC"/>
-
-                                        <Label x:Name="h23newus" Visibility="Hidden" Padding="0,0,0,0" Content="{Binding Source=\{}" MouseUp="g23newmouseup" MouseEnter="g23newmousedown" MouseLeave="g23newmouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="722" Canvas.Top="136" Height="25" Width="40">
-                                            <Label.RenderTransform>
-                                                <TransformGroup>
-                                                    <ScaleTransform ScaleX="-1"/>
-                                                    <SkewTransform/>
-                                                    <RotateTransform/>
-                                                    <TranslateTransform/>
-                                                </TransformGroup>
-                                            </Label.RenderTransform>
-                                        </Label>
-                                        <Label Visibility="{Binding Visibility, ElementName=h23newus}" Padding="0,0,0,0" Content="[" MouseUp="g23newmouseup" MouseEnter="g23newmousedown" MouseLeave="g23newmouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="722" Canvas.Top="154.5" Height="25" Width="40">
-                                            <Label.RenderTransform>
-                                                <TransformGroup>
-                                                    <ScaleTransform ScaleX="-1"/>
-                                                    <SkewTransform/>
-                                                    <RotateTransform/>
-                                                    <TranslateTransform/>
-                                                </TransformGroup>
-                                            </Label.RenderTransform>
-                                        </Label>
-                                        <Label x:Name="h23newde" Visibility="Visible" Padding="0,0,0,0" Content="*" MouseUp="g23newmouseup" MouseEnter="g23newmousedown" MouseLeave="g23newmouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="682" Canvas.Top="136" Height="25" Width="40"></Label>
-                                        <Label Visibility="{Binding Visibility, ElementName=h23newde}" Padding="0,0,0,0" Content="+" MouseUp="g23newmouseup" MouseEnter="g23newmousedown" MouseLeave="g23newmouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="682" Canvas.Top="154.5" Height="25" Width="40"></Label>
-                                    </Canvas>
-                                    <Canvas x:Name="g550">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Visibility="{Binding Visibility, ElementName=enter}" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="743.5" Canvas.Top="136" Width="65.5" Height="106" RadiusX="5" RadiusY="5" x:Name="rect538" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="730" Canvas.Top="136" Width="79" Height="52" RadiusX="5" RadiusY="5" x:Name="rect540" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Visibility="{Binding Visibility, ElementName=enter}" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="743" Canvas.Top="136" Width="66" Height="106" x:Name="aa" Fill="{Binding Fill, ElementName=esc1}" Stroke="#00cccccc" StrokeThickness="2" RadiusY="5" RadiusX="5"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="enter" Visibility="Hidden" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="749.5" Canvas.Top="139" Width="53.5" Height="94" RadiusX="5" RadiusY="5" Fill="{Binding Fill, ElementName=esc}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="736" Canvas.Top="139" Width="67" Height="40" RadiusX="5" RadiusY="5" x:Name="rect548" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g560">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="824.5" Canvas.Top="136" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect552" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="830.5" Canvas.Top="139" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="rect558" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g570">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="878.5" Canvas.Top="136" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect562" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="884.5" Canvas.Top="139" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="rect568" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g580">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="932.5" Canvas.Top="136" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect572" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="938.5" Canvas.Top="139" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="rect578" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g590">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1000" Canvas.Top="136" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect582" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1006" Canvas.Top="139" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="rect588" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g600">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1054" Canvas.Top="136" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect592" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1060" Canvas.Top="139" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="rect598" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g610">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1108" Canvas.Top="136" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect602" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1114" Canvas.Top="139" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="rect608" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g620">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="newmouseup" MouseEnter="newmousedown" MouseLeave="newmouseleave" Canvas.Left="1162" Canvas.Top="136" Width="52" Height="106" RadiusX="5" RadiusY="5" x:Name="newGame1" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="newmouseup" MouseEnter="newmousedown" MouseLeave="newmouseleave" Canvas.Left="1168" Canvas.Top="139" Width="40" Height="94" RadiusX="5" RadiusY="5" x:Name="newGame" Fill="#FFFCFCFC"/>
-                                        <Label Content="+" MouseUp="newmouseup" MouseEnter="newmousedown" MouseLeave="newmouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="1168" Canvas.Top="139" Height="94" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g630">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1" Canvas.Top="190" Width="92.5" Height="52" RadiusX="5" RadiusY="5" x:Name="rect622" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="7" Canvas.Top="193" Width="80.5" Height="40" RadiusX="5" RadiusY="5" x:Name="rect628" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="136" Width="66" Height="214" Fill="Transparent" Canvas.Left="1"/>
-
-                                    <Canvas x:Name="g640">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g23mouseup" MouseEnter="g23mousedown" MouseLeave="g23mouseleave" Canvas.Left="95.5" Canvas.Top="190" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h23" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g23mouseup" MouseEnter="g23mousedown" MouseLeave="g23mouseleave" Canvas.Left="101.5" Canvas.Top="193" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g23" Fill="#FFFCFCFC"/>
-                                        <Label MouseUp="g23mouseup" MouseEnter="g23mousedown" MouseLeave="g23mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Content="A" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="101" Canvas.Top="193" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g650">
-                                        <Rectangle  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g24mouseup" MouseEnter="g24mousedown" MouseLeave="g24mouseleave" Canvas.Left="149.5" Canvas.Top="190" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h24" Fill="#FFCCCCCC"  Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g24mouseup" MouseEnter="g24mousedown" MouseLeave="g24mouseleave" Canvas.Left="155.5" Canvas.Top="193" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g24" Fill="#FFFCFCFC"/>
-                                        <Label MouseUp="g24mouseup" MouseEnter="g24mousedown" MouseLeave="g24mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Content="S" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="155" Canvas.Top="193" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g660">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g25mouseup" MouseEnter="g25mousedown" MouseLeave="g25mouseleave" Canvas.Left="203.5" Canvas.Top="190" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h25" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g25mouseup" MouseEnter="g25mousedown" MouseLeave="g25mouseleave" Canvas.Left="209.5" Canvas.Top="193" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g25" Fill="#FFFCFCFC"/>
-                                        <Label Content="D" MouseUp="g25mouseup" MouseEnter="g25mousedown" MouseLeave="g25mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="210" Canvas.Top="193" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g670">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g26mouseup" MouseEnter="g26mousedown" MouseLeave="g26mouseleave" Canvas.Left="257.5" Canvas.Top="190" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h26" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g26mouseup" MouseEnter="g26mousedown" MouseLeave="g26mouseleave" Canvas.Left="263.5" Canvas.Top="193" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g26" Fill="#FFFCFCFC"/>
-                                        <Label Content="F" MouseUp="g26mouseup" MouseEnter="g26mousedown" MouseLeave="g26mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="263" Canvas.Top="193" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g680">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g27mouseup" MouseEnter="g27mousedown" MouseLeave="g27mouseleave" Canvas.Left="311.5" Canvas.Top="190" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h27" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g27mouseup" MouseEnter="g27mousedown" MouseLeave="g27mouseleave" Canvas.Left="317.5" Canvas.Top="193" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g27" Fill="#FFFCFCFC"/>
-                                        <Label Content="G" MouseUp="g27mouseup" MouseEnter="g27mousedown" MouseLeave="g27mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="318" Canvas.Top="193" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g690">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g28mouseup" MouseEnter="g28mousedown" MouseLeave="g28mouseleave" Canvas.Left="365.5" Canvas.Top="190" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h28" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g28mouseup" MouseEnter="g28mousedown" MouseLeave="g28mouseleave" Canvas.Left="371.5" Canvas.Top="193" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g28" Fill="#FFFCFCFC"/>
-                                        <Label Content="H" MouseUp="g28mouseup" MouseEnter="g28mousedown" MouseLeave="g28mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="371" Canvas.Top="193" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g700">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g29mouseup" MouseEnter="g29mousedown" MouseLeave="g29mouseleave" Canvas.Left="419.5" Canvas.Top="190" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h29" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g29mouseup" MouseEnter="g29mousedown" MouseLeave="g29mouseleave" Canvas.Left="425.5" Canvas.Top="193" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g29" Fill="#FFFCFCFC"/>
-                                        <Label Content="J" MouseUp="g29mouseup" MouseEnter="g29mousedown" MouseLeave="g29mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="426" Canvas.Top="193" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g710">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g30mouseup" MouseEnter="g30mousedown" MouseLeave="g30mouseleave" Canvas.Left="473.5" Canvas.Top="190" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h30" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g30mouseup" MouseEnter="g30mousedown" MouseLeave="g30mouseleave" Canvas.Left="479.5" Canvas.Top="193" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g30" Fill="#FFFCFCFC"/>
-                                        <Label Content="K" MouseUp="g30mouseup" MouseEnter="g30mousedown" MouseLeave="g30mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="479" Canvas.Top="193" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g720">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g31mouseup" MouseEnter="g31mousedown" MouseLeave="g31mouseleave" Canvas.Left="527.5" Canvas.Top="190" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h31" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g31mouseup" MouseEnter="g31mousedown" MouseLeave="g31mouseleave" Canvas.Left="533.5" Canvas.Top="193" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g31" Fill="#FFFCFCFC"/>
-                                        <Label Content="L" MouseUp="g31mouseup" MouseEnter="g31mousedown" MouseLeave="g31mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="533.5" Canvas.Top="193" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g730">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g32mouseup" MouseEnter="g32mousedown" MouseLeave="g32mouseleave" Canvas.Left="581.5" Canvas.Top="190" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h32" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g32mouseup" MouseEnter="g32mousedown" MouseLeave="g32mouseleave" Canvas.Left="587.5" Canvas.Top="193" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g32" Fill="#FFFCFCFC"/>
-                                        <Label x:Name="ö" Visibility="Hidden" Content="Ö" MouseUp="g32mouseup" MouseEnter="g32mousedown" MouseLeave="g32mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="587" Canvas.Top="193" Height="40" Width="40"/>
-                                        <Label x:Name="ö1" Visibility="Visible" Padding="0,0,0,0" Content=":" MouseUp="g32mouseup" MouseEnter="g32mousedown" MouseLeave="g32mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="587" Canvas.Top="190" Height="25" Width="40"/>
-                                        <Label Visibility="{Binding Visibility, ElementName=ö1}" Padding="0,0,0,0" Content=";" MouseUp="g32mouseup" MouseEnter="g32mousedown" MouseLeave="g32mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="587" Canvas.Top="208" Height="25" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g740">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g33mouseup" MouseEnter="g33mousedown" MouseLeave="g33mouseleave" Canvas.Left="635.5" Canvas.Top="190" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h33" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g33mouseup" MouseEnter="g33mousedown" MouseLeave="g33mouseleave" Canvas.Left="641.5" Canvas.Top="193" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g33" Fill="#FFFCFCFC"/>
-                                        <Label x:Name="ä" Visibility="Hidden" Content="Ä" MouseUp="g33mouseup" MouseEnter="g33mousedown" MouseLeave="g33mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="642" Canvas.Top="193" Height="40" Width="40"/>
-                                        <Label Visibility="{Binding Visibility, ElementName=ä1}" Padding="0,0,0,0" Content="'" MouseUp="g33mouseup" MouseEnter="g33mousedown" MouseLeave="g33mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="642" Canvas.Top="208" Height="25" Width="40"/>
-                                        <Label x:Name="ä1" Visibility="Hidden" Padding="0,0,0,0" Content="&quot;" MouseUp="g33mouseup" MouseEnter="g33mousedown" MouseLeave="g33mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="642" Canvas.Top="190" Height="25" Width="40"/>
-                                        <Label x:Name="ä2" Visibility="Visible" Padding="0,0,0,0" Content="@" MouseUp="g33mouseup" MouseEnter="g33mousedown" MouseLeave="g33mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="642" Canvas.Top="190" Height="25" Width="40"/>
-                                        <Label Visibility="{Binding Visibility, ElementName=ä2}" Padding="0,0,0,0" Content="'" MouseUp="g33mouseup" MouseEnter="g33mousedown" MouseLeave="g33mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="642" Canvas.Top="210" Height="23" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g750">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="h34new" MouseUp="g34newmouseup" MouseEnter="g34newmousedown" MouseLeave="g34newmouseleave" Canvas.Left="689.5" Canvas.Top="190" Width="52" Height="52" RadiusX="5" RadiusY="5" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="g34new" MouseUp="g34newmouseup" MouseEnter="g34newmousedown" MouseLeave="g34newmouseleave" Canvas.Left="695.5" Canvas.Top="193" Width="40" Height="40" RadiusX="5" RadiusY="5" Fill="#FFFCFCFC"/>
-                                        <Label x:Name="h34newde" Visibility="Hidden" Padding="0,0,0,0" Content="'" MouseUp="g34newmouseup" MouseEnter="g34newmousedown" MouseLeave="g34newmouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="695" Canvas.Top="193" Height="25" Width="40"></Label>
-                                        <Label Visibility="Visible" Padding="0,0,0,0" Content="#" MouseUp="g34newmouseup" MouseEnter="g34newmousedown" MouseLeave="g34newmouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="695" Canvas.Top="208" Height="25" Width="40"></Label>
-                                        <Label x:Name="h34newuk" Visibility="Visible" Padding="0,0,0,0" Content="~" MouseUp="g34newmouseup" MouseEnter="g34newmousedown" MouseLeave="g34newmouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="695" Canvas.Top="193" Height="25" Width="40"></Label>
-                                    </Canvas>
-                                    <Canvas x:Name="usenter" Visibility="Hidden">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="689.5" Canvas.Top="190" Width="119" Height="52" RadiusX="5" RadiusY="5" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="695.5" Canvas.Top="193" Width="108" Height="40" RadiusX="5" RadiusY="5" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g760">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="fourmouseup" MouseEnter="fourmousedown" MouseLeave="fourmouseleave" Canvas.Left="1000" Canvas.Top="190" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="four1" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="fourmouseup" MouseEnter="fourmousedown" MouseLeave="fourmouseleave" Canvas.Left="1006" Canvas.Top="193" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="four" Fill="#FFFCFCFC"/>
-                                        <Label Content="4" MouseUp="fourmouseup" MouseEnter="fourmousedown" MouseLeave="fourmouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="1006" Canvas.Top="193" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g770">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="fivemouseup" MouseEnter="fivemousedown" MouseLeave="fivemouseleave" Canvas.Left="1054" Canvas.Top="190" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="five1" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="fivemouseup" MouseEnter="fivemousedown" MouseLeave="fivemouseleave" Canvas.Left="1060" Canvas.Top="193" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="five" Fill="#FFFCFCFC"/>
-                                        <Label Content="5" MouseUp="fivemouseup" MouseEnter="fivemousedown" MouseLeave="fivemouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="1060" Canvas.Top="193" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g780">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="sixmouseup" MouseEnter="sixmousedown" MouseLeave="sixmouseleave" Canvas.Left="1108" Canvas.Top="190" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="six1" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="sixmouseup" MouseEnter="sixmousedown" MouseLeave="sixmouseleave" Canvas.Left="1114" Canvas.Top="193" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="six" Fill="#FFFCFCFC"/>
-                                        <Label Content="6" MouseUp="sixmouseup" MouseEnter="sixmousedown" MouseLeave="sixmouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="1114" Canvas.Top="193" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g790">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1" Canvas.Top="244" Width="65.5" Height="52" RadiusX="5" RadiusY="5" x:Name="rect782" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="7" Canvas.Top="247" Width="53.5" Height="40" RadiusX="5" RadiusY="5" x:Name="rect788" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g800" Visibility="Visible">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g34mouseup" MouseEnter="g34mousedown" MouseLeave="g34mouseleave" Canvas.Left="68.5" Canvas.Top="244" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h34" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g34mouseup" MouseEnter="g34mousedown" MouseLeave="g34mouseleave" Canvas.Left="74.5" Canvas.Top="247" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g34" Fill="#FFFCFCFC"/>
-                                        <Label Padding="0,0,0,0" Content="&gt;" Name="buttonnexttoleftshiftlabel1" Visibility="Hidden" MouseUp="g34mouseup" MouseEnter="g34mousedown" MouseLeave="g34mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="74.5" Canvas.Top="245" Height="25" Width="40"/>
-                                        <Label Padding="0,0,0,0" Content="|" Name="buttonnexttoleftshiftlabel2" MouseUp="g34mouseup" MouseEnter="g34mousedown" MouseLeave="g34mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="74.5" Canvas.Top="245" Height="22" Width="40"/>
-                                        <Label Padding="0,0,0,0" Content="&gt;" Visibility="{Binding Visibility, ElementName=buttonnexttoleftshiftlabel1}" MouseUp="g34mouseup" MouseEnter="g34mousedown" MouseLeave="g34mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="73" Canvas.Top="261" Height="25" Width="40" RenderTransformOrigin="0.5,0.5">
-                                            <Label.RenderTransform>
-                                                <TransformGroup>
-                                                    <ScaleTransform ScaleX="-1"/>
-                                                    <SkewTransform/>
-                                                    <RotateTransform/>
-                                                    <TranslateTransform/>
-                                                </TransformGroup>
-                                            </Label.RenderTransform>
-                                        </Label>
-                                        <Label Padding="0,0,0,0" Visibility="{Binding Visibility, ElementName=buttonnexttoleftshiftlabel2}" Content="\" MouseUp="g34mouseup" MouseEnter="g34mousedown" MouseLeave="g34mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="74.5" Canvas.Top="263" Height="27" Width="40" RenderTransformOrigin="0.5,0.5">
-                                        </Label>
-                                    </Canvas>
-                                    <Canvas x:Name="g810">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g35mouseup" MouseEnter="g35mousedown" MouseLeave="g35mouseleave" Canvas.Left="122.5" Canvas.Top="244" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h35" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g35mouseup" MouseEnter="g35mousedown" MouseLeave="g35mouseleave" Canvas.Left="128.5" Canvas.Top="247" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g35" Fill="#FFFCFCFC"/>
-                                        <Label x:Name="xy" Content="Z" MouseUp="g35mouseup" MouseEnter="g35mousedown" MouseLeave="g35mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="129" Canvas.Top="247" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g820">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g36mouseup" MouseEnter="g36mousedown" MouseLeave="g36mouseleave" Canvas.Left="176.5" Canvas.Top="244" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h36" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g36mouseup" MouseEnter="g36mousedown" MouseLeave="g36mouseleave" Canvas.Left="182.5" Canvas.Top="247" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g36" Fill="#FFFCFCFC"/>
-                                        <Label Content="X" MouseUp="g36mouseup" MouseEnter="g36mousedown" MouseLeave="g36mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="182" Canvas.Top="247" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g830">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g37mouseup" MouseEnter="g37mousedown" MouseLeave="g37mouseleave" Canvas.Left="230.5" Canvas.Top="244" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h37" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g37mouseup" MouseEnter="g37mousedown" MouseLeave="g37mouseleave" Canvas.Left="236.5" Canvas.Top="247" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g37" Fill="#FFFCFCFC"/>
-                                        <Label Content="C" MouseUp="g37mouseup" MouseEnter="g37mousedown" MouseLeave="g37mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="237" Canvas.Top="247" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g840">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g38mouseup" MouseEnter="g38mousedown" MouseLeave="g38mouseleave" Canvas.Left="284.5" Canvas.Top="244" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h38" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g38mouseup" MouseEnter="g38mousedown" MouseLeave="g38mouseleave" Canvas.Left="290.5" Canvas.Top="247" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g38" Fill="#FFFCFCFC"/>
-                                        <Label Content="V" MouseUp="g38mouseup" MouseEnter="g38mousedown" MouseLeave="g38mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="290.5" Canvas.Top="247" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g850">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g39mouseup" MouseEnter="g39mousedown" MouseLeave="g39mouseleave" Canvas.Left="338.5" Canvas.Top="244" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h39" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g39mouseup" MouseEnter="g39mousedown" MouseLeave="g39mouseleave" Canvas.Left="344.5" Canvas.Top="247" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g39" Fill="#FFFCFCFC"/>
-                                        <Label Content="B" MouseUp="g39mouseup" MouseEnter="g39mousedown" MouseLeave="g39mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="345" Canvas.Top="247" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g860">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g40mouseup" MouseEnter="g40mousedown" MouseLeave="g40mouseleave" Canvas.Left="392.5" Canvas.Top="244" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h40" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g40mouseup" MouseEnter="g40mousedown" MouseLeave="g40mouseleave" Canvas.Left="398.5" Canvas.Top="247" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g40" Fill="#FFFCFCFC"/>
-                                        <Label Content="N" MouseUp="g40mouseup" MouseEnter="g40mousedown" MouseLeave="g40mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="398" Canvas.Top="247" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g870">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g41mouseup" MouseEnter="g41mousedown" MouseLeave="g41mouseleave" Canvas.Left="446.5" Canvas.Top="244" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h41" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g41mouseup" MouseEnter="g41mousedown" MouseLeave="g41mouseleave" Canvas.Left="452.5" Canvas.Top="247" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g41" Fill="#FFFCFCFC"/>
-                                        <Label Content="M" MouseUp="g41mouseup" MouseEnter="g41mousedown" MouseLeave="g41mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="453" Canvas.Top="247" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g880">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g42mouseup" MouseEnter="g42mousedown" MouseLeave="g42mouseleave" Canvas.Left="500.5" Canvas.Top="244" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h42" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g42mouseup" MouseEnter="g42mousedown" MouseLeave="g42mouseleave" Canvas.Left="506.5" Canvas.Top="247" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g42" Fill="#FFFCFCFC"/>
-                                        <Label x:Name="comma" Visibility="Hidden" Padding="0,0,0,0" Content=";" MouseUp="g42mouseup" MouseEnter="g42mousedown" MouseLeave="g42mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="506.5" Canvas.Top="245" Height="25" Width="40"/>
-                                        <Label Visibility="{Binding Visibility, ElementName=comma}" Padding="0,0,0,0" Content="," MouseUp="g42mouseup" MouseEnter="g42mousedown" MouseLeave="g42mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="506.5" Canvas.Top="262" Height="25" Width="40" RenderTransformOrigin="0.5,0.5"/>
-                                        <Label x:Name="comma1" Visibility="Visible" Padding="0,0,0,0" Content="&lt;" MouseUp="g42mouseup" MouseEnter="g42mousedown" MouseLeave="g42mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="506.5" Canvas.Top="244" Height="25" Width="40"/>
-                                        <Label Visibility="{Binding Visibility, ElementName=comma1}" Padding="0,0,0,0" Content="," MouseUp="g42mouseup" MouseEnter="g42mousedown" MouseLeave="g42mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="506.5" Canvas.Top="262" Height="25" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g890">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g43mouseup" MouseEnter="g43mousedown" MouseLeave="g43mouseleave" Canvas.Left="554.5" Canvas.Top="244" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h43" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g43mouseup" MouseEnter="g43mousedown" MouseLeave="g43mouseleave" Canvas.Left="560.5" Canvas.Top="247" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g43" Fill="#FFFCFCFC"/>
-                                        <Label x:Name="dot" Visibility="Hidden" Padding="0,0,0,0" Content=":" MouseUp="g43mouseup" MouseEnter="g43mousedown" MouseLeave="g43mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="561" Canvas.Top="245" Height="25" Width="40"/>
-                                        <Label Visibility="{Binding Visibility, ElementName=dot}" Padding="0,0,0,0" Content="." MouseUp="g43mouseup" MouseEnter="g43mousedown" MouseLeave="g43mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="561" Canvas.Top="262" Height="25" Width="40"/>
-                                        <Label x:Name="dot1" Visibility="Visible" Padding="0,0,0,0" Content="&gt;" MouseUp="g43mouseup" MouseEnter="g43mousedown" MouseLeave="g43mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="561" Canvas.Top="244" Height="25" Width="40"/>
-                                        <Label Visibility="{Binding Visibility, ElementName=dot1}" Padding="0,0,0,0" Content="." MouseUp="g43mouseup" MouseEnter="g43mousedown" MouseLeave="g43mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="561" Canvas.Top="262" Height="25" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g900">
-                                        <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="244" Width="52" Height="106" Fill="Transparent" Panel.ZIndex="500" Canvas.Left="878"/>
-                                        <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="244" Width="119" Height="106" Fill="Transparent" Panel.ZIndex="500" Canvas.Left="690"/>
-                                        <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="82" Width="160" Height="106" Fill="Transparent" Panel.ZIndex="500" Canvas.Left="825"/>
-                                        <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="1" Width="160" Height="52" Fill="Transparent" Panel.ZIndex="500" Canvas.Left="825"/>
-                                        <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="244" Width="146" Height="106" Fill="Transparent" Panel.ZIndex="500" Canvas.Left="662"/>
-                                        <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="82" Width="67" Height="189" Fill="Transparent" Panel.ZIndex="500" Canvas.Left="742"/>
-                                        <Rectangle Name="showus" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="190" Width="120" Height="81" Fill="Transparent" Panel.ZIndex="500" Canvas.Left="690"/>
-                                        <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="82" Width="79" Height="106" Fill="Transparent" Panel.ZIndex="500" Canvas.Left="730"/>
-                                        <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="82" Width="52" Height="75" Fill="Transparent" Panel.ZIndex="500" Canvas.Left="1"/>
-                                        <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="136" Width="52" Height="75" Fill="Transparent" Panel.ZIndex="500" Canvas.Left="28"/>
-                                        <Rectangle x:Name="us2" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="190" Width="52" Height="76" Fill="Transparent" Panel.ZIndex="500" Canvas.Left="42"/>
-                                        <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="298" Width="106" Height="52" Fill="Transparent" Panel.ZIndex="500" Canvas.Left="1108"/>
-                                        <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="82" Width="90" Height="52" Fill="Transparent" Panel.ZIndex="500" Canvas.Left="1124"/>
-                                        <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="82" Width="160" Height="106" Fill="Transparent" Panel.ZIndex="500" Canvas.Left="1000"/>
-                                        <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="298" Width="809" Height="53" Fill="Transparent" Panel.ZIndex="500"/>
-                                        <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="824.8" Canvas.Top="297.6" Width="160" Height="52" Fill="Transparent" Panel.ZIndex="500"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g910control">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g44mouseup" MouseEnter="g44mousedown" MouseLeave="g44mouseleave" Canvas.Left="608.5" Canvas.Top="244" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="h44" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="g44mouseup" MouseEnter="g44mousedown" MouseLeave="g44mouseleave" Canvas.Left="614.5" Canvas.Top="247" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="g44" Fill="#FFFCFCFC"/>
-                                        <Label Padding="0,0,0,0" Content="-" Visibility="Hidden" x:Name="hyphen" MouseUp="g44mouseup" MouseEnter="g44mousedown" MouseLeave="g44mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="614" Canvas.Top="262" Height="25" Width="40"/>
-                                        <Label Padding="0,0,0,0" Content="-" Visibility="{Binding Visibility, ElementName=hyphen}" MouseUp="g44mouseup" MouseEnter="g44mousedown" MouseLeave="g44mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="614" Canvas.Top="247" Height="25" Width="36"/>
-                                        <Label Padding="0,0,0,0" Content="-" MouseUp="g44mouseup" Visibility="{Binding Visibility, ElementName=hyphen}" MouseEnter="g44mousedown" MouseLeave="g44mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="618.5" Canvas.Top="247" Height="25" Width="36"/>
-                                        <Label x:Name="hyphen1" Visibility="Visible" Padding="0,0,0,0" Content="?" MouseUp="g44mouseup" MouseEnter="g44mousedown" MouseLeave="g44mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="614" Canvas.Top="244" Height="25" Width="40"/>
-                                        <Label Visibility="{Binding Visibility, ElementName=hyphen1}" Padding="0,0,0,0" Content="/" MouseUp="g44mouseup" MouseEnter="g44mousedown" MouseLeave="g44mouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Canvas.Left="614" Canvas.Top="262" Height="25" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g910">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="662.5" Canvas.Top="244" Width="146.5" Height="52" RadiusX="5" RadiusY="5" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="668.5" Canvas.Top="247" Width="134.5" Height="40" RadiusX="5" RadiusY="5" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g920">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="878.5" Canvas.Top="244" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect912" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="884.5" Canvas.Top="247" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="rect918" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g930">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="onemouseup" MouseEnter="onemousedown" MouseLeave="onemouseleave" Canvas.Left="1000" Canvas.Top="244" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="one1" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="onemouseup" MouseEnter="onemousedown" MouseLeave="onemouseleave" Canvas.Left="1006" Canvas.Top="247" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="one" Fill="#FFFCFCFC"/>
-                                        <Label Content="1" MouseUp="onemouseup" MouseEnter="onemousedown" MouseLeave="onemouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="1006" Canvas.Top="247" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g940">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="twomouseup" MouseEnter="twomousedown" MouseLeave="twomouseleave" Canvas.Left="1054" Canvas.Top="244" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="two1" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="twomouseup" MouseEnter="twomousedown" MouseLeave="twomouseleave" Canvas.Left="1060" Canvas.Top="247" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="two" Fill="#FFFCFCFC"/>
-                                        <Label Content="2" MouseUp="twomouseup" MouseEnter="twomousedown" MouseLeave="twomouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="1060" Canvas.Top="247" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g950">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="threemouseup" MouseEnter="threemousedown" MouseLeave="threemouseleave" Canvas.Left="1108" Canvas.Top="244" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="three1" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="threemouseup" MouseEnter="threemousedown" MouseLeave="threemouseleave" Canvas.Left="1114" Canvas.Top="247" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="three" Fill="#FFFCFCFC"/>
-                                        <Label Content="3" MouseUp="threemouseup" MouseEnter="threemousedown" MouseLeave="threemouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="1114" Canvas.Top="247" Height="40" Width="40"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g960">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1162" Canvas.Top="244" Width="52" Height="106" RadiusX="5" RadiusY="5" x:Name="rect952" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1168" Canvas.Top="247" Width="40" Height="94" RadiusX="5" RadiusY="5" x:Name="rect958" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g970">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1" Canvas.Top="298" Width="65.5" Height="52" RadiusX="5" RadiusY="5" x:Name="rect962" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="7" Canvas.Top="301" Width="53.5" Height="40" RadiusX="5" RadiusY="5" x:Name="rect968" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g980">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="68.5" Canvas.Top="298" Width="65.5" Height="52" RadiusX="5" RadiusY="5" x:Name="rect972" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="74.5" Canvas.Top="301" Width="53.5" Height="40" RadiusX="5" RadiusY="5" x:Name="rect978" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g990">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="136" Canvas.Top="298" Width="65.5" Height="52" RadiusX="5" RadiusY="5" x:Name="rect982" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="142" Canvas.Top="301" Width="53.5" Height="40" RadiusX="5" RadiusY="5" x:Name="rect988" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g1000">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="203.5" Canvas.Top="298" Width="335.5" Height="52" RadiusX="5" RadiusY="5" x:Name="rect992" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="209.5" Canvas.Top="301" Width="323.5" Height="40" RadiusX="5" RadiusY="5" x:Name="rect998" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g1010">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="541" Canvas.Top="298" Width="65.5" Height="52" RadiusX="5" RadiusY="5" x:Name="rect1002" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="547" Canvas.Top="301" Width="53.5" Height="40" RadiusX="5" RadiusY="5" x:Name="rect1008" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g1020">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="608.5" Canvas.Top="298" Width="65.5" Height="52" RadiusX="5" RadiusY="5" x:Name="rect1012" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="614.5" Canvas.Top="301" Width="53.5" Height="40" RadiusX="5" RadiusY="5" x:Name="rect1018" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g1030">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="676" Canvas.Top="298" Width="65.5" Height="52" RadiusX="5" RadiusY="5" x:Name="rect1022" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="682" Canvas.Top="301" Width="53.5" Height="40" RadiusX="5" RadiusY="5" x:Name="rect1028" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g1040">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="743.5" Canvas.Top="298" Width="65.5" Height="52" RadiusX="5" RadiusY="5" x:Name="rect1032" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="749.5" Canvas.Top="301" Width="53.5" Height="40" RadiusX="5" RadiusY="5" x:Name="rect1038" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g1050">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="824.5" Canvas.Top="298" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect1042" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="830.5" Canvas.Top="301" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="rect1048" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g1060">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="878.5" Canvas.Top="298" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect1052" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="884.5" Canvas.Top="301" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="rect1058" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g1070">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="932.5" Canvas.Top="298" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect1062" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="938.5" Canvas.Top="301" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="rect1068" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g1080">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="zeromouseup" MouseEnter="zeromousedown" MouseLeave="zeromouseleave" Canvas.Left="1000" Canvas.Top="298" Width="106" Height="52" RadiusX="5" RadiusY="5" x:Name="zero1" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="zeromouseup" MouseEnter="zeromousedown" MouseLeave="zeromouseleave" Canvas.Left="1006" Canvas.Top="301" Width="94" Height="40" RadiusX="5" RadiusY="5" x:Name="zero" Fill="#FFFCFCFC"/>
-                                        <Label Content="0" MouseUp="zeromouseup" MouseEnter="zeromousedown" MouseLeave="zeromouseleave" FontWeight="{Binding FontWeight, ElementName=q}" FontSize="{Binding FontSize, ElementName=q}" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="1006" Canvas.Top="301" Height="40" Width="95"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g1090">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1108" Canvas.Top="298" Width="52" Height="52" RadiusX="5" RadiusY="5" x:Name="rect1082" Fill="{Binding Fill, ElementName=esc1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Left="1114" Canvas.Top="301" Width="40" Height="40" RadiusX="5" RadiusY="5" x:Name="rect1088" Fill="{Binding Fill, ElementName=esc}"/>
-                                    </Canvas>
-                                    <Rectangle MouseUp="escmouseup" MouseEnter="escmousedown" MouseLeave="escmouseleave" Canvas.Top="298" Width="809" Height="53" Fill="Transparent"/>
-                                    <Canvas x:Name="ShiftL">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="shiftmouseup" MouseEnter="shiftmousedown" MouseLeave="shiftmouseleave" Canvas.Left="1" Canvas.Top="244" Width="{Binding Width, ElementName=rect782}" Height="52" RadiusX="5" RadiusY="5" Fill="{Binding Fill, ElementName=shift1}" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="shiftmouseup" MouseEnter="shiftmousedown" MouseLeave="shiftmouseleave" Canvas.Left="7" Canvas.Top="247" Width="{Binding Width, ElementName=rect788}" Height="40" RadiusX="5" RadiusY="5" Fill="{Binding Fill, ElementName=shift}"/>
-                                    </Canvas>
-                                    <Canvas x:Name="g910wahaha" Visibility="{Binding Visibility, ElementName=ShiftL}">
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="shiftmouseup" MouseEnter="shiftmousedown" MouseLeave="shiftmouseleave" Canvas.Left="662.5" Canvas.Top="244" Width="146.5" Height="52" RadiusX="5" RadiusY="5" x:Name="shift1" Fill="#FFCCCCCC" Stroke="{Binding Stroke, ElementName=esc1}"/>
-                                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MouseUp="shiftmouseup" MouseEnter="shiftmousedown" MouseLeave="shiftmouseleave" Canvas.Left="668.5" Canvas.Top="247" Width="134.5" Height="40" RadiusX="5" RadiusY="5" x:Name="shift" Fill="#FFFCFCFC"/>
-                                    </Canvas>
-                                </Canvas>
-                            </Canvas>
-                        </Canvas>
-                    </Viewbox>
                     <Label FontWeight="DemiBold" Content="Change colors" VerticalAlignment="Top" Margin="0,209,0,0" FontSize="16"/>
-
-
                     <ListView VirtualizingPanel.ScrollUnit="Pixel" HorizontalAlignment="Left" Height="101" Margin="21,246,0,0" VerticalAlignment="Top" Width="381">
                         <ListViewItem MouseUp="Zero_Click" IsSelected="True">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Width="190"><Run Text="0 Sourrounding Bombs"/></TextBlock>
-                                <Rectangle Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Zero" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush0}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Zero" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem MouseUp="One_Click">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Width="190"><Run Text="1 Sourrounding Bomb"/></TextBlock>
-                                <Rectangle Stroke="Black" StrokeThickness="0.5" x:Name="One" Margin="106,0,0,0" Width="54"/>
+                                <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush1}" Stroke="Black" StrokeThickness="0.5" x:Name="One" Margin="106,0,0,0" Width="54"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem MouseUp="Two_Click">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Width="190"><Run Text="2 Sourrounding Bombs"/></TextBlock>
-                                <Rectangle Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Two" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush2}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Two" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem MouseUp="Three_Click">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Width="190"><Run Text="3 Sourrounding Bombs"/></TextBlock>
-                                <Rectangle Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Three" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush3}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Three" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem MouseUp="Four_Click">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Width="190"><Run Text="4 Sourrounding Bombs"/></TextBlock>
-                                <Rectangle Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Four" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush4}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Four" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem MouseUp="Five_Click">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Width="190"><Run Text="5 Sourrounding Bombs"/></TextBlock>
-                                <Rectangle Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Five" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush5}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Five" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem MouseUp="Six_Click">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Width="190"><Run Text="6 Sourrounding Bombs"/></TextBlock>
-                                <Rectangle Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Six" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush6}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Six" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem  MouseUp="Covered_Click">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Width="190"><Run Text="Covered Field"/></TextBlock>
-                                <Rectangle Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Covered" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush8}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Covered" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem  MouseUp="Bomb_Click">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Width="190"><Run Text="Bomb Field"/></TextBlock>
-                                <Rectangle Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Bomb" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush7}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Bomb" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem  MouseUp="Flag_Click">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Width="190"><Run Text="Flagged Field"/></TextBlock>
-                                <Rectangle Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Flag" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush10}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Flag" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem MouseUp="ShiftFlag_Click">
@@ -926,31 +220,37 @@
 
                                 <CheckBox IsThreeState="False" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" HorizontalAlignment="Left" Name="FlagUseBackground" Content="Use Background Color" Margin="0,0,0,0" VerticalAlignment="Top">
                                 </CheckBox>
-                                <Rectangle Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="ShiftFlag" Margin="15,0,0,0" Width="{Binding Width, ElementName=One}"/>
+                                <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush16}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="ShiftFlag" Margin="15,0,0,0" Width="{Binding Width, ElementName=One}"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem  MouseUp="Counter_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Width="190"><Run Text="Bomb Counter"/></TextBlock>
+                                <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush15}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Counter" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem  MouseUp="Default_Click">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Width="190"><Run Text="Background Default"/></TextBlock>
-                                <Rectangle Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Default" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush14}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Default" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem  MouseUp="Victory_Click">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Width="190"><Run Text="Background Victory"/></TextBlock>
-                                <Rectangle Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Victory" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush13}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Victory" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem MouseUp="Defeat_Click">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Width="190"><Run Text="Background Defeat"/></TextBlock>
-                                <Rectangle Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Defeat" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush12}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Defeat" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem MouseUp="New_Click">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Width="190"><Run Text="New Game Key"/></TextBlock>
-                                <Rectangle Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="New" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush11}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="New" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
                             </StackPanel>
                         </ListViewItem>
                     </ListView>

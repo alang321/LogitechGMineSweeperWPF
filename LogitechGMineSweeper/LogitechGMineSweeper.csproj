@@ -96,28 +96,121 @@
     <Compile Include="ColorPopup.xaml.cs">
       <DependentUpon>ColorPopup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="KeyboardLayout.cs" />
+    <Compile Include="KeyboardLayouts\DE.xaml.cs">
+      <DependentUpon>DE.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="KeyboardLayouts\UK.xaml.cs">
+      <DependentUpon>UK.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="KeyboardLayouts\US.xaml.cs">
+      <DependentUpon>US.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MessageBox.xaml.cs">
       <DependentUpon>MessageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Config.cs" />
-    <Compile Include="WinInterop\WindowInteropHelper.cs" />
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="buttoncolor.xaml">
+    <Page Include="KeyboardLayouts\DE.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="KeyboardLayouts\UK.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="buttonActive.xaml">
+    <Page Include="KeyboardLayouts\US.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="buttonred.xaml">
+    <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonEnter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="button.xaml">
+    <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonKeyboardColor16.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonKeyboardColor15.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonKeyboardColor14.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonKeyboardColor13.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonKeyboardColor12.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonKeyboardColor11.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonKeyboardColor10.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonKeyboardColor9.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonKeyboardColor8.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonKeyboardColor7.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonKeyboardColor6.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonKeyboardColor5.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonKeyboardColor4.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonKeyboardColor3.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonKeyboardColor2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonKeyboardColor1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonKeyboardColor0.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\buttoncolor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\buttonActive.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\buttonred.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\button.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -175,21 +268,22 @@
     <Resource Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="color.png" />
-    <Resource Include="reset.png" />
-    <Resource Include="settings.png" />
-    <Resource Include="stats.png" />
+    <Resource Include="symbols\color.png" />
+    <Resource Include="symbols\reset.png" />
+    <Resource Include="symbols\settings.png" />
+    <Resource Include="symbols\stats.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="about.png" />
+    <Resource Include="symbols\about.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="close.png" />
-    <Resource Include="min.png" />
+    <Resource Include="symbols\close.png" />
+    <Resource Include="symbols\min.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="closeWhite.png" />
+    <Resource Include="symbols\closeWhite.png" />
     <Content Include="LogitechLedEnginesWrapper.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
