@@ -133,6 +133,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="ResourceDictionarys\buttonMinus.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\buttonredMessageBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\buttonred.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonEnter12.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -221,10 +233,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ResourceDictionarys\buttonred.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="ResourceDictionarys\button.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -289,14 +297,6 @@
     <Resource Include="symbols\stats.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="symbols\about.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="symbols\close.png" />
-    <Resource Include="symbols\min.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="symbols\closeWhite.png" />
     <Content Include="LogitechLedEnginesWrapper.dll" />
   </ItemGroup>
   <ItemGroup />

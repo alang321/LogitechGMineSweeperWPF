@@ -262,18 +262,6 @@ namespace LogitechGMineSweeper
 
         #region minimize, close and drag window
 
-        private void image1_MouseEnter(object sender, MouseEventArgs e)
-        {
-            string packUri = @"pack://application:,,,/symbols/closeWhite.png";
-            image1.Source = new ImageSourceConverter().ConvertFromString(packUri) as ImageSource;
-        }
-
-        private void image1_MouseLeave(object sender, MouseEventArgs e)
-        {
-            string packUri = @"pack://application:,,,/symbols/close.png";
-            image1.Source = new ImageSourceConverter().ConvertFromString(packUri) as ImageSource;
-        }
-
         private void Stack_mousedown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             DragMove();

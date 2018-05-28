@@ -32,30 +32,10 @@
 
         <Label Panel.ZIndex="-500" VerticalAlignment="Top" Margin="5,0,0,0" HorizontalAlignment="Left" Content="LogitechG MineSweeper" VerticalContentAlignment="Center" FontSize="11" Height="30" Foreground="#FF3E3A3A" Width="128"/>
 
-        <Rectangle Fill="Transparent" Stretch="Fill"  Grid.ColumnSpan="2" Panel.ZIndex="500" MouseLeftButtonDown="Stack_mousedown" Height="30" VerticalAlignment="Top" Margin="0,0,0.2,0" />
-        <DockPanel Background="Transparent" Height="30" Panel.ZIndex="600" VerticalAlignment="Top" Margin="0,0,0.2,0" HorizontalAlignment="Right" Grid.Column="1" Width="80">
-            <Button Grid.Column="1" HorizontalAlignment="Right" Panel.ZIndex="600" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Height="30" Click="Button_Click_3">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Template" Value="{StaticResource button}"/>
-                    </Style>
-                </Button.Style>
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="symbols/min.png" Width="12" Height="10" VerticalAlignment="Center" Margin="0,0,0,0" Opacity="0.5"/>
-                </StackPanel>
-            </Button>
-
-            <Button Grid.Column="1" HorizontalAlignment="Right" MouseEnter="image1_MouseEnter" MouseLeave="image1_MouseLeave" Panel.ZIndex="600" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Height="30" Click="Button_Click_4">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Template" Value="{StaticResource buttonred}"/>
-                    </Style>
-                </Button.Style>
-                <StackPanel Width="40" Margin="-4,-1,0,0.4"  Height="30" VerticalAlignment="Center" Orientation="Horizontal" Opacity="0.5">
-                    <Image Name="image1" Width="40.5" Height="30" Source="symbols/close.png" Margin="0,0,0,0">
-                    </Image>
-                </StackPanel>
-            </Button>
+        <Rectangle Fill="Transparent" Stretch="Fill"  Grid.ColumnSpan="2" Panel.ZIndex="500" MouseLeftButtonDown="Stack_mousedown" Height="30" VerticalAlignment="Top" Margin="0,0,0,0" />
+        <DockPanel Background="Transparent" Height="30" Panel.ZIndex="600" VerticalAlignment="Top" Margin="0,0,0,0" HorizontalAlignment="Right" Grid.Column="1" Width="80">
+            <Button Grid.Column="1" Style="{DynamicResource buttonMinus}" HorizontalAlignment="Right" Panel.ZIndex="600" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Height="30" Click="Button_Click_3"></Button>
+            <Button Grid.Column="1" Style="{DynamicResource buttonred}" HorizontalAlignment="Right" Panel.ZIndex="600" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Height="30" Click="Button_Click_4"></Button>
         </DockPanel>
 
 

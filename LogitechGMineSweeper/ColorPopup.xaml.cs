@@ -32,18 +32,6 @@ namespace LogitechGMineSweeper
             InitializeComponent();
         }
 
-        private void image1_MouseEnter(object sender, MouseEventArgs e)
-        {
-            string packUri = @"pack://application:,,,/symbols/closeWhite.png";
-            image1.Source = new ImageSourceConverter().ConvertFromString(packUri) as ImageSource;
-        }
-
-        private void image1_MouseLeave(object sender, MouseEventArgs e)
-        {
-            string packUri = @"pack://application:,,,/symbols/close.png";
-            image1.Source = new ImageSourceConverter().ConvertFromString(packUri) as ImageSource;
-        }
-
         #region color picker
 
         private void ClrPcker_Background_SelectedColorChanged(object sender, EventArgs e)
