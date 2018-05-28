@@ -21,7 +21,7 @@ namespace LogitechGMineSweeper.KeyboardLayouts
     /// </summary>
     public partial class US : UserControl
     {
-        #region Constructpr and variables
+        #region Constructor and variables
 
         Button[] board;
         

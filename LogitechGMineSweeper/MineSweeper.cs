@@ -641,6 +641,8 @@ namespace LogitechGMineSweeper
             {
                 display[x + 1, y + 1] = m;
 
+                App.last = -1;
+
                 if (--covered <= bombs && m != 7)
                 {
                     victory();
