@@ -16,7 +16,7 @@ namespace LogitechGMineSweeper
     {
         #region Variables Constructor and Properties
 
-        public delegate void PrintdisplayEventHandler(EventArgs e);
+        public delegate void PrintdisplayEventHandler();
 
         public static event PrintdisplayEventHandler PrintEvent;
 
@@ -84,8 +84,6 @@ namespace LogitechGMineSweeper
                 //Flag Key Color
                 {255,000,255},   //16
         };
-
-        private static EventArgs e;
 
         static public int Wins
         {
@@ -531,7 +529,7 @@ namespace LogitechGMineSweeper
             //only print the in-app keyboard when the tab is selected
             if (main._menuTabControl.SelectedIndex == 1 && main.WindowState != WindowState.Minimized && printDisplay)
             {
-                PrintEvent(e);
+                PrintEvent();
             }
 
             //for actually printing the board

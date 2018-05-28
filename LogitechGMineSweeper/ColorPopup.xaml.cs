@@ -54,14 +54,7 @@ namespace LogitechGMineSweeper
 
             Application.Current.Resources["buttonColorBrush" + index.ToString()] = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]));
 
-            if(index == 12 || index == 13 || index == 14)
-            {
-                MineSweeper.colors[9, 0] = ClrPcker_Background.B;
-                MineSweeper.colors[9, 1] = ClrPcker_Background.G;
-                MineSweeper.colors[9, 2] = ClrPcker_Background.R;
-                Application.Current.Resources["buttonColorBrush9"] = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[9, 2], MineSweeper.colors[9, 1], MineSweeper.colors[9, 0]));
-            }
-            else
+            if (index != 12 && index != 13 && index != 14)
             {
                 if (MineSweeper.colors[index, 2] + MineSweeper.colors[index, 1] + MineSweeper.colors[index, 0] < Config.foregroundThreshold)
                 {
@@ -152,21 +145,6 @@ namespace LogitechGMineSweeper
 
         public static MessageBoxResult Show(System.Windows.Media.Color selectedColor, int index)
         {
-            if (index == 9)
-            {
-                switch (MineSweeper.currentBack)
-                {
-                    case 0:
-                        index = 14;
-                        break;
-                    case 1:
-                        index = 13;
-                        break;
-                    case 2:
-                        index = 12;
-                        break;
-                }
-            }
             _messageBox = new ColorPopup{ MessageTitle = { Content = Config.colorPickerTitles[index] } };
             _messageBox.index = index;
             _messageBox.ClrPcker_Background.SelectedColor = selectedColor;

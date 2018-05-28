@@ -14,7 +14,7 @@
 
                 <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0" Canvas.Top="0" Width="1244" Height="380" RadiusX="5" RadiusY="5" x:Name="background" Fill="#FFCCCCCC"/>
 
-                <Button Style="{DynamicResource Enter}" Background="Transparent" Click="ClickNoFunc" Margin="0" Canvas.Left="730" Canvas.Top="169" RenderTransformOrigin="0.5,0.5">
+                <Button Name="enter" Style="{DynamicResource Enter12}" Background="Transparent" Click="ClickNoFunc" Margin="0" Canvas.Left="730" Canvas.Top="169" RenderTransformOrigin="0.5,0.5">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -26,41 +26,41 @@
                 </Button>
 
                 <!--Row 1-->
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="16" />
+                <Button Name="esc" Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor12}" Canvas.Left="16" />
 
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="124" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{Binding Style, ElementName=esc}" Canvas.Left="124" />
                 <Button Click="ClickCount" Content="F1" Name="f0" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="124" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="178" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{Binding Style, ElementName=esc}" Canvas.Left="178" />
                 <Button Click="ClickCount" Content="F2" Name="f1" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="178" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="232" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{Binding Style, ElementName=esc}" Canvas.Left="232" />
                 <Button Click="ClickCount" Content="F3" Name="f2" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="232" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="286" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{Binding Style, ElementName=esc}" Canvas.Left="286" />
                 <Button Click="ClickCount" Content="F4" Name="f3" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="286" />
 
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="367" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{Binding Style, ElementName=esc}" Canvas.Left="367" />
                 <Button Click="ClickCount" Content="F5" Name="f4" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="367" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="421.5" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{Binding Style, ElementName=esc}" Canvas.Left="421.5" />
                 <Button Click="ClickCount" Content="F6" Name="f5" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="421.5" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="475" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{Binding Style, ElementName=esc}" Canvas.Left="475" />
                 <Button Click="ClickCount" Content="F7" Name="f6" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="475" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="529" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{Binding Style, ElementName=esc}" Canvas.Left="529" />
                 <Button Click="ClickCount" Content="F8" Name="f7" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="529" />
 
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="610.5" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{Binding Style, ElementName=esc}" Canvas.Left="610.5" />
                 <Button Click="ClickCount" Content="F9" Name="f8" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="610.5" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="664" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{Binding Style, ElementName=esc}" Canvas.Left="664" />
                 <Button Click="ClickCount" Content="F10" Name="f9" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="664" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="718" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{Binding Style, ElementName=esc}" Canvas.Left="718" />
                 <Button Click="ClickCount" Content="F11" Name="f10" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="718" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="772" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{Binding Style, ElementName=esc}" Canvas.Left="772" />
                 <Button Click="ClickCount" Content="F12" Name="f11" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor15}" Canvas.Left="772" />
 
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="840" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="893.5" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{DynamicResource buttonColor9}" Canvas.Left="948" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{Binding Style, ElementName=esc}" Canvas.Left="840" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{Binding Style, ElementName=esc}" Canvas.Left="893.5" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="16" Style="{Binding Style, ElementName=esc}" Canvas.Left="948" />
 
                 <!--Row 2-->
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="97" Style="{DynamicResource buttonColor9}" Canvas.Left="16" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Top="97" Style="{Binding Style, ElementName=esc}" Canvas.Left="16" />
                 <Button Click="ClickGameField" Content="1" Name="p0" Width="52" Height="52" Margin="0" Canvas.Left="70" Canvas.Top="97" Style="{DynamicResource buttonColor8}" />
                 <Button Background="#00000001" Click="ClickGameField" Content="2" Name="p1" Width="52" Height="52" Margin="0" Canvas.Left="124" Canvas.Top="97" Style="{DynamicResource buttonColor8}" />
                 <Button Click="ClickGameField" Content="3" Name="p2" Width="52" Height="52" Margin="0" Canvas.Left="178.5" Canvas.Top="97" Style="{DynamicResource buttonColor8}" />
@@ -88,17 +88,17 @@
                         </Grid>
                     </Button.Content>
                 </Button>
-                <Button Click="ClickNoFunc" Width="106" Height="52" Margin="0" Canvas.Left="718" Canvas.Top="97" Style="{DynamicResource buttonColor9}" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="840" Canvas.Top="97" Style="{DynamicResource buttonColor9}" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="893.5" Canvas.Top="97" Style="{DynamicResource buttonColor9}" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="948" Canvas.Top="97" Style="{DynamicResource buttonColor9}" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1015" Canvas.Top="97" Style="{DynamicResource buttonColor9}" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1069.5" Canvas.Top="97" Style="{DynamicResource buttonColor9}" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1123" Canvas.Top="97" Style="{DynamicResource buttonColor9}" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1177" Canvas.Top="97" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickNoFunc" Width="106" Height="52" Margin="0" Canvas.Left="718" Canvas.Top="97" Style="{Binding Style, ElementName=esc}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="840" Canvas.Top="97" Style="{Binding Style, ElementName=esc}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="893.5" Canvas.Top="97" Style="{Binding Style, ElementName=esc}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="948" Canvas.Top="97" Style="{Binding Style, ElementName=esc}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1015" Canvas.Top="97" Style="{Binding Style, ElementName=esc}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1069.5" Canvas.Top="97" Style="{Binding Style, ElementName=esc}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1123" Canvas.Top="97" Style="{Binding Style, ElementName=esc}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1177" Canvas.Top="97" Style="{Binding Style, ElementName=esc}" />
 
                 <!--Row 3-->
-                <Button Click="ClickNoFunc" Width="79" Height="52" Margin="0" Canvas.Left="16" Canvas.Top="151" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickNoFunc" Width="79" Height="52" Margin="0" Canvas.Left="16" Canvas.Top="151" Style="{Binding Style, ElementName=esc}" />
                 <Button Click="ClickGameField" Content="Q" Name="p12" Width="52" Height="52" Margin="0" Canvas.Left="97" Canvas.Top="151" Style="{DynamicResource buttonColor8}" />
                 <Button Click="ClickGameField" Content="W" Name="p13" Width="52" Height="52" Margin="0" Canvas.Left="151" Canvas.Top="151" Style="{DynamicResource buttonColor8}" />
                 <Button Click="ClickGameField" Content="E" Name="p14" Width="52" Height="52" Margin="0" Canvas.Left="205.5" Canvas.Top="151" Style="{DynamicResource buttonColor8}" />
@@ -133,16 +133,16 @@
                         </Grid>
                     </Button.Content>
                 </Button>
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="839" Canvas.Top="151" Style="{DynamicResource buttonColor9}" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="893" Canvas.Top="151" Style="{DynamicResource buttonColor9}" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="948" Canvas.Top="151" Style="{DynamicResource buttonColor9}" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1015" Canvas.Top="151" Style="{DynamicResource buttonColor9}" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1069" Canvas.Top="151" Style="{DynamicResource buttonColor9}" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1123" Canvas.Top="151" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="839" Canvas.Top="151" Style="{Binding Style, ElementName=esc}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="893" Canvas.Top="151" Style="{Binding Style, ElementName=esc}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="948" Canvas.Top="151" Style="{Binding Style, ElementName=esc}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1015" Canvas.Top="151" Style="{Binding Style, ElementName=esc}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1069" Canvas.Top="151" Style="{Binding Style, ElementName=esc}" />
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1123" Canvas.Top="151" Style="{Binding Style, ElementName=esc}" />
                 <Button Click="ClickNewGame" Content="+" Name="newGame" Width="53" Height="106.5" Margin="0" Canvas.Left="1177" Canvas.Top="151" Style="{DynamicResource buttonColor11}" />
 
                 <!--Row 4-->
-                <Button Click="ClickNoFunc" Width="93" Height="52" Margin="0" Canvas.Left="16" Canvas.Top="205.5" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickNoFunc" Width="93" Height="52" Margin="0" Canvas.Left="16" Canvas.Top="205.5" Style="{Binding Style, ElementName=esc}" />
                 <Button Click="ClickGameField" Content="A" Name="p24" Width="52" Height="52" Margin="0" Canvas.Left="110" Canvas.Top="205.5" Style="{DynamicResource buttonColor8}" />
                 <Button Click="ClickGameField" Content="S" Name="p25" Width="52" Height="52" Margin="0" Canvas.Left="165" Canvas.Top="205.5" Style="{DynamicResource buttonColor8}" />
                 <Button Click="ClickGameField" Content="D" Name="p26" Width="52" Height="52" Margin="0" Canvas.Left="218.5" Canvas.Top="205.5" Style="{DynamicResource buttonColor8}" />
@@ -181,7 +181,7 @@
                 <Button Click="ClickKey" Content="6" Name="k6" Width="52" Height="52" Margin="0" Canvas.Left="1123.5" Canvas.Top="205.5" Style="{DynamicResource buttonColor6}" />
 
                 <!--Row 5-->
-                <Button Click="ClickNoFunc" Width="66" Height="52" Margin="0" Canvas.Left="16" Canvas.Top="259" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickNoFunc" Width="66" Height="52" Margin="0" Canvas.Left="16" Canvas.Top="259" Style="{Binding Style, ElementName=esc}" />
                 <Button Click="ClickFlagMod" Visibility="Collapsed" FontFamily="Marlett" Content="5" Name="ShiftL" Width="66" Height="52" Margin="0" Canvas.Left="16" Canvas.Top="259" Style="{DynamicResource buttonColor16}" />
                 <Button Click="ClickGameField" x:Name="p36" Width="52" Height="52" Margin="0" Canvas.Left="84" Canvas.Top="259" Style="{DynamicResource buttonColor8}">
                     <Button.Content>
@@ -222,28 +222,28 @@
                     </Grid>
                     </Button.Content>
                 </Button>
-                <Button Click="ClickNoFunc" Width="146" Height="52" Margin="0" Canvas.Left="677.5" Canvas.Top="259" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickNoFunc" x:Name="p47" Width="146" Height="52" Margin="0" Canvas.Left="677.5" Canvas.Top="259" Style="{Binding Style, ElementName=esc}" />
                 <Button Click="ClickFlagMod" Visibility="{Binding Visibility, ElementName=ShiftL}" FontFamily="Marlett" Content="5" Name="ShiftR" Width="146" Height="52" Margin="0" Canvas.Left="677.5" Canvas.Top="259" Style="{DynamicResource buttonColor16}" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="893.5" Canvas.Top="259" Style="{DynamicResource buttonColor9}"/>
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="893.5" Canvas.Top="259" Style="{Binding Style, ElementName=esc}"/>
                 <Button Click="ClickKey" Content="1" Name="k1" Width="52" Height="52" Margin="0" Canvas.Left="1015" Canvas.Top="259" Style="{DynamicResource buttonColor1}" />
                 <Button Click="ClickKey" Content="2" Name="k2" Width="52" Height="52" Margin="0" Canvas.Left="1069.5" Canvas.Top="259" Style="{DynamicResource buttonColor2}" />
                 <Button Click="ClickKey" Content="3" Name="k3" Width="52" Height="52" Margin="0" Canvas.Left="1123" Canvas.Top="259" Style="{DynamicResource buttonColor3}" />
-                <Button Click="ClickNoFunc" Width="52" Height="105.5" Margin="0" Canvas.Left="1177" Canvas.Top="259" Style="{DynamicResource buttonColor9}" />
+                <Button Click="ClickNoFunc" Width="52" Height="105.5" Margin="0" Canvas.Left="1177" Canvas.Top="259" Style="{Binding Style, ElementName=esc}" />
 
                 <!--Row 6-->
-                <Button Click="ClickNoFunc" Width="66" Height="52" Margin="0" Canvas.Left="16" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
-                <Button Click="ClickNoFunc" Width="65" Height="52" Margin="0" Canvas.Left="84" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
-                <Button Click="ClickNoFunc" Width="65" Height="52" Margin="0" Canvas.Left="151" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
-                <Button Click="ClickNoFunc" Width="335" Height="52" Margin="0" Canvas.Left="218.5" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
-                <Button Click="ClickNoFunc" Width="65" Height="52" Margin="0" Canvas.Left="556" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
-                <Button Click="ClickNoFunc" Width="65" Height="52" Margin="0" Canvas.Left="624" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
-                <Button Click="ClickNoFunc" Width="65" Height="52" Margin="0" Canvas.Left="691" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
-                <Button Click="ClickNoFunc" Width="66" Height="52" Margin="0" Canvas.Left="758" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="840" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="893.5" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="948" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
+                <Button Click="ClickNoFunc" Width="66" Height="52" Margin="0" Canvas.Left="16" Canvas.Top="313" Style="{Binding Style, ElementName=esc}"/>
+                <Button Click="ClickNoFunc" Width="65" Height="52" Margin="0" Canvas.Left="84" Canvas.Top="313" Style="{Binding Style, ElementName=esc}"/>
+                <Button Click="ClickNoFunc" Width="65" Height="52" Margin="0" Canvas.Left="151" Canvas.Top="313" Style="{Binding Style, ElementName=esc}"/>
+                <Button Click="ClickNoFunc" Width="335" Height="52" Margin="0" Canvas.Left="218.5" Canvas.Top="313" Style="{Binding Style, ElementName=esc}"/>
+                <Button Click="ClickNoFunc" Width="65" Height="52" Margin="0" Canvas.Left="556" Canvas.Top="313" Style="{Binding Style, ElementName=esc}"/>
+                <Button Click="ClickNoFunc" Width="65" Height="52" Margin="0" Canvas.Left="624" Canvas.Top="313" Style="{Binding Style, ElementName=esc}"/>
+                <Button Click="ClickNoFunc" Width="65" Height="52" Margin="0" Canvas.Left="691" Canvas.Top="313" Style="{Binding Style, ElementName=esc}"/>
+                <Button Click="ClickNoFunc" Width="66" Height="52" Margin="0" Canvas.Left="758" Canvas.Top="313" Style="{Binding Style, ElementName=esc}"/>
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="840" Canvas.Top="313" Style="{Binding Style, ElementName=esc}"/>
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="893.5" Canvas.Top="313" Style="{Binding Style, ElementName=esc}"/>
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="948" Canvas.Top="313" Style="{Binding Style, ElementName=esc}"/>
                 <Button Click="ClickKey" Content="0" Name="k0" Width="105" Height="52" Margin="0" Canvas.Left="1015" Canvas.Top="313" Style="{DynamicResource buttonColor0}" />
-                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1123" Canvas.Top="313" Style="{DynamicResource buttonColor9}"/>
+                <Button Click="ClickNoFunc" Width="52" Height="52" Margin="0" Canvas.Left="1123" Canvas.Top="313" Style="{Binding Style, ElementName=esc}"/>
             </Canvas>
         </Viewbox>
     </Grid>

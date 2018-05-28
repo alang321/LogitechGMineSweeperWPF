@@ -49,7 +49,7 @@ namespace LogitechGMineSweeper.KeyboardLayouts
             board = new Button[] { p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11,
                                    p12, p13, p14, p15, p16, p17, p18, p19, p20, p21, p22, p23,
                                    p24, p25, p26, p27, p28, p29, p30, p31, p32, p33, p34, p35,
-                                   p36, p37, p38, p39, p40, p41, p42, p43, p44, p45, p46 };
+                                   p36, p37, p38, p39, p40, p41, p42, p43, p44, p45, p46, p47 };
 
             key = new Button[] { k0, k1, k2, k3, k4, k5, k6 };
 
@@ -66,7 +66,13 @@ namespace LogitechGMineSweeper.KeyboardLayouts
             Style style8 = Application.Current.FindResource("buttonColor8") as Style;
             Style style9 = Application.Current.FindResource("buttonColor9") as Style;
             Style style10 = Application.Current.FindResource("buttonColor10") as Style;
-            styles = new Style[] { style0, style1, style2, style3, style4, style5, style6, style7, style8, style9, style10 };
+            Style style12 = Application.Current.FindResource("buttonColor12") as Style;
+            Style style13 = Application.Current.FindResource("buttonColor13") as Style;
+            Style style14 = Application.Current.FindResource("buttonColor14") as Style;
+            Style enterStyle12 = Application.Current.FindResource("Enter12") as Style;
+            Style enterStyle13 = Application.Current.FindResource("Enter13") as Style;
+            Style enterStyle14 = Application.Current.FindResource("Enter14") as Style;
+            styles = new Style[] { style0, style1, style2, style3, style4, style5, style6, style7, style8, style9, style10, null, style12, style13, style14, enterStyle12, enterStyle13, enterStyle14 };
 
             InitDisplay();
         }
@@ -125,7 +131,7 @@ namespace LogitechGMineSweeper.KeyboardLayouts
 
         #region Print Event Handlers
 
-        private void PrintEvent(EventArgs e)
+        private void PrintEvent()
         {
             if (MineSweeper.KeyboardLayout == activeAtLayout)
             {
@@ -177,14 +183,7 @@ namespace LogitechGMineSweeper.KeyboardLayouts
 
                 Application.Current.Resources["buttonColorBrush" + index.ToString()] = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]));
 
-                if (index == 12 || index == 13 || index == 14)
-                {
-                    MineSweeper.colors[9, 0] = current[0];
-                    MineSweeper.colors[9, 1] = current[1];
-                    MineSweeper.colors[9, 2] = current[2];
-                    Application.Current.Resources["buttonColorBrush9"] = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[9, 2], MineSweeper.colors[9, 1], MineSweeper.colors[9, 0]));
-                }
-                else
+                if (index != 12 && index != 13 && index != 14)
                 {
                     if (MineSweeper.colors[index, 2] + MineSweeper.colors[index, 1] + MineSweeper.colors[index, 0] < Config.foregroundThreshold)
                     {
@@ -202,7 +201,18 @@ namespace LogitechGMineSweeper.KeyboardLayouts
 
         private void ClickNoFunc(object sender, RoutedEventArgs e)
         {
-            ColorPopupCreator(9);
+            switch (MineSweeper.currentBack)
+            {
+                case 0:
+                    ColorPopupCreator(14);
+                    break;
+                case 1:
+                    ColorPopupCreator(13);
+                    break;
+                case 2:
+                    ColorPopupCreator(12);
+                    break;
+            }
         }
 
         private void ClickGameField(object sender, RoutedEventArgs e)
@@ -210,6 +220,22 @@ namespace LogitechGMineSweeper.KeyboardLayouts
             Button pressed = sender as Button;
             int i = Array.IndexOf(board, pressed);
             int index = MineSweeper.display[(i % 12 + 1), (i / 12 + 1)];
+
+            if (index == 9)
+            {
+                switch (MineSweeper.currentBack)
+                {
+                    case 0:
+                        index = 14;
+                        break;
+                    case 1:
+                        index = 13;
+                        break;
+                    case 2:
+                        index = 12;
+                        break;
+                }
+            }
 
             ColorPopupCreator(index);
         }
@@ -241,7 +267,21 @@ namespace LogitechGMineSweeper.KeyboardLayouts
 
         private void PrintBoard()
         {
-            Application.Current.Resources["buttonColorBrush9"] = new SolidColorBrush(Color.FromRgb(MineSweeper.colors[9, 2], MineSweeper.colors[9, 1], MineSweeper.colors[9, 0]));
+            switch (MineSweeper.currentBack)
+            {
+                case 0:
+                    esc.Style = styles[14];
+                    enter.Style = styles[17];
+                    break;
+                case 1:
+                    esc.Style = styles[13];
+                    enter.Style = styles[16];
+                    break;
+                case 2:
+                    esc.Style = styles[12];
+                    enter.Style = styles[15];
+                    break;
+            }
 
             //for actually printing the board
             int counter = 0;
@@ -249,8 +289,25 @@ namespace LogitechGMineSweeper.KeyboardLayouts
             {
                 for (int j = 1; j <= 12; j++)
                 {
-                    if (i == 4 && j == 12) continue;
-                    board[counter++].Style = styles[MineSweeper.display[j, i]];
+                    if (MineSweeper.display[j, i] == 9)
+                    {
+                        switch (MineSweeper.currentBack)
+                        {
+                            case 0:
+                                board[counter++].Style = styles[14];
+                                break;
+                            case 1:
+                                board[counter++].Style = styles[13];
+                                break;
+                            case 2:
+                                board[counter++].Style = styles[12];
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        board[counter++].Style = styles[MineSweeper.display[j, i]];
+                    }
                 }
             }
 

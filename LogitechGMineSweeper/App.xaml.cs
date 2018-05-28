@@ -51,7 +51,6 @@ namespace LogitechGMineSweeper
             if (!LogitechGSDK.LogiLedInit()) Console.Write("Not connected to GSDK");
 
             //Create or read in save files
-            bool newFile = false;
 
             Directory.CreateDirectory(Config.directory);
 
@@ -134,7 +133,6 @@ namespace LogitechGMineSweeper
                     losses = 0;
                     useBackground = Config.useBackgroundDefault;
                     File.WriteAllLines(Config.fileConfig, Config.configDefault);
-                    newFile = true;
                 }
 
                 try
@@ -174,33 +172,6 @@ namespace LogitechGMineSweeper
                     string[] lines = { "Wins: " + wins, "Bombs: " + bombs, "Layout: " + layout, "Total: " + total, "Losses: " + losses, "UseBackground: False"};
 
                     File.WriteAllLines(Config.fileConfig, lines);
-                    layout = Config.keyboardLayoutDefault;
-                }
-
-
-                if (!newFile)
-                {
-                    if (wins >= 0 && bombs >= 5 && bombs <= 25)
-                    {
-                        if (layout == (int)Config.Layout.US || layout == (int)Config.Layout.DE || layout == (int)Config.Layout.UK)
-                        {
-
-                        }
-                        else
-                        {
-                            layout = Config.keyboardLayoutDefault;
-                            File.WriteAllLines(Config.fileConfig, Config.configDefault);
-                            newFile = true;
-                        }
-                    }
-                    else
-                    {
-                        wins = 0;
-                        bombs = Config.bombsDefault;
-                        total = 0;
-                        File.WriteAllLines(Config.fileConfig, Config.configDefault);
-                        newFile = true;
-                    }
                 }
             }
             else
@@ -212,7 +183,6 @@ namespace LogitechGMineSweeper
                 losses = 0;
                 useBackground = Config.useBackgroundDefault;
                 File.WriteAllLines(Config.fileConfig, Config.configDefault);
-                newFile = true;
             }
             
             MineSweeper.useBackground = useBackground;
@@ -220,7 +190,10 @@ namespace LogitechGMineSweeper
             MineSweeper.Total = total;
             MineSweeper.Bombs = bombs;
             MineSweeper.Losses = losses;
+            Debug.WriteLine(layout);
             MineSweeper.KeyboardLayout = layout;
+
+            Debug.WriteLine(MineSweeper.KeyboardLayout);
 
             //one instance code
             if (mutex.WaitOne(TimeSpan.Zero, true))
@@ -264,6 +237,7 @@ namespace LogitechGMineSweeper
             if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
             {
                 int vkCode = Marshal.ReadInt32(lParam);
+            Debug.WriteLine("Key ID-Code: " + vkCode);
                 if (Config.KeyboardLayouts[MineSweeper.KeyboardLayout].KeyIds.Contains(vkCode))
                 {
                     if (Control.ModifierKeys == Keys.Shift)
@@ -274,14 +248,11 @@ namespace LogitechGMineSweeper
                             MineSweeper.SetFlag(Array.IndexOf(Config.KeyboardLayouts[MineSweeper.KeyboardLayout].KeyIds, vkCode));
                             last = -1;
                         }
-                        Debug.WriteLine("Key ID-Code: Shift - " + vkCode);
                     }
                     else if (last != vkCode)
                     {
                         last = vkCode;
                         MineSweeper.keyPressed(Array.IndexOf(Config.KeyboardLayouts[MineSweeper.KeyboardLayout].KeyIds, vkCode));
-
-                        Debug.WriteLine("Key ID-Code: " + vkCode);
                     }
                     else
                     {

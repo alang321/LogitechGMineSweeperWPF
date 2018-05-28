@@ -17,9 +17,9 @@ using System.Windows.Shapes;
 namespace LogitechGMineSweeper.KeyboardLayouts
 {
     /// <summary>
-    /// Interaction logic for UK.xaml
+    /// Interaction logic for IT.xaml
     /// </summary>
-    public partial class UK : UserControl
+    public partial class IT : UserControl
     {
         #region Constructor and variables
 
@@ -34,9 +34,9 @@ namespace LogitechGMineSweeper.KeyboardLayouts
         //for which colors foreground is important everything but background colors because they dont have text over them
         int[] foregroundColorImportant = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 15, 16 };
 
-        int activeAtLayout = (int)Config.Layout.UK;
+        int activeAtLayout = (int)Config.Layout.IT;
 
-        public UK()
+        public IT()
         {
             InitializeComponent();
 

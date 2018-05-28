@@ -629,12 +629,16 @@ namespace LogitechGMineSweeper
 
                 Application.Current.Resources["buttonColorBrush" + index.ToString()] = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]));
 
-                if (index == 12 || index == 13 || index == 14)
+                if (index != 12 && index != 13 && index != 14)
                 {
-                    MineSweeper.colors[9, 0] = current[0];
-                    MineSweeper.colors[9, 1] = current[1];
-                    MineSweeper.colors[9, 2] = current[2];
-                    Application.Current.Resources["buttonColorBrush9"] = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[9, 2], MineSweeper.colors[9, 1], MineSweeper.colors[9, 0]));
+                    if (MineSweeper.colors[index, 2] + MineSweeper.colors[index, 1] + MineSweeper.colors[index, 0] < Config.foregroundThreshold)
+                    {
+                        Application.Current.Resources["TextColorBrush" + index.ToString()] = new SolidColorBrush(Colors.White);
+                    }
+                    else
+                    {
+                        Application.Current.Resources["TextColorBrush" + index.ToString()] = new SolidColorBrush(Colors.Black);
+                    }
                 }
 
                 MineSweeper.printLogiLED();

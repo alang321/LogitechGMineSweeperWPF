@@ -48,7 +48,9 @@
                 <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/buttonred.xaml" />
                 <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/buttonActive.xaml" />
                 <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/buttoncolor.xaml" />
-                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonEnter.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonEnter12.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonEnter13.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonEnter14.xaml" />
                 <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonKeyboardColor0.xaml" />
                 <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonKeyboardColor1.xaml" />
                 <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonKeyboardColor2.xaml" />

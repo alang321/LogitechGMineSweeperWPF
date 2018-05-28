@@ -103,6 +103,9 @@
     <Compile Include="KeyboardLayouts\UK.xaml.cs">
       <DependentUpon>UK.xaml</DependentUpon>
     </Compile>
+    <Compile Include="KeyboardLayouts\IT.xaml.cs">
+      <DependentUpon>IT.xaml</DependentUpon>
+    </Compile>
     <Compile Include="KeyboardLayouts\US.xaml.cs">
       <DependentUpon>US.xaml</DependentUpon>
     </Compile>
@@ -122,11 +125,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="KeyboardLayouts\IT.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="KeyboardLayouts\US.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonEnter.xaml">
+    <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonEnter12.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonEnter14.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonEnter13.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

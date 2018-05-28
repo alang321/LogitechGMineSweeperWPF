@@ -19,7 +19,7 @@ namespace LogitechGMineSweeper
         //the enabledKeys array controls which keys are enabled, here for example on the us keyboard the bottom left is disabled as it is not present on the keyboard so no bombs will be generated there
         //then add the keyids of the corresponding keys on the used layout, key ids are printed to console in debug mode
         //then add a keyboard display in folder keyboardlayouts in InitKeyboardLayoutsArray function like its been done beofre
-        public enum Layout { DE, US, UK }
+        public enum Layout { DE, US, UK, IT }
 
         //called in constructor of mainwindow, exception thrown when implemented in array initialisation
         public static void InitKeyboardLayoutsArray()
@@ -27,6 +27,7 @@ namespace LogitechGMineSweeper
             KeyboardLayouts[0].KeyboardDisplayPage = new LogitechGMineSweeper.KeyboardLayouts.DE();
             KeyboardLayouts[1].KeyboardDisplayPage = new LogitechGMineSweeper.KeyboardLayouts.US();
             KeyboardLayouts[2].KeyboardDisplayPage = new LogitechGMineSweeper.KeyboardLayouts.UK();
+            KeyboardLayouts[3].KeyboardDisplayPage = new LogitechGMineSweeper.KeyboardLayouts.IT();
         }
 
         //Keyboard Layout Objects
@@ -43,7 +44,7 @@ namespace LogitechGMineSweeper
                     new bool[,]{{ true, true, true, true, true, true, true, true, true, true, true, true },
                                  { true, true, true, true, true, true, true, true, true, true, true, true },
                                   { true, true, true, true, true, true, true, true, true, true, true, true },
-                                 { true, true, true, true, true, true, true, true, true, true, true,false }},
+                                 { true, true, true, true, true, true, true, true, true, true, true, false }},
                     //the keyids
                     new int[]{ 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 219, 221,
                                 81, 87, 69, 82, 84, 90, 85, 73, 79, 80, 186, 187,
@@ -91,6 +92,27 @@ namespace LogitechGMineSweeper
                                 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 219, 221,
                                  65, 83, 68, 70, 71, 72, 74, 75, 76, 186, 192, 222,
                                 220, 90, 88, 67, 86, 66, 78, 77, 188, 190, 191, -1, /*Add Key*/ 107 },
+                    //Keyboard Display Uri
+                    //new KeyboardLayouts.UK()
+                    null
+                ),
+            //ITA
+            new KeyboardLayout
+                (
+                    //statistics file
+                    Path.Combine(directory, "ITA.txt"),
+                    //text
+                    "IT",
+                    //present/enabled keys
+                    new bool[,]{{ true, true, true, true, true, true, true, true, true, true, true, true },
+                                 { true, true, true, true, true, true, true, true, true, true, true, true },
+                                  { true, true, true, true, true, true, true, true, true, true, true, true },
+                                 { true, true, true, true, true, true, true, true, true, true, true,false }},
+                    //the keyids
+                    new int[]{ 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 219, 221,
+                                81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 186, 187,
+                                 65, 83, 68, 70, 71, 72, 74, 75, 76, 192, 222, 191,
+                                226, 90, 88, 67, 86, 66, 78, 77, 188, 190, 189, -1, /*Add Key*/ 107 },
                     //Keyboard Display Uri
                     //new KeyboardLayouts.UK()
                     null
