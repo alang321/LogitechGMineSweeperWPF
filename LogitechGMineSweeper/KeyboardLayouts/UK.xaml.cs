@@ -21,7 +21,7 @@ namespace LogitechGMineSweeper.KeyboardLayouts
     /// </summary>
     public partial class UK : UserControl
     {
-        #region Constructpr and variables
+        #region Constructor and variables
 
         Button[] board;
         
@@ -64,8 +64,9 @@ namespace LogitechGMineSweeper.KeyboardLayouts
             Style style6 = Application.Current.FindResource("buttonColor6") as Style;
             Style style7 = Application.Current.FindResource("buttonColor7") as Style;
             Style style8 = Application.Current.FindResource("buttonColor8") as Style;
+            Style style9 = Application.Current.FindResource("buttonColor9") as Style;
             Style style10 = Application.Current.FindResource("buttonColor10") as Style;
-            styles = new Style[] { style0, style1, style2, style3, style4, style5, style6, style7, style8, null, style10 };
+            styles = new Style[] { style0, style1, style2, style3, style4, style5, style6, style7, style8, style9, style10 };
 
             InitDisplay();
         }
@@ -98,7 +99,7 @@ namespace LogitechGMineSweeper.KeyboardLayouts
             //foreground brushes
             foreach(int index in foregroundColorImportant)
             {
-                if(MineSweeper.colors[index, 2] + MineSweeper.colors[index, 1] + MineSweeper.colors[index, 0] < 270)
+                if(MineSweeper.colors[index, 2] + MineSweeper.colors[index, 1] + MineSweeper.colors[index, 0] < Config.foregroundThreshold)
                 {
                     Application.Current.Resources["TextColorBrush" + index.ToString()] = new SolidColorBrush(Colors.White);
                 }
@@ -157,7 +158,7 @@ namespace LogitechGMineSweeper.KeyboardLayouts
         {
             byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
 
-            if ((ColorPopup.Show(Config.colorPickerTitles[index], System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, true) == MessageBoxResult.OK))
+            if ((ColorPopup.Show(System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), index) == MessageBoxResult.OK))
             {
                 string[] colors = new string[Config.colorsDefault.Length];
 
@@ -185,7 +186,7 @@ namespace LogitechGMineSweeper.KeyboardLayouts
                 }
                 else
                 {
-                    if (MineSweeper.colors[index, 2] + MineSweeper.colors[index, 1] + MineSweeper.colors[index, 0] < 270)
+                    if (MineSweeper.colors[index, 2] + MineSweeper.colors[index, 1] + MineSweeper.colors[index, 0] < Config.foregroundThreshold)
                     {
                         Application.Current.Resources["TextColorBrush" + index.ToString()] = new SolidColorBrush(Colors.White);
                     }

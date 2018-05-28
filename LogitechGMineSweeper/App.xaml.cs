@@ -268,7 +268,7 @@ namespace LogitechGMineSweeper
                 {
                     if (Control.ModifierKeys == Keys.Shift)
                     {
-                        if (last != 107 && vkCode == 107) MineSweeper.keyPressed(47);
+                        if (last != 107 && vkCode == 107) MineSweeper.keyPressed(48);
                         else if (vkCode != 107)
                         {
                             MineSweeper.SetFlag(Array.IndexOf(Config.KeyboardLayouts[MineSweeper.KeyboardLayout].KeyIds, vkCode));

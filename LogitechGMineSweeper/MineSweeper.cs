@@ -170,7 +170,7 @@ namespace LogitechGMineSweeper
                 newGame();
             }
             //Restart Game if plus is pressed
-            else if (i == 47)
+            else if (i == 48)
             {
                 main.UpdateStats();
                 main.StopWatchDefeat();
@@ -215,7 +215,7 @@ namespace LogitechGMineSweeper
         static public void SetFlag(int i)
         {
             //event handler for newgame because it calls setflag wenn shift is pressed so you can restart with pressed shift
-            if (i == 47)
+            if (i == 48)
             {
                 main.UpdateStats();
                 main.StopWatchDefeat();

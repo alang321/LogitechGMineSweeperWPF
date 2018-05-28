@@ -23,7 +23,6 @@ namespace LogitechGMineSweeper
     public partial class ColorPopup : Window
     {
         int index = 0;
-        public static LogitechGMineSweeper.MainWindow main;
 
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
@@ -64,7 +63,7 @@ namespace LogitechGMineSweeper
             }
             else
             {
-                if (MineSweeper.colors[index, 2] + MineSweeper.colors[index, 1] + MineSweeper.colors[index, 0] < 270)
+                if (MineSweeper.colors[index, 2] + MineSweeper.colors[index, 1] + MineSweeper.colors[index, 0] < Config.foregroundThreshold)
                 {
                     Application.Current.Resources["TextColorBrush" + index.ToString()] = new SolidColorBrush(Colors.White);
                 }
@@ -150,26 +149,27 @@ namespace LogitechGMineSweeper
 
         static ColorPopup _messageBox;
         static MessageBoxResult _result = MessageBoxResult.No;
-        
 
-        public static MessageBoxResult Show(string caption, System.Windows.Media.Color a, MessageBoxButton button, int b)
+        public static MessageBoxResult Show(System.Windows.Media.Color selectedColor, int index)
         {
-            _messageBox = new ColorPopup
-            { MessageTitle = { Content = caption } };
-            main = App.Current.MainWindow as MainWindow;
-            _messageBox.index = b;
-            _messageBox.ClrPcker_Background.SelectedColor = a;
-            _messageBox.ShowDialog();
-            return _result;
-        }
-
-        public static MessageBoxResult Show(string caption, System.Windows.Media.Color a, MessageBoxButton button, int b, bool update)
-        {
-            _messageBox = new ColorPopup
-            { MessageTitle = { Content = caption } };
-            main = App.Current.MainWindow as MainWindow;
-            _messageBox.index = b;
-            _messageBox.ClrPcker_Background.SelectedColor = a;
+            if (index == 9)
+            {
+                switch (MineSweeper.currentBack)
+                {
+                    case 0:
+                        index = 14;
+                        break;
+                    case 1:
+                        index = 13;
+                        break;
+                    case 2:
+                        index = 12;
+                        break;
+                }
+            }
+            _messageBox = new ColorPopup{ MessageTitle = { Content = Config.colorPickerTitles[index] } };
+            _messageBox.index = index;
+            _messageBox.ClrPcker_Background.SelectedColor = selectedColor;
             _messageBox.ShowDialog();
             return _result;
         }

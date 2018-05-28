@@ -610,7 +610,7 @@ namespace LogitechGMineSweeper
         {
             byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
 
-            if ((ColorPopup.Show(Config.colorPickerTitles[index], System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), MessageBoxButton.OKCancel, index, true) == MessageBoxResult.OK))
+            if ((ColorPopup.Show(System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), index) == MessageBoxResult.OK))
             {
                 string[] colors = new string[Config.colorsDefault.Length];
 
