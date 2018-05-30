@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogitechGMineSweeper", "LogitechGMineSweeper\LogitechGMineSweeper.csproj", "{15BFD4CF-4596-4836-A02B-EC645A9A794A}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup1", "Setup1\Setup1.vdproj", "{AF6153C7-1D6D-4EEE-9F1B-75196855C749}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "LogitechG MineSweeper", "Setup1\Setup1.vdproj", "{AF6153C7-1D6D-4EEE-9F1B-75196855C749}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -170,6 +170,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
             }
         }
         "Release"
@@ -177,7 +185,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\Setup1.msi"
+        "OutputFilename" = "8:Release\\LogitechGMineSweeper.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -194,6 +202,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
             }
         }
     }
@@ -537,15 +553,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:LogitechG MineSweeper"
-        "ProductCode" = "8:{6FFAC780-6E7C-4A02-BBB7-D535035EC55E}"
-        "PackageCode" = "8:{EFDAAAB4-C814-4CCB-B251-D5DCCF4E739E}"
+        "ProductCode" = "8:{C5DB32CE-B4FE-4360-835C-86B5985B2E6A}"
+        "PackageCode" = "8:{46815A5A-F87C-432E-829A-2B3373CA457B}"
         "UpgradeCode" = "8:{F241E023-8F21-46CD-BD62-209B56CED0DF}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:2.1.0"
+        "ProductVersion" = "8:2.2.0"
         "Manufacturer" = "8:Lang Lang"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -1073,7 +1089,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_5621D49F2B3B4D3BB3B238650B9B60EF"
             {
-            "SourcePath" = "8:..\\LogitechGMineSweeper\\obj\\x64\\Debug\\LogitechGMineSweeper.exe"
+            "SourcePath" = "8:..\\LogitechGMineSweeper\\obj\\x64\\Release\\LogitechGMineSweeper.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_65C54A925CE04AB8A1296CDBBAD412DA"

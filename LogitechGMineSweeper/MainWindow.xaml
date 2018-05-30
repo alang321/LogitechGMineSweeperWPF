@@ -283,7 +283,6 @@
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="27" Margin="10,0,0,9" Width="148">
             <Label HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Timer:" Opacity="1" FontSize="16" Foreground="black" Height="30" Width="53"/>
             <Label HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="30:00" Opacity="1" Name="timer1" FontSize="16" Margin="0,0,0,0" Foreground="black" Height="30" Width="48"/>
-
         </StackPanel>
     </Grid>
 </Window>

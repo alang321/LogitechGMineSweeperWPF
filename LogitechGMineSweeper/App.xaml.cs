@@ -185,7 +185,7 @@ namespace LogitechGMineSweeper
                 File.WriteAllLines(Config.fileConfig, Config.configDefault);
             }
             
-            MineSweeper.useBackground = useBackground;
+            MineSweeper.UseBackground = useBackground;
             MineSweeper.Wins = wins;
             MineSweeper.Total = total;
             MineSweeper.Bombs = bombs;

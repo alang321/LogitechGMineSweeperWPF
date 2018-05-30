@@ -115,7 +115,7 @@ namespace LogitechGMineSweeper.KeyboardLayouts
                 }
             }
 
-            if (MineSweeper.useBackground == true)
+            if (MineSweeper.UseBackground == true)
             {
                 ShiftL.Visibility = Visibility.Collapsed;
             }
@@ -201,7 +201,7 @@ namespace LogitechGMineSweeper.KeyboardLayouts
 
         private void ClickNoFunc(object sender, RoutedEventArgs e)
         {
-            switch (MineSweeper.currentBack)
+            switch (MineSweeper.GameState)
             {
                 case 0:
                     ColorPopupCreator(14);
@@ -219,11 +219,11 @@ namespace LogitechGMineSweeper.KeyboardLayouts
         {
             Button pressed = sender as Button;
             int i = Array.IndexOf(board, pressed);
-            int index = MineSweeper.display[(i % 12 + 1), (i / 12 + 1)];
+            int index = MineSweeper.Display[(i % 12 + 1), (i / 12 + 1)];
 
             if (index == 9)
             {
-                switch (MineSweeper.currentBack)
+                switch (MineSweeper.GameState)
                 {
                     case 0:
                         index = 14;
@@ -267,7 +267,7 @@ namespace LogitechGMineSweeper.KeyboardLayouts
 
         private void PrintBoard()
         {
-            switch (MineSweeper.currentBack)
+            switch (MineSweeper.GameState)
             {
                 case 0:
                     esc.Style = styles[14];
@@ -286,9 +286,9 @@ namespace LogitechGMineSweeper.KeyboardLayouts
             {
                 for (int j = 1; j <= 12; j++)
                 {
-                    if (MineSweeper.display[j, i] == 9)
+                    if (MineSweeper.Display[j, i] == 9)
                     {
-                        switch (MineSweeper.currentBack)
+                        switch (MineSweeper.GameState)
                         {
                             case 0:
                                 board[counter++].Style = styles[14];
@@ -303,12 +303,12 @@ namespace LogitechGMineSweeper.KeyboardLayouts
                     }
                     else
                     {
-                        board[counter++].Style = styles[MineSweeper.display[j, i]];
+                        board[counter++].Style = styles[MineSweeper.Display[j, i]];
                     }
                 }
             }
 
-            if (MineSweeper.currentBack == 0)
+            if (MineSweeper.GameState == 0)
             {
                 foreach (Button a in function)
                 {

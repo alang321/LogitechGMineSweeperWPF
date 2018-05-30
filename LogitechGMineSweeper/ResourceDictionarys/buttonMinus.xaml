@@ -21,7 +21,7 @@
                                           TextElement.FontWeight="ExtraBold">
                             </ContentPresenter>
                         </Border>
-                        <Line Name="Cross" X1="14.6" Y1="15" X2="25.4" Y2="15" Stroke="Black" StrokeThickness="0.7" />
+                        <Line Name="Cross" X1="14.6" Y1="15" X2="25.4" Y2="15" Stroke="Black" StrokeThickness="0.43" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

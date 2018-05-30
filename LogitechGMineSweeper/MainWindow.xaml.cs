@@ -80,7 +80,7 @@ namespace LogitechGMineSweeper
             InitializeComponent();
 
             _menuTabControl.SelectedIndex = 0;
-            MineSweeper.main = App.Current.MainWindow as MainWindow;
+            MineSweeper.Main = App.Current.MainWindow as MainWindow;
 
             dispatcherTimer.Elapsed += new ElapsedEventHandler(DispatcherTimer_Tick);
             dispatcherTimer.Interval = 1000;
@@ -370,7 +370,7 @@ namespace LogitechGMineSweeper
         {
             _menuTabControl.SelectedIndex = 1;
 
-            FlagUseBackground.IsChecked = MineSweeper.useBackground;
+            FlagUseBackground.IsChecked = MineSweeper.UseBackground;
 
             KeyboardDisplayContainer.Children.Clear();
 
@@ -449,7 +449,7 @@ namespace LogitechGMineSweeper
 
         public void UpdateFile()
         {
-            string[] lines = { "Wins: " + MineSweeper.Wins, "Bombs: " + MineSweeper.Bombs, "Layout: " + MineSweeper.KeyboardLayout, "Total: " + MineSweeper.Total.ToString(), "Losses: " + MineSweeper.Losses.ToString(), "UseBackground: " + MineSweeper.useBackground };
+            string[] lines = { "Wins: " + MineSweeper.Wins, "Bombs: " + MineSweeper.Bombs, "Layout: " + MineSweeper.KeyboardLayout, "Total: " + MineSweeper.Total.ToString(), "Losses: " + MineSweeper.Losses.ToString(), "UseBackground: " + MineSweeper.UseBackground };
             File.WriteAllLines(Config.fileConfig, lines);
         }
 
@@ -548,7 +548,7 @@ namespace LogitechGMineSweeper
 
             MineSweeper.printLogiLED();
 
-            MineSweeper.useBackground = Config.useBackgroundDefault;
+            MineSweeper.UseBackground = Config.useBackgroundDefault;
 
             ResetColorsEvent();
 
@@ -561,7 +561,7 @@ namespace LogitechGMineSweeper
 
             File.WriteAllLines(Config.fileConfig, Config.configDefault);
 
-            MineSweeper.useBackground = Config.useBackgroundDefault;
+            MineSweeper.UseBackground = Config.useBackgroundDefault;
             MineSweeper.Bombs = Config.bombsDefault;
             MineSweeper.KeyboardLayout = Config.keyboardLayoutDefault;
             KeyLayout.SelectedIndex = Config.keyboardLayoutDefault;
@@ -572,7 +572,7 @@ namespace LogitechGMineSweeper
 
         private void ResetStatistics()
         {
-            string[] lines = { "Wins: 0", "Bombs: " + MineSweeper.Bombs, "Layout: " + MineSweeper.KeyboardLayout, "Total: 0", "Losses: 0", "UseBackground: " + MineSweeper.useBackground };
+            string[] lines = { "Wins: 0", "Bombs: " + MineSweeper.Bombs, "Layout: " + MineSweeper.KeyboardLayout, "Total: 0", "Losses: 0", "UseBackground: " + MineSweeper.UseBackground };
 
             File.WriteAllLines(Config.fileConfig, lines);
 
@@ -721,7 +721,7 @@ namespace LogitechGMineSweeper
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             ShiftFlag.Opacity = 0.4;
-            MineSweeper.useBackground = true;
+            MineSweeper.UseBackground = true;
             MineSweeper.printLogiLED();
             UpdateFile();
             ResetColorsEvent();
@@ -730,7 +730,7 @@ namespace LogitechGMineSweeper
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             ShiftFlag.Opacity = 1;
-            MineSweeper.useBackground = false;
+            MineSweeper.UseBackground = false;
             MineSweeper.printLogiLED();
             UpdateFile();
             ResetColorsEvent();
