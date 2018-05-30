@@ -203,13 +203,13 @@ namespace LogitechGMineSweeper.KeyboardLayouts
         {
             switch (MineSweeper.GameState)
             {
-                case 0:
+                case (int)MineSweeper.GameStateEnum.Default:
                     ColorPopupCreator(14);
                     break;
-                case 1:
+                case (int)MineSweeper.GameStateEnum.Victory:
                     ColorPopupCreator(13);
                     break;
-                case 2:
+                case (int)MineSweeper.GameStateEnum.Defeat:
                     ColorPopupCreator(12);
                     break;
             }
@@ -225,13 +225,13 @@ namespace LogitechGMineSweeper.KeyboardLayouts
             {
                 switch (MineSweeper.GameState)
                 {
-                    case 0:
+                    case (int)MineSweeper.GameStateEnum.Default:
                         index = 14;
                         break;
-                    case 1:
+                    case (int)MineSweeper.GameStateEnum.Victory:
                         index = 13;
                         break;
-                    case 2:
+                    case (int)MineSweeper.GameStateEnum.Defeat:
                         index = 12;
                         break;
                 }
@@ -269,13 +269,13 @@ namespace LogitechGMineSweeper.KeyboardLayouts
         {
             switch (MineSweeper.GameState)
             {
-                case 0:
+                case (int)MineSweeper.GameStateEnum.Default:
                     esc.Style = styles[14];
                     break;
-                case 1:
+                case (int)MineSweeper.GameStateEnum.Victory:
                     esc.Style = styles[13];
                     break;
-                case 2:
+                case (int)MineSweeper.GameStateEnum.Defeat:
                     esc.Style = styles[12];
                     break;
             }
@@ -290,13 +290,13 @@ namespace LogitechGMineSweeper.KeyboardLayouts
                     {
                         switch (MineSweeper.GameState)
                         {
-                            case 0:
+                            case (int)MineSweeper.GameStateEnum.Default:
                                 board[counter++].Style = styles[14];
                                 break;
-                            case 1:
+                            case (int)MineSweeper.GameStateEnum.Victory:
                                 board[counter++].Style = styles[13];
                                 break;
-                            case 2:
+                            case (int)MineSweeper.GameStateEnum.Defeat:
                                 board[counter++].Style = styles[12];
                                 break;
                         }
@@ -308,7 +308,7 @@ namespace LogitechGMineSweeper.KeyboardLayouts
                 }
             }
 
-            if (MineSweeper.GameState == 0)
+            if (MineSweeper.GameState == (int)MineSweeper.GameStateEnum.Default)
             {
                 foreach (Button a in function)
                 {
