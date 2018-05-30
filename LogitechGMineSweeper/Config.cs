@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace LogitechGMineSweeper
 {
@@ -147,6 +148,15 @@ namespace LogitechGMineSweeper
 
         //Threshold for when the foreground color is white and black, when total rgb color is below this value foreground color is white else its black
         public static int foregroundThreshold = 270;
+
+        //Timer colors
+        public static Color Defeat = Colors.Red;
+        public static Color Victory = Colors.Green;
+        public static Color NewRecord = Colors.Green;
+        public static Color Default = Colors.Black;
+
+        //text that is displayed next to timer on new record
+        public static string textNewRecord = " - New Best!";
     }
 }
 

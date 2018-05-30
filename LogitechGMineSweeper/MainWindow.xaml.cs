@@ -103,6 +103,8 @@ namespace LogitechGMineSweeper
             //select current keylayout
             KeyLayout.SelectedIndex = MineSweeper.KeyboardLayout;
 
+            timer1.Foreground = new SolidColorBrush(Config.Default);
+
             MineSweeper.newGame();
         }
 
@@ -196,7 +198,7 @@ namespace LogitechGMineSweeper
 
         public void StopWatchVictory()
         {
-            timer1.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Green);
+            timer1.Foreground = new SolidColorBrush(Config.Victory);
             timer.Stop();
             dispatcherTimer.Enabled = false;
             UpdateTimer();
@@ -205,6 +207,8 @@ namespace LogitechGMineSweeper
 
             if (Convert.ToInt32(best.Substring(0, 2)) * 60 + Convert.ToInt32(best.Substring(3, 2)) >= timer.Elapsed.Minutes * 60 + timer.Elapsed.Seconds)
             {
+                timer1.Foreground = new SolidColorBrush(Config.NewRecord);
+                timer1.Content += Config.textNewRecord;
                 var file = Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile;
 
                 string[] updatedStatistics = File.ReadAllLines(file);
@@ -227,14 +231,14 @@ namespace LogitechGMineSweeper
 
         public void StopWatchDefeat()
         {
-            timer1.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Red);
+            timer1.Foreground = new SolidColorBrush(Config.Defeat);
             timer.Stop();
             dispatcherTimer.Enabled = false;
         }
 
         public void StartWatch()
         {
-            timer1.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Black);
+            timer1.Foreground = new SolidColorBrush(Config.Default);
             timer.Reset();
             dispatcherTimer.Enabled = true;
             timer.Start();
@@ -242,7 +246,7 @@ namespace LogitechGMineSweeper
 
         public void ResetWatch()
         {
-            timer1.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Black);
+            timer1.Foreground = new SolidColorBrush(Config.Default);
             timer.Reset();
             UpdateTimer();
         }
