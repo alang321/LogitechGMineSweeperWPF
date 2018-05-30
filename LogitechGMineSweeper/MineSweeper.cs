@@ -22,7 +22,7 @@ namespace LogitechGMineSweeper
 
         static int[,] map;
         static bool[,] isBomb;
-        static bool[,] isFlag = new bool[13, 6];
+        static bool[,] isFlag = new bool[14, 6];
         static int[,] display;
         static int bombs = 13;
         static int wins = 0;
@@ -718,64 +718,87 @@ namespace LogitechGMineSweeper
         static private void uncoverFlags(int x, int y)
         {
             int sourroundingFlags = 0;
+            bool defeatIfUncover = false;
             switch (y)
             {
                 case 0:
                 case 1:
                     if (isFlag[x + 1, y]) sourroundingFlags++;
+                    else if(isBomb[x + 1, y]) defeatIfUncover = true;
                     if (isFlag[x + 2, y]) sourroundingFlags++;
+                    else if (isBomb[x + 2, y]) defeatIfUncover = true;
                     if (isFlag[x, y + 1]) sourroundingFlags++;
+                    else if (isBomb[x, y + 1]) defeatIfUncover = true;
                     if (isFlag[x + 2, y + 1]) sourroundingFlags++;
+                    else if (isBomb[x + 2, y + 1]) defeatIfUncover = true;
                     if (isFlag[x, y + 2]) sourroundingFlags++;
+                    else if (isBomb[x, y + 2]) defeatIfUncover = true;
                     if (isFlag[x + 1, y + 2]) sourroundingFlags++;
+                    else if (isBomb[x + 1, y + 2]) defeatIfUncover = true;
                     break;
                 case 2:
                     if (isFlag[x + 1, y]) sourroundingFlags++;
+                    else if (isBomb[x + 1, y]) defeatIfUncover = true;
                     if (isFlag[x + 2, y]) sourroundingFlags++;
+                    else if (isBomb[x + 2, y]) defeatIfUncover = true;
                     if (isFlag[x, y + 1]) sourroundingFlags++;
+                    else if (isBomb[x, y + 1]) defeatIfUncover = true;
                     if (isFlag[x + 2, y + 1]) sourroundingFlags++;
+                    else if (isBomb[x + 2, y + 1]) defeatIfUncover = true;
                     if (isFlag[x + 1, y + 2]) sourroundingFlags++;
+                    else if (isBomb[x + 1, y + 2]) defeatIfUncover = true;
                     if (isFlag[x + 2, y + 2]) sourroundingFlags++;
+                    else if (isBomb[x + 2, y + 2]) defeatIfUncover = true;
                     break;
                 case 3:
                     if (isFlag[x, y]) sourroundingFlags++;
+                    else if (isBomb[x, y]) defeatIfUncover = true;
                     if (isFlag[x + 1, y]) sourroundingFlags++;
+                    else if (isBomb[x + 1, y]) defeatIfUncover = true;
                     if (isFlag[x, y + 1]) sourroundingFlags++;
+                    else if (isBomb[x, y + 1]) defeatIfUncover = true;
                     if (isFlag[x + 2, y + 1]) sourroundingFlags++;
+                    else if (isBomb[x + 2, y + 1]) defeatIfUncover = true;
                     break;
             }
 
             if (display[x + 1, y + 1] <= sourroundingFlags)
             {
-                switch (y)
+                if (defeatIfUncover)
                 {
-                    case 0:
-                    case 1:
-                        if (!isFlag[x + 1, y]) uncover(x, y - 1);
-                        if (!isFlag[x + 2, y]) uncover(x + 1, y - 1);
-                        if (!isFlag[x, y + 1]) uncover(x - 1, y);
-                        if (!isFlag[x + 2, y + 1]) uncover(x + 1, y);
-                        if (!isFlag[x, y + 2]) uncover(x - 1, y + 1);
-                        if (!isFlag[x + 1, y + 2]) uncover(x, y + 1);
-                        break;
-                    case 2:
-                        if (!isFlag[x + 1, y]) uncover(x, y - 1);
-                        if (!isFlag[x + 2, y]) uncover(x + 1, y - 1);
-                        if (!isFlag[x, y + 1]) uncover(x - 1, y);
-                        if (!isFlag[x + 2, y + 1]) uncover(x + 1, y);
-                        if (!isFlag[x + 1, y + 2]) uncover(x, y + 1);
-                        if (!isFlag[x + 2, y + 2]) uncover(x + 1, y + 1);
-                        break;
-                    case 3:
-                        if (!isFlag[x, y]) uncover(x - 1, y - 1);
-                        if (!isFlag[x + 1, y]) uncover(x, y - 1);
-                        if (!isFlag[x, y + 1]) uncover(x - 1, y);
-                        if (!isFlag[x + 2, y + 1]) uncover(x + 1, y);
-                        break;
+                    Defeat();
+                }
+                else
+                {
+                    switch (y)
+                    {
+                        case 0:
+                        case 1:
+                            if (!isFlag[x + 1, y]) uncover(x, y - 1);
+                            if (!isFlag[x + 2, y]) uncover(x + 1, y - 1);
+                            if (!isFlag[x, y + 1]) uncover(x - 1, y);
+                            if (!isFlag[x + 2, y + 1]) uncover(x + 1, y);
+                            if (!isFlag[x, y + 2]) uncover(x - 1, y + 1);
+                            if (!isFlag[x + 1, y + 2]) uncover(x, y + 1);
+                            break;
+                        case 2:
+                            if (!isFlag[x + 1, y]) uncover(x, y - 1);
+                            if (!isFlag[x + 2, y]) uncover(x + 1, y - 1);
+                            if (!isFlag[x, y + 1]) uncover(x - 1, y);
+                            if (!isFlag[x + 2, y + 1]) uncover(x + 1, y);
+                            if (!isFlag[x + 1, y + 2]) uncover(x, y + 1);
+                            if (!isFlag[x + 2, y + 2]) uncover(x + 1, y + 1);
+                            break;
+                        case 3:
+                            if (!isFlag[x, y]) uncover(x - 1, y - 1);
+                            if (!isFlag[x + 1, y]) uncover(x, y - 1);
+                            if (!isFlag[x, y + 1]) uncover(x - 1, y);
+                            if (!isFlag[x + 2, y + 1]) uncover(x + 1, y);
+                            break;
+                    }
+                    printLogiLED();
                 }
             }
-
-            printLogiLED();
         }
 
         #endregion
