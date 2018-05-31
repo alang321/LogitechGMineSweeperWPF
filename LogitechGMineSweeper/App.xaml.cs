@@ -67,6 +67,22 @@ namespace LogitechGMineSweeper
                 {
                     File.WriteAllLines(keyLayout.SaveFile, Config.statisticsDefault);
                 }
+                else
+                {
+                    string[] lines = File.ReadAllLines(keyLayout.SaveFile);
+
+                    if(lines[0].Length < 5)
+                    {
+                        try
+                        {
+                            SaveFile.MigrateOldSave(keyLayout.SaveFile);
+                        }
+                        catch
+                        {
+                            File.WriteAllLines(keyLayout.SaveFile, Config.statisticsDefault);
+                        }
+                    }
+                }
             }
 
             if (!File.Exists(Config.fileColors))
@@ -188,7 +204,16 @@ namespace LogitechGMineSweeper
             MineSweeper.UseBackground = useBackground;
             MineSweeper.Wins = wins;
             MineSweeper.Total = total;
-            MineSweeper.Bombs = bombs;
+
+            try
+            {
+                MineSweeper.Bombs = bombs;
+            }
+            catch
+            {
+                MineSweeper.Bombs = Config.bombsDefault;
+            }
+
             MineSweeper.Losses = losses;
             MineSweeper.KeyboardLayout = layout;
 

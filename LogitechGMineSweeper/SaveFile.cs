@@ -51,9 +51,28 @@ namespace LogitechGMineSweeper
             PrintStatsEvent();
         }
 
-        public static void MigrateOldSave(string saveFile, int bombs, int index)
+        public static void MigrateOldSave(string saveFile)
         {
-            //todo
+            int minutes = 0;
+            int seconds = 0;
+
+            //+42 total game +21 defeat game +0 victory
+            string[] lines = File.ReadAllLines(saveFile);
+            string[] newFile = new string[Config.statisticsDefault.Length];
+
+            for (int i = 0; i < Config.statisticsDefault.Length; i++)
+            {
+                newFile[i] = Config.statisticsDefault[i];
+            }
+
+            for (int i = 5; i <= 25; i++)
+            {
+                minutes = Convert.ToInt32(lines[i].Substring(2 + i.ToString().Length, 2));
+                seconds = Convert.ToInt32(lines[i].Substring(5 + i.ToString().Length, 2));
+                newFile[i] = i + ": .0" + ((minutes * 60000) + (seconds * 1000)) + ".1" + lines[i + 63] + ".2" + lines[i + 21] + ".3" + lines[i + 42] + ".4";
+            }
+            
+            File.WriteAllLines(saveFile, newFile);
         }
     }
 }
