@@ -136,8 +136,8 @@ namespace LogitechGMineSweeper
         public static int easy = 7;
         
         //values between 0-44 and maxbombs bigger than minbombs
-        public static int maxBombs = 44;
-        public static int minBombs = 0;
+        public static int maxBombs = 40;
+        public static int minBombs = 3;
 
         public static int NumUDstartvalue = bombsDefault;
 
