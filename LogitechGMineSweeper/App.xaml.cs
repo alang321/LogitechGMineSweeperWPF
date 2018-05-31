@@ -212,6 +212,7 @@ namespace LogitechGMineSweeper
             catch
             {
                 MineSweeper.Bombs = Config.bombsDefault;
+                string[] lines = { "Wins: " + wins, "Bombs: " + bombs, "Layout: " + layout, "Total: " + total, "Losses: " + losses, "UseBackground: " + useBackground};
             }
 
             MineSweeper.Losses = losses;

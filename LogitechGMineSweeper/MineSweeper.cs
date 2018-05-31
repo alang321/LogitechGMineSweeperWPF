@@ -35,6 +35,7 @@ namespace LogitechGMineSweeper
         static int gameState = 0;
         static MainWindow main;
         static bool useBackground = false;
+        static Random r = new Random();
 
         static int[] availeableBombField;
         static int availeableBombFieldCounter;
@@ -315,8 +316,6 @@ namespace LogitechGMineSweeper
 
         static private void MoveBomb(int x, int y)
         {
-            Random r = new Random();
-
             int index = r.Next(0, availeableBombFieldCounter);
             isBomb[(availeableBombField[index] % 12) + 1, (availeableBombField[index] / 12) + 1] = true;
             availeableBombFieldCounter--;
@@ -326,13 +325,11 @@ namespace LogitechGMineSweeper
             genMap();
         }
 
-
         static private void genBombs()
         {
             isBomb = new bool[14, 6];
             availeableBombField = new int[48];
             availeableBombFieldCounter = 0;
-            Random r = new Random();
 
             for(int i = 0; i < Config.KeyboardLayouts[MineSweeper.keyboardLayout].EnabledKeys.GetLength(0); i++)
             {
