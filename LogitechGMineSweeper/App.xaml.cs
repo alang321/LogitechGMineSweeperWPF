@@ -190,10 +190,7 @@ namespace LogitechGMineSweeper
             MineSweeper.Total = total;
             MineSweeper.Bombs = bombs;
             MineSweeper.Losses = losses;
-            Debug.WriteLine(layout);
             MineSweeper.KeyboardLayout = layout;
-
-            Debug.WriteLine(MineSweeper.KeyboardLayout);
 
             //one instance code
             if (mutex.WaitOne(TimeSpan.Zero, true))

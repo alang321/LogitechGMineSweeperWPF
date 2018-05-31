@@ -36,6 +36,9 @@ namespace LogitechGMineSweeper
         static MainWindow main;
         static bool useBackground = false;
 
+        static int[] availeableBombField;
+        static int availeableBombFieldCounter;
+
         //covered key count for current layout
         static int coveredReset;
 
@@ -231,7 +234,8 @@ namespace LogitechGMineSweeper
 
                 //add to total game counter
                 total++;
-                IncrementWinsBombs(42);
+
+                SaveFile.IncrementSaveFile(Config.KeyboardLayouts[keyboardLayout].SaveFile, bombs, (int)SaveFile.SaveIndex.Total);
 
                 firstMove = false;
                 uncover(i % 12, i / 12);
@@ -312,20 +316,11 @@ namespace LogitechGMineSweeper
         static private void MoveBomb(int x, int y)
         {
             Random r = new Random();
-            while (true)
-            {
-                int a = r.Next(1, isBomb.GetLength(0) - 1);
-                int b = r.Next(1, isBomb.GetLength(1) - 1);
-                if (!isBomb[a, b])
-                {
-                    if (!Config.KeyboardLayouts[keyboardLayout].EnabledKeys[b - 1, a - 1])
-                    {
-                        continue;
-                    }
-                    isBomb[a, b] = true;
-                    break;
-                }
-            }
+
+            int index = r.Next(0, availeableBombFieldCounter);
+            isBomb[(availeableBombField[index] % 12) + 1, (availeableBombField[index] / 12) + 1] = true;
+            availeableBombFieldCounter--;
+            availeableBombField[index] = availeableBombField[availeableBombFieldCounter];
 
             isBomb[x, y] = false;
             genMap();
@@ -335,18 +330,24 @@ namespace LogitechGMineSweeper
         static private void genBombs()
         {
             isBomb = new bool[14, 6];
+            availeableBombField = new int[48];
+            availeableBombFieldCounter = 0;
             Random r = new Random();
-            for (int i = 1; i <= bombs; i++)
+
+            for(int i = 0; i < Config.KeyboardLayouts[MineSweeper.keyboardLayout].EnabledKeys.GetLength(0); i++)
             {
-                int x = r.Next(1, isBomb.GetLength(0) - 1);
-                int y = r.Next(1, isBomb.GetLength(1) - 1);
-                if (!Config.KeyboardLayouts[keyboardLayout].EnabledKeys[y - 1, x - 1])
+                for (int j = 0; j < Config.KeyboardLayouts[MineSweeper.keyboardLayout].EnabledKeys.GetLength(1); j++)
                 {
-                    i--;
-                    continue;
+                    if (Config.KeyboardLayouts[MineSweeper.keyboardLayout].EnabledKeys[i, j]) availeableBombField[availeableBombFieldCounter++] = i * Config.KeyboardLayouts[MineSweeper.keyboardLayout].EnabledKeys.GetLength(1) + j;
                 }
-                if (isBomb[x, y]) i--;
-                else isBomb[x, y] = true;
+            }
+
+            for(int i = 0; i < bombs; i++)
+            {
+                int index = r.Next(0, availeableBombFieldCounter);
+                isBomb[(availeableBombField[index] % 12) + 1,(availeableBombField[index] / 12) + 1] = true;
+                availeableBombFieldCounter--;
+                availeableBombField[index] = availeableBombField[availeableBombFieldCounter];
             }
         }
 
@@ -561,6 +562,8 @@ namespace LogitechGMineSweeper
             {
                 PrintEvent();
             }
+
+            Debug.WriteLine(printBombs());
 
             //for actually printing the board
             for (int i = 0; i < display.GetLength(1); i++)
@@ -831,8 +834,8 @@ namespace LogitechGMineSweeper
             //stop timer victory
             wins++;
 
-            IncrementWinsBombs(0);
-            
+            SaveFile.IncrementSaveFile(Config.KeyboardLayouts[keyboardLayout].SaveFile, bombs, (int)SaveFile.SaveIndex.Win);
+
             main.UpdateStats();
             main.StopWatchVictory();
 
@@ -849,8 +852,8 @@ namespace LogitechGMineSweeper
         {
             losses++;
 
-            IncrementWinsBombs(21);
-            
+            SaveFile.IncrementSaveFile(Config.KeyboardLayouts[keyboardLayout].SaveFile, bombs, (int)SaveFile.SaveIndex.Defeat);
+
             main.UpdateStats();
             main.StopWatchDefeat();
 
@@ -861,32 +864,6 @@ namespace LogitechGMineSweeper
             File.WriteAllLines(Config.fileConfig, lines);
 
             GameOver();
-        }
-
-        #endregion
-
-        #region Increment Wins in the statistics file for specofoc setting
-
-        static private void IncrementWinsBombs(int add)
-        {
-            var file = Config.KeyboardLayouts[keyboardLayout].SaveFile;
-
-            string[] stats = File.ReadAllLines(file);
-            
-            int line = Convert.ToInt32(stats[bombs + 21 + add]) + 1;
-
-            stats[bombs + 21 + add] = line.ToString();
-            
-            File.WriteAllLines(file, stats);
-
-            try
-            {
-                main.UpdateStats();
-            }
-            catch
-            {
-
-            }
         }
 
         #endregion

@@ -105,7 +105,7 @@ namespace LogitechGMineSweeper
 
             timer1.Foreground = new SolidColorBrush(Config.Default);
 
-            MineSweeper.newGame();
+            SaveFile.PrintStatsEvent += new SaveFile.PrintStatsEventHandler(PrintStatsEvent);
         }
 
         #endregion
@@ -152,32 +152,46 @@ namespace LogitechGMineSweeper
 
         #region Timer
 
-        string BestTime(int bombs)
+        string MillisecondsToString(int ms)
         {
-            string best = "";
-            int a = 0;
+            TimeSpan t = TimeSpan.FromMilliseconds(ms);
 
-            var file = Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile;
+            return string.Format("{0:D2}:{1:D2}", t.Minutes, t.Seconds);
+        }
+
+        int BestTime(int bombs)
+        {
+            int best = 1800000;
+            string file = Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile;
 
             try
             {
-                string skip = bombs + ": ";
-                string line = File.ReadLines(file).Skip(bombs).Take(1).First();
-                a = line.IndexOf(skip);
-                best = line.Substring(a + skip.Length);
-                int min = Convert.ToInt32(best.Substring(0, 2));
-                int sek = Convert.ToInt32(best.Substring(3, 2));
+                best = SaveFile.ReadSaveFile(file, bombs, (int)SaveFile.SaveIndex.Timer);
             }
             catch
             {
                 File.WriteAllLines(file, Config.statisticsDefault);
             }
-            if (best.Length != 5 || best.Substring(2, 1) != ":" || Convert.ToInt32(best.Substring(0, 2)) > 30 || Convert.ToInt32(best.Substring(3, 2)) > 60 || Convert.ToInt32(best.Substring(0, 2)) < 0 || Convert.ToInt32(best.Substring(3, 2)) < 0)
-            {
-                File.WriteAllLines(file, Config.statisticsDefault);
-            }
 
             return best;
+        }
+
+        public void StopWatchVictory()
+        {
+            timer1.Foreground = new SolidColorBrush(Config.Victory);
+            timer.Stop();
+            dispatcherTimer.Enabled = false;
+            UpdateTimer();
+
+            if (BestTime(MineSweeper.Bombs) > timer.Elapsed.Milliseconds)
+            {
+                timer1.Foreground = new SolidColorBrush(Config.NewRecord);
+                timer1.Content += Config.textNewRecord;
+                
+                SaveFile.UpdateSaveFile(Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile, MineSweeper.Bombs, (int)SaveFile.SaveIndex.Timer, Convert.ToInt32(timer.Elapsed.TotalMilliseconds));
+
+                UpdateStats();
+            }
         }
 
         private void DispatcherTimer_Tick(object sender, EventArgs e)
@@ -194,31 +208,6 @@ namespace LogitechGMineSweeper
 
             // Forcing the CommandManager to raise the RequerySuggested event
             CommandManager.InvalidateRequerySuggested();
-        }
-
-        public void StopWatchVictory()
-        {
-            timer1.Foreground = new SolidColorBrush(Config.Victory);
-            timer.Stop();
-            dispatcherTimer.Enabled = false;
-            UpdateTimer();
-
-            string best = BestTime(MineSweeper.Bombs);
-
-            if (Convert.ToInt32(best.Substring(0, 2)) * 60 + Convert.ToInt32(best.Substring(3, 2)) >= timer.Elapsed.Minutes * 60 + timer.Elapsed.Seconds)
-            {
-                timer1.Foreground = new SolidColorBrush(Config.NewRecord);
-                timer1.Content += Config.textNewRecord;
-                var file = Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile;
-
-                string[] updatedStatistics = File.ReadAllLines(file);
-
-                updatedStatistics[MineSweeper.Bombs] = MineSweeper.Bombs.ToString() + ": " + string.Format("{0:00}:{1:00}", timer.Elapsed.Minutes, timer.Elapsed.Seconds);
-
-                File.WriteAllLines(file, updatedStatistics);
-
-                UpdateStats();
-            }
         }
 
         private void UpdateTimer()
@@ -464,11 +453,11 @@ namespace LogitechGMineSweeper
             gloWins.Content = MineSweeper.Wins.ToString();
             gloLosses.Content = MineSweeper.Losses.ToString();
             gloTotal.Content = MineSweeper.Total.ToString();
-            locTotal.Content = File.ReadLines(file).Skip(MineSweeper.Bombs + 63).Take(1).First().ToString();
-            locLosses.Content = File.ReadLines(file).Skip(MineSweeper.Bombs + 42).Take(1).First().ToString();
+            locTotal.Content = SaveFile.ReadSaveFile(Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile, MineSweeper.Bombs, (int)SaveFile.SaveIndex.Total);
+            locLosses.Content = SaveFile.ReadSaveFile(Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile, MineSweeper.Bombs, (int)SaveFile.SaveIndex.Defeat);
             local.Content = "Statistics for " + Config.KeyboardLayouts[MineSweeper.KeyboardLayout].Text + " with " + MineSweeper.Bombs.ToString() + " Bombs:";
-            locWins.Content = File.ReadLines(file).Skip(MineSweeper.Bombs + 21).Take(1).First().ToString();
-            locBest.Content = BestTime(MineSweeper.Bombs);
+            locWins.Content = SaveFile.ReadSaveFile(Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile, MineSweeper.Bombs, (int)SaveFile.SaveIndex.Win);
+            locBest.Content = MillisecondsToString(BestTime(MineSweeper.Bombs));
 
             UpdateFile();
         }
@@ -741,6 +730,15 @@ namespace LogitechGMineSweeper
         }
 
         #endregion
+
+        #endregion
+
+        #region misc
+
+        public void PrintStatsEvent()
+        {
+            UpdateStats();
+        }
 
         #endregion
     }
