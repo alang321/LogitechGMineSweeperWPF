@@ -21,7 +21,17 @@
                                           TextElement.FontWeight="ExtraBold">
                             </ContentPresenter>
                         </Border>
-                        <Line Name="Cross" X1="14.6" Y1="15" X2="25.4" Y2="15" Stroke="Black" StrokeThickness="0.43" />
+                        <!--<Line Name="Cross" X1="14.6" Y1="15" X2="25.4" Y2="15" Stroke="Black" StrokeThickness="0.43" />-->
+                        <Label Visibility="Visible" Name="Minus" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Margin="7,-20,0,0" Content="_">
+                            <Label.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="0.8"/>
+                                    <SkewTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Label.RenderTransform>
+                        </Label>
+
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
