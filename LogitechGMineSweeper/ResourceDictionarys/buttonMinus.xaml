@@ -7,7 +7,7 @@
         <Setter Property="Padding" Value="1"/>
         <Setter Property="FontFamily" Value="Helvetica"/>
         <Setter Property="Foreground" Value="Black" />
-        <Setter Property="FontSize" Value="22"/>
+        <Setter Property="FontSize" Value="10"/>
         <Setter Property="FontWeight" Value="ExtraBold"/>
         
 
@@ -22,10 +22,10 @@
                             </ContentPresenter>
                         </Border>
                         <!--<Line Name="Cross" X1="14.6" Y1="15" X2="25.4" Y2="15" Stroke="Black" StrokeThickness="0.43" />-->
-                        <Label Visibility="Visible" Name="Minus" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Margin="7,-20,0,0" Content="_">
+                        <Label Visibility="Visible" Name="Minus" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Margin="0,-9,23,0" Content="_">
                             <Label.RenderTransform>
                                 <TransformGroup>
-                                    <ScaleTransform ScaleX="0.8"/>
+                                    <ScaleTransform ScaleX="2.4"/>
                                     <SkewTransform/>
                                     <TranslateTransform/>
                                 </TransformGroup>

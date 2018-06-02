@@ -4,7 +4,7 @@
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" x:Class="LogitechGMineSweeper.MainWindow"
-    Title="LogitechG Minesweeper" Height="394" Width="685"
+    Title="LogitechG Minesweeper" Height="407.5" Width="685"
     Background="#BAFFFFFF"
     AllowsTransparency="True"
     WindowStyle="None"
@@ -87,7 +87,7 @@
             </StackPanel>
         </Button>
 
-        <TabControl SelectionChanged="TabSelectionChanged" Name="_menuTabControl" Width="auto" Margin="13,30,10,0" TabStripPlacement="Top" BorderBrush="#00ACACAC" Grid.Column="1" Height="363" VerticalAlignment="Top">
+        <TabControl SelectionChanged="TabSelectionChanged" Name="_menuTabControl" Width="auto" Margin="13,30,10,0" TabStripPlacement="Top" BorderBrush="#00ACACAC" Grid.Column="1" Height="376" VerticalAlignment="Top">
             <TabItem Background="#00000000" BorderBrush="#00ACACAC" Width="0">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal"/>
@@ -96,7 +96,7 @@
                     <Label Margin="0,0,0,0" Content="Settings" FontWeight="{Binding FontWeight, ElementName=fonttitle}" FontSize="26" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Grid Margin="0,52,0,0.2">
                         <Label FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Content="Change Bomb-Number" Height="32" FontSize="16"/>
-                        <Grid HorizontalAlignment="Left" Height="22.5" Margin="52,40,0,246.8" >
+                        <Grid HorizontalAlignment="Left" Margin="50,40,0,261.8" >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="9*"/>
                                 <RowDefinition Height="16*"/>
@@ -105,18 +105,18 @@
                             <RepeatButton HorizontalAlignment="Left" VerticalAlignment="Top" Interval="220" x:Name="NUDButtonUP" FontSize="8" FontFamily="Marlett" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="NUDButtonUP_Click" Margin="83,0,0,0" Content="5" Height="12" Width="15" Grid.RowSpan="2"/>
                             <RepeatButton HorizontalAlignment="Left" VerticalAlignment="Top" Height="12" Interval="220" x:Name="NUDButtonDown" FontSize="8"  FontFamily="Marlett" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="NUDButtonDown_Click" Margin="83,2.667,0,0" Content="6" Width="15" Grid.Row="1"></RepeatButton>
                         </Grid>
-                        <Label FontSize="14" HorizontalAlignment="Left" Content="Bombs:" Width="100" Margin="0,35,0,0"/>
+                        <Label FontSize="14" HorizontalAlignment="Left" Content="Bombs:" Width="100" Margin="20,37,0,261.8"/>
 
-                        <Label HorizontalAlignment="Left" FontSize="14" Content="Keyboard-Layout:" Margin="0,174,0,106.8"/>
+                        <Label HorizontalAlignment="Left" FontSize="14" Content="Keyboard-Layout:" Margin="20,174,0,120.8"/>
 
-                        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="6,80,0,204.8" Height="27">
+                        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="26,80,0,204.8" Height="27">
                             <Button BorderThickness="2" FontSize="14" Content="Easy" Click="Button_Click_7" Height="27" Width="95"/>
                             <Button BorderThickness="2" FontSize="14" Content="Medium" Click="Button_Click_8" Margin="19,0,0,0" Width="95"/>
                             <Button BorderThickness="2" FontSize="14" Content="Hard" Margin="19,0,0,0" Width="95"  Click="Button_Click_9"/>
                         </StackPanel>
 
                         <Label HorizontalAlignment="Left" FontWeight="DemiBold" VerticalAlignment="Top" Margin="0,139,0,0" Content="Change Keyboard-Layout" Height="32" FontSize="16"/>
-                        <ComboBox VirtualizingPanel.ScrollUnit="Pixel" MaxDropDownHeight="100" HorizontalAlignment="Left" VerticalContentAlignment="Center" BorderThickness="2" FontSize="14" Name="KeyLayout" Margin="146,176,0,106.8" SelectionChanged="KeyLayout_SelectionChanged" Width="63">
+                        <ComboBox VirtualizingPanel.ScrollUnit="Pixel" MaxDropDownHeight="100" HorizontalAlignment="Left" VerticalContentAlignment="Center" BorderThickness="2" FontSize="14" Name="KeyLayout" Margin="166,176,0,120.8" SelectionChanged="KeyLayout_SelectionChanged" Width="48">
                         </ComboBox>
                     </Grid>
                 </Grid>
@@ -130,10 +130,10 @@
 
                     <Label VerticalAlignment="Top" HorizontalAlignment="Left" FontWeight="DemiBold" Margin="0,52,0,0" Content="Click on a key to change its color" FontSize="16"/>
 
-                    <Grid Name="KeyboardDisplayContainer" Margin="21,84,48.2,155"></Grid>
+                    <Grid Name="KeyboardDisplayContainer" Margin="20,84,48.2,155"></Grid>
 
                     <Label FontWeight="DemiBold" Content="Change colors" VerticalAlignment="Top" Margin="0,209,0,0" FontSize="16"/>
-                    <ListView VirtualizingPanel.ScrollUnit="Pixel" HorizontalAlignment="Left" Height="101" Margin="21,246,0,0" VerticalAlignment="Top" Width="381">
+                    <ListView VirtualizingPanel.ScrollUnit="Pixel" HorizontalAlignment="Left" Height="118" Margin="20,246,0,0" VerticalAlignment="Top" Width="381">
                         <ListViewItem MouseUp="Zero_Click" IsSelected="True">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Width="190"><Run Text="0 Sourrounding Bombs"/></TextBlock>
@@ -248,18 +248,18 @@
                     <Label Name="gloWins" FontSize="14" Content="e" HorizontalAlignment="Left" Margin="104,85,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.625,1.038"/>
                     <Label Name="gloLosses" FontSize="14" Content="b" HorizontalAlignment="Left" Margin="104,114,0,0" VerticalAlignment="Top"/>
                     <Label Name="gloTotal" FontSize="14" Content="c" HorizontalAlignment="Left" Margin="104,143,0,0" VerticalAlignment="Top"/>
-                    <Label Name="local" Content="dede" FontWeight="DemiBold" FontSize="16" HorizontalAlignment="Left" Margin="0,183,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Best Time:" FontSize="14" HorizontalAlignment="Left" Margin="20,215,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Wins:" FontSize="14" HorizontalAlignment="Left" Margin="20,244,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Losses:" FontSize="14" HorizontalAlignment="Left" Margin="20,273,0,0" VerticalAlignment="Top"/>
+                    <Label Name="local" Content="dede" FontWeight="DemiBold" FontSize="16" HorizontalAlignment="Left" Margin="0,196,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Best Time:" FontSize="14" HorizontalAlignment="Left" Margin="20,228,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Wins:" FontSize="14" HorizontalAlignment="Left" Margin="20,257,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Losses:" FontSize="14" HorizontalAlignment="Left" Margin="20,286,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Total:" FontSize="14" HorizontalAlignment="Left" Margin="20,315,0,0" VerticalAlignment="Top"/>
                     <Label Content="Wins:" FontSize="14" HorizontalAlignment="Left" Margin="20,85,0,0" VerticalAlignment="Top"/>
                     <Label Content="Losses:" FontSize="14" HorizontalAlignment="Left" Margin="20,114,0,0" VerticalAlignment="Top"/>
                     <Label Content="Total:" FontSize="14" HorizontalAlignment="Left" Margin="20,143,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Total:" FontSize="14" HorizontalAlignment="Left" Margin="20,301,0,0" VerticalAlignment="Top"/>
-                    <Label Name="locBest"  FontSize="14" Content="Labefffl" HorizontalAlignment="Left" Margin="104,215,0,0" VerticalAlignment="Top"/>
-                    <Label Name="locWins" FontSize="14" Content="defr" HorizontalAlignment="Left" Margin="104,244,0,0" VerticalAlignment="Top"/>
-                    <Label Name="locLosses" FontSize="14" Content="Lael" HorizontalAlignment="Left" Margin="104,273,0,0" VerticalAlignment="Top"/>
-                    <Label Name="locTotal" FontSize="14" Content="bel" HorizontalAlignment="Left" Margin="104,301,0,0" VerticalAlignment="Top"/>
+                    <Label Name="locBest"  FontSize="14" Content="Labefffl" HorizontalAlignment="Left" Margin="104,228,0,0" VerticalAlignment="Top"/>
+                    <Label Name="locWins" FontSize="14" Content="defr" HorizontalAlignment="Left" Margin="104,257,0,0" VerticalAlignment="Top"/>
+                    <Label Name="locLosses" FontSize="14" Content="Lael" HorizontalAlignment="Left" Margin="104,286,0,0" VerticalAlignment="Top"/>
+                    <Label Name="locTotal" FontSize="14" Content="bel" HorizontalAlignment="Left" Margin="104,315,0,0" VerticalAlignment="Top"/>
 
                 </Grid>
             </TabItem>
@@ -270,9 +270,9 @@
                 <Grid Margin="0,-13,0,0.2">
                     <Label Margin="0,0,0,0" Content="Reset" FontWeight="{Binding FontWeight, ElementName=fonttitle}" FontSize="26" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Label FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,52,0,0" Content="Reset settings, statistics or colors" Height="32" FontSize="16"/>
-                    <Label FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,148,0,0" Content="Reset all preferences and statistics" Height="32" FontSize="16"/>
-                    <Button BorderThickness="2" HorizontalAlignment="Left" FontSize="14" Content="Reset Everything" Click="Button_all" Height="32" Margin="6,37,0,0" Width="120"/>
-                    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="6,88,0,0" Height="32">
+                    <Label FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,158,0,0" Content="Reset all preferences and statistics" Height="32" FontSize="16"/>
+                    <Button BorderThickness="2" HorizontalAlignment="Left" FontSize="14" Content="Reset Everything" Click="Button_all" Height="32" Margin="26,56,0,0" Width="120"/>
+                    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="26,94,0,0" Height="32">
                         <Button BorderThickness="2" FontSize="14" Content="Reset Settings" Click="Button_set" Width="120"/>
                         <Button BorderThickness="2" FontSize="14" Content="Reset Statistics" Click="Button_sta" Width="120" Margin="14,0,0,0"/>
                         <Button BorderThickness="2" FontSize="14" Content="Reset Colors" Margin="14,0,0,0" Width="120" Click="Button_col"/>
@@ -282,7 +282,7 @@
         </TabControl>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="27" Margin="10,0,0,9.4" Width="196" Grid.ColumnSpan="2">
             <Label HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Timer:" Opacity="1" FontSize="16" Foreground="black" Height="30" Width="53"/>
-            <Label HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="30:00" Opacity="1" Name="timer1" FontSize="16" Margin="0,-3,0,0" Foreground="black" Height="30" Width="143"/>
+            <Label HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="30:00" Opacity="1" Name="timer1" FontSize="16" Margin="0,0,0,0" Foreground="black" Height="30" Width="143"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -54,169 +54,19 @@ namespace LogitechGMineSweeper
 
             Directory.CreateDirectory(Config.directory);
 
-            int wins = 0;
-            int bombs = 0;
-            int total = 0;
-            int losses = 0;
-            int layout = 0;
-            bool useBackground = Config.useBackgroundDefault; ;
-
-            foreach (KeyboardLayout keyLayout in Config.KeyboardLayouts)
-            {
-                if (!File.Exists(keyLayout.SaveFile))
-                {
-                    File.WriteAllLines(keyLayout.SaveFile, Config.statisticsDefault);
-                }
-                else
-                {
-                    string[] lines = File.ReadAllLines(keyLayout.SaveFile);
-
-                    if(lines[0].Length < 5)
-                    {
-                        try
-                        {
-                            SaveFile.MigrateOldSave(keyLayout.SaveFile);
-                        }
-                        catch
-                        {
-                            File.WriteAllLines(keyLayout.SaveFile, Config.statisticsDefault);
-                        }
-                    }
-                }
-            }
-
-            if (!File.Exists(Config.fileColors))
-            {
-                File.WriteAllLines(Config.fileColors, Config.colorsDefault);
-            }
-
             try
             {
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    MineSweeper.colors[i, 0] = Convert.ToByte(File.ReadLines(Config.fileColors).Skip(i).Take(1).First().Substring(0, 3));
-                    MineSweeper.colors[i, 1] = Convert.ToByte(File.ReadLines(Config.fileColors).Skip(i).Take(1).First().Substring(4, 3));
-                    MineSweeper.colors[i, 2] = Convert.ToByte(File.ReadLines(Config.fileColors).Skip(i).Take(1).First().Substring(8, 3));
-                }
+                MineSweeper.UseBackground = Config.fileConfig.UseBackground;
+                MineSweeper.Bombs = Config.fileConfig.Bombs;
+                MineSweeper.KeyboardLayout = Config.fileConfig.Layout;
             }
             catch
             {
-                File.WriteAllLines(Config.fileColors, Config.colorsDefault);
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    MineSweeper.colors[i, 0] = Convert.ToByte(File.ReadLines(Config.fileColors).Skip(i).Take(1).First().Substring(0, 3));
-                    MineSweeper.colors[i, 1] = Convert.ToByte(File.ReadLines(Config.fileColors).Skip(i).Take(1).First().Substring(4, 3));
-                    MineSweeper.colors[i, 2] = Convert.ToByte(File.ReadLines(Config.fileColors).Skip(i).Take(1).First().Substring(8, 3));
-                }
+                Config.fileConfig.ResetToDefault();
+                MineSweeper.UseBackground = Config.fileConfig.UseBackground;
+                MineSweeper.Bombs = Config.fileConfig.Bombs;
+                MineSweeper.KeyboardLayout = Config.fileConfig.Layout;
             }
-
-
-            if (File.Exists(Config.fileConfig))
-            {
-                string line1 = File.ReadLines(Config.fileConfig).Skip(0).Take(1).First();
-                string line2 = File.ReadLines(Config.fileConfig).Skip(1).Take(1).First();
-                string line3 = File.ReadLines(Config.fileConfig).Skip(2).Take(1).First();
-                string line4 = File.ReadLines(Config.fileConfig).Skip(3).Take(1).First();
-                string line5 = File.ReadLines(Config.fileConfig).Skip(4).Take(1).First();
-
-                int a = 0;
-                string b = "";
-
-                try
-                {
-                    a = line1.IndexOf("Wins: ");
-                    b = line1.Substring(a + "Wins: ".Length);
-                    wins = Convert.ToInt32(b);
-
-                    a = line2.IndexOf("Bombs: ");
-                    b = line2.Substring(a + "Bombs: ".Length);
-                    bombs = Convert.ToInt32(b);
-
-                    a = line4.IndexOf("Total: ");
-                    b = line4.Substring(a + "Total: ".Length);
-                    total = Convert.ToInt32(b);
-
-                    a = line5.IndexOf("Losses: ");
-                    b = line5.Substring(a + "Losses: ".Length);
-                    losses = Convert.ToInt32(b);
-                }
-                catch
-                {
-                    wins = 0;
-                    bombs = Config.bombsDefault;
-                    layout = Config.keyboardLayoutDefault;
-                    total = 0;
-                    losses = 0;
-                    useBackground = Config.useBackgroundDefault;
-                    File.WriteAllLines(Config.fileConfig, Config.configDefault);
-                }
-
-                try
-                {
-                    a = line3.IndexOf("Layout: ");
-                    b = line3.Substring(a + "Layout: ".Length);
-                    layout = Convert.ToInt32(b);
-                }
-                catch
-                {
-                    string[] lines = { "Wins: " + wins, "Bombs: " + bombs, "Layout: " + Config.keyboardLayoutDefault, "Total: " + total, "Losses: " + losses, "UseBackground: False" };
-
-                    File.WriteAllLines(Config.fileConfig, lines);
-                    layout = Config.keyboardLayoutDefault;
-                }
-
-                try
-                {
-                    string line6 = File.ReadLines(Config.fileConfig).Skip(5).Take(1).First();
-                    a = line6.IndexOf("UseBackground: ");
-                    b = line6.Substring(a + "UseBackground: ".Length);
-                    if(b == "False")
-                    {
-                        useBackground = false;
-                    }
-                    else if(b == "True")
-                    {
-                        useBackground = true;
-                    }
-                    else
-                    {
-                        throw new Exception("Invalid Value for Use Background in config.txt");
-                    }
-                }
-                catch
-                {
-                    string[] lines = { "Wins: " + wins, "Bombs: " + bombs, "Layout: " + layout, "Total: " + total, "Losses: " + losses, "UseBackground: False"};
-
-                    File.WriteAllLines(Config.fileConfig, lines);
-                }
-            }
-            else
-            {
-                wins = 0;
-                bombs = Config.bombsDefault;
-                layout = Config.keyboardLayoutDefault;
-                total = 0;
-                losses = 0;
-                useBackground = Config.useBackgroundDefault;
-                File.WriteAllLines(Config.fileConfig, Config.configDefault);
-            }
-            
-            MineSweeper.UseBackground = useBackground;
-            MineSweeper.Wins = wins;
-            MineSweeper.Total = total;
-
-            try
-            {
-                MineSweeper.Bombs = bombs;
-            }
-            catch
-            {
-                MineSweeper.Bombs = Config.bombsDefault;
-                string[] lines = { "Wins: " + wins, "Bombs: " + bombs, "Layout: " + layout, "Total: " + total, "Losses: " + losses, "UseBackground: " + useBackground};
-            }
-
-            MineSweeper.Losses = losses;
-            MineSweeper.KeyboardLayout = layout;
 
             //one instance code
             if (mutex.WaitOne(TimeSpan.Zero, true))
@@ -227,16 +77,6 @@ namespace LogitechGMineSweeper
                 application.Run(); 
                 mutex.ReleaseMutex();
                 UnhookWindowsHookEx(_hookID);
-            }
-            else
-            {
-                // send our Win32 message to make the currently running instance
-                // jump on top of all the other windows
-                NativeMethods.PostMessage(
-                (IntPtr)NativeMethods.HWND_BROADCAST,
-                NativeMethods.WM_SHOWME,
-                IntPtr.Zero,
-                IntPtr.Zero);
             }
         }
         #endregion
@@ -265,7 +105,7 @@ namespace LogitechGMineSweeper
                 {
                     if (Control.ModifierKeys == Keys.Shift)
                     {
-                        if (last != 107 && vkCode == 107) MineSweeper.keyPressed(48);
+                        if (last != 107 && vkCode == 107) MineSweeper.KeyPressed(48);
                         else if (vkCode != 107)
                         {
                             MineSweeper.SetFlag(Array.IndexOf(Config.KeyboardLayouts[MineSweeper.KeyboardLayout].KeyIds, vkCode));
@@ -275,7 +115,7 @@ namespace LogitechGMineSweeper
                     else if (last != vkCode)
                     {
                         last = vkCode;
-                        MineSweeper.keyPressed(Array.IndexOf(Config.KeyboardLayouts[MineSweeper.KeyboardLayout].KeyIds, vkCode));
+                        MineSweeper.KeyPressed(Array.IndexOf(Config.KeyboardLayouts[MineSweeper.KeyboardLayout].KeyIds, vkCode));
                     }
                     else
                     {

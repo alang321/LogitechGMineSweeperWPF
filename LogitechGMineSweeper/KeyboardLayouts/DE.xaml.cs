@@ -31,9 +31,6 @@ namespace LogitechGMineSweeper.KeyboardLayouts
 
         Style[] styles;
 
-        //for which colors foreground is important everything but background colors because they dont have text over them
-        int[] foregroundColorImportant = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 15, 16 };
-
         int activeAtLayout = (int)Config.Layout.DE;
 
         public DE()
@@ -103,15 +100,22 @@ namespace LogitechGMineSweeper.KeyboardLayouts
             Application.Current.Resources["buttonColorBrush16"] = new SolidColorBrush(Color.FromRgb(MineSweeper.colors[16, 2], MineSweeper.colors[16, 1], MineSweeper.colors[16, 0]));
 
             //foreground brushes
-            foreach (int index in foregroundColorImportant)
+            for(int index = 0; index < MineSweeper.colors.Length; index++)
             {
-                if (MineSweeper.colors[index, 2] + MineSweeper.colors[index, 1] + MineSweeper.colors[index, 0] < Config.foregroundThreshold)
+                if (Config.foregroundColorImportant.Contains(index))
                 {
-                    Application.Current.Resources["TextColorBrush" + index.ToString()] = new SolidColorBrush(Colors.White);
+                    if (MineSweeper.colors[index, 2] + MineSweeper.colors[index, 1] + MineSweeper.colors[index, 0] < Config.foregroundThreshold)
+                    {
+                        Application.Current.Resources["TextColorBrush" + index.ToString()] = new SolidColorBrush(Colors.White);
+                    }
+                    else
+                    {
+                        Application.Current.Resources["TextColorBrush" + index.ToString()] = new SolidColorBrush(Colors.Black);
+                    }
                 }
                 else
                 {
-                    Application.Current.Resources["TextColorBrush" + index.ToString()] = new SolidColorBrush(Colors.Black);
+                    Application.Current.Resources["TextColorBrush" + index.ToString()] = new SolidColorBrush(Colors.Transparent);
                 }
             }
 
@@ -166,14 +170,7 @@ namespace LogitechGMineSweeper.KeyboardLayouts
 
             if ((ColorPopup.Show(System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), index) == MessageBoxResult.OK))
             {
-                string[] colors = new string[Config.colorsDefault.Length];
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(Config.fileColors).Skip(i).Take(1).First();
-                }
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0');
-                File.WriteAllLines(Config.fileColors, colors);
+                Config.fileColors.SavedColors = MineSweeper.colors;
             }
             else
             {
@@ -183,7 +180,7 @@ namespace LogitechGMineSweeper.KeyboardLayouts
 
                 Application.Current.Resources["buttonColorBrush" + index.ToString()] = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]));
 
-                if (index != 12 && index != 13 && index != 14)
+                if (Config.foregroundColorImportant.Contains(index))
                 {
                     if (MineSweeper.colors[index, 2] + MineSweeper.colors[index, 1] + MineSweeper.colors[index, 0] < Config.foregroundThreshold)
                     {

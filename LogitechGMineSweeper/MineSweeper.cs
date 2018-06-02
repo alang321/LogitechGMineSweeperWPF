@@ -25,17 +25,14 @@ namespace LogitechGMineSweeper
         static bool[,] isFlag = new bool[14, 6];
         static int[,] display;
         static int bombs = 13;
-        static int wins = 0;
-        static int total = 0;
-        static int losses = 0;
         static bool gameRunning;
         static bool firstMove = true;
         static int keyboardLayout = (int)Config.Layout.DE;
         static bool setBackground = false;
-        static int gameState = 0;
         static MainWindow main;
         static bool useBackground = false;
         static Random r = new Random();
+        static public int GameState { get; private set; } = 0;
 
         static int[] availeableBombField;
         static int availeableBombFieldCounter;
@@ -91,19 +88,6 @@ namespace LogitechGMineSweeper
                 {255,000,255},   //16
         };
 
-        static public int Wins
-        {
-            get { return wins; }
-            set
-            {
-                wins = value;
-            }
-        }
-
-        static public int GameState
-        {
-            get { return gameState; }
-        }
 
         static public bool UseBackground
         {
@@ -129,24 +113,6 @@ namespace LogitechGMineSweeper
             set
             {
                 main = value;
-            }
-        }
-
-        static public int Total
-        {
-            get { return total; }
-            set
-            {
-                total = value;
-            }
-        }
-
-        static public int Losses
-        {
-            get { return losses; }
-            set
-            {
-                losses = value;
             }
         }
 
@@ -195,12 +161,11 @@ namespace LogitechGMineSweeper
         #region Key Pressed
 
         //Handler for Key presses, gest passed number corresponding to field, from the intercept keys class
-        static public void keyPressed(int i)
+        static public void KeyPressed(int i)
         {
             //Start Game If not Running
             if (!gameRunning)
             {
-                // If not a static method, this.MainWindow would work
                 main.UpdateStats();
                 main.ResetWatch();
                 newGame();
@@ -234,9 +199,9 @@ namespace LogitechGMineSweeper
                 main.StartWatch();
 
                 //add to total game counter
-                total++;
+                Config.fileConfig.Total += 1;
 
-                SaveFile.IncrementSaveFile(Config.KeyboardLayouts[keyboardLayout].SaveFile, bombs, (int)SaveFile.SaveIndex.Total);
+                Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile.IncrementTotal(bombs);
 
                 firstMove = false;
                 uncover(i % 12, i / 12);
@@ -289,7 +254,7 @@ namespace LogitechGMineSweeper
 
         static public void newGame()
         {
-            gameState = (int)GameStateEnum.Default;
+            GameState = (int)GameStateEnum.Default;
 
             //so you cant start with every key
             App.last = 107;
@@ -598,7 +563,7 @@ namespace LogitechGMineSweeper
             colorToByte(logiLED, 248, colors[11, 0], colors[11, 1], colors[11, 2]);
 
             //bomb counter
-            if (gameState == (int)GameStateEnum.Default)
+            if (GameState == (int)GameStateEnum.Default)
             {
                 for (int i = 0; i < bombs-flagged; i++)
                 {
@@ -621,13 +586,13 @@ namespace LogitechGMineSweeper
 
         static private void UpdateBackground()
         {
-            if (gameState == (int)GameStateEnum.Default)
+            if (GameState == (int)GameStateEnum.Default)
             {
                 MineSweeper.colors[9, 0] = MineSweeper.colors[14, 0];
                 MineSweeper.colors[9, 1] = MineSweeper.colors[14, 1];
                 MineSweeper.colors[9, 2] = MineSweeper.colors[14, 2];
             }
-            else if (gameState == (int)GameStateEnum.Victory)
+            else if (GameState == (int)GameStateEnum.Victory)
             {
                 MineSweeper.colors[9, 0] = MineSweeper.colors[13, 0];
                 MineSweeper.colors[9, 1] = MineSweeper.colors[13, 1];
@@ -828,37 +793,26 @@ namespace LogitechGMineSweeper
 
         static private void Victory()
         {
-            //stop timer victory
-            wins++;
+            Config.fileConfig.Wins += 1;
 
-            SaveFile.IncrementSaveFile(Config.KeyboardLayouts[keyboardLayout].SaveFile, bombs, (int)SaveFile.SaveIndex.Win);
+            Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile.IncrementWins(bombs);
 
-            main.UpdateStats();
             main.StopWatchVictory();
 
-            gameState = (int)GameStateEnum.Victory;
-
-            string[] lines = { "Wins: " + wins, "Bombs: " + bombs, "Layout: " + keyboardLayout, "Total: " + total, "Losses: " + losses, "UseBackground: " + MineSweeper.useBackground };
-
-            File.WriteAllLines(Config.fileConfig, lines);
+            GameState = (int)GameStateEnum.Victory;
 
             GameOver();
         }
 
         static private void Defeat()
         {
-            losses++;
+            Config.fileConfig.Losses += 1;
 
-            SaveFile.IncrementSaveFile(Config.KeyboardLayouts[keyboardLayout].SaveFile, bombs, (int)SaveFile.SaveIndex.Defeat);
+            Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile.IncrementLosses(bombs);
 
-            main.UpdateStats();
             main.StopWatchDefeat();
 
-            gameState = (int)GameStateEnum.Defeat;
-            
-            string[] lines = { "Wins: " + wins, "Bombs: " + bombs, "Layout: " + keyboardLayout, "Total: " + total, "Losses: " + losses, "UseBackground: " + MineSweeper.useBackground };
-
-            File.WriteAllLines(Config.fileConfig, lines);
+            GameState = (int)GameStateEnum.Defeat;
 
             GameOver();
         }

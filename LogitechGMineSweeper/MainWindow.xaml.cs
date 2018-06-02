@@ -67,14 +67,6 @@ namespace LogitechGMineSweeper
         public static System.Timers.Timer dispatcherTimer = new System.Timers.Timer();
         private static readonly Stopwatch timer = new Stopwatch();
 
-        //default brush of the keyboard button foreground so you dont need to type it out
-        public static SolidColorBrush a = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0xFF, 0xFC, 0xFC, 0xFC));
-
-        //for changing color of hovereffect when key color changes in game
-        public bool hovering = false;
-        public System.Windows.Shapes.Rectangle toFill;
-        public System.Windows.Shapes.Rectangle fromFill;
-
         public MainWindow()
         {
             InitializeComponent();
@@ -105,7 +97,7 @@ namespace LogitechGMineSweeper
 
             timer1.Foreground = new SolidColorBrush(Config.Default);
 
-            SaveFile.PrintStatsEvent += new SaveFile.PrintStatsEventHandler(PrintStatsEvent);
+            SaveFileStatitics.PrintStatsEvent += new SaveFileStatitics.PrintStatsEventHandler(PrintStatsEvent);
         }
 
         #endregion
@@ -152,28 +144,24 @@ namespace LogitechGMineSweeper
 
         #region Timer
 
-        string MillisecondsToString(int ms)
+        string MillisecondsToHoursMinutes(int ms)
         {
+            if (ms == -1)
+            {
+                return Config.timeNotSet;
+            }
+
             TimeSpan t = TimeSpan.FromMilliseconds(ms);
 
-            return string.Format("{0:D2}:{1:D2}", t.Minutes, t.Seconds);
-        }
-
-        int BestTime(int bombs)
-        {
-            int best = 1800000;
-            string file = Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile;
-
-            try
+            if(t.Hours == 0)
             {
-                best = SaveFile.ReadSaveFile(file, bombs, (int)SaveFile.SaveIndex.Timer);
+                return string.Format("{0:D2}:{1:D2}", t.Minutes, t.Seconds);
             }
-            catch
+            else
             {
-                File.WriteAllLines(file, Config.statisticsDefault);
+                return string.Format("{0:D2}:{1:D2}:{2:D2}", t.Hours, t.Minutes, t.Seconds);
             }
 
-            return best;
         }
 
         public void StopWatchVictory()
@@ -183,20 +171,20 @@ namespace LogitechGMineSweeper
             dispatcherTimer.Enabled = false;
             UpdateTimer();
 
-            if (BestTime(MineSweeper.Bombs) > timer.Elapsed.Milliseconds)
+            int bestTime = Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile.GetBestTime(MineSweeper.Bombs);
+
+            if (bestTime == -1 || bestTime > timer.Elapsed.TotalMilliseconds)
             {
                 timer1.Foreground = new SolidColorBrush(Config.NewRecord);
                 timer1.Content += Config.textNewRecord;
-                
-                SaveFile.UpdateSaveFile(Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile, MineSweeper.Bombs, (int)SaveFile.SaveIndex.Timer, Convert.ToInt32(timer.Elapsed.TotalMilliseconds));
 
-                UpdateStats();
+                Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile.UpdateBestTime(MineSweeper.Bombs, Convert.ToInt32(timer.Elapsed.TotalMilliseconds));
             }
         }
 
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
-            if (timer.Elapsed.Minutes >= 30)
+            if (timer.Elapsed.TotalMilliseconds >= Config.maxTimerValue)
             {
                 MineSweeper.newGame();
                 StopWatchDefeat();
@@ -242,13 +230,14 @@ namespace LogitechGMineSweeper
 
         private string GetTimeString(TimeSpan elapsed)
         {
-            string result = string.Empty;
-
-            result = string.Format("{0:00}:{1:00}",
-                elapsed.Minutes,
-                elapsed.Seconds);
-
-            return result;
+            if (elapsed.Hours == 0)
+            {
+                return string.Format("{0:00}:{1:00}", elapsed.Minutes, elapsed.Seconds);
+            }
+            else
+            {
+                return string.Format("{0:00}:{1:00}:{2:00} - Record!", elapsed.Hours, elapsed.Minutes, elapsed.Seconds);
+            }
         }
 
         #endregion
@@ -307,7 +296,6 @@ namespace LogitechGMineSweeper
             StopWatchDefeat();
             ResetWatch();
 
-            UpdateFile();
             UpdateStats();
         }
 
@@ -408,12 +396,11 @@ namespace LogitechGMineSweeper
         private void KeyLayout_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             MineSweeper.KeyboardLayout = KeyLayout.SelectedIndex;
+            Config.fileConfig.Layout = MineSweeper.KeyboardLayout;
             MineSweeper.newGame();
 
             StopWatchDefeat();
             ResetWatch();
-
-            UpdateFile();
             UpdateStats();
         }
 
@@ -438,28 +425,18 @@ namespace LogitechGMineSweeper
 
         #endregion
 
-        #region Update statistics and config files
-
-        public void UpdateFile()
-        {
-            string[] lines = { "Wins: " + MineSweeper.Wins, "Bombs: " + MineSweeper.Bombs, "Layout: " + MineSweeper.KeyboardLayout, "Total: " + MineSweeper.Total.ToString(), "Losses: " + MineSweeper.Losses.ToString(), "UseBackground: " + MineSweeper.UseBackground };
-            File.WriteAllLines(Config.fileConfig, lines);
-        }
+        #region Update statistics
 
         public void UpdateStats()
         {
-            var file = Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile;
-
-            gloWins.Content = MineSweeper.Wins.ToString();
-            gloLosses.Content = MineSweeper.Losses.ToString();
-            gloTotal.Content = MineSweeper.Total.ToString();
-            locTotal.Content = SaveFile.ReadSaveFile(Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile, MineSweeper.Bombs, (int)SaveFile.SaveIndex.Total);
-            locLosses.Content = SaveFile.ReadSaveFile(Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile, MineSweeper.Bombs, (int)SaveFile.SaveIndex.Defeat);
+            gloWins.Content = Config.fileConfig.Wins.ToString();
+            gloLosses.Content = Config.fileConfig.Losses.ToString();
+            gloTotal.Content = Config.fileConfig.Total.ToString();
+            locTotal.Content = Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile.GetTotal(MineSweeper.Bombs);
+            locLosses.Content = Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile.GetLosses(MineSweeper.Bombs);
             local.Content = "Statistics for " + Config.KeyboardLayouts[MineSweeper.KeyboardLayout].Text + " with " + MineSweeper.Bombs.ToString() + " Bombs:";
-            locWins.Content = SaveFile.ReadSaveFile(Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile, MineSweeper.Bombs, (int)SaveFile.SaveIndex.Win);
-            locBest.Content = MillisecondsToString(BestTime(MineSweeper.Bombs));
-
-            UpdateFile();
+            locWins.Content = Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile.GetWins(MineSweeper.Bombs);
+            locBest.Content = MillisecondsToHoursMinutes(Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile.GetBestTime(MineSweeper.Bombs));
         }
 
         #endregion
@@ -520,43 +497,26 @@ namespace LogitechGMineSweeper
         }
 
         private void ResetColors()
-        { 
-            //writing the file
-            File.WriteAllLines(Config.fileColors, Config.colorsDefault);
-
-            //then reading the values out of it so you dont have to have seperate color array in config
-            try
-            {
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    MineSweeper.colors[i, 0] = Convert.ToByte(File.ReadLines(Config.fileColors).Skip(i).Take(1).First().Substring(0, 3));
-                    MineSweeper.colors[i, 1] = Convert.ToByte(File.ReadLines(Config.fileColors).Skip(i).Take(1).First().Substring(4, 3));
-                    MineSweeper.colors[i, 2] = Convert.ToByte(File.ReadLines(Config.fileColors).Skip(i).Take(1).First().Substring(8, 3));
-                }
-            }
-            catch
-            {
-                File.WriteAllLines(Config.fileColors, Config.colorsDefault);
-            }
+        {
+            Config.fileColors.ResetToDefault(ref MineSweeper.colors);
 
             MineSweeper.printLogiLED();
 
             MineSweeper.UseBackground = Config.useBackgroundDefault;
+            Config.fileConfig.UseBackground = MineSweeper.UseBackground;
 
             ResetColorsEvent();
-
-            UpdateFile();
         }
 
         private void ResetSettings()
         {
-            string[] lines = { "Wins: " + MineSweeper.Wins, "Bombs: " + Config.bombsDefault, "Layout: " + Config.keyboardLayoutDefault, "Total: 0", "Losses: 0", "UseBackground: " + Config.useBackgroundDefault };
-
-            File.WriteAllLines(Config.fileConfig, Config.configDefault);
-
+            Config.fileConfig.Bombs = Config.bombsDefault;
+            Config.fileConfig.Layout = Config.keyboardLayoutDefault;
+            Config.fileConfig.UseBackground = Config.useBackgroundDefault;
             MineSweeper.UseBackground = Config.useBackgroundDefault;
             MineSweeper.Bombs = Config.bombsDefault;
             MineSweeper.KeyboardLayout = Config.keyboardLayoutDefault;
+
             KeyLayout.SelectedIndex = Config.keyboardLayoutDefault;
             NUDTextBox.Text = Config.bombsDefault.ToString();
 
@@ -565,19 +525,14 @@ namespace LogitechGMineSweeper
 
         private void ResetStatistics()
         {
-            string[] lines = { "Wins: 0", "Bombs: " + MineSweeper.Bombs, "Layout: " + MineSweeper.KeyboardLayout, "Total: 0", "Losses: 0", "UseBackground: " + MineSweeper.UseBackground };
-
-            File.WriteAllLines(Config.fileConfig, lines);
+            Config.fileConfig.Wins = 0;
+            Config.fileConfig.Total = 0;
+            Config.fileConfig.Losses = 0;
 
             foreach(KeyboardLayout layout in Config.KeyboardLayouts)
             {
-                File.WriteAllLines(layout.SaveFile, Config.statisticsDefault);
+                layout.SaveFile.ResetToDefault();
             }
-
-            timer1.Content = "30:00";
-            MineSweeper.Wins = 0;
-            MineSweeper.Losses = 0;
-            MineSweeper.Total = 0;
 
             UpdateStats();
         }
@@ -593,14 +548,7 @@ namespace LogitechGMineSweeper
 
             if ((ColorPopup.Show(System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), index) == MessageBoxResult.OK))
             {
-                string[] colors = new string[Config.colorsDefault.Length];
-
-                for (int i = 0; i < MineSweeper.colors.GetLength(0); i++)
-                {
-                    colors[i] = File.ReadLines(Config.fileColors).Skip(i).Take(1).First();
-                }
-                colors[index] = MineSweeper.colors[index, 0].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 1].ToString().PadLeft(3, '0') + "," + MineSweeper.colors[index, 2].ToString().PadLeft(3, '0');
-                File.WriteAllLines(Config.fileColors, colors);
+                Config.fileColors.SavedColors = MineSweeper.colors;
             }
             else
             {
@@ -610,7 +558,7 @@ namespace LogitechGMineSweeper
 
                 Application.Current.Resources["buttonColorBrush" + index.ToString()] = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]));
 
-                if (index != 12 && index != 13 && index != 14)
+                if (Config.foregroundColorImportant.Contains(index))
                 {
                     if (MineSweeper.colors[index, 2] + MineSweeper.colors[index, 1] + MineSweeper.colors[index, 0] < Config.foregroundThreshold)
                     {
@@ -715,8 +663,8 @@ namespace LogitechGMineSweeper
         {
             ShiftFlag.Opacity = 0.4;
             MineSweeper.UseBackground = true;
+            Config.fileConfig.UseBackground = MineSweeper.UseBackground;
             MineSweeper.printLogiLED();
-            UpdateFile();
             ResetColorsEvent();
         }
 
@@ -724,8 +672,8 @@ namespace LogitechGMineSweeper
         {
             ShiftFlag.Opacity = 1;
             MineSweeper.UseBackground = false;
+            Config.fileConfig.UseBackground = MineSweeper.UseBackground;
             MineSweeper.printLogiLED();
-            UpdateFile();
             ResetColorsEvent();
         }
 

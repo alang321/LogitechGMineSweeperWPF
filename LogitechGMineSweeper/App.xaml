@@ -37,8 +37,12 @@
             <SolidColorBrush x:Key="TextColorBrush6" Color="#FF000000"/>
             <SolidColorBrush x:Key="TextColorBrush7" Color="#FF000000"/>
             <SolidColorBrush x:Key="TextColorBrush8" Color="#FF000000"/>
+            <SolidColorBrush x:Key="TextColorBrush9" Color="#FF000000"/>
             <SolidColorBrush x:Key="TextColorBrush10" Color="#FF000000"/>
             <SolidColorBrush x:Key="TextColorBrush11" Color="#FF000000"/>
+            <SolidColorBrush x:Key="TextColorBrush12" Color="#FF000000"/>
+            <SolidColorBrush x:Key="TextColorBrush13" Color="#FF000000"/>
+            <SolidColorBrush x:Key="TextColorBrush14" Color="#FF000000"/>
             <SolidColorBrush x:Key="TextColorBrush15" Color="#FF000000"/>
             <SolidColorBrush x:Key="TextColorBrush16" Color="#FF000000"/>
 
