@@ -48,7 +48,7 @@
                            Padding="10,8,0,0"
 
                 VerticalAlignment="Center" Foreground="Black" Panel.ZIndex="500" Height="40" HorizontalAlignment="Left" Width="349"/>
-                <Button HorizontalAlignment="Right" Padding="100,10,5,0" Style="{StaticResource buttonredMessageBox}" Panel.ZIndex="600" Margin="0,0,0.2,0" VerticalAlignment="Top" Width="40" Height="40" Click="Button_Click_4"></Button>
+                <Button HorizontalAlignment="Right" Padding="100,10,5,0" Style="{StaticResource buttonCrossMessageBox}" Panel.ZIndex="600" Margin="0,0,0.2,0" VerticalAlignment="Top" Width="40" Height="40" Click="Button_Click_4"></Button>
             </Grid>
             <Label Margin="10,45,9.8,39.4" VerticalContentAlignment="Center" Panel.ZIndex="500" Foreground="Black" Grid.Column="1" FontSize="14" Grid.RowSpan="3">
                 <TextBlock Name="txtMsg" LineHeight="30"/>

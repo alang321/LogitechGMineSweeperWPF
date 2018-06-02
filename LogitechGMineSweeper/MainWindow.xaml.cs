@@ -308,7 +308,7 @@ namespace LogitechGMineSweeper
         {
             var style = new Style();
 
-            style.Setters.Add(new Setter(TemplateProperty, this.FindResource("buttonactive")));
+            style.Setters.Add(new Setter(TemplateProperty, this.FindResource("navButtonActive")));
             
             var styleClone = new Style();
             foreach (var setter in style.Setters)
@@ -374,7 +374,7 @@ namespace LogitechGMineSweeper
         {
             var style = new Style();
 
-            style.Setters.Add(new Setter(TemplateProperty, this.FindResource("button")));
+            style.Setters.Add(new Setter(TemplateProperty, this.FindResource("navButton")));
 
             var styleClone = new Style();
             foreach (var setter in style.Setters)

@@ -35,14 +35,14 @@
         <Rectangle Fill="Transparent" Stretch="Fill"  Grid.ColumnSpan="2" Panel.ZIndex="500" MouseLeftButtonDown="Stack_mousedown" Height="30" VerticalAlignment="Top" Margin="0,0,0,0" />
         <DockPanel Background="Transparent" Height="30" Panel.ZIndex="600" VerticalAlignment="Top" Margin="0,0,0,0" HorizontalAlignment="Right" Grid.Column="1" Width="80">
             <Button Grid.Column="1" Style="{DynamicResource buttonMinus}" HorizontalAlignment="Right" Panel.ZIndex="600" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Height="30" Click="Button_Click_3"></Button>
-            <Button Grid.Column="1" Style="{DynamicResource buttonred}" HorizontalAlignment="Right" Panel.ZIndex="600" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Height="30" Click="Button_Click_4"></Button>
+            <Button Grid.Column="1" Style="{DynamicResource buttonCross}" HorizontalAlignment="Right" Panel.ZIndex="600" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Height="30" Click="Button_Click_4"></Button>
         </DockPanel>
 
 
         <Button Name="settings" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,30,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click" Grid.ColumnSpan="2">
             <Button.Style>
                 <Style TargetType="Button">
-                    <Setter Property="Template" Value="{StaticResource buttonactive}"/>
+                    <Setter Property="Template" Value="{StaticResource navButtonActive}"/>
                 </Style>
             </Button.Style>
             <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
@@ -54,7 +54,7 @@
         <Button Name="colors" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,75,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click_1" Grid.ColumnSpan="2">
             <Button.Style>
                 <Style TargetType="Button">
-                    <Setter Property="Template" Value="{StaticResource button}"/>
+                    <Setter Property="Template" Value="{StaticResource navButton}"/>
                 </Style>
             </Button.Style>
             <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
@@ -66,7 +66,7 @@
         <Button Name="stats" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,120,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click_2" Grid.ColumnSpan="2">
             <Button.Style>
                 <Style TargetType="Button">
-                    <Setter Property="Template" Value="{StaticResource button}"/>
+                    <Setter Property="Template" Value="{StaticResource navButton}"/>
                 </Style>
             </Button.Style>
             <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
@@ -78,7 +78,7 @@
         <Button Name="reset" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,165,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click_5" Grid.ColumnSpan="2">
             <Button.Style>
                 <Style TargetType="Button">
-                    <Setter Property="Template" Value="{StaticResource button}"/>
+                    <Setter Property="Template" Value="{StaticResource navButton}"/>
                 </Style>
             </Button.Style>
             <StackPanel Orientation="Horizontal" Margin="8,0,0,0">

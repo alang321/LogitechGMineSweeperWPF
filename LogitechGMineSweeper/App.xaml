@@ -48,12 +48,11 @@
 
             <Color x:Key="gameFieldBackgroundTest">#FFFFFF00</Color>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/button.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/buttonNavigation.xaml" />
                 <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/buttonMinus.xaml" />
-                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/buttonred.xaml" />
-                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/buttonActive.xaml" />
-                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/buttonredMessageBox.xaml" />
-                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/buttoncolor.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/buttonCross.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/buttonNavigationActive.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/buttonCrossMessageBox.xaml" />
                 <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonEnter12.xaml" />
                 <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonEnter13.xaml" />
                 <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonEnter14.xaml" />

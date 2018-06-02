@@ -104,7 +104,7 @@
     <Grid Height="331" Margin="0,0,-0.4,0" VerticalAlignment="Top">
         <Label MouseDown="Window_MouseDown" VerticalContentAlignment="Center" Content="Hallo" Padding="10,0,0,0" Margin="0,0,30.4,301.2" Name="MessageTitle" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" Foreground="Black" Panel.ZIndex="500" Height="30"/>
 
-        <Button Style="{DynamicResource buttonred}" HorizontalAlignment="Right" Panel.ZIndex="600" Margin="0,0,0.5,0" VerticalAlignment="Top" Width="40" Height="30" Click="Button_Click_4">
+        <Button Style="{DynamicResource buttonCross}" HorizontalAlignment="Right" Panel.ZIndex="600" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Height="30" Click="Button_Click_4">
 
         </Button>
 
