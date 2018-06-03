@@ -11,27 +11,26 @@ namespace LogitechGMineSweeper
     {
         public string Path { get; set; }
 
-        public byte[,] savedColors;
+        byte[,] savedColors;
 
-        public SaveFileColors(string saveFile, ref byte[,] colors)
+        public SaveFileColors(string saveFile)
         {
             this.Path = saveFile;
 
             if (!File.Exists(Path))
             {
-                Directory.CreateDirectory(Config.directory);
-                ResetToDefault(ref colors);
+                Directory.CreateDirectory(Config.Directory);
+                ResetToDefault();
             }
             else
             {
                 try
                 {
                     InitSavedColors();
-                    colors = SavedColors;
                 }
                 catch
                 {
-                    ResetToDefault(ref colors);
+                    ResetToDefault();
                 }
             }
         }
@@ -71,11 +70,10 @@ namespace LogitechGMineSweeper
             }
         }
 
-        public void ResetToDefault(ref byte[,] colors)
+        public void ResetToDefault()
         {
-            File.WriteAllLines(Path, Config.colorsDefault);
+            File.WriteAllLines(Path, Config.ColorsDefault);
             InitSavedColors();
-            colors = SavedColors;
         }
     }
 }

@@ -15,14 +15,16 @@ namespace LogitechGMineSweeper
         public int[] KeyIds { get; set; }
         public bool[,] EnabledKeys { get; set; }
         public object KeyboardDisplayPage { get; set; }
+        public int Index { get; set; }
 
-        public KeyboardLayout(SaveFileStatitics saveFile, string text, bool[,] enabledKeys, int[] keyIds, object keyboardDisplayPage)
+        public KeyboardLayout(SaveFileStatitics saveFile, string text, bool[,] enabledKeys, int[] keyIds, object keyboardDisplayPage, int index)
         {
             this.KeyIds = keyIds;
             this.SaveFile = saveFile;
             this.Text = text;
             this.EnabledKeys = enabledKeys;
             this.KeyboardDisplayPage = keyboardDisplayPage;
+            this.Index = index;
         }
 
     }

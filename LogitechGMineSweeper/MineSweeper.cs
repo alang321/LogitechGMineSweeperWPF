@@ -12,9 +12,23 @@ using System.Windows.Controls;
 
 namespace LogitechGMineSweeper
 {
-    static class MineSweeper
+    class MineSweeper
     {
+
         #region Variables Constructor and Properties
+
+        public enum GameStateEnum { Default, Victory, Defeat }
+
+        public MineSweeper(SaveFileSettings settings, SaveFileGlobalStatistics globalStats, KeyboardLayout keyLayout, SaveFileColors ColorsFile)
+        {
+            this.ColorsFile = ColorsFile;
+            this.Colors = ColorsFile.SavedColors;
+            this.Settings = settings;
+            KeyboardLayout = keyLayout;
+            this.GlobalStats = globalStats;
+
+            NewGame();
+        }
 
         public delegate void PrintdisplayEventHandler();
         public delegate void UpdateStatsEventHandler();
@@ -30,74 +44,54 @@ namespace LogitechGMineSweeper
         public static event StartWatchEventHandler StartWatchEvent;
         public static event ResetWatchEventHandler ResetWatchEvent;
 
-        static int[,] map;
-        static bool[,] isBomb;
-        static bool[,] isFlag = new bool[14, 6];
-        private static int[,] display;
-        static int bombs = 13;
-        static bool gameRunning;
-        static bool firstMove = true;
-        static int keyboardLayout = (int)Config.Layout.DE;
-        static bool setBackground = false;
-        static Random r = new Random();
-        static public int GameState { get; private set; } = 0;
-        static public bool KeyboardDisplayShown { get; set; } = false;
+        public SaveFileSettings Settings { get; set; }
+        public SaveFileGlobalStatistics GlobalStats { get; set; }
+        public SaveFileColors ColorsFile { get; set; }
 
-        static int[] availeableBombField;
-        static int availeableBombFieldCounter;
+        //local settings variables
+        KeyboardLayout keyboardLayout;
+
+        int[,] map;
+        bool[,] isBomb;
+        bool[,] isFlag = new bool[14, 6];
+        int[,] display;
+        bool gameRunning;
+        bool firstMove = true;
+        bool setBackground = false;
+        Random r = new Random();
+        public int GameState { get; private set; } = 0;
+        public static bool KeyboardDisplayShown { get; set; } = false;
+
+        int[] availeableBombField;
+        int availeableBombFieldCounter;
 
         //covered key count for current layout
-        static int coveredReset;
+        int coveredReset;
 
-        static int covered = 11 * 4;
-        static int flagged = 0;
-
-        public enum GameStateEnum { Default, Victory, Defeat }
+        int covered;
+        int flagged = 0;
 
         //values actually not used anymore just read out of file, also values not up to date, just to see what each value is
-        public static byte[,] colors =
-            {
-                // bombs sourrounding counter
-                {000,000,000},  //0
-                {128, 000, 128},  //1
-                {255,255,000},  //2
-                {000,128,000},  //3
-                {000,255,255},  //4
-                {000, 127, 255},  //5
-                {255,000,000},  //6
+        public byte[,] Colors { get; set; } = new byte[17,3];
+        // 0 = bombs sourrounding counter
+        // 1 = bombs sourrounding counter
+        // 2 = bombs sourrounding counter
+        // 3 = bombs sourrounding counter
+        // 4 = bombs sourrounding counter
+        // 5 = bombs sourrounding counter
+        // 6 = bombs sourrounding counter
+        // 7 = Bombe
+        // 8 = Covered Field
+        // 9 = placeholder for the other background Colors
+        // 10 = Flag
+        // 11 = New Game Key
+        // 12 = Game Lost background
+        // 13 = Game Won background
+        // 14 = New Game background
+        // 15 = Bomb-Flag Counter
+        // 16 = Flag Key Color
 
-                // Bombe
-                {000,000,255},  //7
-
-                //Covered Field
-                {255,255,255},   //8
-
-                //nicht Spielfeld
-                {255,200,200},   //9
-
-                //Flag
-                {255,000,255},   //10
-
-                //New Game Key
-                {255,000,000},   //11
-
-                //Game Lost background
-                {000,000,255},   //12
-
-                //Game Won background
-                {000,255,255},   //13
-
-                //New Game background
-                {255,160,160},   //14
-
-                //Bomb-Flag Counter
-                {000,255,255},   //15
-
-                //Flag Key Color
-                {255,000,255},   //16
-        };
-        
-        static public int[,] Display
+        public int[,] Display
         {
             get { return display; }
             set
@@ -106,52 +100,84 @@ namespace LogitechGMineSweeper
             }
         }
 
-        static public int Flagged
+        public int Bombs
+        {
+            get { return Settings.Bombs; }
+            set
+            {
+                Settings.Bombs = value;
+            }
+        }
+
+        public int Wins
+        {
+            get { return GlobalStats.Wins; }
+            set
+            {
+                GlobalStats.Wins = value;
+            }
+        }
+
+        public int Losses
+        {
+            get { return GlobalStats.Losses; }
+            set
+            {
+                GlobalStats.Losses = value;
+            }
+        }
+
+        public int Total
+        {
+            get { return GlobalStats.Total; }
+            set
+            {
+                GlobalStats.Total = value;
+            }
+        }
+
+        public bool UseBackground
+        {
+            get { return Settings.UseBackground; }
+            set
+            {
+                Settings.UseBackground = value;
+            }
+        }
+
+        public int Flagged
         {
             get { return flagged; }
         }
 
-        static public int Bombs
-        {
-            get { return bombs; }
-            set
-            {
-                if (value >= Config.minBombs && value <= Config.maxBombs)
-                {
-                    bombs = value;
-                }
-                else
-                {
-                    throw new Exception("Amount of Bombs not supported!");
-                }
-            }
-        }
-
-        static public int KeyboardLayout
+        public KeyboardLayout KeyboardLayout
         {
             get { return keyboardLayout; }
             set
             {
                 keyboardLayout = value;
 
+                Settings.LayoutIndex = keyboardLayout.Index;
+
                 coveredReset = 0;
 
-                for (int i = 0; i < Config.KeyboardLayouts[keyboardLayout].EnabledKeys.GetLength(0); i++)
+                for (int i = 0; i < keyboardLayout.EnabledKeys.GetLength(0); i++)
                 {
-                    for (int j = 0; j < Config.KeyboardLayouts[keyboardLayout].EnabledKeys.GetLength(1); j++)
+                    for (int j = 0; j < keyboardLayout.EnabledKeys.GetLength(1); j++)
                     {
-                        if (Config.KeyboardLayouts[keyboardLayout].EnabledKeys[i,j]) coveredReset++;
+                        if (keyboardLayout.EnabledKeys[i,j]) coveredReset++;
                     }
                 }
             }
         }
+
 
         #endregion
 
         #region Key Pressed
 
         //Handler for Key presses, gest passed number corresponding to field, from the intercept keys class
-        static public void KeyPressed(int i)
+        public void KeyPressed(int i)
         {
             //Start Game If not Running
             if (!gameRunning)
@@ -175,9 +201,9 @@ namespace LogitechGMineSweeper
             }
             else if (display[(i % 12) + 1, (i / 12) + 1] <= 6 && display[(i % 12) + 1, (i / 12) + 1] >= 0)
             {
-                uncoverFlags(i % 12, i / 12);
+                UncoverFlags(i % 12, i / 12);
             }
-            //dont uncover bomb on first move
+            //dont Uncover bomb on first move
             else if (firstMove)
             {
                 if (isBomb[(i % 12) + 1, (i / 12) + 1])
@@ -190,22 +216,22 @@ namespace LogitechGMineSweeper
                 StartWatchEvent();
 
                 //add to total game counter
-                Config.fileConfig.Total += 1;
+                GlobalStats.Total++;
 
-                Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile.IncrementTotal(bombs);
+                keyboardLayout.SaveFile.IncrementTotal(Settings.Bombs);
 
                 firstMove = false;
-                uncover(i % 12, i / 12);
-                printLogiLED();
+                Uncover(i % 12, i / 12);
+                PrintLogiLED();
             }
             else
             {
-                uncover(i % 12, i / 12);
-                printLogiLED();
+                Uncover(i % 12, i / 12);
+                PrintLogiLED();
             }
         }
 
-        static public void SetFlag(int i)
+        public void SetFlag(int i)
         {
             //event handler for newgame because it calls setflag wenn shift is pressed so you can restart with pressed shift
             if (i == 48)
@@ -235,14 +261,14 @@ namespace LogitechGMineSweeper
                 isFlag[(i % 12) + 1, (i / 12) + 1] = true;
                 flagged++;
             }
-            printLogiLED();
+            PrintLogiLED();
         }
 
         #endregion
 
         #region New Game and Bomb Generation
 
-        static public void NewGame()
+        public void NewGame()
         {
             GameState = (int)GameStateEnum.Default;
 
@@ -266,10 +292,10 @@ namespace LogitechGMineSweeper
             
             setBackground = true;
 
-            printLogiLED();
+            PrintLogiLED();
         }
 
-        static private void MoveBomb(int x, int y)
+        private void MoveBomb(int x, int y)
         {
             int index = r.Next(0, availeableBombFieldCounter);
             isBomb[(availeableBombField[index] % 12) + 1, (availeableBombField[index] / 12) + 1] = true;
@@ -280,21 +306,21 @@ namespace LogitechGMineSweeper
             GenMap();
         }
 
-        static private void GenBombs()
+        private void GenBombs()
         {
             isBomb = new bool[14, 6];
             availeableBombField = new int[48];
             availeableBombFieldCounter = 0;
 
-            for(int i = 0; i < Config.KeyboardLayouts[MineSweeper.keyboardLayout].EnabledKeys.GetLength(0); i++)
+            for(int i = 0; i < keyboardLayout.EnabledKeys.GetLength(0); i++)
             {
-                for (int j = 0; j < Config.KeyboardLayouts[MineSweeper.keyboardLayout].EnabledKeys.GetLength(1); j++)
+                for (int j = 0; j < keyboardLayout.EnabledKeys.GetLength(1); j++)
                 {
-                    if (Config.KeyboardLayouts[MineSweeper.keyboardLayout].EnabledKeys[i, j]) availeableBombField[availeableBombFieldCounter++] = i * Config.KeyboardLayouts[MineSweeper.keyboardLayout].EnabledKeys.GetLength(1) + j;
+                    if (keyboardLayout.EnabledKeys[i, j]) availeableBombField[availeableBombFieldCounter++] = i * keyboardLayout.EnabledKeys.GetLength(1) + j;
                 }
             }
 
-            for(int i = 0; i < bombs; i++)
+            for(int i = 0; i < Settings.Bombs; i++)
             {
                 int index = r.Next(0, availeableBombFieldCounter);
                 isBomb[(availeableBombField[index] % 12) + 1,(availeableBombField[index] / 12) + 1] = true;
@@ -303,7 +329,7 @@ namespace LogitechGMineSweeper
             }
         }
 
-        static private void ResetDisplay()
+        private void ResetDisplay()
         {
             display = new int[21, 6];
             for (int i = 0; i < 21; i++)
@@ -312,7 +338,7 @@ namespace LogitechGMineSweeper
                 {
                     if (i > 0 && i < 13 && j > 0 && j < 5)
                     {
-                        if (!Config.KeyboardLayouts[keyboardLayout].EnabledKeys[j - 1, i - 1])
+                        if (!keyboardLayout.EnabledKeys[j - 1, i - 1])
                         {
                             display[i, j] = 9;
                         }
@@ -329,7 +355,7 @@ namespace LogitechGMineSweeper
             }
         }
 
-        static private void GenMap()
+        private void GenMap()
         {
             map = new int[12, 4];
 
@@ -337,7 +363,7 @@ namespace LogitechGMineSweeper
             {
                 for (int j = 0; j < map.GetLength(1); j++)
                 {
-                    if (!Config.KeyboardLayouts[keyboardLayout].EnabledKeys[j, i])
+                    if (!keyboardLayout.EnabledKeys[j, i])
                     {
                         map[i, j] = 8;
                         continue;
@@ -382,7 +408,7 @@ namespace LogitechGMineSweeper
 
         #region Debug
 
-        static private string printDisplay()
+        private string PrintDisplay()
         {
             string s = "";
             for (int i = 0; i < display.GetLength(1); i++)
@@ -418,7 +444,7 @@ namespace LogitechGMineSweeper
             return s;
         }
 
-        static private string printBombs()
+        private string PrintBombs()
         {
             string s = "";
             for (int i = 1; i <= 4; i++)
@@ -453,7 +479,7 @@ namespace LogitechGMineSweeper
             return s;
         }
 
-        static private string printMap()
+        private string PrintMap()
         {
             string s = "";
             for (int i = 0; i < 4; i++)
@@ -496,12 +522,12 @@ namespace LogitechGMineSweeper
 
         #endregion
 
-        static public void printLogiLED()
+        public void PrintLogiLED()
         {
-            printLogiLED(true);
+            PrintLogiLED(true);
         }
 
-        static public void printLogiLED(bool printDisplay)
+        public void PrintLogiLED(bool printDisplay)
         {
             //init bitmap that will be used to create light
             byte[] logiLED = new byte[LogitechGSDK.LOGI_LED_BITMAP_SIZE];
@@ -510,93 +536,93 @@ namespace LogitechGMineSweeper
             UpdateBackground();
 
             //only print the in-app keyboard when the tab is selected
-            if (KeyboardDisplayShown && printDisplay)
+            if (MineSweeper.KeyboardDisplayShown && printDisplay)
             {
                 PrintEvent();
             }
 
-            Debug.WriteLine(printBombs());
+            Debug.WriteLine(PrintBombs());
 
             //for actually printing the board
             for (int i = 0; i < display.GetLength(1); i++)
             {
                 for (int j = 0; j < display.GetLength(0); j++)
                 {
-                    colorToByte(logiLED, (i * 21 + j) * 4, colors[display[j, i], 0], colors[display[j, i], 1], colors[display[j, i], 2]);
+                    ColorToByte(logiLED, (i * 21 + j) * 4, Colors[display[j, i], 0], Colors[display[j, i], 1], Colors[display[j, i], 2]);
                 }
             }
 
             //LEGENDE
             //numPad 1-3 = 4*21 + 18-20
-            colorToByte(logiLED, (5 * 21 + 18) * 4, colors[0, 0], colors[0, 1], colors[0, 2]);
-            colorToByte(logiLED, (4 * 21 + 17) * 4, colors[1, 0], colors[1, 1], colors[1, 2]);
-            colorToByte(logiLED, (4 * 21 + 18) * 4, colors[2, 0], colors[2, 1], colors[2, 2]);
-            colorToByte(logiLED, (4 * 21 + 19) * 4, colors[3, 0], colors[3, 1], colors[3, 2]);
+            ColorToByte(logiLED, (5 * 21 + 18) * 4, Colors[0, 0], Colors[0, 1], Colors[0, 2]);
+            ColorToByte(logiLED, (4 * 21 + 17) * 4, Colors[1, 0], Colors[1, 1], Colors[1, 2]);
+            ColorToByte(logiLED, (4 * 21 + 18) * 4, Colors[2, 0], Colors[2, 1], Colors[2, 2]);
+            ColorToByte(logiLED, (4 * 21 + 19) * 4, Colors[3, 0], Colors[3, 1], Colors[3, 2]);
             //numPad 4-6 = 3*21 + 18-20
-            colorToByte(logiLED, (3 * 21 + 17) * 4, colors[4, 0], colors[4, 1], colors[4, 2]);
-            colorToByte(logiLED, (3 * 21 + 18) * 4, colors[5, 0], colors[5, 1], colors[5, 2]);
-            colorToByte(logiLED, (3 * 21 + 19) * 4, colors[6, 0], colors[6, 1], colors[6, 2]);
+            ColorToByte(logiLED, (3 * 21 + 17) * 4, Colors[4, 0], Colors[4, 1], Colors[4, 2]);
+            ColorToByte(logiLED, (3 * 21 + 18) * 4, Colors[5, 0], Colors[5, 1], Colors[5, 2]);
+            ColorToByte(logiLED, (3 * 21 + 19) * 4, Colors[6, 0], Colors[6, 1], Colors[6, 2]);
 
             //shift keys
-            if (Config.fileConfig.UseBackground)
+            if (Settings.UseBackground)
             {
-                colorToByte(logiLED, (4 * 21 + 0) * 4, colors[9, 0], colors[9, 1], colors[9, 2]);
-                colorToByte(logiLED, (4 * 21 + 13) * 4, colors[9, 0], colors[9, 1], colors[9, 2]);
+                ColorToByte(logiLED, (4 * 21 + 0) * 4, Colors[9, 0], Colors[9, 1], Colors[9, 2]);
+                ColorToByte(logiLED, (4 * 21 + 13) * 4, Colors[9, 0], Colors[9, 1], Colors[9, 2]);
             }
             else
             {
-                colorToByte(logiLED, (4 * 21 + 0) * 4, colors[16, 0], colors[16, 1], colors[16, 2]);
-                colorToByte(logiLED, (4 * 21 + 13) * 4, colors[16, 0], colors[16, 1], colors[16, 2]);
+                ColorToByte(logiLED, (4 * 21 + 0) * 4, Colors[16, 0], Colors[16, 1], Colors[16, 2]);
+                ColorToByte(logiLED, (4 * 21 + 13) * 4, Colors[16, 0], Colors[16, 1], Colors[16, 2]);
             }
 
             //New Game
-            colorToByte(logiLED, 248, colors[11, 0], colors[11, 1], colors[11, 2]);
+            ColorToByte(logiLED, 248, Colors[11, 0], Colors[11, 1], Colors[11, 2]);
 
             //bomb counter
             if (GameState == (int)GameStateEnum.Default)
             {
-                for (int i = 0; i < bombs-flagged; i++)
+                for (int i = 0; i < Settings.Bombs-flagged; i++)
                 {
                     if (i >= 12) break;
-                    colorToByte(logiLED, i * 4 + 4, colors[15,0], colors[15, 1], colors[15, 2]);
+                    ColorToByte(logiLED, i * 4 + 4, Colors[15,0], Colors[15, 1], Colors[15, 2]);
                 }
             }
 
             //disabled
             //bool trigger for setting background as it would shortly flash if set every time
-            if (Config.setLogiLogo && setBackground)
+            if (Config.SetLogiLogo && setBackground)
             {
                 setBackground = false;
-                LogitechGSDK.LogiLedSetLighting(Convert.ToInt32((Convert.ToDouble(colors[9, 2]) / 255.0) * 100), Convert.ToInt32((Convert.ToDouble(colors[9, 1]) / 255.0) * 100), Convert.ToInt32((Convert.ToDouble(colors[9, 0]) / 255.0) * 100));
+                LogitechGSDK.LogiLedSetLighting(Convert.ToInt32((Convert.ToDouble(Colors[9, 2]) / 255.0) * 100), Convert.ToInt32((Convert.ToDouble(Colors[9, 1]) / 255.0) * 100), Convert.ToInt32((Convert.ToDouble(Colors[9, 0]) / 255.0) * 100));
             }
 
             //display the new color
             LogitechGSDK.LogiLedSetLightingFromBitmap(logiLED);
         }
 
-        static private void UpdateBackground()
+        private void UpdateBackground()
         {
             if (GameState == (int)GameStateEnum.Default)
             {
-                MineSweeper.colors[9, 0] = MineSweeper.colors[14, 0];
-                MineSweeper.colors[9, 1] = MineSweeper.colors[14, 1];
-                MineSweeper.colors[9, 2] = MineSweeper.colors[14, 2];
+                Colors[9, 0] = Colors[14, 0];
+                Colors[9, 1] = Colors[14, 1];
+                Colors[9, 2] = Colors[14, 2];
             }
             else if (GameState == (int)GameStateEnum.Victory)
             {
-                MineSweeper.colors[9, 0] = MineSweeper.colors[13, 0];
-                MineSweeper.colors[9, 1] = MineSweeper.colors[13, 1];
-                MineSweeper.colors[9, 2] = MineSweeper.colors[13, 2];
+                Colors[9, 0] = Colors[13, 0];
+                Colors[9, 1] = Colors[13, 1];
+                Colors[9, 2] = Colors[13, 2];
             }
             else
             {
-                MineSweeper.colors[9, 0] = MineSweeper.colors[12, 0];
-                MineSweeper.colors[9, 1] = MineSweeper.colors[12, 1];
-                MineSweeper.colors[9, 2] = MineSweeper.colors[12, 2];
+                Colors[9, 0] = Colors[12, 0];
+                Colors[9, 1] = Colors[12, 1];
+                Colors[9, 2] = Colors[12, 2];
             }
         }
 
-        static private void colorToByte(byte[] logiLED, int start, byte blue, byte green, byte red)
+        static private void ColorToByte(byte[] logiLED, int start, byte blue, byte green, byte red)
         { 
             //for getting the in app map to the required format, alpha is set to max
             logiLED[start] = blue;
@@ -609,7 +635,7 @@ namespace LogitechGMineSweeper
 
         #region Game Logic
 
-        static private void uncover(int x, int y)
+        private void Uncover(int x, int y)
         {
             //stop if x or y are out of range
             if (x >= map.GetLength(0) || y >= map.GetLength(1) || x < 0 || y < 0) return;
@@ -626,7 +652,7 @@ namespace LogitechGMineSweeper
 
                 App.last = -1;
 
-                if (--covered <= bombs && m != 7)
+                if (--covered <= Settings.Bombs && m != 7)
                 {
                     Victory();
                     return;
@@ -644,33 +670,33 @@ namespace LogitechGMineSweeper
                 {
                     case 0:
                     case 1:
-                        uncover(x, y - 1);
-                        uncover(x + 1, y - 1);
-                        uncover(x - 1, y);
-                        uncover(x + 1, y);
-                        uncover(x - 1, y + 1);
-                        uncover(x, y + 1);
+                        Uncover(x, y - 1);
+                        Uncover(x + 1, y - 1);
+                        Uncover(x - 1, y);
+                        Uncover(x + 1, y);
+                        Uncover(x - 1, y + 1);
+                        Uncover(x, y + 1);
                         break;
                     case 2:
-                        uncover(x, y - 1);
-                        uncover(x + 1, y - 1);
-                        uncover(x - 1, y);
-                        uncover(x + 1, y);
-                        uncover(x, y + 1);
-                        uncover(x + 1, y + 1);
+                        Uncover(x, y - 1);
+                        Uncover(x + 1, y - 1);
+                        Uncover(x - 1, y);
+                        Uncover(x + 1, y);
+                        Uncover(x, y + 1);
+                        Uncover(x + 1, y + 1);
                         break;
                     case 3:
-                        uncover(x - 1, y - 1);
-                        uncover(x, y - 1);
-                        uncover(x - 1, y);
-                        uncover(x + 1, y);
+                        Uncover(x - 1, y - 1);
+                        Uncover(x, y - 1);
+                        Uncover(x - 1, y);
+                        Uncover(x + 1, y);
                         break;
                 }
             }
         }
 
-        //function for uncovering when all surrounding bombs of field are flagged, or atleast right amount
-        static private void uncoverFlags(int x, int y)
+        //function for Uncovering when all surrounding bombs of field are flagged, or atleast right amount
+        private void UncoverFlags(int x, int y)
         {
             int sourroundingFlags = 0;
             bool defeatIfUncover = false;
@@ -729,29 +755,29 @@ namespace LogitechGMineSweeper
                     {
                         case 0:
                         case 1:
-                            if (!isFlag[x + 1, y]) uncover(x, y - 1);
-                            if (!isFlag[x + 2, y]) uncover(x + 1, y - 1);
-                            if (!isFlag[x, y + 1]) uncover(x - 1, y);
-                            if (!isFlag[x + 2, y + 1]) uncover(x + 1, y);
-                            if (!isFlag[x, y + 2]) uncover(x - 1, y + 1);
-                            if (!isFlag[x + 1, y + 2]) uncover(x, y + 1);
+                            if (!isFlag[x + 1, y]) Uncover(x, y - 1);
+                            if (!isFlag[x + 2, y]) Uncover(x + 1, y - 1);
+                            if (!isFlag[x, y + 1]) Uncover(x - 1, y);
+                            if (!isFlag[x + 2, y + 1]) Uncover(x + 1, y);
+                            if (!isFlag[x, y + 2]) Uncover(x - 1, y + 1);
+                            if (!isFlag[x + 1, y + 2]) Uncover(x, y + 1);
                             break;
                         case 2:
-                            if (!isFlag[x + 1, y]) uncover(x, y - 1);
-                            if (!isFlag[x + 2, y]) uncover(x + 1, y - 1);
-                            if (!isFlag[x, y + 1]) uncover(x - 1, y);
-                            if (!isFlag[x + 2, y + 1]) uncover(x + 1, y);
-                            if (!isFlag[x + 1, y + 2]) uncover(x, y + 1);
-                            if (!isFlag[x + 2, y + 2]) uncover(x + 1, y + 1);
+                            if (!isFlag[x + 1, y]) Uncover(x, y - 1);
+                            if (!isFlag[x + 2, y]) Uncover(x + 1, y - 1);
+                            if (!isFlag[x, y + 1]) Uncover(x - 1, y);
+                            if (!isFlag[x + 2, y + 1]) Uncover(x + 1, y);
+                            if (!isFlag[x + 1, y + 2]) Uncover(x, y + 1);
+                            if (!isFlag[x + 2, y + 2]) Uncover(x + 1, y + 1);
                             break;
                         case 3:
-                            if (!isFlag[x, y]) uncover(x - 1, y - 1);
-                            if (!isFlag[x + 1, y]) uncover(x, y - 1);
-                            if (!isFlag[x, y + 1]) uncover(x - 1, y);
-                            if (!isFlag[x + 2, y + 1]) uncover(x + 1, y);
+                            if (!isFlag[x, y]) Uncover(x - 1, y - 1);
+                            if (!isFlag[x + 1, y]) Uncover(x, y - 1);
+                            if (!isFlag[x, y + 1]) Uncover(x - 1, y);
+                            if (!isFlag[x + 2, y + 1]) Uncover(x + 1, y);
                             break;
                     }
-                    printLogiLED();
+                    PrintLogiLED();
                 }
             }
         }
@@ -760,7 +786,7 @@ namespace LogitechGMineSweeper
 
         #region Game End Functions
 
-        static private void GameOver()
+        private void GameOver()
         {
             UpdateStatsEvent();
 
@@ -776,16 +802,16 @@ namespace LogitechGMineSweeper
             }
 
             setBackground = true;
-            printLogiLED();
+            PrintLogiLED();
 
             gameRunning = false;
         }
 
-        static private void Victory()
+        private void Victory()
         {
-            Config.fileConfig.Wins++;
+            GlobalStats.Wins++;
 
-            Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile.IncrementWins(bombs);
+            keyboardLayout.SaveFile.IncrementWins(Settings.Bombs);
 
             StopWatchVictoryEvent();
 
@@ -794,11 +820,11 @@ namespace LogitechGMineSweeper
             GameOver();
         }
 
-        static private void Defeat()
+        private void Defeat()
         {
-            Config.fileConfig.Losses++;
+            GlobalStats.Losses++;
 
-            Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile.IncrementLosses(bombs);
+            keyboardLayout.SaveFile.IncrementLosses(Settings.Bombs);
 
             StopWatchDefeatEvent();
 

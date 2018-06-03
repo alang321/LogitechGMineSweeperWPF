@@ -81,30 +81,30 @@ namespace LogitechGMineSweeper.KeyboardLayouts
         //subscribe to select color tab event
         private void InitDisplay()
         {
-            Application.Current.Resources["buttonColorBrush0"] = new SolidColorBrush(Color.FromRgb(MineSweeper.colors[0, 2], MineSweeper.colors[0, 1], MineSweeper.colors[0, 0]));
-            Application.Current.Resources["buttonColorBrush1"] = new SolidColorBrush(Color.FromRgb(MineSweeper.colors[1, 2], MineSweeper.colors[1, 1], MineSweeper.colors[1, 0]));
-            Application.Current.Resources["buttonColorBrush2"] = new SolidColorBrush(Color.FromRgb(MineSweeper.colors[2, 2], MineSweeper.colors[2, 1], MineSweeper.colors[2, 0]));
-            Application.Current.Resources["buttonColorBrush3"] = new SolidColorBrush(Color.FromRgb(MineSweeper.colors[3, 2], MineSweeper.colors[3, 1], MineSweeper.colors[3, 0]));
-            Application.Current.Resources["buttonColorBrush4"] = new SolidColorBrush(Color.FromRgb(MineSweeper.colors[4, 2], MineSweeper.colors[4, 1], MineSweeper.colors[4, 0]));
-            Application.Current.Resources["buttonColorBrush5"] = new SolidColorBrush(Color.FromRgb(MineSweeper.colors[5, 2], MineSweeper.colors[5, 1], MineSweeper.colors[5, 0]));
-            Application.Current.Resources["buttonColorBrush6"] = new SolidColorBrush(Color.FromRgb(MineSweeper.colors[6, 2], MineSweeper.colors[6, 1], MineSweeper.colors[6, 0]));
-            Application.Current.Resources["buttonColorBrush7"] = new SolidColorBrush(Color.FromRgb(MineSweeper.colors[7, 2], MineSweeper.colors[7, 1], MineSweeper.colors[7, 0]));
-            Application.Current.Resources["buttonColorBrush8"] = new SolidColorBrush(Color.FromRgb(MineSweeper.colors[8, 2], MineSweeper.colors[8, 1], MineSweeper.colors[8, 0]));
-            Application.Current.Resources["buttonColorBrush9"] = new SolidColorBrush(Color.FromRgb(MineSweeper.colors[9, 2], MineSweeper.colors[9, 1], MineSweeper.colors[9, 0]));
-            Application.Current.Resources["buttonColorBrush10"] = new SolidColorBrush(Color.FromRgb(MineSweeper.colors[10, 2], MineSweeper.colors[10, 1], MineSweeper.colors[10, 0]));
-            Application.Current.Resources["buttonColorBrush11"] = new SolidColorBrush(Color.FromRgb(MineSweeper.colors[11, 2], MineSweeper.colors[11, 1], MineSweeper.colors[11, 0]));
-            Application.Current.Resources["buttonColorBrush12"] = new SolidColorBrush(Color.FromRgb(MineSweeper.colors[12, 2], MineSweeper.colors[12, 1], MineSweeper.colors[12, 0]));
-            Application.Current.Resources["buttonColorBrush13"] = new SolidColorBrush(Color.FromRgb(MineSweeper.colors[13, 2], MineSweeper.colors[13, 1], MineSweeper.colors[13, 0]));
-            Application.Current.Resources["buttonColorBrush14"] = new SolidColorBrush(Color.FromRgb(MineSweeper.colors[14, 2], MineSweeper.colors[14, 1], MineSweeper.colors[14, 0]));
-            Application.Current.Resources["buttonColorBrush15"] = new SolidColorBrush(Color.FromRgb(MineSweeper.colors[15, 2], MineSweeper.colors[15, 1], MineSweeper.colors[15, 0]));
-            Application.Current.Resources["buttonColorBrush16"] = new SolidColorBrush(Color.FromRgb(MineSweeper.colors[16, 2], MineSweeper.colors[16, 1], MineSweeper.colors[16, 0]));
+            Application.Current.Resources["buttonColorBrush0"] = new SolidColorBrush(Color.FromRgb(Config.MineSweeper.Colors[0, 2], Config.MineSweeper.Colors[0, 1], Config.MineSweeper.Colors[0, 0]));
+            Application.Current.Resources["buttonColorBrush1"] = new SolidColorBrush(Color.FromRgb(Config.MineSweeper.Colors[1, 2], Config.MineSweeper.Colors[1, 1], Config.MineSweeper.Colors[1, 0]));
+            Application.Current.Resources["buttonColorBrush2"] = new SolidColorBrush(Color.FromRgb(Config.MineSweeper.Colors[2, 2], Config.MineSweeper.Colors[2, 1], Config.MineSweeper.Colors[2, 0]));
+            Application.Current.Resources["buttonColorBrush3"] = new SolidColorBrush(Color.FromRgb(Config.MineSweeper.Colors[3, 2], Config.MineSweeper.Colors[3, 1], Config.MineSweeper.Colors[3, 0]));
+            Application.Current.Resources["buttonColorBrush4"] = new SolidColorBrush(Color.FromRgb(Config.MineSweeper.Colors[4, 2], Config.MineSweeper.Colors[4, 1], Config.MineSweeper.Colors[4, 0]));
+            Application.Current.Resources["buttonColorBrush5"] = new SolidColorBrush(Color.FromRgb(Config.MineSweeper.Colors[5, 2], Config.MineSweeper.Colors[5, 1], Config.MineSweeper.Colors[5, 0]));
+            Application.Current.Resources["buttonColorBrush6"] = new SolidColorBrush(Color.FromRgb(Config.MineSweeper.Colors[6, 2], Config.MineSweeper.Colors[6, 1], Config.MineSweeper.Colors[6, 0]));
+            Application.Current.Resources["buttonColorBrush7"] = new SolidColorBrush(Color.FromRgb(Config.MineSweeper.Colors[7, 2], Config.MineSweeper.Colors[7, 1], Config.MineSweeper.Colors[7, 0]));
+            Application.Current.Resources["buttonColorBrush8"] = new SolidColorBrush(Color.FromRgb(Config.MineSweeper.Colors[8, 2], Config.MineSweeper.Colors[8, 1], Config.MineSweeper.Colors[8, 0]));
+            Application.Current.Resources["buttonColorBrush9"] = new SolidColorBrush(Color.FromRgb(Config.MineSweeper.Colors[9, 2], Config.MineSweeper.Colors[9, 1], Config.MineSweeper.Colors[9, 0]));
+            Application.Current.Resources["buttonColorBrush10"] = new SolidColorBrush(Color.FromRgb(Config.MineSweeper.Colors[10, 2], Config.MineSweeper.Colors[10, 1], Config.MineSweeper.Colors[10, 0]));
+            Application.Current.Resources["buttonColorBrush11"] = new SolidColorBrush(Color.FromRgb(Config.MineSweeper.Colors[11, 2], Config.MineSweeper.Colors[11, 1], Config.MineSweeper.Colors[11, 0]));
+            Application.Current.Resources["buttonColorBrush12"] = new SolidColorBrush(Color.FromRgb(Config.MineSweeper.Colors[12, 2], Config.MineSweeper.Colors[12, 1], Config.MineSweeper.Colors[12, 0]));
+            Application.Current.Resources["buttonColorBrush13"] = new SolidColorBrush(Color.FromRgb(Config.MineSweeper.Colors[13, 2], Config.MineSweeper.Colors[13, 1], Config.MineSweeper.Colors[13, 0]));
+            Application.Current.Resources["buttonColorBrush14"] = new SolidColorBrush(Color.FromRgb(Config.MineSweeper.Colors[14, 2], Config.MineSweeper.Colors[14, 1], Config.MineSweeper.Colors[14, 0]));
+            Application.Current.Resources["buttonColorBrush15"] = new SolidColorBrush(Color.FromRgb(Config.MineSweeper.Colors[15, 2], Config.MineSweeper.Colors[15, 1], Config.MineSweeper.Colors[15, 0]));
+            Application.Current.Resources["buttonColorBrush16"] = new SolidColorBrush(Color.FromRgb(Config.MineSweeper.Colors[16, 2], Config.MineSweeper.Colors[16, 1], Config.MineSweeper.Colors[16, 0]));
 
             //foreground brushes
-            for (int index = 0; index < MineSweeper.colors.Length; index++)
+            for (int index = 0; index < Config.MineSweeper.Colors.Length; index++)
             {
-                if (Config.foregroundColorImportant.Contains(index))
+                if (Config.ForegroundColorImportant.Contains(index))
                 {
-                    if (MineSweeper.colors[index, 2] + MineSweeper.colors[index, 1] + MineSweeper.colors[index, 0] < Config.foregroundThreshold)
+                    if (Config.MineSweeper.Colors[index, 2] + Config.MineSweeper.Colors[index, 1] + Config.MineSweeper.Colors[index, 0] < Config.ForegroundThreshold)
                     {
                         Application.Current.Resources["TextColorBrush" + index.ToString()] = new SolidColorBrush(Colors.White);
                     }
@@ -119,7 +119,7 @@ namespace LogitechGMineSweeper.KeyboardLayouts
                 }
             }
 
-            if (Config.fileConfig.UseBackground)
+            if (Config.MineSweeper.UseBackground)
             {
                 ShiftL.Visibility = Visibility.Hidden;
             }
@@ -137,7 +137,7 @@ namespace LogitechGMineSweeper.KeyboardLayouts
 
         private void PrintEvent()
         {
-            if (MineSweeper.KeyboardLayout == activeAtLayout)
+            if (Config.MineSweeper.KeyboardLayout.Index == activeAtLayout)
             {
                 PrintBoard();
             }
@@ -145,7 +145,7 @@ namespace LogitechGMineSweeper.KeyboardLayouts
 
         private void UpdateDisplayEvent()
         {
-            if (MineSweeper.KeyboardLayout == activeAtLayout)
+            if (Config.MineSweeper.KeyboardLayout.Index == activeAtLayout)
             {
                 PrintBoard();
             }
@@ -153,7 +153,7 @@ namespace LogitechGMineSweeper.KeyboardLayouts
 
         private void ResetColorsEvent()
         {
-            if (MineSweeper.KeyboardLayout == activeAtLayout)
+            if (Config.MineSweeper.KeyboardLayout.Index == activeAtLayout)
             {
                 InitDisplay();
             }
@@ -166,23 +166,23 @@ namespace LogitechGMineSweeper.KeyboardLayouts
         // for the color picker list
         private void ColorPopupCreator(int index)
         {
-            byte[] current = { MineSweeper.colors[index, 0], MineSweeper.colors[index, 1], MineSweeper.colors[index, 2] };
+            byte[] current = { Config.MineSweeper.Colors[index, 0], Config.MineSweeper.Colors[index, 1], Config.MineSweeper.Colors[index, 2] };
 
-            if ((ColorPopup.Show(System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]), index) == MessageBoxResult.OK))
+            if ((ColorPopup.Show(System.Windows.Media.Color.FromArgb(0xFF, Config.MineSweeper.Colors[index, 2], Config.MineSweeper.Colors[index, 1], Config.MineSweeper.Colors[index, 0]), index) == MessageBoxResult.OK))
             {
-                Config.fileColors.SavedColors = MineSweeper.colors;
+                Config.MineSweeper.ColorsFile.SavedColors = Config.MineSweeper.Colors;
             }
             else
             {
-                MineSweeper.colors[index, 2] = current[2];
-                MineSweeper.colors[index, 1] = current[1];
-                MineSweeper.colors[index, 0] = current[0];
+                Config.MineSweeper.Colors[index, 2] = current[2];
+                Config.MineSweeper.Colors[index, 1] = current[1];
+                Config.MineSweeper.Colors[index, 0] = current[0];
 
-                Application.Current.Resources["buttonColorBrush" + index.ToString()] = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]));
+                Application.Current.Resources["buttonColorBrush" + index.ToString()] = new SolidColorBrush(System.Windows.Media.Color.FromRgb(Config.MineSweeper.Colors[index, 2], Config.MineSweeper.Colors[index, 1], Config.MineSweeper.Colors[index, 0]));
 
-                if (Config.foregroundColorImportant.Contains(index))
+                if (Config.ForegroundColorImportant.Contains(index))
                 {
-                    if (MineSweeper.colors[index, 2] + MineSweeper.colors[index, 1] + MineSweeper.colors[index, 0] < Config.foregroundThreshold)
+                    if (Config.MineSweeper.Colors[index, 2] + Config.MineSweeper.Colors[index, 1] + Config.MineSweeper.Colors[index, 0] < Config.ForegroundThreshold)
                     {
                         Application.Current.Resources["TextColorBrush" + index.ToString()] = new SolidColorBrush(Colors.White);
                     }
@@ -192,13 +192,13 @@ namespace LogitechGMineSweeper.KeyboardLayouts
                     }
                 }
 
-                MineSweeper.printLogiLED();
+                Config.MineSweeper.PrintLogiLED();
             }
         }
 
         private void ClickNoFunc(object sender, RoutedEventArgs e)
         {
-            switch (MineSweeper.GameState)
+            switch (Config.MineSweeper.GameState)
             {
                 case (int)MineSweeper.GameStateEnum.Default:
                     ColorPopupCreator(14);
@@ -216,11 +216,11 @@ namespace LogitechGMineSweeper.KeyboardLayouts
         {
             Button pressed = sender as Button;
             int i = Array.IndexOf(board, pressed);
-            int index = MineSweeper.Display[(i % 12 + 1), (i / 12 + 1)];
+            int index = Config.MineSweeper.Display[(i % 12 + 1), (i / 12 + 1)];
 
             if (index == 9)
             {
-                switch (MineSweeper.GameState)
+                switch (Config.MineSweeper.GameState)
                 {
                     case (int)MineSweeper.GameStateEnum.Default:
                         index = 14;
@@ -264,7 +264,7 @@ namespace LogitechGMineSweeper.KeyboardLayouts
 
         private void PrintBoard()
         {
-            switch (MineSweeper.GameState)
+            switch (Config.MineSweeper.GameState)
             {
                 case (int)MineSweeper.GameStateEnum.Default:
                     esc.Style = styles[14];
@@ -286,9 +286,9 @@ namespace LogitechGMineSweeper.KeyboardLayouts
             {
                 for (int j = 1; j <= 12; j++)
                 {
-                    if (MineSweeper.Display[j, i] == 9)
+                    if (Config.MineSweeper.Display[j, i] == 9)
                     {
-                        switch (MineSweeper.GameState)
+                        switch (Config.MineSweeper.GameState)
                         {
                             case (int)MineSweeper.GameStateEnum.Default:
                                 board[counter++].Style = styles[14];
@@ -303,19 +303,19 @@ namespace LogitechGMineSweeper.KeyboardLayouts
                     }
                     else
                     {
-                        board[counter++].Style = styles[MineSweeper.Display[j, i]];
+                        board[counter++].Style = styles[Config.MineSweeper.Display[j, i]];
                     }
                 }
             }
 
-            if (MineSweeper.GameState == (int)MineSweeper.GameStateEnum.Default)
+            if (Config.MineSweeper.GameState == (int)MineSweeper.GameStateEnum.Default)
             {
                 foreach (Button a in function)
                 {
                     a.Visibility = Visibility.Collapsed;
                 }
 
-                for (int i = 0; i < MineSweeper.Bombs - MineSweeper.Flagged; i++)
+                for (int i = 0; i < Config.MineSweeper.Bombs - Config.MineSweeper.Flagged; i++)
                 {
                     if (i >= 12) break;
                     function[i].Visibility = Visibility.Visible;

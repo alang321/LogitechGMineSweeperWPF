@@ -36,15 +36,15 @@ namespace LogitechGMineSweeper
 
         private void ClrPcker_Background_SelectedColorChanged(object sender, EventArgs e)
         {
-            MineSweeper.colors[index, 0] = ClrPcker_Background.B;
-            MineSweeper.colors[index, 1] = ClrPcker_Background.G;
-            MineSweeper.colors[index, 2] = ClrPcker_Background.R;
+            Config.MineSweeper.Colors[index, 0] = ClrPcker_Background.B;
+            Config.MineSweeper.Colors[index, 1] = ClrPcker_Background.G;
+            Config.MineSweeper.Colors[index, 2] = ClrPcker_Background.R;
 
-            Application.Current.Resources["buttonColorBrush" + index.ToString()] = new SolidColorBrush(System.Windows.Media.Color.FromRgb(MineSweeper.colors[index, 2], MineSweeper.colors[index, 1], MineSweeper.colors[index, 0]));
+            Application.Current.Resources["buttonColorBrush" + index.ToString()] = new SolidColorBrush(System.Windows.Media.Color.FromRgb(Config.MineSweeper.Colors[index, 2], Config.MineSweeper.Colors[index, 1], Config.MineSweeper.Colors[index, 0]));
 
             if (index != 12 && index != 13 && index != 14)
             {
-                if (MineSweeper.colors[index, 2] + MineSweeper.colors[index, 1] + MineSweeper.colors[index, 0] < Config.foregroundThreshold)
+                if (Config.MineSweeper.Colors[index, 2] + Config.MineSweeper.Colors[index, 1] + Config.MineSweeper.Colors[index, 0] < Config.ForegroundThreshold)
                 {
                     Application.Current.Resources["TextColorBrush" + index.ToString()] = new SolidColorBrush(Colors.White);
                 }
@@ -54,7 +54,7 @@ namespace LogitechGMineSweeper
                 }
             }
 
-            MineSweeper.printLogiLED(false);
+            Config.MineSweeper.PrintLogiLED(false);
         }
         #endregion
         
@@ -133,7 +133,7 @@ namespace LogitechGMineSweeper
 
         public static MessageBoxResult Show(System.Windows.Media.Color selectedColor, int index)
         {
-            _messageBox = new ColorPopup{ MessageTitle = { Content = Config.colorPickerTitles[index] } };
+            _messageBox = new ColorPopup{ MessageTitle = { Content = Config.ColorPickerTitles[index] } };
             _messageBox.index = index;
             _messageBox.ClrPcker_Background.SelectedColor = selectedColor;
             _messageBox.ShowDialog();

@@ -23,8 +23,8 @@ namespace LogitechGMineSweeper
 
             if (!File.Exists(Path))
             {
-                Directory.CreateDirectory(Config.directory);
-                File.WriteAllLines(Path, Config.statisticsDefault);
+                Directory.CreateDirectory(Config.Directory);
+                File.WriteAllLines(Path, Config.StatisticsDefault);
             }
             else
             {
@@ -38,7 +38,7 @@ namespace LogitechGMineSweeper
                     }
                     catch
                     {
-                        File.WriteAllLines(Path, Config.statisticsDefault);
+                        File.WriteAllLines(Path, Config.StatisticsDefault);
                     }
                 }
                 else if (lines.Length == 49)
@@ -155,7 +155,7 @@ namespace LogitechGMineSweeper
 
         public void ResetToDefault()
         {
-            File.WriteAllLines(Path, Config.statisticsDefault);
+            File.WriteAllLines(Path, Config.StatisticsDefault);
         }
 
         public void MigrateOldSave()
@@ -165,11 +165,11 @@ namespace LogitechGMineSweeper
 
             //+42 total game +21 defeat game +0 victory
             string[] lines = File.ReadAllLines(Path);
-            string[] newFile = new string[Config.statisticsDefault.Length];
+            string[] newFile = new string[Config.StatisticsDefault.Length];
 
-            for (int i = 0; i < Config.statisticsDefault.Length; i++)
+            for (int i = 0; i < Config.StatisticsDefault.Length; i++)
             {
-                newFile[i] = Config.statisticsDefault[i];
+                newFile[i] = Config.StatisticsDefault[i];
             }
 
             for (int i = 5; i <= 25; i++)
@@ -198,7 +198,7 @@ namespace LogitechGMineSweeper
             }
 
             Array.Resize(ref lines, lines.Length + 1);
-            lines[lines.Length - 1] = Config.version;
+            lines[lines.Length - 1] = Config.Version;
 
             File.WriteAllLines(Path, lines);
         }

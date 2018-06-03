@@ -114,7 +114,8 @@
     </Compile>
     <Compile Include="Config.cs" />
     <Compile Include="SaveFileClasses\SaveFileColors.cs" />
-    <Compile Include="SaveFileClasses\SaveFileConfig.cs" />
+    <Compile Include="SaveFileClasses\SaveFileGlobal.cs" />
+    <Compile Include="SaveFileClasses\SaveFileSettings.cs" />
     <Compile Include="SaveFileClasses\SaveFileStatistics.cs" />
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>

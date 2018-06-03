@@ -50,17 +50,8 @@ namespace LogitechGMineSweeper
         {
             if (!LogitechGSDK.LogiLedInit()) Console.WriteLine("Not connected to GSDK");
             
-            try
-            {
-                MineSweeper.Bombs = Config.fileConfig.Bombs;
-                MineSweeper.KeyboardLayout = Config.fileConfig.Layout;
-            }
-            catch
-            {
-                Config.fileConfig.ResetToDefault();
-                MineSweeper.Bombs = Config.fileConfig.Bombs;
-                MineSweeper.KeyboardLayout = Config.fileConfig.Layout;
-            }
+            SaveFileSettings settings = new SaveFileSettings(Config.PathSettingsFile);
+            Config.MineSweeper = new MineSweeper(settings, new SaveFileGlobalStatistics(Config.PathGlobalStatisticsFile), Config.KeyboardLayouts[settings.LayoutIndex], new SaveFileColors(Config.PathColorsFile));
 
             //one instance code
             if (mutex.WaitOne(TimeSpan.Zero, true))
@@ -95,21 +86,21 @@ namespace LogitechGMineSweeper
             {
                 int vkCode = Marshal.ReadInt32(lParam);
                 Debug.WriteLine("Key ID-Code: " + vkCode);
-                if (Config.KeyboardLayouts[MineSweeper.KeyboardLayout].KeyIds.Contains(vkCode))
+                if (Config.MineSweeper.KeyboardLayout.KeyIds.Contains(vkCode))
                 {
                     if (Control.ModifierKeys == Keys.Shift)
                     {
-                        if (last != 107 && vkCode == 107) MineSweeper.KeyPressed(48);
+                        if (last != 107 && vkCode == 107) Config.MineSweeper.KeyPressed(48);
                         else if (vkCode != 107)
                         {
-                            MineSweeper.SetFlag(Array.IndexOf(Config.KeyboardLayouts[MineSweeper.KeyboardLayout].KeyIds, vkCode));
+                            Config.MineSweeper.SetFlag(Array.IndexOf(Config.MineSweeper.KeyboardLayout.KeyIds, vkCode));
                             last = -1;
                         }
                     }
                     else if (last != vkCode)
                     {
                         last = vkCode;
-                        MineSweeper.KeyPressed(Array.IndexOf(Config.KeyboardLayouts[MineSweeper.KeyboardLayout].KeyIds, vkCode));
+                        Config.MineSweeper.KeyPressed(Array.IndexOf(Config.MineSweeper.KeyboardLayout.KeyIds, vkCode));
                     }
                     else
                     {
@@ -158,11 +149,11 @@ namespace LogitechGMineSweeper
             string root = Directory.GetParent(dir).FullName;
             nIcon.Icon = new Icon(Path.Combine(root, "icon.ico"));
             nIcon.Visible = false;
-            nIcon.Click += nIcon_Click;
+            nIcon.Click += NIcon_Click;
         }
 
 
-        void nIcon_Click(object sender, EventArgs e)
+        void NIcon_Click(object sender, EventArgs e)
         {
             var mainWnd = System.Windows.Application.Current.MainWindow as MainWindow;
             nIcon.Visible = false;
@@ -187,7 +178,7 @@ namespace LogitechGMineSweeper
             mainWnd.Topmost = false; // important
             mainWnd.Focus();
 
-            MineSweeper.printLogiLED();
+            Config.MineSweeper.PrintLogiLED();
         }
 
         private void Application_Exit(object sender, ExitEventArgs e)
