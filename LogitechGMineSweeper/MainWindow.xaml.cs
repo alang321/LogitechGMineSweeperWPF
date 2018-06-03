@@ -73,7 +73,6 @@ namespace LogitechGMineSweeper
             InitializeComponent();
 
             _menuTabControl.SelectedIndex = 0;
-            MineSweeper.Main = App.Current.MainWindow as MainWindow;
 
             dispatcherTimer.Tick += DispatcherTimer_Tick;
             dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
@@ -99,6 +98,8 @@ namespace LogitechGMineSweeper
             timer1.Foreground = new SolidColorBrush(Config.Default);
 
             SaveFileStatitics.PrintStatsEvent += new SaveFileStatitics.PrintStatsEventHandler(PrintStatsEvent);
+            MineSweeper.ResetWatchEvent += new MineSweeper.ResetWatchEventHandler(ResetWatch());
+            MineSweeper.StopWatchDefeatEvent += new MineSweeper.StopWatchDefeatEventHandler(StopWatchDefeat());
         }
 
         #endregion
@@ -246,6 +247,7 @@ namespace LogitechGMineSweeper
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
+            MineSweeper.KeyboardDisplayShown = false;
             WindowState = WindowState.Minimized;
             ((App)System.Windows.Application.Current).nIcon.Visible = true;
         }
@@ -320,18 +322,26 @@ namespace LogitechGMineSweeper
             switch (_menuTabControl.SelectedIndex)
             {
                 case 0:
+                    MineSweeper.KeyboardDisplayShown = false;
                     SetAllButtonsNormal();
                     settings.Style = styleClone;
                     break;
                 case 1:
+                    FlagUseBackground.IsChecked = Config.fileConfig.UseBackground;
+                    KeyboardDisplayContainer.Children.Clear();
+                    KeyboardDisplayContainer.Children.Add(Config.KeyboardLayouts[MineSweeper.KeyboardLayout].KeyboardDisplayPage as UserControl);
+                    UpdateDisplayEvent();
+                    MineSweeper.KeyboardDisplayShown = true;
                     SetAllButtonsNormal();
                     colors.Style = styleClone;
                     break;
                 case 2:
+                    MineSweeper.KeyboardDisplayShown = false;
                     SetAllButtonsNormal();
                     stats.Style = styleClone;
                     break;
                 case 3:
+                    MineSweeper.KeyboardDisplayShown = false;
                     SetAllButtonsNormal();
                     reset.Style = styleClone;
                     break;
@@ -346,14 +356,6 @@ namespace LogitechGMineSweeper
         private void Click_Colors(object sender, RoutedEventArgs e)
         {
             _menuTabControl.SelectedIndex = 1;
-
-            FlagUseBackground.IsChecked = MineSweeper.UseBackground;
-
-            KeyboardDisplayContainer.Children.Clear();
-
-            KeyboardDisplayContainer.Children.Add(Config.KeyboardLayouts[MineSweeper.KeyboardLayout].KeyboardDisplayPage as UserControl);
-
-            UpdateDisplayEvent();
         }
 
         private void Click_Statistics(object sender, RoutedEventArgs e)
@@ -498,8 +500,7 @@ namespace LogitechGMineSweeper
 
             MineSweeper.printLogiLED();
 
-            MineSweeper.UseBackground = Config.useBackgroundDefault;
-            Config.fileConfig.UseBackground = MineSweeper.UseBackground;
+            Config.fileConfig.UseBackground = Config.useBackgroundDefault;
 
             ResetColorsEvent();
         }
@@ -509,7 +510,6 @@ namespace LogitechGMineSweeper
             Config.fileConfig.Bombs = Config.bombsDefault;
             Config.fileConfig.Layout = Config.keyboardLayoutDefault;
             Config.fileConfig.UseBackground = Config.useBackgroundDefault;
-            MineSweeper.UseBackground = Config.useBackgroundDefault;
             MineSweeper.Bombs = Config.bombsDefault;
             MineSweeper.KeyboardLayout = Config.keyboardLayoutDefault;
 
@@ -658,8 +658,7 @@ namespace LogitechGMineSweeper
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             ShiftFlag.Opacity = 0.4;
-            MineSweeper.UseBackground = true;
-            Config.fileConfig.UseBackground = MineSweeper.UseBackground;
+            Config.fileConfig.UseBackground = true;
             MineSweeper.printLogiLED();
             ResetColorsEvent();
         }
@@ -667,8 +666,7 @@ namespace LogitechGMineSweeper
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             ShiftFlag.Opacity = 1;
-            MineSweeper.UseBackground = false;
-            Config.fileConfig.UseBackground = MineSweeper.UseBackground;
+            Config.fileConfig.UseBackground = false;
             MineSweeper.printLogiLED();
             ResetColorsEvent();
         }

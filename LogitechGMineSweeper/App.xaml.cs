@@ -52,14 +52,12 @@ namespace LogitechGMineSweeper
             
             try
             {
-                MineSweeper.UseBackground = Config.fileConfig.UseBackground;
                 MineSweeper.Bombs = Config.fileConfig.Bombs;
                 MineSweeper.KeyboardLayout = Config.fileConfig.Layout;
             }
             catch
             {
                 Config.fileConfig.ResetToDefault();
-                MineSweeper.UseBackground = Config.fileConfig.UseBackground;
                 MineSweeper.Bombs = Config.fileConfig.Bombs;
                 MineSweeper.KeyboardLayout = Config.fileConfig.Layout;
             }
@@ -172,6 +170,11 @@ namespace LogitechGMineSweeper
             if (!mainWnd.IsVisible)
             {
                 mainWnd.Show();
+            }
+
+            if(mainWnd._menuTabControl.SelectedIndex == 1)
+            {
+                MineSweeper.KeyboardDisplayShown = true;
             }
 
             if (mainWnd.WindowState == WindowState.Minimized)

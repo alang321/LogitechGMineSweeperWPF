@@ -17,8 +17,18 @@ namespace LogitechGMineSweeper
         #region Variables Constructor and Properties
 
         public delegate void PrintdisplayEventHandler();
+        public delegate void UpdateStatsEventHandler();
+        public delegate void StopWatchDefeatEventHandler();
+        public delegate void StopWatchVictoryEventHandler();
+        public delegate void StartWatchEventHandler();
+        public delegate void ResetWatchEventHandler();
 
         public static event PrintdisplayEventHandler PrintEvent;
+        public static event UpdateStatsEventHandler UpdateStatsEvent;
+        public static event StopWatchDefeatEventHandler StopWatchDefeatEvent;
+        public static event StopWatchVictoryEventHandler StopWatchVictoryEvent;
+        public static event StartWatchEventHandler StartWatchEvent;
+        public static event ResetWatchEventHandler ResetWatchEvent;
 
         static int[,] map;
         static bool[,] isBomb;
@@ -29,12 +39,9 @@ namespace LogitechGMineSweeper
         static bool firstMove = true;
         static int keyboardLayout = (int)Config.Layout.DE;
         static bool setBackground = false;
-        static MainWindow main;
-        static bool useBackground = false;
         static Random r = new Random();
         static public int GameState { get; private set; } = 0;
-
-
+        static public bool KeyboardDisplayShown { get; set; } = false;
 
         static int[] availeableBombField;
         static int availeableBombFieldCounter;
@@ -89,32 +96,13 @@ namespace LogitechGMineSweeper
                 //Flag Key Color
                 {255,000,255},   //16
         };
-
-
-        static public bool UseBackground
-        {
-            get { return useBackground; }
-            set
-            {
-                useBackground = value;
-            }
-        }
-
+        
         static public int[,] Display
         {
             get { return display; }
             set
             {
                 display = value;
-            }
-        }
-
-        static public MainWindow Main
-        {
-            get { return main; }
-            set
-            {
-                main = value;
             }
         }
 
@@ -168,16 +156,16 @@ namespace LogitechGMineSweeper
             //Start Game If not Running
             if (!gameRunning)
             {
-                main.UpdateStats();
-                main.ResetWatch();
+                UpdateStatsEvent();
+                ResetWatchEvent();
                 NewGame();
             }
             //Restart Game if plus is pressed
             else if (i == 48)
             {
-                main.UpdateStats();
-                main.StopWatchDefeat();
-                main.ResetWatch();
+                UpdateStatsEvent();
+                StopWatchDefeatEvent();
+                ResetWatchEvent();
                 NewGame();
             }
             //Dont take key press if Flag is present
@@ -198,8 +186,8 @@ namespace LogitechGMineSweeper
                 }
 
                 //start timer on first move
-                main.UpdateStats();
-                main.StartWatch();
+                UpdateStatsEvent();
+                StartWatchEvent();
 
                 //add to total game counter
                 Config.fileConfig.Total += 1;
@@ -222,16 +210,15 @@ namespace LogitechGMineSweeper
             //event handler for newgame because it calls setflag wenn shift is pressed so you can restart with pressed shift
             if (i == 48)
             {
-                main.UpdateStats();
-                main.StopWatchDefeat();
-                main.ResetWatch();
+                UpdateStatsEvent();
+                StopWatchDefeatEvent();
+                ResetWatchEvent();
                 NewGame();
             }
             else if (!gameRunning)
             {
-                // If not a static method, this.MainWindow would work
-                main.UpdateStats();
-                main.ResetWatch();
+                UpdateStatsEvent();
+                ResetWatchEvent();
                 NewGame();
             }
             //take away flag if already present
@@ -523,7 +510,7 @@ namespace LogitechGMineSweeper
             UpdateBackground();
 
             //only print the in-app keyboard when the tab is selected
-            if (main._menuTabControl.SelectedIndex == 1 && main.WindowState != WindowState.Minimized && printDisplay)
+            if (KeyboardDisplayShown && printDisplay)
             {
                 PrintEvent();
             }
@@ -551,7 +538,7 @@ namespace LogitechGMineSweeper
             colorToByte(logiLED, (3 * 21 + 19) * 4, colors[6, 0], colors[6, 1], colors[6, 2]);
 
             //shift keys
-            if (useBackground)
+            if (Config.fileConfig.UseBackground)
             {
                 colorToByte(logiLED, (4 * 21 + 0) * 4, colors[9, 0], colors[9, 1], colors[9, 2]);
                 colorToByte(logiLED, (4 * 21 + 13) * 4, colors[9, 0], colors[9, 1], colors[9, 2]);
@@ -775,7 +762,7 @@ namespace LogitechGMineSweeper
 
         static private void GameOver()
         {
-            main.UpdateStats();
+            UpdateStatsEvent();
 
             //so you cant spam new game
             App.last = -1;
@@ -800,7 +787,7 @@ namespace LogitechGMineSweeper
 
             Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile.IncrementWins(bombs);
 
-            main.StopWatchVictory();
+            StopWatchVictoryEvent();
 
             GameState = (int)GameStateEnum.Victory;
 
@@ -813,7 +800,7 @@ namespace LogitechGMineSweeper
 
             Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile.IncrementLosses(bombs);
 
-            main.StopWatchDefeat();
+            StopWatchDefeatEvent();
 
             GameState = (int)GameStateEnum.Defeat;
 

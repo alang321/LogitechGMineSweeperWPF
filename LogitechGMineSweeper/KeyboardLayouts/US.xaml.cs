@@ -119,9 +119,9 @@ namespace LogitechGMineSweeper.KeyboardLayouts
                 }
             }
 
-            if (MineSweeper.UseBackground == true)
+            if (Config.fileConfig.UseBackground)
             {
-                ShiftL.Visibility = Visibility.Collapsed;
+                ShiftL.Visibility = Visibility.Hidden;
             }
             else
             {
