@@ -48,12 +48,8 @@ namespace LogitechGMineSweeper
         [STAThread]
         public static void Main()
         {
-            if (!LogitechGSDK.LogiLedInit()) Console.Write("Not connected to GSDK");
-
-            //Create or read in save files
-
-            Directory.CreateDirectory(Config.directory);
-
+            if (!LogitechGSDK.LogiLedInit()) Console.WriteLine("Not connected to GSDK");
+            
             try
             {
                 MineSweeper.UseBackground = Config.fileConfig.UseBackground;
@@ -100,7 +96,7 @@ namespace LogitechGMineSweeper
             if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
             {
                 int vkCode = Marshal.ReadInt32(lParam);
-            Debug.WriteLine("Key ID-Code: " + vkCode);
+                Debug.WriteLine("Key ID-Code: " + vkCode);
                 if (Config.KeyboardLayouts[MineSweeper.KeyboardLayout].KeyIds.Contains(vkCode))
                 {
                     if (Control.ModifierKeys == Keys.Shift)
@@ -199,16 +195,4 @@ namespace LogitechGMineSweeper
 
         #endregion
     }
-
-    #region One Instance
-    internal class NativeMethods
-    {
-        public const int HWND_BROADCAST = 0xffff;
-        public static readonly int WM_SHOWME = RegisterWindowMessage("WM_SHOWME");
-        [DllImport("user32")]
-        public static extern bool PostMessage(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam);
-        [DllImport("user32")]
-        public static extern int RegisterWindowMessage(string message);
-    }
-    #endregion
 }

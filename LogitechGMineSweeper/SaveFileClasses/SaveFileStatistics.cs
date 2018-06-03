@@ -23,6 +23,7 @@ namespace LogitechGMineSweeper
 
             if (!File.Exists(Path))
             {
+                Directory.CreateDirectory(Config.directory);
                 File.WriteAllLines(Path, Config.statisticsDefault);
             }
             else

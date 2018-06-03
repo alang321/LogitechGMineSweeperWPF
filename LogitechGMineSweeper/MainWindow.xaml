@@ -39,7 +39,7 @@
         </DockPanel>
 
 
-        <Button Name="settings" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,30,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click" Grid.ColumnSpan="2">
+        <Button Name="settings" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,30,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Settings" Grid.ColumnSpan="2">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Template" Value="{StaticResource navButtonActive}"/>
@@ -51,7 +51,7 @@
             </StackPanel>
         </Button>
 
-        <Button Name="colors" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,75,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click_1" Grid.ColumnSpan="2">
+        <Button Name="colors" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,75,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Colors" Grid.ColumnSpan="2">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Template" Value="{StaticResource navButton}"/>
@@ -63,7 +63,7 @@
             </StackPanel>
         </Button>
 
-        <Button Name="stats" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,120,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click_2" Grid.ColumnSpan="2">
+        <Button Name="stats" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,120,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Statistics" Grid.ColumnSpan="2">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Template" Value="{StaticResource navButton}"/>
@@ -75,7 +75,7 @@
             </StackPanel>
         </Button>
 
-        <Button Name="reset" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,165,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Button_Click_5" Grid.ColumnSpan="2">
+        <Button Name="reset" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,165,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Reset" Grid.ColumnSpan="2">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Template" Value="{StaticResource navButton}"/>
@@ -110,9 +110,9 @@
                         <Label HorizontalAlignment="Left" FontSize="14" Content="Keyboard-Layout:" Margin="20,174,0,120.8"/>
 
                         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="26,80,0,204.8" Height="27">
-                            <Button BorderThickness="2" FontSize="14" Content="Easy" Click="Button_Click_7" Height="27" Width="95"/>
-                            <Button BorderThickness="2" FontSize="14" Content="Medium" Click="Button_Click_8" Margin="19,0,0,0" Width="95"/>
-                            <Button BorderThickness="2" FontSize="14" Content="Hard" Margin="19,0,0,0" Width="95"  Click="Button_Click_9"/>
+                            <Button BorderThickness="2" FontSize="14" Content="Easy" Click="Click_Easy" Height="27" Width="95"/>
+                            <Button BorderThickness="2" FontSize="14" Content="Medium" Click="Click_Medium" Margin="19,0,0,0" Width="95"/>
+                            <Button BorderThickness="2" FontSize="14" Content="Hard" Margin="19,0,0,0" Width="95"  Click="Click_Hard"/>
                         </StackPanel>
 
                         <Label HorizontalAlignment="Left" FontWeight="DemiBold" VerticalAlignment="Top" Margin="0,139,0,0" Content="Change Keyboard-Layout" Height="32" FontSize="16"/>

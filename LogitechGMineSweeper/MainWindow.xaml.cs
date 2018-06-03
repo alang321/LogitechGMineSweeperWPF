@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 using System.IO;
 using System.Timers;
 using System.Diagnostics;
@@ -64,7 +65,7 @@ namespace LogitechGMineSweeper
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
-        public static System.Timers.Timer dispatcherTimer = new System.Timers.Timer();
+        public static DispatcherTimer dispatcherTimer = new DispatcherTimer();
         private static readonly Stopwatch timer = new Stopwatch();
 
         public MainWindow()
@@ -74,8 +75,8 @@ namespace LogitechGMineSweeper
             _menuTabControl.SelectedIndex = 0;
             MineSweeper.Main = App.Current.MainWindow as MainWindow;
 
-            dispatcherTimer.Elapsed += new ElapsedEventHandler(DispatcherTimer_Tick);
-            dispatcherTimer.Interval = 1000;
+            dispatcherTimer.Tick += DispatcherTimer_Tick;
+            dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
             dispatcherTimer.Stop();
             
             UpdateTimer();
@@ -168,7 +169,7 @@ namespace LogitechGMineSweeper
         {
             timer1.Foreground = new SolidColorBrush(Config.Victory);
             timer.Stop();
-            dispatcherTimer.Enabled = false;
+            dispatcherTimer.IsEnabled = false;
             UpdateTimer();
 
             int bestTime = Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile.GetBestTime(MineSweeper.Bombs);
@@ -186,38 +187,32 @@ namespace LogitechGMineSweeper
         {
             if (timer.Elapsed.TotalMilliseconds >= Config.maxTimerValue)
             {
-                MineSweeper.newGame();
+                MineSweeper.NewGame();
                 StopWatchDefeat();
                 ResetWatch();
             }
 
             // Updating the Label which displays the current second
             UpdateTimer();
-
-            // Forcing the CommandManager to raise the RequerySuggested event
-            CommandManager.InvalidateRequerySuggested();
         }
 
         private void UpdateTimer()
         {
-            App.Current.Dispatcher.Invoke((Action)delegate
-            {
-                timer1.Content = GetTimeString(timer.Elapsed);
-            });
+            timer1.Content = GetTimeString(timer.Elapsed);
         }
 
         public void StopWatchDefeat()
         {
             timer1.Foreground = new SolidColorBrush(Config.Defeat);
             timer.Stop();
-            dispatcherTimer.Enabled = false;
+            dispatcherTimer.IsEnabled = false;
         }
 
         public void StartWatch()
         {
             timer1.Foreground = new SolidColorBrush(Config.Default);
             timer.Reset();
-            dispatcherTimer.Enabled = true;
+            dispatcherTimer.IsEnabled = true;
             timer.Start();
         }
 
@@ -291,7 +286,8 @@ namespace LogitechGMineSweeper
             if (number < Config.minBombs) NUDTextBox.Text = Config.minBombs.ToString();
             NUDTextBox.SelectionStart = NUDTextBox.Text.Length;
             MineSweeper.Bombs = Convert.ToInt32(NUDTextBox.Text);
-            MineSweeper.newGame();
+            Config.fileConfig.Bombs = MineSweeper.Bombs;
+            MineSweeper.NewGame();
 
             StopWatchDefeat();
             ResetWatch();
@@ -342,12 +338,12 @@ namespace LogitechGMineSweeper
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Click_Settings(object sender, RoutedEventArgs e)
         {
             _menuTabControl.SelectedIndex = 0;
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void Click_Colors(object sender, RoutedEventArgs e)
         {
             _menuTabControl.SelectedIndex = 1;
 
@@ -360,12 +356,12 @@ namespace LogitechGMineSweeper
             UpdateDisplayEvent();
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        private void Click_Statistics(object sender, RoutedEventArgs e)
         {
             _menuTabControl.SelectedIndex = 2;
         }
 
-        private void Button_Click_5(object sender, RoutedEventArgs e)
+        private void Click_Reset(object sender, RoutedEventArgs e)
         {
             _menuTabControl.SelectedIndex = 3;
         }
@@ -397,7 +393,7 @@ namespace LogitechGMineSweeper
         {
             MineSweeper.KeyboardLayout = KeyLayout.SelectedIndex;
             Config.fileConfig.Layout = MineSweeper.KeyboardLayout;
-            MineSweeper.newGame();
+            MineSweeper.NewGame();
 
             StopWatchDefeat();
             ResetWatch();
@@ -408,17 +404,17 @@ namespace LogitechGMineSweeper
 
         #region button difficulties
         
-        private void Button_Click_7(object sender, RoutedEventArgs e)
+        private void Click_Easy(object sender, RoutedEventArgs e)
         {
             NUDTextBox.Text = Config.easy.ToString();
         }
 
-        private void Button_Click_8(object sender, RoutedEventArgs e)
+        private void Click_Medium(object sender, RoutedEventArgs e)
         {
             NUDTextBox.Text = Config.medium.ToString();
         }
 
-        private void Button_Click_9(object sender, RoutedEventArgs e)
+        private void Click_Hard(object sender, RoutedEventArgs e)
         {
             NUDTextBox.Text = Config.hard.ToString();
         }
@@ -450,7 +446,7 @@ namespace LogitechGMineSweeper
             {
                 ResetSettings();
 
-                MineSweeper.newGame();
+                MineSweeper.NewGame();
 
                 StopWatchDefeat();
                 ResetWatch();
@@ -476,7 +472,7 @@ namespace LogitechGMineSweeper
                 StopWatchDefeat();
                 ResetWatch();
 
-                MineSweeper.newGame();
+                MineSweeper.NewGame();
             }
         }
 
@@ -489,7 +485,7 @@ namespace LogitechGMineSweeper
                 ResetColors();
                 ResetSettings();
 
-                MineSweeper.newGame();
+                MineSweeper.NewGame();
 
                 StopWatchDefeat();
                 ResetWatch();

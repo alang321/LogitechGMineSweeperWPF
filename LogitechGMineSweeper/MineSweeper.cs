@@ -23,7 +23,7 @@ namespace LogitechGMineSweeper
         static int[,] map;
         static bool[,] isBomb;
         static bool[,] isFlag = new bool[14, 6];
-        static int[,] display;
+        private static int[,] display;
         static int bombs = 13;
         static bool gameRunning;
         static bool firstMove = true;
@@ -33,6 +33,8 @@ namespace LogitechGMineSweeper
         static bool useBackground = false;
         static Random r = new Random();
         static public int GameState { get; private set; } = 0;
+
+
 
         static int[] availeableBombField;
         static int availeableBombFieldCounter;
@@ -168,7 +170,7 @@ namespace LogitechGMineSweeper
             {
                 main.UpdateStats();
                 main.ResetWatch();
-                newGame();
+                NewGame();
             }
             //Restart Game if plus is pressed
             else if (i == 48)
@@ -176,11 +178,12 @@ namespace LogitechGMineSweeper
                 main.UpdateStats();
                 main.StopWatchDefeat();
                 main.ResetWatch();
-                newGame();
+                NewGame();
             }
             //Dont take key press if Flag is present
             else if (display[(i % 12) + 1, (i / 12) + 1] == 10)
             {
+                return;
             }
             else if (display[(i % 12) + 1, (i / 12) + 1] <= 6 && display[(i % 12) + 1, (i / 12) + 1] >= 0)
             {
@@ -222,14 +225,14 @@ namespace LogitechGMineSweeper
                 main.UpdateStats();
                 main.StopWatchDefeat();
                 main.ResetWatch();
-                newGame();
+                NewGame();
             }
             else if (!gameRunning)
             {
                 // If not a static method, this.MainWindow would work
                 main.UpdateStats();
                 main.ResetWatch();
-                newGame();
+                NewGame();
             }
             //take away flag if already present
             else if (display[(i % 12) + 1, (i / 12) + 1] == 10)
@@ -252,7 +255,7 @@ namespace LogitechGMineSweeper
 
         #region New Game and Bomb Generation
 
-        static public void newGame()
+        static public void NewGame()
         {
             GameState = (int)GameStateEnum.Default;
 
@@ -266,8 +269,8 @@ namespace LogitechGMineSweeper
             //so timer can be started when key i spressed and firstmove is true
             firstMove = true;
 
-            genBombs();
-            genMap();
+            GenBombs();
+            GenMap();
 
             isFlag = new bool[14, 6];
             flagged = 0;
@@ -287,10 +290,10 @@ namespace LogitechGMineSweeper
             availeableBombField[index] = availeableBombField[availeableBombFieldCounter];
 
             isBomb[x, y] = false;
-            genMap();
+            GenMap();
         }
 
-        static private void genBombs()
+        static private void GenBombs()
         {
             isBomb = new bool[14, 6];
             availeableBombField = new int[48];
@@ -339,7 +342,7 @@ namespace LogitechGMineSweeper
             }
         }
 
-        static private void genMap()
+        static private void GenMap()
         {
             map = new int[12, 4];
 
@@ -793,7 +796,7 @@ namespace LogitechGMineSweeper
 
         static private void Victory()
         {
-            Config.fileConfig.Wins += 1;
+            Config.fileConfig.Wins++;
 
             Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile.IncrementWins(bombs);
 
@@ -806,7 +809,7 @@ namespace LogitechGMineSweeper
 
         static private void Defeat()
         {
-            Config.fileConfig.Losses += 1;
+            Config.fileConfig.Losses++;
 
             Config.KeyboardLayouts[MineSweeper.KeyboardLayout].SaveFile.IncrementLosses(bombs);
 

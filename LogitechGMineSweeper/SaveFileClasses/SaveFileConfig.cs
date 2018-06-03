@@ -26,11 +26,19 @@ namespace LogitechGMineSweeper
 
             if (!File.Exists(Path))
             {
+                Directory.CreateDirectory(Config.directory);
                 ResetToDefault();
             }
             else
             {
-                InitValues();
+                try
+                {
+                    InitValues();
+                }
+                catch
+                {
+                    ResetToDefault();
+                }
             }
         }
         
@@ -132,7 +140,7 @@ namespace LogitechGMineSweeper
             {
                 useBackground = false;
             }
-            else if (b == "True")
+            else
             {
                 useBackground = true;
             }
@@ -160,6 +168,7 @@ namespace LogitechGMineSweeper
         public void ResetToDefault()
         {
             File.WriteAllLines(Path, Config.configDefault);
+            InitValues();
         }
     }
 }

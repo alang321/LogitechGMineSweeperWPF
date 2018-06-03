@@ -11,17 +11,42 @@ namespace LogitechGMineSweeper
     {
         public string Path { get; set; }
 
+        public byte[,] savedColors;
+
         public SaveFileColors(string saveFile, ref byte[,] colors)
         {
             this.Path = saveFile;
 
             if (!File.Exists(Path))
             {
-                File.WriteAllLines(Path, Config.colorsDefault);
+                Directory.CreateDirectory(Config.directory);
+                ResetToDefault(ref colors);
             }
             else
             {
-                colors = SavedColors;
+                try
+                {
+                    InitSavedColors();
+                    colors = SavedColors;
+                }
+                catch
+                {
+                    ResetToDefault(ref colors);
+                }
+            }
+        }
+        
+        private void InitSavedColors()
+        {
+            string[] colorsFile = File.ReadAllLines(Path);
+
+            savedColors = new byte[17, 3];
+
+            for (int i = 0; i < colorsFile.Length; i++)
+            {
+                savedColors[i, 0] = Convert.ToByte(colorsFile[i].Substring(0, 3));
+                savedColors[i, 1] = Convert.ToByte(colorsFile[i].Substring(4, 3));
+                savedColors[i, 2] = Convert.ToByte(colorsFile[i].Substring(8, 3));
             }
         }
 
@@ -29,24 +54,13 @@ namespace LogitechGMineSweeper
         {
             get
             {
-                string[] colorsFile = File.ReadAllLines(Path);
-
-                byte[,] colors = new byte[17, 3];
-
-                for (int i = 0; i < colorsFile.Length; i++)
-                {
-                    colors[i, 0] = Convert.ToByte(colorsFile[i].Substring(0, 3));
-                    colors[i, 1] = Convert.ToByte(colorsFile[i].Substring(4, 3));
-                    colors[i, 2] = Convert.ToByte(colorsFile[i].Substring(8, 3));
-                }
-
-                return colors;
+                return savedColors;
             }
             set
             {
                 byte[,] colors = value;
 
-                string[] colorsFile = File.ReadAllLines(Path);
+                string[] colorsFile = new string[17];
 
                 for(int i = 0; i < colorsFile.Length; i++)
                 {
@@ -60,6 +74,7 @@ namespace LogitechGMineSweeper
         public void ResetToDefault(ref byte[,] colors)
         {
             File.WriteAllLines(Path, Config.colorsDefault);
+            InitSavedColors();
             colors = SavedColors;
         }
     }
