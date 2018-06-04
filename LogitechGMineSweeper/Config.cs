@@ -16,7 +16,7 @@ namespace LogitechGMineSweeper
         public static int KeyboardLayoutDefaultIndex { get; } = (int)Config.Layout.DE;
         
         //whether the shift keys use the background color or have a spoecific one
-        public static bool UseBackgroundDefault { get; } = false;
+        public static bool UseBackgroundDefault { get; } = true;
 
         #endregion
 

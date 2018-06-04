@@ -425,7 +425,7 @@ namespace LogitechGMineSweeper
 
         #endregion
 
-        #region Update statistics
+        #region Update statistics display
 
         public void UpdateStats()
         {
@@ -499,31 +499,24 @@ namespace LogitechGMineSweeper
         private void ResetColors()
         {
             Config.MineSweeper.ColorsFile.ResetToDefault();
-
             Config.MineSweeper.Colors = Config.MineSweeper.ColorsFile.SavedColors;
-
             Config.MineSweeper.PrintLogiLED();
-
-            Config.MineSweeper.UseBackground = Config.UseBackgroundDefault;
 
             ResetColorsEvent();
         }
 
         private void ResetSettings()
         {
-            Config.MineSweeper.Bombs = Config.BombsDefault;
-            Config.MineSweeper.UseBackground = Config.UseBackgroundDefault;
+            Config.MineSweeper.Settings.ResetToDefault();
             KeyLayout.SelectedIndex = Config.KeyboardLayoutDefaultIndex;
-            NUDTextBox.Text = Config.BombsDefault.ToString();
+            NUDTextBox.Text = Config.MineSweeper.Bombs.ToString();
 
             UpdateStats();
         }
 
         private void ResetStatistics()
         {
-            Config.MineSweeper.Wins = 0;
-            Config.MineSweeper.Total = 0;
-            Config.MineSweeper.Losses = 0;
+            Config.MineSweeper.GlobalStats.ResetToDefault();
 
             foreach(KeyboardLayout layout in Config.KeyboardLayouts)
             {
