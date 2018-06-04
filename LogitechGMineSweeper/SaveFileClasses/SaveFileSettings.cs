@@ -96,21 +96,28 @@ namespace LogitechGMineSweeper
             {
                 useBackground = false;
             }
-            else
+            else if (b == "True")
             {
                 useBackground = true;
+            }
+            else
+            {
+                ResetToDefault();
+                return;
             }
             
             bombs = Convert.ToInt32(settingsFile[0].Substring("Bombs: ".Length));
             if(bombs < Config.MinBombs || bombs > Config.MaxBombs)
             {
                 ResetToDefault();
+                return;
             }
 
             layoutIndex = Convert.ToInt32(settingsFile[1].Substring("Layout: ".Length));
             if (layoutIndex < 0 || layoutIndex > Config.KeyboardLayouts.Length-1)
             {
                 ResetToDefault();
+                return;
             }
         }
 
