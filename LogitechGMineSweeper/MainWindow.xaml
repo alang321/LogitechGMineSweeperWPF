@@ -116,7 +116,7 @@
                         </StackPanel>
 
                         <Label HorizontalAlignment="Left" FontWeight="DemiBold" VerticalAlignment="Top" Margin="0,139,0,0" Content="Change Keyboard-Layout" Height="32" FontSize="16"/>
-                        <ComboBox VirtualizingPanel.ScrollUnit="Pixel" MaxDropDownHeight="100" HorizontalAlignment="Left" VerticalContentAlignment="Center" BorderThickness="2" FontSize="14" Name="KeyLayout" Margin="166,176,0,120.8" SelectionChanged="KeyLayout_SelectionChanged" Width="48">
+                        <ComboBox VirtualizingPanel.ScrollUnit="Pixel" MaxDropDownHeight="100" HorizontalAlignment="Left" VerticalContentAlignment="Center" BorderThickness="2" FontSize="14" Name="KeyLayout" Margin="148,176,0,120.8" SelectionChanged="KeyLayout_SelectionChanged" Width="48">
                         </ComboBox>
                     </Grid>
                 </Grid>
