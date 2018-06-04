@@ -110,7 +110,7 @@ namespace LogitechGMineSweeper
                                  65, 83, 68, 70, 71, 72, 74, 75, 76, 192, 222, 191,
                                 226, 89, 88, 67, 86, 66, 78, 77, 188, 190, 189, -1, /*Add Key*/ 107 },
                     //Keyboard Display Uri
-                    //new KeyboardLayouts.DE()
+                    //new LogitechGMineSweeper.KeyboardLayouts.DE(),
                     null,
                     (int)Layout.DE
                 ),
@@ -132,7 +132,7 @@ namespace LogitechGMineSweeper
                                  65, 83, 68, 70, 71, 72, 74, 75, 76, 186, 222, -1,
                                 -1, 90, 88, 67, 86, 66, 78, 77, 188, 190, 191, -1, /*Add Key*/ 107 },
                     //Keyboard Display Uri
-                    //new KeyboardLayouts.US()
+                    //new LogitechGMineSweeper.KeyboardLayouts.US(),
                     null,
                     (int)Layout.US
                 ),
@@ -154,7 +154,7 @@ namespace LogitechGMineSweeper
                                  65, 83, 68, 70, 71, 72, 74, 75, 76, 186, 192, 222,
                                 220, 90, 88, 67, 86, 66, 78, 77, 188, 190, 191, -1, /*Add Key*/ 107 },
                     //Keyboard Display Uri
-                    //new KeyboardLayouts.UK()
+                    //new LogitechGMineSweeper.KeyboardLayouts.UK(),
                     null,
                     (int)Layout.UK
                 ),
@@ -176,7 +176,7 @@ namespace LogitechGMineSweeper
                                  65, 83, 68, 70, 71, 72, 74, 75, 76, 192, 222, 191,
                                 226, 90, 88, 67, 86, 66, 78, 77, 188, 190, 189, -1, /*Add Key*/ 107 },
                     //Keyboard Display Uri
-                    //new KeyboardLayouts.UK()
+                    //new LogitechGMineSweeper.KeyboardLayouts.IT(),
                     null,
                     (int)Layout.IT
                 )
@@ -204,4 +204,3 @@ namespace LogitechGMineSweeper
         public static string[] ColorPickerTitles { get; } = { "0 Bombs", "1 Bomb", "2 Bombs", "3 Bombs", "4 Bombs", "5 Bombs", "6 Bombs", "Bomb Field", "Covered Field", "Offboard", "Flag", "New Game Key", "Defeat Background", "Victory Background", "Default Background", "Bomb Counter", "Shift Keys" };
     }
 }
-

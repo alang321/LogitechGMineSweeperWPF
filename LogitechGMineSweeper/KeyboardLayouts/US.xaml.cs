@@ -148,6 +148,15 @@ namespace LogitechGMineSweeper.KeyboardLayouts
             if (Config.MineSweeper.KeyboardLayout.Index == activeAtLayout)
             {
                 PrintBoard();
+
+                if (Config.MineSweeper.UseBackground)
+                {
+                    ShiftL.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    ShiftL.Visibility = Visibility.Visible;
+                }
             }
         }
 
