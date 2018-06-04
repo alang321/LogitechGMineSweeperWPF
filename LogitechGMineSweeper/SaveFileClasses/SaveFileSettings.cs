@@ -108,7 +108,7 @@ namespace LogitechGMineSweeper
             }
 
             layoutIndex = Convert.ToInt32(settingsFile[1].Substring("Layout: ".Length));
-            if (layoutIndex < 0 || layoutIndex > Config.KeyboardLayouts.Length)
+            if (layoutIndex < 0 || layoutIndex > Config.KeyboardLayouts.Length-1)
             {
                 ResetToDefault();
             }
