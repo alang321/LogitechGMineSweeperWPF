@@ -97,7 +97,7 @@ namespace LogitechGMineSweeper
 
             timer1.Foreground = new SolidColorBrush(Config.Default);
 
-            SaveFileStatitics.PrintStatsEvent += new SaveFileStatitics.PrintStatsEventHandler(PrintStatsEvent);
+            SaveFileStatitics.PrintStatsEvent += new SaveFileStatitics.PrintStatsEventHandler(UpdateStats);
             MineSweeper.ResetWatchEvent += new MineSweeper.ResetWatchEventHandler(ResetWatch);
             MineSweeper.StopWatchDefeatEvent += new MineSweeper.StopWatchDefeatEventHandler(StopWatchDefeat);
             MineSweeper.StopWatchVictoryEvent += new MineSweeper.StopWatchVictoryEventHandler(StopWatchVictory);
@@ -262,7 +262,7 @@ namespace LogitechGMineSweeper
 
         #endregion
 
-        #region Numeric Up-Down
+        #region Numeric Up-Down - Bomb Setting
 
         private void NUDButtonUP_Click(object sender, RoutedEventArgs e)
         {
@@ -393,6 +393,10 @@ namespace LogitechGMineSweeper
             colors.Style = styleClone;
         }
 
+        #endregion
+
+        #region selected keylayout changed
+
         private void KeyLayout_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Config.MineSweeper.KeyboardLayout = Config.KeyboardLayouts[KeyLayout.SelectedIndex];
@@ -407,7 +411,7 @@ namespace LogitechGMineSweeper
         #endregion
 
         #region button difficulties
-        
+
         private void Click_Easy(object sender, RoutedEventArgs e)
         {
             NUDTextBox.Text = Config.Easy.ToString();
@@ -665,15 +669,6 @@ namespace LogitechGMineSweeper
         }
 
         #endregion
-
-        #endregion
-
-        #region misc
-
-        public void PrintStatsEvent()
-        {
-            UpdateStats();
-        }
 
         #endregion
     }
