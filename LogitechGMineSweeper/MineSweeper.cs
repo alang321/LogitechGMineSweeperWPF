@@ -1,20 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
-using System.IO;
-using System.Windows;
-using System.Windows.Media;
 using System.Diagnostics;
-using System.Windows.Controls;
 
 namespace LogitechGMineSweeper
 {
     class MineSweeper
     {
-
         #region Variables Constructor and Properties
 
         public enum GameStateEnum { Default, Victory, Defeat }
@@ -24,7 +14,7 @@ namespace LogitechGMineSweeper
             this.ColorsFile = ColorsFile;
             this.Colors = ColorsFile.SavedColors;
             this.Settings = settings;
-            KeyboardLayout = keyLayout;
+            this.KeyboardLayout = keyLayout;
             this.GlobalStats = globalStats;
 
             NewGame();
@@ -52,7 +42,7 @@ namespace LogitechGMineSweeper
         KeyboardLayout keyboardLayout;
 
         int[,] map;
-        bool[,] isBomb;
+        bool[,] isBomb = new bool[14, 6];
         bool[,] isFlag = new bool[14, 6];
         int[,] display;
         bool gameRunning;
@@ -64,9 +54,6 @@ namespace LogitechGMineSweeper
 
         int[] availeableBombField;
         int availeableBombFieldCounter;
-
-        //covered key count for current layout
-        int coveredReset;
 
         int covered;
         int flagged = 0;
@@ -156,18 +143,7 @@ namespace LogitechGMineSweeper
             set
             {
                 keyboardLayout = value;
-
                 Settings.LayoutIndex = keyboardLayout.Index;
-
-                coveredReset = 0;
-
-                for (int i = 0; i < keyboardLayout.EnabledKeys.GetLength(0); i++)
-                {
-                    for (int j = 0; j < keyboardLayout.EnabledKeys.GetLength(1); j++)
-                    {
-                        if (keyboardLayout.EnabledKeys[i,j]) coveredReset++;
-                    }
-                }
             }
         }
 
@@ -206,10 +182,7 @@ namespace LogitechGMineSweeper
             //dont Uncover bomb on first move
             else if (firstMove)
             {
-                if (isBomb[(i % 12) + 1, (i / 12) + 1])
-                {
-                    MoveBomb((i % 12) + 1, (i / 12) + 1);
-                }
+                GenBombs(i / 12, i % 12);
 
                 //start timer on first move
                 UpdateStatsEvent();
@@ -277,13 +250,10 @@ namespace LogitechGMineSweeper
 
             ResetDisplay();
 
-            covered = coveredReset;
+            covered = keyboardLayout.CoveredFields;
 
             //so timer can be started when key i spressed and firstmove is true
             firstMove = true;
-
-            GenBombs();
-            GenMap();
 
             isFlag = new bool[14, 6];
             flagged = 0;
@@ -295,28 +265,17 @@ namespace LogitechGMineSweeper
             PrintLogiLED();
         }
 
-        private void MoveBomb(int x, int y)
-        {
-            int index = r.Next(0, availeableBombFieldCounter);
-            isBomb[(availeableBombField[index] % 12) + 1, (availeableBombField[index] / 12) + 1] = true;
-            availeableBombFieldCounter--;
-            availeableBombField[index] = availeableBombField[availeableBombFieldCounter];
-
-            isBomb[x, y] = false;
-            GenMap();
-        }
-
-        private void GenBombs()
+        private void GenBombs(int x, int y)
         {
             isBomb = new bool[14, 6];
             availeableBombField = new int[48];
             availeableBombFieldCounter = 0;
 
-            for(int i = 0; i < keyboardLayout.EnabledKeys.GetLength(0); i++)
+            for (int i = 0; i < keyboardLayout.EnabledKeys.GetLength(0); i++)
             {
                 for (int j = 0; j < keyboardLayout.EnabledKeys.GetLength(1); j++)
                 {
-                    if (keyboardLayout.EnabledKeys[i, j]) availeableBombField[availeableBombFieldCounter++] = i * keyboardLayout.EnabledKeys.GetLength(1) + j;
+                    if ((i != x || j != y) && keyboardLayout.EnabledKeys[i, j]) availeableBombField[availeableBombFieldCounter++] = i * keyboardLayout.EnabledKeys.GetLength(1) + j;
                 }
             }
 
@@ -327,6 +286,8 @@ namespace LogitechGMineSweeper
                 availeableBombFieldCounter--;
                 availeableBombField[index] = availeableBombField[availeableBombFieldCounter];
             }
+
+            GenMap();
         }
 
         private void ResetDisplay()
@@ -540,7 +501,7 @@ namespace LogitechGMineSweeper
             {
                 PrintEvent();
             }
-
+            
             Debug.WriteLine(PrintBombs());
 
             //for actually printing the board

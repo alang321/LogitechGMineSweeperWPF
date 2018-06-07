@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
-using System.IO;
-using System.Timers;
 using System.Diagnostics;
 using System.Linq;
-using System.Windows.Navigation;
 
 namespace LogitechGMineSweeper
 {
@@ -414,17 +410,17 @@ namespace LogitechGMineSweeper
 
         private void Click_Easy(object sender, RoutedEventArgs e)
         {
-            NUDTextBox.Text = Config.Easy.ToString();
+            NUDTextBox.Text = Config.MineSweeper.KeyboardLayout.Easy.ToString();
         }
 
         private void Click_Medium(object sender, RoutedEventArgs e)
         {
-            NUDTextBox.Text = Config.Medium.ToString();
+            NUDTextBox.Text = Config.MineSweeper.KeyboardLayout.Medium.ToString();
         }
 
         private void Click_Hard(object sender, RoutedEventArgs e)
         {
-            NUDTextBox.Text = Config.Hard.ToString();
+            NUDTextBox.Text = Config.MineSweeper.KeyboardLayout.Hard.ToString();
         }
 
         #endregion

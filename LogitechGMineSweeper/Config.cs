@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace LogitechGMineSweeper
@@ -58,10 +54,6 @@ namespace LogitechGMineSweeper
 
         #region Bomb count values
 
-        public static int Hard { get; } = 14;
-        public static int Medium { get; } = 10;
-        public static int Easy { get; } = 7;
-
         //values between 0-44 and maxbombs bigger than minbombs
         public static int MaxBombs { get; } = 40;
         public static int MinBombs { get; } = 3;
@@ -112,7 +104,12 @@ namespace LogitechGMineSweeper
                     //Keyboard Display Uri
                     //new LogitechGMineSweeper.KeyboardLayouts.DE(),
                     null,
-                    (int)Layout.DE
+                    //easy
+                    7,
+                    //medium
+                    10,
+                    //hard
+                    14
                 ),
             //US
             new KeyboardLayout
@@ -134,7 +131,12 @@ namespace LogitechGMineSweeper
                     //Keyboard Display Uri
                     //new LogitechGMineSweeper.KeyboardLayouts.US(),
                     null,
-                    (int)Layout.US
+                    //easy
+                    7,
+                    //medium
+                    10,
+                    //hard
+                    14
                 ),
             //UK
             new KeyboardLayout
@@ -156,7 +158,12 @@ namespace LogitechGMineSweeper
                     //Keyboard Display Uri
                     //new LogitechGMineSweeper.KeyboardLayouts.UK(),
                     null,
-                    (int)Layout.UK
+                    //easy
+                    7,
+                    //medium
+                    10,
+                    //hard
+                    14
                 ),
             //ITA
             new KeyboardLayout
@@ -178,7 +185,12 @@ namespace LogitechGMineSweeper
                     //Keyboard Display Uri
                     //new LogitechGMineSweeper.KeyboardLayouts.IT(),
                     null,
-                    (int)Layout.IT
+                    //easy
+                    7,
+                    //medium
+                    10,
+                    //hard
+                    14
                 )
         };
 
