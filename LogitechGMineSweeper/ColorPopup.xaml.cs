@@ -54,7 +54,7 @@ namespace LogitechGMineSweeper
                 }
             }
 
-            Config.MineSweeper.PrintLogiLED(false);
+            Config.MineSweeper.PrintLogiLED(false, false);
         }
         #endregion
         

@@ -56,10 +56,11 @@ namespace LogitechGMineSweeper.KeyboardLayouts
             Style style12 = Application.Current.FindResource("buttonColor12") as Style;
             Style style13 = Application.Current.FindResource("buttonColor13") as Style;
             Style style14 = Application.Current.FindResource("buttonColor14") as Style;
+            Style style15 = Application.Current.FindResource("buttonColor15") as Style;
             Style enterStyle12 = Application.Current.FindResource("Enter12") as Style;
             Style enterStyle13 = Application.Current.FindResource("Enter13") as Style;
             Style enterStyle14 = Application.Current.FindResource("Enter14") as Style;
-            styles = new Style[] { style0, style1, style2, style3, style4, style5, style6, style7, style8, style9, style10, null, style12, style13, style14, enterStyle12, enterStyle13, enterStyle14 };
+            styles = new Style[] { style0, style1, style2, style3, style4, style5, style6, style7, style8, style9, style10, null, style12, style13, style14, style15, enterStyle12, enterStyle13, enterStyle14 };
 
             InitDisplay();
         }
@@ -200,13 +201,13 @@ namespace LogitechGMineSweeper.KeyboardLayouts
             switch (Config.MineSweeper.GameState)
             {
                 case (int)MineSweeper.GameStateEnum.Default:
-                    ColorPopupCreator(14);
+                    ColorPopupCreator((int)MineSweeper.MapEnum.BackgroundDefault);
                     break;
                 case (int)MineSweeper.GameStateEnum.Victory:
-                    ColorPopupCreator(13);
+                    ColorPopupCreator((int)MineSweeper.MapEnum.BackgroundVictory);
                     break;
                 case (int)MineSweeper.GameStateEnum.Defeat:
-                    ColorPopupCreator(12);
+                    ColorPopupCreator((int)MineSweeper.MapEnum.BackgroundDefeat);
                     break;
             }
         }
@@ -222,13 +223,13 @@ namespace LogitechGMineSweeper.KeyboardLayouts
                 switch (Config.MineSweeper.GameState)
                 {
                     case (int)MineSweeper.GameStateEnum.Default:
-                        index = 14;
+                        ColorPopupCreator((int)MineSweeper.MapEnum.BackgroundDefault);
                         break;
                     case (int)MineSweeper.GameStateEnum.Victory:
-                        index = 13;
+                        ColorPopupCreator((int)MineSweeper.MapEnum.BackgroundVictory);
                         break;
                     case (int)MineSweeper.GameStateEnum.Defeat:
-                        index = 12;
+                        ColorPopupCreator((int)MineSweeper.MapEnum.BackgroundDefeat);
                         break;
                 }
             }
@@ -266,16 +267,16 @@ namespace LogitechGMineSweeper.KeyboardLayouts
             switch (Config.MineSweeper.GameState)
             {
                 case (int)MineSweeper.GameStateEnum.Default:
-                    esc.Style = styles[14];
-                    enter.Style = styles[17];
+                    esc.Style = styles[(int)MineSweeper.MapEnum.BackgroundDefault];
+                    enter.Style = styles[(int)MineSweeper.MapEnum.BackgroundDefault + 4];
                     break;
                 case (int)MineSweeper.GameStateEnum.Victory:
-                    esc.Style = styles[13];
-                    enter.Style = styles[16];
+                    esc.Style = styles[(int)MineSweeper.MapEnum.BackgroundVictory];
+                    enter.Style = styles[(int)MineSweeper.MapEnum.BackgroundVictory + 4];
                     break;
                 case (int)MineSweeper.GameStateEnum.Defeat:
-                    esc.Style = styles[12];
-                    enter.Style = styles[15];
+                    esc.Style = styles[(int)MineSweeper.MapEnum.BackgroundDefeat];
+                    enter.Style = styles[(int)MineSweeper.MapEnum.BackgroundDefeat + 4];
                     break;
             }
 
@@ -285,18 +286,18 @@ namespace LogitechGMineSweeper.KeyboardLayouts
             {
                 for (int j = 1; j <= 12; j++)
                 {
-                    if (Config.MineSweeper.Display[j, i] == 9)
+                    if (Config.MineSweeper.Display[j, i] == (int)MineSweeper.MapEnum.BackgroundPlaceholder)
                     {
                         switch (Config.MineSweeper.GameState)
                         {
                             case (int)MineSweeper.GameStateEnum.Default:
-                                board[counter++].Style = styles[14];
+                                board[counter++].Style = styles[(int)MineSweeper.MapEnum.BackgroundDefault];
                                 break;
                             case (int)MineSweeper.GameStateEnum.Victory:
-                                board[counter++].Style = styles[13];
+                                board[counter++].Style = styles[(int)MineSweeper.MapEnum.BackgroundVictory];
                                 break;
                             case (int)MineSweeper.GameStateEnum.Defeat:
-                                board[counter++].Style = styles[12];
+                                board[counter++].Style = styles[(int)MineSweeper.MapEnum.BackgroundDefeat];
                                 break;
                         }
                     }
@@ -307,25 +308,9 @@ namespace LogitechGMineSweeper.KeyboardLayouts
                 }
             }
 
-            if (Config.MineSweeper.GameState == (int)MineSweeper.GameStateEnum.Default)
+            for (int i = 0; i < 12; i++)
             {
-                foreach (Button a in function)
-                {
-                    a.Visibility = Visibility.Collapsed;
-                }
-
-                for (int i = 0; i < Config.MineSweeper.Bombs - Config.MineSweeper.Flagged; i++)
-                {
-                    if (i >= 12) break;
-                    function[i].Visibility = Visibility.Visible;
-                }
-            }
-            else
-            {
-                foreach (Button a in function)
-                {
-                    a.Visibility = Visibility.Collapsed;
-                }
+                function[i].Style = styles[Config.MineSweeper.Display[i + 1, 0]];
             }
         }
 

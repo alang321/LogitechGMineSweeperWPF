@@ -65,7 +65,7 @@ namespace LogitechGMineSweeper
         #region TextColor 
 
         //for which colors foreground is important everything but background colors because they dont have text over them, if not in this array color is set to transparent
-        public static int[] ForegroundColorImportant { get; } = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 15, 16 };
+        public static int[] ForegroundColorImportant { get; } = { (int)MineSweeper.MapEnum.Sourrounding0, (int)MineSweeper.MapEnum.Sourrounding1, (int)MineSweeper.MapEnum.Sourrounding2, (int)MineSweeper.MapEnum.Sourrounding3, (int)MineSweeper.MapEnum.Sourrounding4, (int)MineSweeper.MapEnum.Sourrounding5, (int)MineSweeper.MapEnum.Sourrounding6, (int)MineSweeper.MapEnum.Mine, (int)MineSweeper.MapEnum.Covered, (int)MineSweeper.MapEnum.Flag, (int)MineSweeper.MapEnum.NewGame, (int)MineSweeper.MapEnum.Counter, (int)MineSweeper.MapEnum.Shift};
 
         //Threshold for when the foreground color is white and black, when total rgb color is below this value foreground color is white else its black
         public static int ForegroundThreshold { get; set; } = 270;
