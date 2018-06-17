@@ -84,7 +84,7 @@
                     <Button.Content>
                         <Grid>
                             <Label Foreground="{Binding Foreground, ElementName=p11}" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Content="`" Width="43" Height="32" Margin="0,-1,0.2,13"/>
-                            <Label Foreground="{Binding Foreground, ElementName=p11}" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" Content="'" Width="43" Height="21" Margin="0,25,0.2,-2"/>
+                            <Label Foreground="{Binding Foreground, ElementName=p11}" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" Content="´" Width="43" Height="24" Margin="0,22,0,-2"/>
                         </Grid>
                     </Button.Content>
                 </Button>

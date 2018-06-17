@@ -200,13 +200,13 @@ namespace LogitechGMineSweeper.KeyboardLayouts
         {
             switch (Config.MineSweeper.GameState)
             {
-                case (int)MineSweeper.GameStateEnum.Default:
+                case MineSweeper.GameStateEnum.Default:
                     ColorPopupCreator((int)MineSweeper.MapEnum.BackgroundDefault);
                     break;
-                case (int)MineSweeper.GameStateEnum.Victory:
+                case MineSweeper.GameStateEnum.Victory:
                     ColorPopupCreator((int)MineSweeper.MapEnum.BackgroundVictory);
                     break;
-                case (int)MineSweeper.GameStateEnum.Defeat:
+                case MineSweeper.GameStateEnum.Defeat:
                     ColorPopupCreator((int)MineSweeper.MapEnum.BackgroundDefeat);
                     break;
             }
@@ -222,13 +222,13 @@ namespace LogitechGMineSweeper.KeyboardLayouts
             {
                 switch (Config.MineSweeper.GameState)
                 {
-                    case (int)MineSweeper.GameStateEnum.Default:
+                    case MineSweeper.GameStateEnum.Default:
                         ColorPopupCreator((int)MineSweeper.MapEnum.BackgroundDefault);
                         break;
-                    case (int)MineSweeper.GameStateEnum.Victory:
+                    case MineSweeper.GameStateEnum.Victory:
                         ColorPopupCreator((int)MineSweeper.MapEnum.BackgroundVictory);
                         break;
-                    case (int)MineSweeper.GameStateEnum.Defeat:
+                    case MineSweeper.GameStateEnum.Defeat:
                         ColorPopupCreator((int)MineSweeper.MapEnum.BackgroundDefeat);
                         break;
                 }
@@ -239,7 +239,7 @@ namespace LogitechGMineSweeper.KeyboardLayouts
 
         private void ClickNewGame(object sender, RoutedEventArgs e)
         {
-            ColorPopupCreator(11);
+            ColorPopupCreator((int)MineSweeper.MapEnum.NewGame);
         }
 
         private void ClickKey(object sender, RoutedEventArgs e)
@@ -250,12 +250,12 @@ namespace LogitechGMineSweeper.KeyboardLayouts
 
         private void ClickCount(object sender, RoutedEventArgs e)
         {
-            ColorPopupCreator(15);
+            ColorPopupCreator((int)MineSweeper.MapEnum.Counter);
         }
 
         private void ClickFlagMod(object sender, RoutedEventArgs e)
         {
-            ColorPopupCreator(16);
+            ColorPopupCreator((int)MineSweeper.MapEnum.Shift);
         }
 
         #endregion
@@ -266,15 +266,15 @@ namespace LogitechGMineSweeper.KeyboardLayouts
         {
             switch (Config.MineSweeper.GameState)
             {
-                case (int)MineSweeper.GameStateEnum.Default:
+                case MineSweeper.GameStateEnum.Default:
                     esc.Style = styles[(int)MineSweeper.MapEnum.BackgroundDefault];
                     enter.Style = styles[(int)MineSweeper.MapEnum.BackgroundDefault + 4];
                     break;
-                case (int)MineSweeper.GameStateEnum.Victory:
+                case MineSweeper.GameStateEnum.Victory:
                     esc.Style = styles[(int)MineSweeper.MapEnum.BackgroundVictory];
                     enter.Style = styles[(int)MineSweeper.MapEnum.BackgroundVictory + 4];
                     break;
-                case (int)MineSweeper.GameStateEnum.Defeat:
+                case MineSweeper.GameStateEnum.Defeat:
                     esc.Style = styles[(int)MineSweeper.MapEnum.BackgroundDefeat];
                     enter.Style = styles[(int)MineSweeper.MapEnum.BackgroundDefeat + 4];
                     break;
@@ -290,13 +290,13 @@ namespace LogitechGMineSweeper.KeyboardLayouts
                     {
                         switch (Config.MineSweeper.GameState)
                         {
-                            case (int)MineSweeper.GameStateEnum.Default:
+                            case MineSweeper.GameStateEnum.Default:
                                 board[counter++].Style = styles[(int)MineSweeper.MapEnum.BackgroundDefault];
                                 break;
-                            case (int)MineSweeper.GameStateEnum.Victory:
+                            case MineSweeper.GameStateEnum.Victory:
                                 board[counter++].Style = styles[(int)MineSweeper.MapEnum.BackgroundVictory];
                                 break;
-                            case (int)MineSweeper.GameStateEnum.Defeat:
+                            case MineSweeper.GameStateEnum.Defeat:
                                 board[counter++].Style = styles[(int)MineSweeper.MapEnum.BackgroundDefeat];
                                 break;
                         }
@@ -310,7 +310,8 @@ namespace LogitechGMineSweeper.KeyboardLayouts
 
             for (int i = 0; i < 12; i++)
             {
-                function[i].Style = styles[Config.MineSweeper.Display[i + 1, 0]];
+                if (Config.MineSweeper.Display[i + 1, 0] == (int)MineSweeper.MapEnum.Counter) function[i].Visibility = Visibility.Visible;
+                else function[i].Visibility = Visibility.Hidden;
             }
         }
 

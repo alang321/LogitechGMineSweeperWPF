@@ -567,85 +567,85 @@ namespace LogitechGMineSweeper
 
         private void One_Click(object sender, RoutedEventArgs e)
         {
-            ColorPopupCreator(1);
+            ColorPopupCreator((int)MineSweeper.MapEnum.Sourrounding1);
         }
 
         private void Two_Click(object sender, RoutedEventArgs e)
         {
-            ColorPopupCreator(2);
+            ColorPopupCreator((int)MineSweeper.MapEnum.Sourrounding2);
         }
 
         private void Three_Click(object sender, RoutedEventArgs e)
         {
-            ColorPopupCreator(3);
+            ColorPopupCreator((int)MineSweeper.MapEnum.Sourrounding3);
         }
 
         private void Four_Click(object sender, RoutedEventArgs e)
         {
-            ColorPopupCreator(4);
+            ColorPopupCreator((int)MineSweeper.MapEnum.Sourrounding4);
         }
 
         private void Five_Click(object sender, RoutedEventArgs e)
         {
-            ColorPopupCreator(5);
+            ColorPopupCreator((int)MineSweeper.MapEnum.Sourrounding5);
         }
 
         private void Six_Click(object sender, RoutedEventArgs e)
         {
-            ColorPopupCreator(6);
+            ColorPopupCreator((int)MineSweeper.MapEnum.Sourrounding6);
         }
 
         private void Zero_Click(object sender, RoutedEventArgs e)
         {
-            ColorPopupCreator(0);
+            ColorPopupCreator((int)MineSweeper.MapEnum.Sourrounding0);
         }
 
         private void Flag_Click(object sender, RoutedEventArgs e)
         {
-            ColorPopupCreator(10);
+            ColorPopupCreator((int)MineSweeper.MapEnum.Flag);
         }
 
         private void Bomb_Click(object sender, RoutedEventArgs e)
         {
-            ColorPopupCreator(7);
+            ColorPopupCreator((int)MineSweeper.MapEnum.Mine);
         }
 
         private void Covered_Click(object sender, RoutedEventArgs e)
         {
-            ColorPopupCreator(8);
+            ColorPopupCreator((int)MineSweeper.MapEnum.Covered);
         }
 
         private void New_Click(object sender, RoutedEventArgs e)
         {
-            ColorPopupCreator(11);
+            ColorPopupCreator((int)MineSweeper.MapEnum.NewGame);
         }
 
         private void Default_Click(object sender, RoutedEventArgs e)
         {
-            ColorPopupCreator(14);
+            ColorPopupCreator((int)MineSweeper.MapEnum.BackgroundDefault);
         }
 
         private void Victory_Click(object sender, RoutedEventArgs e)
         {
-            ColorPopupCreator(13);
+            ColorPopupCreator((int)MineSweeper.MapEnum.BackgroundVictory);
         }
 
         private void Defeat_Click(object sender, RoutedEventArgs e)
         {
-            ColorPopupCreator(12);
+            ColorPopupCreator((int)MineSweeper.MapEnum.BackgroundDefeat);
         }
         
         private void ShiftFlag_Click(object sender, RoutedEventArgs e)
         {
             if (!(bool)FlagUseBackground.IsChecked)
             {
-                ColorPopupCreator(16);
+                ColorPopupCreator((int)MineSweeper.MapEnum.Shift);
             }
         }
 
         private void Counter_Click(object sender, RoutedEventArgs e)
         {
-            ColorPopupCreator(15);
+            ColorPopupCreator((int)MineSweeper.MapEnum.Counter);
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
