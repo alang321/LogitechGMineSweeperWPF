@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace LogitechGMineSweeper
 {
@@ -57,6 +60,8 @@ namespace LogitechGMineSweeper
         int covered;
         //whether the background is set, introduces flashing so not used
         public bool SetLogiLogo { get; set; }
+        //key id of last pressed key
+        static int last = -1;
 
         //Variabled for generating mines
         Random r = new Random();
@@ -68,12 +73,18 @@ namespace LogitechGMineSweeper
 
         public MineSweeper(SaveFileSettings settings, SaveFileGlobalStatistics globalStats, KeyboardLayout keyLayout, SaveFileColors ColorsFile, bool setLogiLogo)
         {
+            _hookID = SetHook(_proc);
             this.ColorsFile = ColorsFile;
             this.Colors = ColorsFile.SavedColors;
             this.Settings = settings;
             this.GlobalStats = globalStats;
             this.SetLogiLogo = setLogiLogo;
             this.KeyboardLayout = keyLayout;
+        }
+
+        ~MineSweeper()
+        {
+            UnhookWindowsHookEx(_hookID);
         }
 
         public int Bombs
@@ -160,6 +171,82 @@ namespace LogitechGMineSweeper
 
         #endregion
 
+        #region Get Keypress
+
+        private const int WH_KEYBOARD_LL = 13;
+        private const int WM_KEYDOWN = 0x0100;
+        private static LowLevelKeyboardProc _proc = HookCallback;
+        private static IntPtr _hookID = IntPtr.Zero;
+
+        private IntPtr SetHook(LowLevelKeyboardProc proc)
+        {
+            using (Process curProcess = Process.GetCurrentProcess())
+            using (ProcessModule curModule = curProcess.MainModule)
+            {
+                return SetWindowsHookEx(WH_KEYBOARD_LL, proc,
+                    GetModuleHandle(curModule.ModuleName), 0);
+            }
+        }
+
+        private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
+
+        private static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
+        {
+            MainWindow mainWnd = System.Windows.Application.Current.MainWindow as MainWindow;
+            if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
+            {
+                int vkCode = Marshal.ReadInt32(lParam);
+                Debug.WriteLine("Key ID-Code: " + vkCode);
+                if (mainWnd.MineSweeper.KeyboardLayout.KeyIds.Contains(vkCode))
+                {
+                    if (Control.ModifierKeys == Keys.Shift)
+                    {
+                        if (last != 107 && vkCode == 107) mainWnd.MineSweeper.KeyPressed(48);
+                        else if (vkCode != 107)
+                        {
+                            mainWnd.MineSweeper.SetFlag(Array.IndexOf(mainWnd.MineSweeper.KeyboardLayout.KeyIds, vkCode));
+                            last = -1;
+                        }
+                    }
+                    else if (last != vkCode)
+                    {
+                        last = vkCode;
+                        mainWnd.MineSweeper.KeyPressed(Array.IndexOf(mainWnd.MineSweeper.KeyboardLayout.KeyIds, vkCode));
+                    }
+                    else
+                    {
+                        Debug.WriteLine("REJECTED: Double Press - Key ID-Code: " + vkCode);
+                    }
+                }
+            }
+            return CallNextHookEx(_hookID, nCode, wParam, lParam);
+        }
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern IntPtr SetWindowsHookEx(int idHook,
+            LowLevelKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool UnhookWindowsHookEx(IntPtr hhk);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode,
+            IntPtr wParam, IntPtr lParam);
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern IntPtr GetModuleHandle(string lpModuleName);
+
+        [DllImport("kernel32.dll")]
+        static extern IntPtr GetConsoleWindow();
+
+        [DllImport("user32.dll")]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        const int SW_HIDE = 0;
+
+        #endregion
+
         #region Key Pressed
 
         //Handler for Key presses, gest passed number corresponding to field, from the intercept keys class
@@ -220,7 +307,7 @@ namespace LogitechGMineSweeper
             UpdateTimerEvent?.Invoke(new UpdateTimerEventArgs((int)TimerStateEnum.resetButNotStarted));
 
             //so you cant start right after new game
-            App.last = 107;
+            last = 107;
 
             ResetDisplay();
 
@@ -597,7 +684,7 @@ namespace LogitechGMineSweeper
             {
                 Display[x + 1, y + 1] = m;
 
-                App.last = -1;
+                last = -1;
 
                 if (--covered <= Bombs)
                 {
@@ -740,7 +827,7 @@ namespace LogitechGMineSweeper
             StatsChangedEvent?.Invoke();
 
             //so you cant spam new game
-            App.last = -1;
+            last = -1;
 
             //uncover all mines
             for (int i = 0; i < isBomb.GetLength(0); i++)
