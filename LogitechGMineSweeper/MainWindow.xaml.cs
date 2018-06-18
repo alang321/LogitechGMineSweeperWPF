@@ -161,7 +161,6 @@ namespace LogitechGMineSweeper
             {
                 return string.Format("{0:D2}:{1:D2}:{2:D2}", t.Hours, t.Minutes, t.Seconds);
             }
-
         }
 
         private void DispatcherTimer_Tick(object sender, EventArgs e)
@@ -172,7 +171,7 @@ namespace LogitechGMineSweeper
             }
 
             // Updating the Label which displays the current second
-            UpdateTimer();
+            UpdateTimerText();
         }
 
         public void UpdateTimer(UpdateTimerEventArgs TimerState)
@@ -182,33 +181,33 @@ namespace LogitechGMineSweeper
                 case (int)MineSweeper.TimerStateEnum.started:
                     TimerDisplay.Foreground = new SolidColorBrush(Config.Default);
                     dispatcherTimer.IsEnabled = true;
-                    UpdateTimer();
+                    UpdateTimerText();
                     break;
                 case (int)MineSweeper.TimerStateEnum.resetButNotStarted:
                     TimerDisplay.Foreground = new SolidColorBrush(Config.Default);
                     dispatcherTimer.IsEnabled = false;
-                    UpdateTimer();
+                    UpdateTimerText();
                     break;
                 case (int)MineSweeper.TimerStateEnum.stoppedDefeat:
                     TimerDisplay.Foreground = new SolidColorBrush(Config.Defeat);
                     dispatcherTimer.IsEnabled = false;
-                    UpdateTimer();
+                    UpdateTimerText();
                     break;
                 case (int)MineSweeper.TimerStateEnum.stoppedVictory:
                     TimerDisplay.Foreground = new SolidColorBrush(Config.Victory);
                     dispatcherTimer.IsEnabled = false;
-                    UpdateTimer();
+                    UpdateTimerText();
                     break;
                 case (int)MineSweeper.TimerStateEnum.stoppedNewRecord:
                     TimerDisplay.Foreground = new SolidColorBrush(Config.NewRecord);
-                    UpdateTimer();
-                    TimerDisplay.Content += Config.TextNewRecord;
                     dispatcherTimer.IsEnabled = false;
+                    UpdateTimerText();
+                    TimerDisplay.Content += Config.TextNewRecord;
                     break;
             }
         }
 
-        private void UpdateTimer()
+        private void UpdateTimerText()
         {
             TimerDisplay.Content = GetTimeString(MineSweeper.Stopwatch.Elapsed);
         }
