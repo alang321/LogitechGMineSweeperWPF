@@ -3,7 +3,7 @@ using System.IO;
 
 namespace LogitechGMineSweeper
 {
-    class SaveFileColors
+    public class SaveFileColors
     {
         public string Path { get; set; }
 

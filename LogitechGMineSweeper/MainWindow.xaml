@@ -34,8 +34,8 @@
 
         <Rectangle Fill="Transparent" Stretch="Fill"  Grid.ColumnSpan="2" Panel.ZIndex="500" MouseLeftButtonDown="Stack_mousedown" Height="30" VerticalAlignment="Top" Margin="0,0,0,0" />
         <DockPanel Background="Transparent" Height="30" Panel.ZIndex="600" VerticalAlignment="Top" Margin="0,0,0,0" HorizontalAlignment="Right" Grid.Column="1" Width="80">
-            <Button Grid.Column="1" Style="{DynamicResource buttonMinus}" HorizontalAlignment="Right" Panel.ZIndex="600" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Height="30" Click="Button_Click_3"></Button>
-            <Button Grid.Column="1" Style="{DynamicResource buttonCross}" HorizontalAlignment="Right" Panel.ZIndex="600" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Height="30" Click="Button_Click_4"></Button>
+            <Button Grid.Column="1" Style="{DynamicResource buttonMinus}" HorizontalAlignment="Right" Panel.ZIndex="600" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Height="30" Click="Click_Minimize"></Button>
+            <Button Grid.Column="1" Style="{DynamicResource buttonCross}" HorizontalAlignment="Right" Panel.ZIndex="600" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Height="30" Click="Click_Close"></Button>
         </DockPanel>
 
 
@@ -101,9 +101,9 @@
                                 <RowDefinition Height="9*"/>
                                 <RowDefinition Height="16*"/>
                             </Grid.RowDefinitions>
-                            <TextBox FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,2,0,0" Height="23" x:Name="NUDTextBox" TextAlignment="Right" TextChanged="NUDTextBox_TextChanged" Margin="35,0,0,0" Width="49" Grid.RowSpan="2"/>
-                            <RepeatButton HorizontalAlignment="Left" VerticalAlignment="Top" Interval="220" x:Name="NUDButtonUP" FontSize="8" FontFamily="Marlett" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="NUDButtonUP_Click" Margin="83,0,0,0" Content="5" Height="12" Width="15" Grid.RowSpan="2"/>
-                            <RepeatButton HorizontalAlignment="Left" VerticalAlignment="Top" Height="12" Interval="220" x:Name="NUDButtonDown" FontSize="8"  FontFamily="Marlett" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="NUDButtonDown_Click" Margin="83,2.667,0,0" Content="6" Width="15" Grid.Row="1"></RepeatButton>
+                            <TextBox Focusable="False" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,2,0,0" Height="23" x:Name="NUDTextBox" TextAlignment="Right" TextChanged="NUDTextBox_TextChanged" Margin="35,0,0,0" Width="49" Grid.RowSpan="2"/>
+                            <RepeatButton HorizontalAlignment="Left" VerticalAlignment="Top" Interval="180" x:Name="NUDButtonUP" FontSize="8" FontFamily="Marlett" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="NUDButtonUP_Click" Margin="83,0,0,0" Content="5" Height="12" Width="15" Grid.RowSpan="2"/>
+                            <RepeatButton HorizontalAlignment="Left" VerticalAlignment="Top" Height="12" Interval="180" x:Name="NUDButtonDown" FontSize="8"  FontFamily="Marlett" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="NUDButtonDown_Click" Margin="83,2.667,0,0" Content="6" Width="15" Grid.Row="1"></RepeatButton>
                         </Grid>
                         <Label FontSize="14" HorizontalAlignment="Left" Content="Bombs:" Width="100" Margin="20,37,0,261.8"/>
 
@@ -282,7 +282,7 @@
         </TabControl>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="27" Margin="10,0,0,9.4" Width="196" Grid.ColumnSpan="2">
             <Label HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Timer:" Opacity="1" FontSize="16" Foreground="black" Height="30" Width="53"/>
-            <Label HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="30:00" Opacity="1" Name="timer1" FontSize="16" Margin="0,0,0,0" Foreground="black" Height="30" Width="143"/>
+            <Label HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="30:00" Opacity="1" Name="TimerDisplay" FontSize="16" Margin="0,0,0,0" Foreground="black" Height="30" Width="143"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -24,6 +24,8 @@ namespace LogitechGMineSweeper
     {
         int index = 0;
 
+        MainWindow mainWnd = System.Windows.Application.Current.MainWindow as MainWindow;
+
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
@@ -36,15 +38,15 @@ namespace LogitechGMineSweeper
 
         private void ClrPcker_Background_SelectedColorChanged(object sender, EventArgs e)
         {
-            Config.MineSweeper.Colors[index, 0] = ClrPcker_Background.B;
-            Config.MineSweeper.Colors[index, 1] = ClrPcker_Background.G;
-            Config.MineSweeper.Colors[index, 2] = ClrPcker_Background.R;
+            mainWnd.MineSweeper.Colors[index, 0] = ClrPcker_Background.B;
+            mainWnd.MineSweeper.Colors[index, 1] = ClrPcker_Background.G;
+            mainWnd.MineSweeper.Colors[index, 2] = ClrPcker_Background.R;
 
-            Application.Current.Resources["buttonColorBrush" + index.ToString()] = new SolidColorBrush(System.Windows.Media.Color.FromRgb(Config.MineSweeper.Colors[index, 2], Config.MineSweeper.Colors[index, 1], Config.MineSweeper.Colors[index, 0]));
+            Application.Current.Resources["buttonColorBrush" + index.ToString()] = new SolidColorBrush(System.Windows.Media.Color.FromRgb(mainWnd.MineSweeper.Colors[index, 2], mainWnd.MineSweeper.Colors[index, 1], mainWnd.MineSweeper.Colors[index, 0]));
 
             if (index != 12 && index != 13 && index != 14)
             {
-                if (Config.MineSweeper.Colors[index, 2] + Config.MineSweeper.Colors[index, 1] + Config.MineSweeper.Colors[index, 0] < Config.ForegroundThreshold)
+                if (mainWnd.MineSweeper.Colors[index, 2] + mainWnd.MineSweeper.Colors[index, 1] + mainWnd.MineSweeper.Colors[index, 0] < Config.ForegroundThreshold)
                 {
                     Application.Current.Resources["TextColorBrush" + index.ToString()] = new SolidColorBrush(Colors.White);
                 }
@@ -54,7 +56,7 @@ namespace LogitechGMineSweeper
                 }
             }
 
-            Config.MineSweeper.PrintLogiLED(false, false);
+            mainWnd.MineSweeper.PrintLogiLED();
         }
         #endregion
         

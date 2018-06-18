@@ -3,7 +3,7 @@ using System.IO;
 
 namespace LogitechGMineSweeper
 {
-    class SaveFileGlobalStatistics
+    public class SaveFileGlobalStatistics
     {
         public enum SaveIndex { Timer, Total, Win, Defeat }
 

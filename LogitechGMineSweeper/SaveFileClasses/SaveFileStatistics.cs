@@ -3,12 +3,8 @@ using System.IO;
 
 namespace LogitechGMineSweeper
 {
-    class SaveFileStatitics
+    public class SaveFileStatitics
     {
-        public delegate void PrintStatsEventHandler();
-
-        public static event PrintStatsEventHandler PrintStatsEvent;
-
         public enum SaveIndex { Timer, Total, Win, Defeat }
 
         public string Path { get; set; }
@@ -110,8 +106,6 @@ namespace LogitechGMineSweeper
             file[bombs] = file[bombs].Substring(0, index1 + 2) + newValue + file[bombs].Substring(index2);
 
             File.WriteAllLines(Path, file);
-
-            PrintStatsEvent();
         }
 
         #endregion
@@ -143,8 +137,6 @@ namespace LogitechGMineSweeper
             file[bombs] = file[bombs].Substring(0, index1 + 2) + (Convert.ToInt32(file[bombs].Substring(index1 + 2, (index2 - index1 - 2))) + 1) + file[bombs].Substring(index2);
 
             File.WriteAllLines(Path, file);
-
-            PrintStatsEvent();
         }
 
         #endregion

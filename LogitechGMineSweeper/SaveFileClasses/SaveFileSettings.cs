@@ -3,7 +3,7 @@ using System.IO;
 
 namespace LogitechGMineSweeper
 {
-    class SaveFileSettings
+    public class SaveFileSettings
     {
         public enum SaveIndex { Timer, Total, Win, Defeat }
 
@@ -98,22 +98,19 @@ namespace LogitechGMineSweeper
             }
             else
             {
-                ResetToDefault();
-                return;
+                throw new Exception("Invalid useBackground Value");
             }
             
             bombs = Convert.ToInt32(settingsFile[0].Substring("Bombs: ".Length));
             if(bombs < Config.MinBombs || bombs > Config.MaxBombs)
             {
-                ResetToDefault();
-                return;
+                throw new Exception("Invalid bombs Value");
             }
 
             layoutIndex = Convert.ToInt32(settingsFile[1].Substring("Layout: ".Length));
             if (layoutIndex < 0 || layoutIndex > Config.KeyboardLayouts.Length-1)
             {
-                ResetToDefault();
-                return;
+                throw new Exception("Invalid layoutIndex Value");
             }
         }
 

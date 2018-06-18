@@ -22,16 +22,6 @@ namespace LogitechGMineSweeper
         #region Class Variables
 
         public System.Windows.Forms.NotifyIcon nIcon = new System.Windows.Forms.NotifyIcon();
-
-        [DllImport("user32", CharSet = CharSet.Unicode)]
-        static extern IntPtr FindWindow(string cls, string win);
-        [DllImport("user32")]
-        static extern IntPtr SetForegroundWindow(IntPtr hWnd);
-        [DllImport("user32")]
-        static extern bool IsIconic(IntPtr hWnd);
-        [DllImport("user32")]
-        static extern bool OpenIcon(IntPtr hWnd);
-
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
         private static LowLevelKeyboardProc _proc = HookCallback;
@@ -49,9 +39,6 @@ namespace LogitechGMineSweeper
         public static void Main()
         {
             if (!LogitechGSDK.LogiLedInit()) Console.WriteLine("Not connected to GSDK");
-            
-            SaveFileSettings settings = new SaveFileSettings(Config.PathSettingsFile);
-            Config.MineSweeper = new MineSweeper(settings, new SaveFileGlobalStatistics(Config.PathGlobalStatisticsFile), Config.KeyboardLayouts[settings.LayoutIndex], new SaveFileColors(Config.PathColorsFile));
 
             //one instance code
             if (mutex.WaitOne(TimeSpan.Zero, true))
@@ -82,25 +69,26 @@ namespace LogitechGMineSweeper
 
         private static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
+            MainWindow mainWnd = System.Windows.Application.Current.MainWindow as MainWindow;
             if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
             {
                 int vkCode = Marshal.ReadInt32(lParam);
                 Debug.WriteLine("Key ID-Code: " + vkCode);
-                if (Config.MineSweeper.KeyboardLayout.KeyIds.Contains(vkCode))
+                if (mainWnd.MineSweeper.KeyboardLayout.KeyIds.Contains(vkCode))
                 {
                     if (Control.ModifierKeys == Keys.Shift)
                     {
-                        if (last != 107 && vkCode == 107) Config.MineSweeper.KeyPressed(48);
+                        if (last != 107 && vkCode == 107) mainWnd.MineSweeper.KeyPressed(48);
                         else if (vkCode != 107)
                         {
-                            Config.MineSweeper.SetFlag(Array.IndexOf(Config.MineSweeper.KeyboardLayout.KeyIds, vkCode));
+                            mainWnd.MineSweeper.SetFlag(Array.IndexOf(mainWnd.MineSweeper.KeyboardLayout.KeyIds, vkCode));
                             last = -1;
                         }
                     }
                     else if (last != vkCode)
                     {
                         last = vkCode;
-                        Config.MineSweeper.KeyPressed(Array.IndexOf(Config.MineSweeper.KeyboardLayout.KeyIds, vkCode));
+                        mainWnd.MineSweeper.KeyPressed(Array.IndexOf(mainWnd.MineSweeper.KeyboardLayout.KeyIds, vkCode));
                     }
                     else
                     {
@@ -152,10 +140,9 @@ namespace LogitechGMineSweeper
             nIcon.Click += NIcon_Click;
         }
 
-
         void NIcon_Click(object sender, EventArgs e)
         {
-            var mainWnd = System.Windows.Application.Current.MainWindow as MainWindow;
+            MainWindow mainWnd = System.Windows.Application.Current.MainWindow as MainWindow;
             nIcon.Visible = false;
 
             if (!mainWnd.IsVisible)
@@ -165,7 +152,7 @@ namespace LogitechGMineSweeper
 
             if(mainWnd._menuTabControl.SelectedIndex == 1)
             {
-                MineSweeper.KeyboardDisplayShown = true;
+                mainWnd.KeyboardDisplayShown = true;
             }
 
             if (mainWnd.WindowState == WindowState.Minimized)
@@ -178,7 +165,7 @@ namespace LogitechGMineSweeper
             mainWnd.Topmost = false; // important
             mainWnd.Focus();
 
-            Config.MineSweeper.PrintLogiLED();
+            mainWnd.MineSweeper.PrintLogiLED();
         }
 
         private void Application_Exit(object sender, ExitEventArgs e)
