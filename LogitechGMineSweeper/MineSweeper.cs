@@ -31,7 +31,7 @@ namespace LogitechGMineSweeper
 
         #endregion
 
-        #region Variables Constructor and Properties
+        #region Variables
 
         //Save Files
         public SaveFileSettings Settings { get; set; }
@@ -61,7 +61,7 @@ namespace LogitechGMineSweeper
         //whether the background is set, introduces flashing so not used
         public bool SetLogiLogo { get; set; }
         //key id of last pressed key
-        static int last = -1;
+        int last = -1;
 
         //Variabled for generating mines
         Random r = new Random();
@@ -71,8 +71,13 @@ namespace LogitechGMineSweeper
         //array with corresponding color to display value, 9 is placeholder for background color
         public byte[,] Colors { get; set; } = new byte[17,3];
 
+        #endregion
+
+        #region constructor and destructor
+
         public MineSweeper(SaveFileSettings settings, SaveFileGlobalStatistics globalStats, KeyboardLayout keyLayout, SaveFileColors ColorsFile, bool setLogiLogo)
         {
+            _proc = HookCallback;
             _hookID = SetHook(_proc);
             this.ColorsFile = ColorsFile;
             this.Colors = ColorsFile.SavedColors;
@@ -86,6 +91,10 @@ namespace LogitechGMineSweeper
         {
             UnhookWindowsHookEx(_hookID);
         }
+
+        #endregion
+
+        #region properties
 
         public int Bombs
         {
@@ -175,8 +184,8 @@ namespace LogitechGMineSweeper
 
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
-        private static LowLevelKeyboardProc _proc = HookCallback;
-        private static IntPtr _hookID = IntPtr.Zero;
+        private LowLevelKeyboardProc _proc;
+        private IntPtr _hookID = IntPtr.Zero;
 
         private IntPtr SetHook(LowLevelKeyboardProc proc)
         {
@@ -190,28 +199,27 @@ namespace LogitechGMineSweeper
 
         private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
-        private static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
+        private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
-            MainWindow mainWnd = System.Windows.Application.Current.MainWindow as MainWindow;
             if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
             {
                 int vkCode = Marshal.ReadInt32(lParam);
                 Debug.WriteLine("Key ID-Code: " + vkCode);
-                if (mainWnd.MineSweeper.KeyboardLayout.KeyIds.Contains(vkCode))
+                if (keyboardLayout.KeyIds.Contains(vkCode))
                 {
                     if (Control.ModifierKeys == Keys.Shift)
                     {
-                        if (last != 107 && vkCode == 107) mainWnd.MineSweeper.KeyPressed(48);
+                        if (last != 107 && vkCode == 107) KeyPressed(48);
                         else if (vkCode != 107)
                         {
-                            mainWnd.MineSweeper.SetFlag(Array.IndexOf(mainWnd.MineSweeper.KeyboardLayout.KeyIds, vkCode));
+                            SetFlag(Array.IndexOf(keyboardLayout.KeyIds, vkCode));
                             last = -1;
                         }
                     }
                     else if (last != vkCode)
                     {
                         last = vkCode;
-                        mainWnd.MineSweeper.KeyPressed(Array.IndexOf(mainWnd.MineSweeper.KeyboardLayout.KeyIds, vkCode));
+                        KeyPressed(Array.IndexOf(keyboardLayout.KeyIds, vkCode));
                     }
                     else
                     {
@@ -247,7 +255,7 @@ namespace LogitechGMineSweeper
 
         #endregion
 
-        #region Key Pressed
+        #region Key press Handling
 
         //Handler for Key presses, gest passed number corresponding to field, from the intercept keys class
         public void KeyPressed(int i)
@@ -571,9 +579,6 @@ namespace LogitechGMineSweeper
 
         public void PrintLogiLED(bool setBackground)
         {
-            //raise print event
-            PrintEvent?.Invoke();
-
             //init bitmap that will be used to create light
             byte[] logiLED = new byte[LogitechGSDK.LOGI_LED_BITMAP_SIZE];
             
@@ -617,6 +622,9 @@ namespace LogitechGMineSweeper
             }
 
             Debug.WriteLine(PrintBombs());
+
+            //raise print event
+            PrintEvent?.Invoke();
 
             //Display the new color
             LogitechGSDK.LogiLedSetLightingFromBitmap(logiLED);

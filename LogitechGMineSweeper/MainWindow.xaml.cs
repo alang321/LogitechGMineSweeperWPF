@@ -201,6 +201,7 @@ namespace LogitechGMineSweeper
                     break;
                 case (int)MineSweeper.TimerStateEnum.stoppedNewRecord:
                     TimerDisplay.Foreground = new SolidColorBrush(Config.NewRecord);
+                    UpdateTimer();
                     TimerDisplay.Content += Config.TextNewRecord;
                     dispatcherTimer.IsEnabled = false;
                     break;

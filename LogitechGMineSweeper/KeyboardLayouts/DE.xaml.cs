@@ -314,7 +314,7 @@ namespace LogitechGMineSweeper.KeyboardLayouts
                     }
                 }
             }
-
+            
             for (int i = 0; i < 12; i++)
             {
                 if(mainWnd.MineSweeper.Display[i + 1, 0] == (int)MineSweeper.MapEnum.Counter) function[i].Visibility = Visibility.Visible;
