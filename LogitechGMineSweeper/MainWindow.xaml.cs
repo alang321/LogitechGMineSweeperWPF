@@ -97,7 +97,7 @@ namespace LogitechGMineSweeper
             NUDTextBox.Text = Convert.ToString(MineSweeper.Bombs);
 
             UpdateStats();
-            UpdateTimer();
+            UpdateTimerText();
         }
 
         #endregion
