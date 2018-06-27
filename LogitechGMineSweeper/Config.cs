@@ -95,7 +95,7 @@ namespace LogitechGMineSweeper
                                 81, 87, 69, 82, 84, 90, 85, 73, 79, 80, 186, 187,
                                  65, 83, 68, 70, 71, 72, 74, 75, 76, 192, 222, 191,
                                 226, 89, 88, 67, 86, 66, 78, 77, 188, 190, 189, -1, /*Add Key*/ 107 },
-                    //new LogitechGMineSweeper.KeyboardLayouts.DE(),
+                    //new LogitechGMineSweeper.KeyboardLayouts.DE()
                     null
                 ),
             //US
@@ -110,7 +110,7 @@ namespace LogitechGMineSweeper
                                 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 219, 221,
                                  65, 83, 68, 70, 71, 72, 74, 75, 76, 186, 222, -1,
                                 -1, 90, 88, 67, 86, 66, 78, 77, 188, 190, 191, -1, /*Add Key*/ 107 },
-                    //new LogitechGMineSweeper.KeyboardLayouts.US(),
+                    //new LogitechGMineSweeper.KeyboardLayouts.US()
                     null
                 ),
             //UK
@@ -125,7 +125,7 @@ namespace LogitechGMineSweeper
                                 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 219, 221,
                                  65, 83, 68, 70, 71, 72, 74, 75, 76, 186, 192, 222,
                                 220, 90, 88, 67, 86, 66, 78, 77, 188, 190, 191, -1, /*Add Key*/ 107 },
-                    //new LogitechGMineSweeper.KeyboardLayouts.UK(),
+                    //new LogitechGMineSweeper.KeyboardLayouts.UK()
                     null
                 ),
             //ITA
@@ -140,7 +140,7 @@ namespace LogitechGMineSweeper
                                 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 186, 187,
                                  65, 83, 68, 70, 71, 72, 74, 75, 76, 192, 222, 191,
                                 226, 90, 88, 67, 86, 66, 78, 77, 188, 190, 189, -1, /*Add Key*/ 107 },
-                    //new LogitechGMineSweeper.KeyboardLayouts.IT(),
+                    //new LogitechGMineSweeper.KeyboardLayouts.IT()
                     null
                 )
         };

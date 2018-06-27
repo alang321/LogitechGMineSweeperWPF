@@ -663,13 +663,13 @@ namespace LogitechGMineSweeper
 
         #endregion
 
-        #region Game Logic
+        #region Uncover Field
 
         private void Uncover(int x, int y)
         {
             if (Display[x + 1, y + 1] != (int)MapEnum.Covered) return;
 
-            //dont Uncover bomb on first move
+            //generate bomb on first move
             if (firstMove)
             {
                 GenBombs(y, x);

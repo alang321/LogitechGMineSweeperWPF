@@ -30,6 +30,7 @@ namespace LogitechGMineSweeper
                 mutex.ReleaseMutex();
             }
         }
+
         public void Init()
         {
             this.InitializeComponent();
