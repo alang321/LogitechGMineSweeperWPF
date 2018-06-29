@@ -8,14 +8,16 @@ namespace LogitechGMineSweeper
         public string Path { get; set; }
 
         byte[,] savedColors;
+        byte[,] defaultColors;
 
-        public SaveFileColors(string saveFile)
+        public SaveFileColors(string saveFile, byte[,] defaultColors)
         {
             this.Path = saveFile;
+            this.defaultColors = defaultColors;
 
             if (!File.Exists(Path))
             {
-                Directory.CreateDirectory(Config.Directory);
+                Directory.CreateDirectory(Directory.GetParent(Path).ToString());
                 ResetToDefault();
             }
             else
@@ -68,7 +70,7 @@ namespace LogitechGMineSweeper
 
         public void ResetToDefault()
         {
-            File.WriteAllLines(Path, Config.ColorsDefault);
+            SavedColors = defaultColors;
             InitSavedColors();
         }
     }

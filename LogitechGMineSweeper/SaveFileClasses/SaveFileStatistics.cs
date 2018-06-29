@@ -8,6 +8,9 @@ namespace LogitechGMineSweeper
         public enum SaveIndex { Timer, Total, Win, Defeat }
 
         public string Path { get; set; }
+        
+        string[] statisticsDefault = { "0: .0-1.10.20.30.4", "1: .0-1.10.20.30.4", "2: .0-1.10.20.30.4", "3: .0-1.10.20.30.4", "4: .0-1.10.20.30.4", "5: .0-1.10.20.30.4", "6: .0-1.10.20.30.4", "7: .0-1.10.20.30.4", "8: .0-1.10.20.30.4", "9: .0-1.10.20.30.4", "10: .0-1.10.20.30.4", "11: .0-1.10.20.30.4", "12: .0-1.10.20.30.4", "13: .0-1.10.20.30.4", "14: .0-1.10.20.30.4", "15: .0-1.10.20.30.4", "16: .0-1.10.20.30.4", "17: .0-1.10.20.30.4", "18: .0-1.10.20.30.4", "19: .0-1.10.20.30.4", "20: .0-1.10.20.30.4", "21: .0-1.10.20.30.4", "22: .0-1.10.20.30.4", "23: .0-1.10.20.30.4", "24: .0-1.10.20.30.4", "25: .0-1.10.20.30.4", "26: .0-1.10.20.30.4", "27: .0-1.10.20.30.4", "28: .0-1.10.20.30.4", "29: .0-1.10.20.30.4", "30: .0-1.10.20.30.4", "31: .0-1.10.20.30.4", "32: .0-1.10.20.30.4", "33: .0-1.10.20.30.4", "34: .0-1.10.20.30.4", "35: .0-1.10.20.30.4", "36: .0-1.10.20.30.4", "37: .0-1.10.20.30.4", "38: .0-1.10.20.30.4", "39: .0-1.10.20.30.4", "40: .0-1.10.20.30.4", "41: .0-1.10.20.30.4", "42: .0-1.10.20.30.4", "43: .0-1.10.20.30.4", "44: .0-1.10.20.30.4", "45: .0-1.10.20.30.4", "46: .0-1.10.20.30.4", "47: .0-1.10.20.30.4", "48: .0-1.10.20.30.4", "2.3.0" };
+
 
         public SaveFileStatitics(string saveFile)
         {
@@ -15,8 +18,8 @@ namespace LogitechGMineSweeper
 
             if (!File.Exists(Path))
             {
-                Directory.CreateDirectory(Config.Directory);
-                File.WriteAllLines(Path, Config.StatisticsDefault);
+                Directory.CreateDirectory(Directory.GetParent(Path).ToString());
+                File.WriteAllLines(Path, statisticsDefault);
             }
             else
             {
@@ -30,7 +33,7 @@ namespace LogitechGMineSweeper
                     }
                     catch
                     {
-                        File.WriteAllLines(Path, Config.StatisticsDefault);
+                        File.WriteAllLines(Path, statisticsDefault);
                     }
                 }
                 else if (lines.Length == 49)
@@ -143,7 +146,7 @@ namespace LogitechGMineSweeper
 
         public void ResetToDefault()
         {
-            File.WriteAllLines(Path, Config.StatisticsDefault);
+            File.WriteAllLines(Path, statisticsDefault);
         }
 
         public void MigrateOldSave()
@@ -153,11 +156,11 @@ namespace LogitechGMineSweeper
 
             //+42 total game +21 defeat game +0 victory
             string[] lines = File.ReadAllLines(Path);
-            string[] newFile = new string[Config.StatisticsDefault.Length];
+            string[] newFile = new string[statisticsDefault.Length];
 
-            for (int i = 0; i < Config.StatisticsDefault.Length; i++)
+            for (int i = 0; i < statisticsDefault.Length; i++)
             {
-                newFile[i] = Config.StatisticsDefault[i];
+                newFile[i] = statisticsDefault[i];
             }
 
             for (int i = 5; i <= 25; i++)
@@ -186,7 +189,7 @@ namespace LogitechGMineSweeper
             }
 
             Array.Resize(ref lines, lines.Length + 1);
-            lines[lines.Length - 1] = Config.Version;
+            lines[lines.Length - 1] = statisticsDefault[statisticsDefault.Length - 1];
 
             File.WriteAllLines(Path, lines);
         }

@@ -149,6 +149,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="ResourceDictionarys\CheckboxRightSide.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonEnter12.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

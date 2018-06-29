@@ -48,6 +48,7 @@
 
             <Color x:Key="gameFieldBackgroundTest">#FFFFFF00</Color>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/CheckboxRightSide.xaml" />
                 <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/buttonNavigation.xaml" />
                 <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/buttonMinus.xaml" />
                 <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/buttonCross.xaml" />

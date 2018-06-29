@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace LogitechGMineSweeper
 {
-    #region blur2
+    #region Blur
     internal enum AccentState
     {
         ACCENT_DISABLED = 1,
@@ -48,16 +48,21 @@ namespace LogitechGMineSweeper
 
     public partial class MainWindow : Window
     {
-        #region constructor and variables
-        
+        #region Events
+
         public delegate void UpdateDisplayEventHandler();
         public delegate void ResetColorsEventHandler();
-        
+        public delegate void InitKeyboardUserControlsEventHandler(KeyboardLayoutChangedEventArgs index);
 
         //fires when switching to color trab item updates inapp keyboard display
         public static event UpdateDisplayEventHandler UpdateDisplayEvent;
         //fires when resetting the color updates all style sheets
         public static event ResetColorsEventHandler ResetColorsEvent;
+        public static event InitKeyboardUserControlsEventHandler InitKeyboardUserControlsEvent;
+
+        #endregion
+
+        #region Constructor and Variables
 
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
@@ -71,15 +76,13 @@ namespace LogitechGMineSweeper
         public MainWindow()
         {
             InitializeComponent();
-
-            _menuTabControl.SelectedIndex = 0;
-
+            
             dispatcherTimer.Tick += DispatcherTimer_Tick;
             dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
             dispatcherTimer.Stop();
 
-            SaveFileSettings settings = new SaveFileSettings(Config.PathSettingsFile);
-            MineSweeper = new MineSweeper(settings, new SaveFileGlobalStatistics(Config.PathGlobalStatisticsFile), Config.KeyboardLayouts[settings.LayoutIndex], new SaveFileColors(Config.PathColorsFile), Config.SetLogiLogo);
+            SaveFileSettings settings = new SaveFileSettings(Config.PathSettingsFile, Config.UseBackgroundDefault, Config.KeyboardLayoutDefaultIndex, Config.BombsDefault, Config.defaultSetLogiLogo, Config.MinBombs, Config.MaxBombs, Config.KeyboardLayouts.Length-1);
+            MineSweeper = new MineSweeper(settings, new SaveFileGlobalStatistics(Config.PathGlobalStatisticsFile), Config.KeyboardLayouts[settings.LayoutIndex], new SaveFileColors(Config.PathColorsFile, Config.ColorsDefault));
             
             MineSweeper.StatsChangedEvent += new MineSweeper.UpdateStatsEventHandler(UpdateStats);
             MineSweeper.UpdateTimerEvent += new MineSweeper.TimerEventHandler(UpdateTimer);
@@ -89,8 +92,12 @@ namespace LogitechGMineSweeper
             {
                 KeyLayout.Items.Add(layout.Text);
             }
+
+            _menuTabControl.SelectedIndex = 0;
             
             Config.InitKeyboardLayoutsArray();
+            //init the keyboardusercontrols and let the right one subscribe to the print board events
+            InitKeyboardUserControlsEvent?.Invoke(new KeyboardLayoutChangedEventArgs(MineSweeper.KeyboardLayout.Index));
 
             //select current keylayout
             KeyLayout.SelectedIndex = MineSweeper.KeyboardLayout.Index;
@@ -102,7 +109,7 @@ namespace LogitechGMineSweeper
 
         #endregion
 
-        #region blur
+        #region Blur
 
         protected override void OnStateChanged(EventArgs e)
         {
@@ -226,7 +233,7 @@ namespace LogitechGMineSweeper
 
         #endregion
 
-        #region minimize, close and drag window
+        #region Minimize, Close and Drag window
 
         private void Stack_mousedown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -246,6 +253,8 @@ namespace LogitechGMineSweeper
         }
 
         #endregion
+
+        #region Settings Tab Item
 
         #region Numeric Up-Down - Bomb Setting
 
@@ -281,8 +290,34 @@ namespace LogitechGMineSweeper
 
         #endregion
 
-        #region Nav-Buttons
+        #region Selected Keylayout Changed
+
+        private void KeyLayout_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MineSweeper.KeyboardLayout = Config.KeyboardLayouts[KeyLayout.SelectedIndex];
+            UpdateStats();
+        }
+
+        #endregion
+
+        #region SetLogiLogo Checkbox
         
+        private void CheckBoxSetLogiLogo_Checked(object sender, RoutedEventArgs e)
+        {
+            MineSweeper.SetLogiLogo = true;
+        }
+
+        private void CheckBoxSetLogiLogo_Unchecked(object sender, RoutedEventArgs e)
+        {
+            MineSweeper.SetLogiLogo = false;
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Nav-Buttons
+
         //if you use num keys to change selection
         private void TabSelectionChanged(object sender, RoutedEventArgs e)
         {
@@ -304,6 +339,7 @@ namespace LogitechGMineSweeper
             switch (_menuTabControl.SelectedIndex)
             {
                 case 0:
+                    CheckBoxSetLogiLogo.IsChecked = MineSweeper.SetLogiLogo;
                     KeyboardDisplayShown = false;
                     SetAllButtonsNormal();
                     settings.Style = styleClone;
@@ -312,7 +348,7 @@ namespace LogitechGMineSweeper
                     FlagUseBackground.IsChecked = MineSweeper.UseBackground;
                     KeyboardDisplayContainer.Children.Clear();
                     KeyboardDisplayContainer.Children.Add(MineSweeper.KeyboardLayout.KeyboardDisplayPage as UserControl);
-                    UpdateDisplayEvent();
+                    UpdateDisplayEvent?.Invoke();
                     KeyboardDisplayShown = true;
                     SetAllButtonsNormal();
                     colors.Style = styleClone;
@@ -375,17 +411,7 @@ namespace LogitechGMineSweeper
 
         #endregion
 
-        #region selected keylayout changed
-
-        private void KeyLayout_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            MineSweeper.KeyboardLayout = Config.KeyboardLayouts[KeyLayout.SelectedIndex];
-            UpdateStats();
-        }
-
-        #endregion
-
-        #region button difficulties
+        #region Button Difficulties
 
         private void Click_Easy(object sender, RoutedEventArgs e)
         {
@@ -404,7 +430,7 @@ namespace LogitechGMineSweeper
 
         #endregion
 
-        #region Update statistics display
+        #region Update Statistics Display
 
         public void UpdateStats()
         {
@@ -619,7 +645,7 @@ namespace LogitechGMineSweeper
             ShiftFlag.Opacity = 0.4;
             MineSweeper.UseBackground = true;
             MineSweeper.PrintLogiLED();
-            ResetColorsEvent();
+            ResetColorsEvent?.Invoke();
         }
 
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
@@ -627,7 +653,7 @@ namespace LogitechGMineSweeper
             ShiftFlag.Opacity = 1;
             MineSweeper.UseBackground = false;
             MineSweeper.PrintLogiLED();
-            ResetColorsEvent();
+            ResetColorsEvent?.Invoke();
         }
 
         #endregion

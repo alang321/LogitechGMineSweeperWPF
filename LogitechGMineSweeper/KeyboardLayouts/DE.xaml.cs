@@ -31,11 +31,8 @@ namespace LogitechGMineSweeper.KeyboardLayouts
         {
             InitializeComponent();
 
-            MineSweeper.PrintEvent += new MineSweeper.PrintdisplayEventHandler(PrintEvent);
-
-            MainWindow.UpdateDisplayEvent += new MainWindow.UpdateDisplayEventHandler(UpdateDisplayEvent);
-
-            MainWindow.ResetColorsEvent += new MainWindow.ResetColorsEventHandler(ResetColorsEvent);
+            MineSweeper.KeyLayoutChangedEvent += LayoutChangedHandler;
+            MainWindow.InitKeyboardUserControlsEvent += LayoutChangedHandler;
 
             board = new Button[] { p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11,
                                    p12, p13, p14, p15, p16, p17, p18, p19, p20, p21, p22, p23,
@@ -130,9 +127,25 @@ namespace LogitechGMineSweeper.KeyboardLayouts
 
         #region Print Event Handlers
 
+        private void LayoutChangedHandler(KeyboardLayoutChangedEventArgs index)
+        {
+            if(index.Index == activeAtLayout)
+            {
+                MineSweeper.PrintEvent += PrintEvent;
+                MainWindow.UpdateDisplayEvent += UpdateDisplayEvent;
+                MainWindow.ResetColorsEvent += ResetColorsEvent;
+            }
+            else
+            {
+                MineSweeper.PrintEvent -= PrintEvent;
+                MainWindow.UpdateDisplayEvent -= UpdateDisplayEvent;
+                MainWindow.ResetColorsEvent -= ResetColorsEvent;
+            }
+        }
+
         private void PrintEvent()
         {
-            if (mainWnd.MineSweeper.KeyboardLayout.Index == activeAtLayout && printBoard && mainWnd.KeyboardDisplayShown)
+            if (printBoard && mainWnd.KeyboardDisplayShown)
             {
                 PrintBoard();
             }
@@ -140,27 +153,21 @@ namespace LogitechGMineSweeper.KeyboardLayouts
 
         private void UpdateDisplayEvent()
         {
-            if (mainWnd.MineSweeper.KeyboardLayout.Index == activeAtLayout)
+            if (mainWnd.MineSweeper.UseBackground)
             {
-                PrintBoard();
-
-                if (mainWnd.MineSweeper.UseBackground)
-                {
-                    ShiftL.Visibility = Visibility.Hidden;
-                }
-                else
-                {
-                    ShiftL.Visibility = Visibility.Visible;
-                }
+                ShiftL.Visibility = Visibility.Hidden;
             }
+            else
+            {
+                ShiftL.Visibility = Visibility.Visible;
+            }
+
+            PrintBoard();
         }
 
         private void ResetColorsEvent()
         {
-            if (mainWnd.MineSweeper.KeyboardLayout.Index == activeAtLayout)
-            {
-                InitDisplay();
-            }
+            InitDisplay();
         }
 
         #endregion

@@ -10,26 +10,25 @@ namespace LogitechGMineSweeper
 
         public static int BombsDefault { get; } = 14;
         public static int KeyboardLayoutDefaultIndex { get; } = (int)Config.Layout.DE;
-        
+
         //whether the shift keys use the background color or have a spoecific one
         public static bool UseBackgroundDefault { get; } = true;
 
+        //Set Logitech Logo to background color makes screen flash so not used
+        public static bool defaultSetLogiLogo  = false;
+
+        public static byte[,] ColorsDefault { get; } = { {000,000,000}, {255,000,000}, {255,255,000}, {000,128,000}, {000,255,255}, {000,127,255}, {128,000,128}, {000,000,255}, {255,255,255}, {255,200,200}, {255,000,255}, {255,000,000}, {000,000,255}, {000,255,255}, {255,160,160}, {000,255,255}, {255,000,255} };
+        
         #endregion
 
-        #region save file paths & default values
+        #region save file paths
 
         public static string SystemPath { get; } = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
         public static string Directory { get; } = Path.Combine(SystemPath, "Logitech MineSweeper");
-        
+
         public static string PathColorsFile = Path.Combine(Directory, "colors.txt");
         public static string PathSettingsFile = Path.Combine(Directory, "settings.txt");
         public static string PathGlobalStatisticsFile = Path.Combine(Directory, "statsTotal.txt");
-
-        //default save file 
-        public static string[] StatisticsDefault { get; } = { "0: .0-1.10.20.30.4", "1: .0-1.10.20.30.4", "2: .0-1.10.20.30.4", "3: .0-1.10.20.30.4", "4: .0-1.10.20.30.4", "5: .0-1.10.20.30.4", "6: .0-1.10.20.30.4", "7: .0-1.10.20.30.4", "8: .0-1.10.20.30.4", "9: .0-1.10.20.30.4", "10: .0-1.10.20.30.4", "11: .0-1.10.20.30.4", "12: .0-1.10.20.30.4", "13: .0-1.10.20.30.4", "14: .0-1.10.20.30.4", "15: .0-1.10.20.30.4", "16: .0-1.10.20.30.4", "17: .0-1.10.20.30.4", "18: .0-1.10.20.30.4", "19: .0-1.10.20.30.4", "20: .0-1.10.20.30.4", "21: .0-1.10.20.30.4", "22: .0-1.10.20.30.4", "23: .0-1.10.20.30.4", "24: .0-1.10.20.30.4", "25: .0-1.10.20.30.4", "26: .0-1.10.20.30.4", "27: .0-1.10.20.30.4", "28: .0-1.10.20.30.4", "29: .0-1.10.20.30.4", "30: .0-1.10.20.30.4", "31: .0-1.10.20.30.4", "32: .0-1.10.20.30.4", "33: .0-1.10.20.30.4", "34: .0-1.10.20.30.4", "35: .0-1.10.20.30.4", "36: .0-1.10.20.30.4", "37: .0-1.10.20.30.4", "38: .0-1.10.20.30.4", "39: .0-1.10.20.30.4", "40: .0-1.10.20.30.4", "41: .0-1.10.20.30.4", "42: .0-1.10.20.30.4", "43: .0-1.10.20.30.4", "44: .0-1.10.20.30.4", "45: .0-1.10.20.30.4", "46: .0-1.10.20.30.4", "47: .0-1.10.20.30.4", "48: .0-1.10.20.30.4", Version };
-        public static string[] ColorsDefault { get; } = { "000,000,000", "255,000,000", "255,255,000", "000,128,000", "000,255,255", "000,127,255", "128,000,128", "000,000,255", "255,255,255", "255,200,200", "255,000,255", "255,000,000", "000,000,255", "000,255,255", "255,160,160", "000,255,255", "255,000,255" };
-        public static string[] SettingsDefault { get; } = { "Bombs: " + BombsDefault.ToString(), "Layout: " + KeyboardLayoutDefaultIndex, "UseBackground: " + UseBackgroundDefault };
-        public static string[] GlobalDefault { get; } = { "Wins: 0",  "Losses: 0", "Total: 0" };
 
         #endregion
 
@@ -155,11 +154,6 @@ namespace LogitechGMineSweeper
         }
 
         #endregion
-        
-        public static string Version { get; } = "2.3.0";
-
-        //Set Logitech Logo to background color makes screen flash so not used
-        public static bool SetLogiLogo { get; set; } = false;
 
         //array for the words displayed in the color picker popup
         public static string[] ColorPickerTitles { get; } = { "0 Bombs", "1 Bomb", "2 Bombs", "3 Bombs", "4 Bombs", "5 Bombs", "6 Bombs", "Bomb Field", "Covered Field", "Offboard", "Flag", "New Game Key", "Defeat Background", "Victory Background", "Default Background", "Bomb Counter", "Shift Keys" };

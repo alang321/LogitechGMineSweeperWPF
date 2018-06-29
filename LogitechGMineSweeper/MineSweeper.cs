@@ -23,7 +23,9 @@ namespace LogitechGMineSweeper
         public delegate void PrintdisplayEventHandler();
         public delegate void UpdateStatsEventHandler();
         public delegate void TimerEventHandler(UpdateTimerEventArgs TimerState);
+        public delegate void KeyboardLayoutChangedEventHandler(KeyboardLayoutChangedEventArgs Index);
 
+        public static event KeyboardLayoutChangedEventHandler KeyLayoutChangedEvent;
         public static event PrintdisplayEventHandler PrintEvent;
         public static event UpdateStatsEventHandler StatsChangedEvent;
         //event called when timer state changes, when its started for example, event arg contains int with a value corresponding to a state
@@ -58,8 +60,6 @@ namespace LogitechGMineSweeper
         public GameStateEnum GameState { get; private set; } = GameStateEnum.Default;
         //How many fields are covered
         int covered;
-        //whether the background is set, introduces flashing so not used
-        public bool SetLogiLogo { get; set; }
         //key id of last pressed key
         int last = -1;
 
@@ -73,9 +73,9 @@ namespace LogitechGMineSweeper
 
         #endregion
 
-        #region constructor and destructor
+        #region Constructor and Destructor
 
-        public MineSweeper(SaveFileSettings settings, SaveFileGlobalStatistics globalStats, KeyboardLayout keyLayout, SaveFileColors ColorsFile, bool setLogiLogo)
+        public MineSweeper(SaveFileSettings settings, SaveFileGlobalStatistics globalStats, KeyboardLayout keyLayout, SaveFileColors ColorsFile)
         {
             _proc = HookCallback;
             _hookID = SetHook(_proc);
@@ -83,7 +83,6 @@ namespace LogitechGMineSweeper
             this.Colors = ColorsFile.SavedColors;
             this.Settings = settings;
             this.GlobalStats = globalStats;
-            this.SetLogiLogo = setLogiLogo;
             this.KeyboardLayout = keyLayout;
         }
 
@@ -94,7 +93,7 @@ namespace LogitechGMineSweeper
 
         #endregion
 
-        #region properties
+        #region Properties
 
         public int Bombs
         {
@@ -105,6 +104,19 @@ namespace LogitechGMineSweeper
                 {
                     Settings.Bombs = value;
                     NewGame();
+                }
+            }
+        }
+
+        public bool SetLogiLogo
+        {
+            get { return Settings.SetLogiLogo; }
+            set
+            {
+                if (Settings.SetLogiLogo != value)
+                {
+                    Settings.SetLogiLogo = value;
+                    PrintLogiLED(true);
                 }
             }
         }
@@ -166,11 +178,13 @@ namespace LogitechGMineSweeper
                     {
                         keyboardLayout = value;
                         Settings.LayoutIndex = keyboardLayout.Index;
+                        KeyLayoutChangedEvent?.Invoke(new KeyboardLayoutChangedEventArgs(keyboardLayout.Index));
                         NewGame();
                     }
                 }
                 catch
                 {
+                    KeyLayoutChangedEvent?.Invoke(new KeyboardLayoutChangedEventArgs(keyboardLayout.Index));
                     keyboardLayout = value;
                     Settings.LayoutIndex = keyboardLayout.Index;
                     NewGame();
@@ -255,7 +269,7 @@ namespace LogitechGMineSweeper
 
         #endregion
 
-        #region Key press Handling
+        #region Key Press Handling
 
         //Handler for Key presses, gest passed number corresponding to field, from the intercept keys class
         public void KeyPressed(int i)
@@ -887,6 +901,8 @@ namespace LogitechGMineSweeper
         #endregion
     }
 
+    #region Event Args
+
     public class UpdateTimerEventArgs : EventArgs
     {
         public UpdateTimerEventArgs(int state)
@@ -896,4 +912,16 @@ namespace LogitechGMineSweeper
 
         public int State { get; private set; }
     }
+
+    public class KeyboardLayoutChangedEventArgs : EventArgs
+    {
+        public KeyboardLayoutChangedEventArgs(int index)
+        {
+            this.Index = index;
+        }
+
+        public int Index { get; private set; }
+    }
+
+    #endregion
 }

@@ -116,8 +116,10 @@
                         </StackPanel>
 
                         <Label HorizontalAlignment="Left" FontWeight="DemiBold" VerticalAlignment="Top" Margin="0,139,0,0" Content="Change Keyboard-Layout" Height="32" FontSize="16"/>
-                        <ComboBox VirtualizingPanel.ScrollUnit="Pixel" MaxDropDownHeight="100" HorizontalAlignment="Left" VerticalContentAlignment="Center" BorderThickness="2" FontSize="14" Name="KeyLayout" Margin="148,176,0,120.8" SelectionChanged="KeyLayout_SelectionChanged" Width="48">
-                        </ComboBox>
+                        <ComboBox VirtualizingPanel.ScrollUnit="Pixel" MaxDropDownHeight="100" HorizontalAlignment="Left" VerticalContentAlignment="Center" BorderThickness="2" FontSize="14" Name="KeyLayout" Margin="148,176,0,120.8" SelectionChanged="KeyLayout_SelectionChanged" Width="48"/>
+
+                        <Label HorizontalAlignment="Left" FontWeight="DemiBold" VerticalAlignment="Top" Margin="0,236,0,0" Content="Set LogitechG Logo Color (Leads to Keyboard Flashing)" Height="32" FontSize="16"/>
+                        <CheckBox Style="{StaticResource TextAlignLeft}" IsThreeState="False" FontSize="14" Checked="CheckBoxSetLogiLogo_Checked" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Unchecked="CheckBoxSetLogiLogo_Unchecked" HorizontalAlignment="Left" Name="CheckBoxSetLogiLogo" Content="Set LogiLogo" Margin="24,271,0,0" VerticalAlignment="Top" Width="103"/>
                     </Grid>
                 </Grid>
             </TabItem>
@@ -197,9 +199,7 @@
                         <ListViewItem MouseUp="ShiftFlag_Click">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Opacity="{Binding Opacity, ElementName=ShiftFlag}" Width="142"><Run Text="Shift"/></TextBlock>
-
-                                <CheckBox IsThreeState="False" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" HorizontalAlignment="Left" Name="FlagUseBackground" Content="Use Background Color" Margin="0,0,0,0" VerticalAlignment="Top">
-                                </CheckBox>
+                                <CheckBox IsThreeState="False" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" HorizontalAlignment="Left" Name="FlagUseBackground" Content="Use Background Color" Margin="0,0,0,0" VerticalAlignment="Top"/>
                                 <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush16}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="ShiftFlag" Margin="15,0,0,0" Width="{Binding Width, ElementName=One}"/>
                             </StackPanel>
                         </ListViewItem>

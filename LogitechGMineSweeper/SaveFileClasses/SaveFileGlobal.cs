@@ -9,6 +9,8 @@ namespace LogitechGMineSweeper
 
         public string Path { get; set; }
 
+        string[] GlobalStrings { get; } = { "Wins: ", "Losses: ", "Total: " };
+
         private int wins;
         private int losses;
         private int total;
@@ -19,7 +21,7 @@ namespace LogitechGMineSweeper
 
             if (!File.Exists(Path))
             {
-                Directory.CreateDirectory(Config.Directory);
+                Directory.CreateDirectory(Directory.GetParent(Path).ToString());
                 ResetToDefault();
             }
             else
@@ -45,7 +47,7 @@ namespace LogitechGMineSweeper
             {
                 wins = value;
                 string[] globalFile = File.ReadAllLines(Path);
-                globalFile[0] = "Wins: " + wins;
+                globalFile[0] = GlobalStrings[0] + wins;
                 File.WriteAllLines(Path, globalFile);
             }
         }
@@ -60,7 +62,7 @@ namespace LogitechGMineSweeper
             {
                 losses = value;
                 string[] globalFile = File.ReadAllLines(Path);
-                globalFile[1] = "Losses: " + losses;
+                globalFile[1] = GlobalStrings[1] + losses;
                 File.WriteAllLines(Path, globalFile);
             }
         }
@@ -75,7 +77,7 @@ namespace LogitechGMineSweeper
             {
                 total = value;
                 string[] globalFile = File.ReadAllLines(Path);
-                globalFile[2] = "Total: " + total;
+                globalFile[2] = GlobalStrings[2] + total;
                 File.WriteAllLines(Path, globalFile);
             }
         }
@@ -91,7 +93,8 @@ namespace LogitechGMineSweeper
 
         public void ResetToDefault()
         {
-            File.WriteAllLines(Path, Config.GlobalDefault);
+            string[] file = { GlobalStrings[0] + 0, GlobalStrings[1] + 0, GlobalStrings[2] + 0 };
+            File.WriteAllLines(Path, file);
             InitValues();
         }
     }
