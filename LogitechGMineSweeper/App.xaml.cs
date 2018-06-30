@@ -18,7 +18,7 @@ namespace LogitechGMineSweeper
 
         [STAThread]
         public static void Main()
-       {
+        {
             LogitechGSDK.LogiLedInit();
 
             //one instance code

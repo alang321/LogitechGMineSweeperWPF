@@ -10,7 +10,6 @@
                 <Setter Property="FlowDirection" Value="LeftToRight" />
             </Style>
         </Style.Resources>
-
         <Setter Property="FlowDirection" Value="RightToLeft" />
     </Style>
 </ResourceDictionary>

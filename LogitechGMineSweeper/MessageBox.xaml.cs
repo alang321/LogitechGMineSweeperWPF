@@ -146,7 +146,7 @@ namespace LogitechGMineSweeper
         MessageBoxButton button, MessageBoxImage image)
         {
             _messageBox = new MessageBox
-            { txtMsg = { Text = text }, MessageTitle = { Text = caption } };
+            { txtMsg = { Text = text }, MessageTitle = { Content = caption } };
             SetVisibilityOfButtons(button);
             _messageBox.ShowDialog();
             return _result;

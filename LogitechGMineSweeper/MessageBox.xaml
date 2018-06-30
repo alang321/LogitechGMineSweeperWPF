@@ -32,25 +32,20 @@
             Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="0,30,-0.2,0.4"/>
             <Rectangle Grid.Row="0" 
 
-            Grid.Column="0"  Grid.ColumnSpan="2" Margin="0,0,-0.2,33.2">
+            Grid.Column="0"  Grid.ColumnSpan="2" Margin="0,0,0,46">
                 <Rectangle.Fill>
                     <SolidColorBrush Color="transparent"></SolidColorBrush>
                 </Rectangle.Fill>
             </Rectangle>
-            <Grid Grid.Row="0" Grid.ColumnSpan="2" 
-
-            MinHeight="40" Margin="0,0,-0.2,27.2" >
-                <TextBlock Text="Hello" Name="MessageTitle"  
-
-                FontWeight="Bold" TextTrimming="CharacterEllipsis" 
-
-                LineHeight="22" FontSize="16" 
-                           Padding="10,8,0,0"
-
-                VerticalAlignment="Center" Foreground="Black" Panel.ZIndex="500" Height="40" HorizontalAlignment="Left" Width="349"/>
-                <Button HorizontalAlignment="Right" Padding="100,10,5,0" Style="{StaticResource buttonCrossMessageBox}" Panel.ZIndex="600" Margin="0,0,0.2,0" VerticalAlignment="Top" Width="40" Height="40" Click="Button_Click_4"></Button>
+            <Grid Grid.Row="0" Grid.ColumnSpan="2" MinHeight="30" Margin="0,0,0,49" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="33*"/>
+                    <RowDefinition Height="7*"/>
+                </Grid.RowDefinitions>
+                <Label VerticalContentAlignment="Center" Content="Hello" Name="MessageTitle" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" Foreground="Black" Panel.ZIndex="500" Height="30" HorizontalAlignment="Left" Width="349" Margin="8,0,0,0"/>
+                <Button HorizontalAlignment="Right" Padding="100,10,5,0" Template="{StaticResource closeButton}" Panel.ZIndex="600" VerticalAlignment="Top" Width="45" Height="30" Click="Button_Click_4"/>
             </Grid>
-            <Label Margin="10,45,9.8,39.4" VerticalContentAlignment="Center" Panel.ZIndex="500" Foreground="Black" Grid.Column="1" FontSize="14" Grid.RowSpan="3">
+            <Label Margin="10,33,10,39" VerticalContentAlignment="Center" Panel.ZIndex="500" Foreground="Black" Grid.Column="1" FontSize="14" Grid.RowSpan="3">
                 <TextBlock Name="txtMsg" LineHeight="30"/>
             </Label>
             <Grid Grid.Row="2" Grid.ColumnSpan="2"  

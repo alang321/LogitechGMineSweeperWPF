@@ -137,15 +137,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ResourceDictionarys\buttonMinus.xaml">
+    <Page Include="ResourceDictionarys\ButtonMinimize.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ResourceDictionarys\buttonCrossMessageBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ResourceDictionarys\buttonCross.xaml">
+    <Page Include="ResourceDictionarys\ButtonClose.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -230,10 +226,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ResourceDictionarys\KeyboardDisplayColors\buttonKeyboardColor0.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ResourceDictionarys\buttonNavigationActive.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -34,8 +34,8 @@ namespace LogitechGMineSweeper
 
         #region timer
 
-        //max timer duration in ms, 1 minute = 60000ms; 3600000ms = 1hour
-        public static int MaxTimerValue { get; } = 3600000;
+        //max timer duration
+        public static TimeSpan MaxTimerValue { get; } = TimeSpan.FromHours(10);
 
         //atrinf´g display when time is not
         public static string TimeNotSetText { get; } = "--:--";

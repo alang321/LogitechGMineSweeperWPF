@@ -33,59 +33,68 @@
         <Label Panel.ZIndex="-500" VerticalAlignment="Top" Margin="5,0,0,0" HorizontalAlignment="Left" Content="LogitechG MineSweeper" VerticalContentAlignment="Center" FontSize="11" Height="30" Foreground="#FF3E3A3A" Width="128"/>
 
         <Rectangle Fill="Transparent" Stretch="Fill"  Grid.ColumnSpan="2" Panel.ZIndex="500" MouseLeftButtonDown="Stack_mousedown" Height="30" VerticalAlignment="Top" Margin="0,0,0,0" />
-        <DockPanel Background="Transparent" Height="30" Panel.ZIndex="600" VerticalAlignment="Top" Margin="0,0,0,0" HorizontalAlignment="Right" Grid.Column="1" Width="80">
-            <Button Grid.Column="1" Style="{DynamicResource buttonMinus}" HorizontalAlignment="Right" Panel.ZIndex="600" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Height="30" Click="Click_Minimize"></Button>
-            <Button Grid.Column="1" Style="{DynamicResource buttonCross}" HorizontalAlignment="Right" Panel.ZIndex="600" Margin="0,0,0,0" VerticalAlignment="Top" Width="40" Height="30" Click="Click_Close"></Button>
-        </DockPanel>
+        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Background="Transparent" Height="30" Panel.ZIndex="600" VerticalAlignment="Top" Margin="0,0,0,0" HorizontalAlignment="Right" Grid.Column="1" Width="108">
+            <Button Template="{StaticResource closeButton}" HorizontalAlignment="Right" Panel.ZIndex="600" Margin="0,0,0,0" Width="45" Click="Click_Close"/>
+            <Button Template="{StaticResource minimizeButton}" HorizontalAlignment="Right" Panel.ZIndex="600" Margin="0,0,0,0" Width="45" Click="Click_Minimize"/>
+        </StackPanel>
 
 
-        <Button Name="settings" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,30,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Settings" Grid.ColumnSpan="2">
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="Template" Value="{StaticResource navButtonActive}"/>
-                </Style>
-            </Button.Style>
-            <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
-                <Image Source="symbols/settings.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                <TextBlock Text="  Settings" VerticalAlignment="Center" Height="25" />
-            </StackPanel>
-        </Button>
+        <Canvas MouseLeave="Canvas_MouseLeave" Margin="0,30,0,196">
+            <Grid Canvas.Top="0"  IsHitTestVisible="False" Name="AnimatedSideBarSelected" Height="45" Width="206" Background="Transparent" RenderTransformOrigin="0.5,0.5">
+                <Border BorderThickness="0" Opacity="0.1" CornerRadius="0,0,0,0" BorderBrush="Black" Background="Black" HorizontalAlignment="Right" Width="206" Height="45" VerticalAlignment="Bottom"/>
+            </Grid>
+            <Button MouseEnter="SettingsEnter" Name="settings" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="206" Height="45" Canvas.Top="0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Settings" Grid.ColumnSpan="2">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Template" Value="{StaticResource navButton}"/>
+                    </Style>
+                </Button.Style>
+                <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
+                    <Image Source="symbols/settings.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                    <TextBlock Text="  Settings" VerticalAlignment="Center" Height="25" />
+                </StackPanel>
+            </Button>
 
-        <Button Name="colors" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,75,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Colors" Grid.ColumnSpan="2">
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="Template" Value="{StaticResource navButton}"/>
-                </Style>
-            </Button.Style>
-            <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
-                <Image Source="symbols/color.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                <TextBlock Text="  Colors" VerticalAlignment="Center" Height="25" />
-            </StackPanel>
-        </Button>
+            <Button Canvas.Top="45" MouseEnter="ColorsEnter" Name="colors" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Colors" Grid.ColumnSpan="2">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Template" Value="{StaticResource navButton}"/>
+                    </Style>
+                </Button.Style>
+                <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
+                    <Image Source="symbols/color.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                    <TextBlock Text="  Colors" VerticalAlignment="Center" Height="25" />
+                </StackPanel>
+            </Button>
 
-        <Button Name="stats" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,120,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Statistics" Grid.ColumnSpan="2">
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="Template" Value="{StaticResource navButton}"/>
-                </Style>
-            </Button.Style>
-            <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
-                <Image Source="symbols/stats.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                <TextBlock Text="  Statistics" VerticalAlignment="Center" Height="25" />
-            </StackPanel>
-        </Button>
+            <Button MouseEnter="StatsEnter" Name="stats" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Canvas.Top="90" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Statistics" Grid.ColumnSpan="2">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Template" Value="{StaticResource navButton}"/>
+                    </Style>
+                </Button.Style>
+                <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
+                    <Image Source="symbols/stats.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                    <TextBlock Text="  Statistics" VerticalAlignment="Center" Height="25" />
+                </StackPanel>
+            </Button>
 
-        <Button Name="reset" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Margin="0,165,0,0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Reset" Grid.ColumnSpan="2">
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="Template" Value="{StaticResource navButton}"/>
-                </Style>
-            </Button.Style>
-            <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
-                <Image Source="symbols/reset.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                <TextBlock VerticalAlignment="Center" Height="25" ><Run Text="  "/><Run Text="Reset"/></TextBlock>
-            </StackPanel>
-        </Button>
+            <Button MouseEnter="ResetEnter" Name="reset" HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalAlignment="Center" Width="206" Height="45" Canvas.Top="135" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Reset" Grid.ColumnSpan="2">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Template" Value="{StaticResource navButton}"/>
+                    </Style>
+                </Button.Style>
+                <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
+                    <Image Source="symbols/reset.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                    <TextBlock VerticalAlignment="Center" Height="25" ><Run Text="  "/><Run Text="Reset"/></TextBlock>
+                </StackPanel>
+            </Button>
+
+            <Grid Canvas.Top="0"  IsHitTestVisible="False" Name="AnimatedSideBar" Height="45" Width="5" Background="Transparent" RenderTransformOrigin="0.5,0.5">
+                <Border BorderThickness="0" Opacity="0.7" CornerRadius="0,0,0,0" Margin="0,9" BorderBrush="Black" Background="Black"/>
+            </Grid>
+        </Canvas>
 
         <TabControl SelectionChanged="TabSelectionChanged" Name="_menuTabControl" Width="auto" Margin="13,30,10,0" TabStripPlacement="Top" BorderBrush="#00ACACAC" Grid.Column="1" Height="376" VerticalAlignment="Top">
             <TabItem Background="#00000000" BorderBrush="#00ACACAC" Width="0">
@@ -245,21 +254,21 @@
                 <Grid Margin="0,-13,0,0.2">
                     <Label Margin="0,0,0,0" Content="Statistics" FontWeight="{Binding FontWeight, ElementName=fonttitle}" FontSize="26" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Label Content="Global Statistics:" FontWeight="DemiBold" FontSize="16" HorizontalAlignment="Left" Margin="0,52,0,0" VerticalAlignment="Top"/>
-                    <Label Name="gloWins" FontSize="14" Content="e" HorizontalAlignment="Left" Margin="104,85,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.625,1.038"/>
-                    <Label Name="gloLosses" FontSize="14" Content="b" HorizontalAlignment="Left" Margin="104,114,0,0" VerticalAlignment="Top"/>
-                    <Label Name="gloTotal" FontSize="14" Content="c" HorizontalAlignment="Left" Margin="104,143,0,0" VerticalAlignment="Top"/>
-                    <Label Name="local" Content="dede" FontWeight="DemiBold" FontSize="16" HorizontalAlignment="Left" Margin="0,196,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Best Time:" FontSize="14" HorizontalAlignment="Left" Margin="20,228,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Wins:" FontSize="14" HorizontalAlignment="Left" Margin="20,257,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Losses:" FontSize="14" HorizontalAlignment="Left" Margin="20,286,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Total:" FontSize="14" HorizontalAlignment="Left" Margin="20,315,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Wins:" FontSize="14" HorizontalAlignment="Left" Margin="20,85,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Losses:" FontSize="14" HorizontalAlignment="Left" Margin="20,114,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Total:" FontSize="14" HorizontalAlignment="Left" Margin="20,143,0,0" VerticalAlignment="Top"/>
-                    <Label Name="locBest"  FontSize="14" Content="Labefffl" HorizontalAlignment="Left" Margin="104,228,0,0" VerticalAlignment="Top"/>
-                    <Label Name="locWins" FontSize="14" Content="defr" HorizontalAlignment="Left" Margin="104,257,0,0" VerticalAlignment="Top"/>
-                    <Label Name="locLosses" FontSize="14" Content="Lael" HorizontalAlignment="Left" Margin="104,286,0,0" VerticalAlignment="Top"/>
-                    <Label Name="locTotal" FontSize="14" Content="bel" HorizontalAlignment="Left" Margin="104,315,0,0" VerticalAlignment="Top"/>
+                    <Label Name="gloWins" HorizontalContentAlignment="Right" FontSize="14" Content="WinsValue" HorizontalAlignment="Left" Margin="73,85,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.625,1.038" Width="89"/>
+                    <Label Name="gloLosses" HorizontalContentAlignment="Right" FontSize="14" Content="LossesValue" HorizontalAlignment="Left" Margin="73,114,0,0" VerticalAlignment="Top" Width="89"/>
+                    <Label Name="gloTotal" HorizontalContentAlignment="Right" FontSize="14" Content="TotalValue" HorizontalAlignment="Left" Margin="73,143,0,0" VerticalAlignment="Top" Width="89"/>
+                    <Label Name="local" Content="Local Statistics" FontWeight="DemiBold" FontSize="16" HorizontalAlignment="Left" Margin="0,196,0,0" VerticalAlignment="Top"/>
+                    <Label FontWeight="DemiBold" Content="Best Time:" FontSize="14" HorizontalAlignment="Left" Margin="20,228,0,0" VerticalAlignment="Top"/>
+                    <Label FontWeight="DemiBold" Content="Wins:" FontSize="14" HorizontalAlignment="Left" Margin="20,257,0,0" VerticalAlignment="Top"/>
+                    <Label FontWeight="DemiBold" Content="Losses:" FontSize="14" HorizontalAlignment="Left" Margin="20,286,0,0" VerticalAlignment="Top"/>
+                    <Label FontWeight="DemiBold" Content="Total:" FontSize="14" HorizontalAlignment="Left" Margin="20,315,0,0" VerticalAlignment="Top"/>
+                    <Label FontWeight="DemiBold" Content="Wins:" FontSize="14" HorizontalAlignment="Left" Margin="20,85,0,0" VerticalAlignment="Top"/>
+                    <Label FontWeight="DemiBold" Content="Losses:" FontSize="14" HorizontalAlignment="Left" Margin="20,114,0,0" VerticalAlignment="Top"/>
+                    <Label FontWeight="DemiBold" Content="Total:" FontSize="14" HorizontalAlignment="Left" Margin="20,143,0,0" VerticalAlignment="Top"/>
+                    <Label HorizontalContentAlignment="Right" Name="locBest"  FontSize="14" Content="LocalBestTimeValue" HorizontalAlignment="Left" Margin="-6,228,0,0" VerticalAlignment="Top" Width="168"/>
+                    <Label HorizontalContentAlignment="Right" Name="locWins" FontSize="14" Content="LocalWinsValue" HorizontalAlignment="Left" Margin="20,257,0,0" VerticalAlignment="Top" Width="142"/>
+                    <Label HorizontalContentAlignment="Right" Name="locLosses" FontSize="14" Content="LocalLossesValue" HorizontalAlignment="Left" Margin="20,286,0,0" VerticalAlignment="Top" Width="142"/>
+                    <Label HorizontalContentAlignment="Right" Name="locTotal" FontSize="14" Content="LocalTotalValue" HorizontalAlignment="Left" Margin="20,315,0,0" VerticalAlignment="Top" Width="142"/>
 
                 </Grid>
             </TabItem>

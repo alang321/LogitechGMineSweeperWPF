@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows.Media.Animation;
 
 namespace LogitechGMineSweeper
 {
@@ -73,6 +74,28 @@ namespace LogitechGMineSweeper
         //variable for minesweeper object
         public MineSweeper MineSweeper { get; set; }
 
+        #region objects animated bar
+
+        Storyboard storyboardSelected = new Storyboard();
+        Storyboard storyboard = new Storyboard();
+        Button[] NavButtons;
+
+        DoubleAnimation pointAnimation = new DoubleAnimation()
+        {
+            AccelerationRatio = 0.5,
+            DecelerationRatio = 0.5,
+            Duration = new Duration(TimeSpan.FromSeconds(0.2))
+        };
+
+        DoubleAnimation pointAnimationSelected = new DoubleAnimation()
+        {
+            AccelerationRatio = 0.5,
+            DecelerationRatio = 0.5,
+            Duration = new Duration(TimeSpan.FromSeconds(0.15))
+        };
+
+        #endregion
+
         public MainWindow()
         {
             InitializeComponent();
@@ -81,8 +104,8 @@ namespace LogitechGMineSweeper
             dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
             dispatcherTimer.Stop();
 
-            SaveFileSettings settings = new SaveFileSettings(Config.PathSettingsFile, Config.UseBackgroundDefault, Config.KeyboardLayoutDefaultIndex, Config.BombsDefault, Config.defaultSetLogiLogo, Config.MinBombs, Config.MaxBombs, Config.KeyboardLayouts.Length-1);
-            MineSweeper = new MineSweeper(settings, new SaveFileGlobalStatistics(Config.PathGlobalStatisticsFile), Config.KeyboardLayouts[settings.LayoutIndex], new SaveFileColors(Config.PathColorsFile, Config.ColorsDefault));
+            SaveFileSettings settingsFile = new SaveFileSettings(Config.PathSettingsFile, Config.UseBackgroundDefault, Config.KeyboardLayoutDefaultIndex, Config.BombsDefault, Config.defaultSetLogiLogo, Config.MinBombs, Config.MaxBombs, Config.KeyboardLayouts.Length-1);
+            MineSweeper = new MineSweeper(settingsFile, new SaveFileGlobalStatistics(Config.PathGlobalStatisticsFile), Config.KeyboardLayouts[settingsFile.LayoutIndex], new SaveFileColors(Config.PathColorsFile, Config.ColorsDefault));
             
             MineSweeper.StatsChangedEvent += new MineSweeper.UpdateStatsEventHandler(UpdateStats);
             MineSweeper.UpdateTimerEvent += new MineSweeper.TimerEventHandler(UpdateTimer);
@@ -92,8 +115,6 @@ namespace LogitechGMineSweeper
             {
                 KeyLayout.Items.Add(layout.Text);
             }
-
-            _menuTabControl.SelectedIndex = 0;
             
             Config.InitKeyboardLayoutsArray();
             //init the keyboardusercontrols and let the right one subscribe to the print board events
@@ -105,6 +126,18 @@ namespace LogitechGMineSweeper
 
             UpdateStats();
             UpdateTimerText();
+
+            //animation side bar
+            NavButtons = new Button[] { settings, colors, stats, reset };
+            Storyboard.SetTarget(pointAnimation, AnimatedSideBar);
+            Storyboard.SetTargetProperty(pointAnimation, new PropertyPath(Canvas.TopProperty));
+            storyboard.Children.Add(pointAnimation);
+            
+            Storyboard.SetTarget(pointAnimationSelected, AnimatedSideBarSelected);
+            Storyboard.SetTargetProperty(pointAnimationSelected, new PropertyPath(Canvas.TopProperty));
+            storyboardSelected.Children.Add(pointAnimationSelected);
+
+            _menuTabControl.SelectedIndex = 0;
         }
 
         #endregion
@@ -137,10 +170,12 @@ namespace LogitechGMineSweeper
             var accentPtr = Marshal.AllocHGlobal(accentStructSize);
             Marshal.StructureToPtr(accent, accentPtr, false);
 
-            var data = new WindowCompositionAttributeData();
-            data.Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY;
-            data.SizeOfData = accentStructSize;
-            data.Data = accentPtr;
+            var data = new WindowCompositionAttributeData
+            {
+                Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY,
+                SizeOfData = accentStructSize,
+                Data = accentPtr
+            };
 
             SetWindowCompositionAttribute(windowHelper.Handle, ref data);
 
@@ -172,7 +207,7 @@ namespace LogitechGMineSweeper
 
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
-            if (MineSweeper.Stopwatch.Elapsed.TotalMilliseconds >= Config.MaxTimerValue)
+            if (MineSweeper.Stopwatch.Elapsed >= Config.MaxTimerValue)
             {
                 MineSweeper.NewGame();
             }
@@ -321,28 +356,14 @@ namespace LogitechGMineSweeper
         //if you use num keys to change selection
         private void TabSelectionChanged(object sender, RoutedEventArgs e)
         {
-            var style = new Style();
-
-            style.Setters.Add(new Setter(TemplateProperty, this.FindResource("navButtonActive")));
-            
-            var styleClone = new Style();
-            foreach (var setter in style.Setters)
-            {
-                var typedSetter = setter as Setter;
-                if (typedSetter != null)
-                {
-                    var newSetter = new Setter(typedSetter.Property, typedSetter.Value);
-                    styleClone.Setters.Add(newSetter);
-                }
-            }
-
             switch (_menuTabControl.SelectedIndex)
             {
                 case 0:
                     CheckBoxSetLogiLogo.IsChecked = MineSweeper.SetLogiLogo;
                     KeyboardDisplayShown = false;
-                    SetAllButtonsNormal();
-                    settings.Style = styleClone;
+                    pointAnimationSelected.From = Canvas.GetTop(AnimatedSideBarSelected);
+                    pointAnimationSelected.To = Canvas.GetTop(settings);
+                    storyboardSelected.Begin();
                     break;
                 case 1:
                     FlagUseBackground.IsChecked = MineSweeper.UseBackground;
@@ -350,18 +371,21 @@ namespace LogitechGMineSweeper
                     KeyboardDisplayContainer.Children.Add(MineSweeper.KeyboardLayout.KeyboardDisplayPage as UserControl);
                     UpdateDisplayEvent?.Invoke();
                     KeyboardDisplayShown = true;
-                    SetAllButtonsNormal();
-                    colors.Style = styleClone;
+                    pointAnimationSelected.From = Canvas.GetTop(AnimatedSideBarSelected);
+                    pointAnimationSelected.To = Canvas.GetTop(colors);
+                    storyboardSelected.Begin();
                     break;
                 case 2:
                     KeyboardDisplayShown = false;
-                    SetAllButtonsNormal();
-                    stats.Style = styleClone;
+                    pointAnimationSelected.From = Canvas.GetTop(AnimatedSideBarSelected);
+                    pointAnimationSelected.To = Canvas.GetTop(stats);
+                    storyboardSelected.Begin();
                     break;
                 case 3:
                     KeyboardDisplayShown = false;
-                    SetAllButtonsNormal();
-                    reset.Style = styleClone;
+                    pointAnimationSelected.From = Canvas.GetTop(AnimatedSideBarSelected);
+                    pointAnimationSelected.To = Canvas.GetTop(reset);
+                    storyboardSelected.Begin();
                     break;
             }
         }
@@ -370,7 +394,6 @@ namespace LogitechGMineSweeper
         {
             _menuTabControl.SelectedIndex = 0;
         }
-
         private void Click_Colors(object sender, RoutedEventArgs e)
         {
             _menuTabControl.SelectedIndex = 1;
@@ -386,28 +409,70 @@ namespace LogitechGMineSweeper
             _menuTabControl.SelectedIndex = 3;
         }
 
-        private void SetAllButtonsNormal()
+        #region AnimatedSideBar
+
+        int target = 0;
+
+        #region Mouse Enter
+
+        private void SettingsEnter(object sender, RoutedEventArgs e)
         {
-            var style = new Style();
-
-            style.Setters.Add(new Setter(TemplateProperty, this.FindResource("navButton")));
-
-            var styleClone = new Style();
-            foreach (var setter in style.Setters)
+            if(target != 0)
             {
-                var typedSetter = setter as Setter;
-                if (typedSetter != null)
-                {
-                    var newSetter = new Setter(typedSetter.Property, typedSetter.Value);
-                    styleClone.Setters.Add(newSetter);
-                }
+                pointAnimation.From = Canvas.GetTop(AnimatedSideBar);
+                pointAnimation.To = Canvas.GetTop(settings);
+                storyboard.Begin();
+                target = 0;
             }
-
-            settings.Style = styleClone;
-            stats.Style = styleClone;
-            reset.Style = styleClone;
-            colors.Style = styleClone;
         }
+
+        private void ColorsEnter(object sender, RoutedEventArgs e)
+        {
+            if (target != 1)
+            {
+                pointAnimation.From = Canvas.GetTop(AnimatedSideBar);
+                pointAnimation.To = Canvas.GetTop(colors);
+                storyboard.Begin();
+                target = 1;
+            }
+        }
+
+        private void StatsEnter(object sender, RoutedEventArgs e)
+        {
+            if (target != 2)
+            {
+                pointAnimation.From = Canvas.GetTop(AnimatedSideBar);
+                pointAnimation.To = Canvas.GetTop(stats);
+                storyboard.Begin();
+                target = 2;
+            }
+        }
+
+        private void ResetEnter(object sender, RoutedEventArgs e)
+        {
+            if (target != 3)
+            {
+                pointAnimation.From = Canvas.GetTop(AnimatedSideBar);
+                pointAnimation.To = Canvas.GetTop(reset);
+                storyboard.Begin();
+                target = 3;
+            }
+        }
+
+        #endregion
+
+        private void Canvas_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (target != _menuTabControl.SelectedIndex)
+            {
+                pointAnimation.From = Canvas.GetTop(AnimatedSideBar);
+                pointAnimation.To = Canvas.GetTop(NavButtons[_menuTabControl.SelectedIndex]);
+                storyboard.Begin();
+                target = _menuTabControl.SelectedIndex;
+            }
+        }
+
+        #endregion
 
         #endregion
 
