@@ -111,8 +111,8 @@
         <xctk:ColorCanvas BorderThickness="0" Background="#00000000" UsingAlphaChannel="False" x:Name="ClrPcker_Background" SelectedColorChanged="ClrPcker_Background_SelectedColorChanged" Height="244" HorizontalAlignment="Left" VerticalAlignment="Top" Width="235" Margin="10,40,0,0"/>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,277,0,10" >
-            <Button Name="btnOk" Content="OK"  Margin="3,5" MinWidth="70" Height="30" Click="Button_Click" Foreground="Black" FontSize="14" Background="white" VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-            <Button Name="btnCancel" Margin="3,5" Content="Cancel" MinWidth="70" Height="30" Click="Button_Click" Foreground="Black" Background="white" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            <Button Template="{StaticResource ButtonBorder}" Name="btnOk" Content="OK"  Margin="3,5" MinWidth="70" Height="30" Click="Button_Click" Foreground="Black" FontSize="14" Background="white" VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+            <Button Template="{StaticResource ButtonBorder}" Name="btnCancel" Margin="3,5" Content="Cancel" MinWidth="70" Height="30" Click="Button_Click" Foreground="Black" Background="white" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
         </StackPanel>
 
         <Rectangle Fill="Transparent" MouseDown="Window_MouseDown" Margin="0,0,30.4,301.2" ></Rectangle>

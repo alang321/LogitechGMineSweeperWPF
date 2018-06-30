@@ -1,20 +1,17 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:LogitechGMineSweeper">
-    <ControlTemplate TargetType="Button" x:Key="navButton">
-        <Border RenderTransformOrigin="0.2,0.5">
+    <ControlTemplate TargetType="Button" x:Key="Button">
+        <Border BorderThickness="0" BorderBrush="#7b7b7b" Name="RootElement"  RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <ScaleTransform ScaleX="1.0" ScaleY="1.0"></ScaleTransform>
             </Border.RenderTransform>
-            <Grid Margin="0" >
+            <Grid Margin="0">
                 <Grid.Background>
-                    <SolidColorBrush x:Name="ButtonBackground" Color="#00000000"/>
+                    <SolidColorBrush x:Name="ButtonBackground" Color="#cdcdcd"/>
                 </Grid.Background>
-                <ContentPresenter RenderTransformOrigin="0.5,0.5" Name="RootElement" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center" Margin="4,5,4,4">
-                    <ContentPresenter.RenderTransform>
-                        <ScaleTransform ScaleX="1.0" ScaleY="1.0"></ScaleTransform>
-                    </ContentPresenter.RenderTransform>
-                </ContentPresenter>
+                <Rectangle Name="border" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,0" Stroke="#7b7b7b" StrokeThickness="0"/>
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4,5,4,4"/>
             </Grid>
             <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup x:Name="CommonStates">
@@ -28,14 +25,14 @@
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="RootElement" Storyboard.TargetProperty="RenderTransform.ScaleY" DecelerationRatio="0.4" AccelerationRatio="0.4" To="1" Duration="0:0:0.1" />
                             <DoubleAnimation Storyboard.TargetName="RootElement" Storyboard.TargetProperty="RenderTransform.ScaleX" DecelerationRatio="0.4" AccelerationRatio="0.4" To="1" Duration="0:0:0.1" />
-                            <ColorAnimation Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Color" To="#17000000" Duration="0:0:0.1"/>
+                            <DoubleAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="StrokeThickness" To="2" Duration="0:0:0.1" />
                         </Storyboard>
                     </VisualState>
                     <VisualState x:Name="Pressed">
                         <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="RootElement" Storyboard.TargetProperty="RenderTransform.ScaleY" DecelerationRatio="0.4" AccelerationRatio="0.4" To="0.93" Duration="0:0:0.1" />
-                            <DoubleAnimation Storyboard.TargetName="RootElement" Storyboard.TargetProperty="RenderTransform.ScaleX" DecelerationRatio="0.4" AccelerationRatio="0.4" To="0.96" Duration="0:0:0.1" />
-                            <ColorAnimation Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Color" To="#17000000" Duration="0:0:0.1"/>
+                            <DoubleAnimation Storyboard.TargetName="RootElement" Storyboard.TargetProperty="RenderTransform.ScaleY" DecelerationRatio="0.4" AccelerationRatio="0.4" To="0.96" Duration="0:0:0.08" />
+                            <DoubleAnimation Storyboard.TargetName="RootElement" Storyboard.TargetProperty="RenderTransform.ScaleX" DecelerationRatio="0.4" AccelerationRatio="0.4" To="0.96" Duration="0:0:0.08" />
+                            <ColorAnimation Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Color" To="#7b7b7b" Duration="0:0:0.1" />
                         </Storyboard>
                     </VisualState>
                 </VisualStateGroup>

@@ -77,15 +77,7 @@ namespace LogitechGMineSweeper
         #region objects animated bar
 
         Storyboard storyboardSelected = new Storyboard();
-        Storyboard storyboard = new Storyboard();
         Button[] NavButtons;
-
-        DoubleAnimation pointAnimation = new DoubleAnimation()
-        {
-            AccelerationRatio = 0.5,
-            DecelerationRatio = 0.5,
-            Duration = new Duration(TimeSpan.FromSeconds(0.2))
-        };
 
         DoubleAnimation pointAnimationSelected = new DoubleAnimation()
         {
@@ -129,10 +121,6 @@ namespace LogitechGMineSweeper
 
             //animation side bar
             NavButtons = new Button[] { settings, colors, stats, reset };
-            Storyboard.SetTarget(pointAnimation, AnimatedSideBar);
-            Storyboard.SetTargetProperty(pointAnimation, new PropertyPath(Canvas.TopProperty));
-            storyboard.Children.Add(pointAnimation);
-            
             Storyboard.SetTarget(pointAnimationSelected, AnimatedSideBarSelected);
             Storyboard.SetTargetProperty(pointAnimationSelected, new PropertyPath(Canvas.TopProperty));
             storyboardSelected.Children.Add(pointAnimationSelected);
@@ -408,71 +396,6 @@ namespace LogitechGMineSweeper
         {
             _menuTabControl.SelectedIndex = 3;
         }
-
-        #region AnimatedSideBar
-
-        int target = 0;
-
-        #region Mouse Enter
-
-        private void SettingsEnter(object sender, RoutedEventArgs e)
-        {
-            if(target != 0)
-            {
-                pointAnimation.From = Canvas.GetTop(AnimatedSideBar);
-                pointAnimation.To = Canvas.GetTop(settings);
-                storyboard.Begin();
-                target = 0;
-            }
-        }
-
-        private void ColorsEnter(object sender, RoutedEventArgs e)
-        {
-            if (target != 1)
-            {
-                pointAnimation.From = Canvas.GetTop(AnimatedSideBar);
-                pointAnimation.To = Canvas.GetTop(colors);
-                storyboard.Begin();
-                target = 1;
-            }
-        }
-
-        private void StatsEnter(object sender, RoutedEventArgs e)
-        {
-            if (target != 2)
-            {
-                pointAnimation.From = Canvas.GetTop(AnimatedSideBar);
-                pointAnimation.To = Canvas.GetTop(stats);
-                storyboard.Begin();
-                target = 2;
-            }
-        }
-
-        private void ResetEnter(object sender, RoutedEventArgs e)
-        {
-            if (target != 3)
-            {
-                pointAnimation.From = Canvas.GetTop(AnimatedSideBar);
-                pointAnimation.To = Canvas.GetTop(reset);
-                storyboard.Begin();
-                target = 3;
-            }
-        }
-
-        #endregion
-
-        private void Canvas_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            if (target != _menuTabControl.SelectedIndex)
-            {
-                pointAnimation.From = Canvas.GetTop(AnimatedSideBar);
-                pointAnimation.To = Canvas.GetTop(NavButtons[_menuTabControl.SelectedIndex]);
-                storyboard.Begin();
-                target = _menuTabControl.SelectedIndex;
-            }
-        }
-
-        #endregion
 
         #endregion
 

@@ -52,6 +52,9 @@
                 <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/CheckboxRightSide.xaml" />
                 <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/buttonNavigation.xaml" />
                 <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/ButtonMinimize.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/RepeaterButtonTemplate.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/ButtonTemplateBorder.xaml" />
+                <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/ButtonTemplate.xaml" />
                 <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonEnter12.xaml" />
                 <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonEnter13.xaml" />
                 <ResourceDictionary Source="/LogitechGMineSweeper;component/ResourceDictionarys/KeyboardDisplayColors/buttonEnter14.xaml" />

@@ -39,11 +39,17 @@
         </StackPanel>
 
 
-        <Canvas MouseLeave="Canvas_MouseLeave" Margin="0,30,0,196">
-            <Grid Canvas.Top="0"  IsHitTestVisible="False" Name="AnimatedSideBarSelected" Height="45" Width="206" Background="Transparent" RenderTransformOrigin="0.5,0.5">
+        <Canvas Margin="0,30,0,196">
+            <!--<Grid Canvas.Top="0"  IsHitTestVisible="False" Name="AnimatedSideBarSelected" Height="45" Width="206" Background="Transparent" RenderTransformOrigin="0.5,0.5">
                 <Border BorderThickness="0" Opacity="0.1" CornerRadius="0,0,0,0" BorderBrush="Black" Background="Black" HorizontalAlignment="Right" Width="206" Height="45" VerticalAlignment="Bottom"/>
+            </Grid>-->
+            <Grid Canvas.Top="0"  IsHitTestVisible="False" Name="AnimatedSideBarSelected" Height="45" Width="5" Background="Transparent" RenderTransformOrigin="0.5,0.5">
+                <Border BorderThickness="0" Opacity="0.7" CornerRadius="0,0,0,0" Margin="0,9" BorderBrush="Black" Background="Black"/>
             </Grid>
-            <Button MouseEnter="SettingsEnter" Name="settings" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="206" Height="45" Canvas.Top="0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Settings" Grid.ColumnSpan="2">
+            <!--<Grid Canvas.Top="0"  IsHitTestVisible="False" Name="AnimatedSideBarSelected" Height="45" Width="5" Background="Transparent" RenderTransformOrigin="0.5,0.5" Canvas.Left="201">
+                <Border BorderThickness="0" Opacity="0.7" CornerRadius="0,0,0,0" Margin="0,9" BorderBrush="Black" Background="Black"/>
+            </Grid>-->
+            <Button Name="settings" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="206" Height="45" Canvas.Top="0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Settings" Grid.ColumnSpan="2">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Template" Value="{StaticResource navButton}"/>
@@ -55,7 +61,7 @@
                 </StackPanel>
             </Button>
 
-            <Button Canvas.Top="45" MouseEnter="ColorsEnter" Name="colors" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Colors" Grid.ColumnSpan="2">
+            <Button Canvas.Top="45" Name="colors" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Colors" Grid.ColumnSpan="2">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Template" Value="{StaticResource navButton}"/>
@@ -67,7 +73,7 @@
                 </StackPanel>
             </Button>
 
-            <Button MouseEnter="StatsEnter" Name="stats" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Canvas.Top="90" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Statistics" Grid.ColumnSpan="2">
+            <Button Name="stats" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Canvas.Top="90" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Statistics" Grid.ColumnSpan="2">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Template" Value="{StaticResource navButton}"/>
@@ -79,7 +85,7 @@
                 </StackPanel>
             </Button>
 
-            <Button MouseEnter="ResetEnter" Name="reset" HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalAlignment="Center" Width="206" Height="45" Canvas.Top="135" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Reset" Grid.ColumnSpan="2">
+            <Button Name="reset" HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalAlignment="Center" Width="206" Height="45" Canvas.Top="135" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Reset" Grid.ColumnSpan="2">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Template" Value="{StaticResource navButton}"/>
@@ -90,10 +96,6 @@
                     <TextBlock VerticalAlignment="Center" Height="25" ><Run Text="  "/><Run Text="Reset"/></TextBlock>
                 </StackPanel>
             </Button>
-
-            <Grid Canvas.Top="0"  IsHitTestVisible="False" Name="AnimatedSideBar" Height="45" Width="5" Background="Transparent" RenderTransformOrigin="0.5,0.5">
-                <Border BorderThickness="0" Opacity="0.7" CornerRadius="0,0,0,0" Margin="0,9" BorderBrush="Black" Background="Black"/>
-            </Grid>
         </Canvas>
 
         <TabControl SelectionChanged="TabSelectionChanged" Name="_menuTabControl" Width="auto" Margin="13,30,10,0" TabStripPlacement="Top" BorderBrush="#00ACACAC" Grid.Column="1" Height="376" VerticalAlignment="Top">
@@ -105,23 +107,25 @@
                     <Label Margin="0,0,0,0" Content="Settings" FontWeight="{Binding FontWeight, ElementName=fonttitle}" FontSize="26" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Grid Margin="0,52,0,0.2">
                         <Label FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Content="Change Bomb-Number" Height="32" FontSize="16"/>
-                        <Grid HorizontalAlignment="Left" Margin="50,40,0,261.8" >
+                        <Grid HorizontalAlignment="Left" Margin="50,41,0,261.8" >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="9*"/>
                                 <RowDefinition Height="16*"/>
                             </Grid.RowDefinitions>
-                            <TextBox Focusable="False" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,2,0,0" Height="23" x:Name="NUDTextBox" TextAlignment="Right" TextChanged="NUDTextBox_TextChanged" Margin="35,0,0,0" Width="49" Grid.RowSpan="2"/>
-                            <RepeatButton HorizontalAlignment="Left" VerticalAlignment="Top" Interval="180" x:Name="NUDButtonUP" FontSize="8" FontFamily="Marlett" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="NUDButtonUP_Click" Margin="83,0,0,0" Content="5" Height="12" Width="15" Grid.RowSpan="2"/>
-                            <RepeatButton HorizontalAlignment="Left" VerticalAlignment="Top" Height="12" Interval="180" x:Name="NUDButtonDown" FontSize="8"  FontFamily="Marlett" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="NUDButtonDown_Click" Margin="83,2.667,0,0" Content="6" Width="15" Grid.Row="1"></RepeatButton>
+                            <TextBox Focusable="False" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,2,0,0" Height="22" x:Name="NUDTextBox" TextAlignment="Right" TextChanged="NUDTextBox_TextChanged" Margin="35,0,0,0" Width="49" Grid.RowSpan="2"/>
+                            <RepeatButton BorderThickness="0" Template="{StaticResource RepeatButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Interval="180" x:Name="NUDButtonUP" FontSize="8" FontFamily="Marlett" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="NUDButtonUP_Click" Margin="83,0,0,0" Height="11" Width="15" Grid.RowSpan="2"/>
+                            <RepeatButton BorderThickness="0" Template="{StaticResource RepeatButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="11" Interval="180" x:Name="NUDButtonDown" FontSize="8" FontFamily="Marlett" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="NUDButtonDown_Click" Margin="83,3,0,0" Width="15" Grid.Row="1"/>
+                            <Label Panel.ZIndex="500" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsHitTestVisible="False" Padding="0,0,0,0" FontSize="9" FontFamily="Marlett" Content="6" Margin="83,3,0,0" Grid.Row="1"/>
+                            <Label Panel.ZIndex="500" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsHitTestVisible="False" Padding="0,0,0,0" FontSize="9" FontFamily="Marlett" Content="5" Margin="83,0,0,11" Grid.RowSpan="2"/>
                         </Grid>
                         <Label FontSize="14" HorizontalAlignment="Left" Content="Bombs:" Width="100" Margin="20,37,0,261.8"/>
 
                         <Label HorizontalAlignment="Left" FontSize="14" Content="Keyboard-Layout:" Margin="20,174,0,120.8"/>
 
                         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="26,80,0,204.8" Height="27">
-                            <Button BorderThickness="2" FontSize="14" Content="Easy" Click="Click_Easy" Height="27" Width="95"/>
-                            <Button BorderThickness="2" FontSize="14" Content="Medium" Click="Click_Medium" Margin="19,0,0,0" Width="95"/>
-                            <Button BorderThickness="2" FontSize="14" Content="Hard" Margin="19,0,0,0" Width="95"  Click="Click_Hard"/>
+                            <Button Template="{StaticResource Button}" FontFamily="Helvetica" FontSize="14" Content="Easy" Click="Click_Easy" Height="27" Width="95"/>
+                            <Button Template="{StaticResource Button}" FontFamily="Helvetica" FontSize="14" Content="Medium" Click="Click_Medium" Margin="19,0,0,0" Width="95"/>
+                            <Button Template="{StaticResource Button}" FontFamily="Helvetica" FontSize="14" Content="Hard" Margin="19,0,0,0" Width="95" Click="Click_Hard"/>
                         </StackPanel>
 
                         <Label HorizontalAlignment="Left" FontWeight="DemiBold" VerticalAlignment="Top" Margin="0,139,0,0" Content="Change Keyboard-Layout" Height="32" FontSize="16"/>
@@ -280,11 +284,11 @@
                     <Label Margin="0,0,0,0" Content="Reset" FontWeight="{Binding FontWeight, ElementName=fonttitle}" FontSize="26" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Label FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,52,0,0" Content="Reset settings, statistics or colors" Height="32" FontSize="16"/>
                     <Label FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,158,0,0" Content="Reset all preferences and statistics" Height="32" FontSize="16"/>
-                    <Button BorderThickness="2" HorizontalAlignment="Left" FontSize="14" Content="Reset Everything" Click="Button_all" Height="32" Margin="26,56,0,0" Width="120"/>
+                    <Button HorizontalAlignment="Left" Template="{StaticResource Button}" Margin="26,56,0,0" FontFamily="Helvetica" FontSize="14" Content="Reset Everything" Click="Button_all" Height="30" Width="115"/>
                     <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="26,94,0,0" Height="32">
-                        <Button BorderThickness="2" FontSize="14" Content="Reset Settings" Click="Button_set" Width="120"/>
-                        <Button BorderThickness="2" FontSize="14" Content="Reset Statistics" Click="Button_sta" Width="120" Margin="14,0,0,0"/>
-                        <Button BorderThickness="2" FontSize="14" Content="Reset Colors" Margin="14,0,0,0" Width="120" Click="Button_col"/>
+                        <Button Template="{StaticResource Button}" FontFamily="Helvetica" FontSize="14" Content="Reset Settings" Click="Button_set" Height="30" Width="115"/>
+                        <Button Template="{StaticResource Button}" Margin="14,0,0,0" FontFamily="Helvetica" FontSize="14" Content="Reset Statistics" Click="Button_sta" Height="30" Width="115"/>
+                        <Button Template="{StaticResource Button}" Margin="14,0,0,0" FontFamily="Helvetica" FontSize="14" Content="Reset Colors" Click="Button_col" Height="30" Width="115"/>
                     </StackPanel>
                 </Grid>
             </TabItem>

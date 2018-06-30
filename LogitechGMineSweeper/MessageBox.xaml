@@ -14,9 +14,8 @@
     xmlns:local="clr-namespace:LogitechGMineSweeper"
     WindowStartupLocation="CenterScreen"
     Loaded="Window_Loaded" MouseLeftButtonDown="Window_MouseDown" BorderBrush="Black">
-    <Border  BorderBrush="LightSlateGray" 
-
-    BorderThickness="0" CornerRadius="0">
+    
+    <Border  BorderBrush="LightSlateGray" BorderThickness="0" CornerRadius="0">
         <Grid  >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" MinHeight="63.2"/>
@@ -27,12 +26,8 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Rectangle Grid.Column="0" 
-
-            Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="0,30,-0.2,0.4"/>
-            <Rectangle Grid.Row="0" 
-
-            Grid.Column="0"  Grid.ColumnSpan="2" Margin="0,0,0,46">
+            <Rectangle Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="0,30,-0.2,0.4"/>
+            <Rectangle Grid.Row="0" Grid.Column="0"  Grid.ColumnSpan="2" Margin="0,0,0,46">
                 <Rectangle.Fill>
                     <SolidColorBrush Color="transparent"></SolidColorBrush>
                 </Rectangle.Fill>
@@ -48,73 +43,13 @@
             <Label Margin="10,33,10,39" VerticalContentAlignment="Center" Panel.ZIndex="500" Foreground="Black" Grid.Column="1" FontSize="14" Grid.RowSpan="3">
                 <TextBlock Name="txtMsg" LineHeight="30"/>
             </Label>
-            <Grid Grid.Row="2" Grid.ColumnSpan="2"  
+            <Grid Grid.Row="2" Grid.ColumnSpan="2"   Grid.Column="0" Margin="0,0.2,-0.2,0.4" >
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
 
-            Grid.Column="0" Margin="0,0.2,-0.2,0.4" >
-                <StackPanel Orientation="Horizontal"  
-
-                HorizontalAlignment="Right" >
-
-                    <Button Name="btnOk" Content="OK" 
-
-                    Margin="3,5" MinWidth="70" Height="35"  
-
-                    Click="Button_Click" Foreground="Black" 
-
-                    FontSize="14"     
-
-                            Background="white" VerticalAlignment="Center" 
-
-                            HorizontalAlignment="Stretch"  
-
-                            VerticalContentAlignment="Center" 
-
-                            HorizontalContentAlignment="Center" />
-                    <Button Name="btnYes" Content="Yes"  
-
-                    Margin="3,5" MinWidth="70" Height="35" 
-
-                    Click="Button_Click" Foreground="Black" FontSize="14"  
-
-                            Background="white" VerticalAlignment="Center" 
-
-                            HorizontalAlignment="Stretch"  
-
-                            VerticalContentAlignment="Center" 
-
-                            HorizontalContentAlignment="Center"/>
-                    <Button Name="btnNo" Content="No"  
-
-                    Margin="3,5" MinWidth="70" Height="35" 
-
-                    Click="Button_Click" Foreground="Black" 
-
-                    FontSize="14" 
-
-                              Background="white" VerticalAlignment="Center" 
-
-                              HorizontalAlignment="Stretch"  
-
-                              VerticalContentAlignment="Center" 
-
-                              HorizontalContentAlignment="Center" />
-                    <Button Name="btnCancel" Margin="3,5" 
-
-                    Content="Cancel" MinWidth="70" 
-
-                    Height="35" Click="Button_Click"
-
-                                Foreground="Black" 
-
-                                Background="white" FontSize="14" 
-
-                                VerticalAlignment="Center" 
-
-                                HorizontalAlignment="Stretch" 
-
-                                VerticalContentAlignment="Center" 
-
-                                HorizontalContentAlignment="Center"/>
+                    <Button Template="{StaticResource ButtonBorder}" Name="btnOk" Content="OK" Margin="3,5" MinWidth="70" Height="35" Click="Button_Click" Foreground="Black" FontSize="14" Background="white" VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                    <Button Template="{StaticResource ButtonBorder}" Name="btnYes" Content="Yes" Margin="3,5" MinWidth="70" Height="35" Click="Button_Click" Foreground="Black" FontSize="14" Background="white" VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                    <Button Template="{StaticResource ButtonBorder}" Name="btnNo" Content="No"  Margin="3,5" MinWidth="70" Height="35" Click="Button_Click" Foreground="Black" FontSize="14" Background="white" VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                    <Button Template="{StaticResource ButtonBorder}" Name="btnCancel" Margin="3,5" Content="Cancel" MinWidth="70"  Height="35" Click="Button_Click" Foreground="Black" Background="white" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                 </StackPanel>
             </Grid>
         </Grid>
