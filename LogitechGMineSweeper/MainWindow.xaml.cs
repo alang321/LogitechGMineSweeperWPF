@@ -94,7 +94,7 @@ namespace LogitechGMineSweeper
         {
             AccelerationRatio = 0.5,
             DecelerationRatio = 0.5,
-            Duration = new Duration(TimeSpan.FromSeconds(0.4))
+            Duration = new Duration(TimeSpan.FromSeconds(0.3))
         };
 
         #endregion
