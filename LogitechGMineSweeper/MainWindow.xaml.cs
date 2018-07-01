@@ -460,7 +460,7 @@ namespace LogitechGMineSweeper
         private void Expand()
         {
             Collapsed = false;
-            pointAnimationHamburgerMenu.To = 204;
+            pointAnimationHamburgerMenu.To = 183;
             Cover.IsHitTestVisible = true;
             Stack1.BeginAnimation(TextBlock.MarginProperty, thicknessExpandAnimationHamburgerMenu);
             thicknessAnimationTimer.To = new Thickness(10, 165, 0, 0);
