@@ -8,7 +8,7 @@
             </Border.RenderTransform>
             <Grid Margin="0">
                 <Grid.Background>
-                    <SolidColorBrush x:Name="ButtonBackground" Opacity="0" Color="#FFe81123"/>
+                    <SolidColorBrush x:Name="ButtonBackground" Color="#00e81123"/>
                 </Grid.Background>
                 <Border x:Name="border" CornerRadius="0" BorderBrush="Transparent" BorderThickness="0.0" Background="Transparent">
                 </Border>
@@ -36,7 +36,7 @@
                     </VisualState>
                     <VisualState x:Name="MouseOver">
                         <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Opacity" To="1.0" Duration="0:0:0.2" />
+                            <ColorAnimation Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Color" To="#FFe81123" Duration="0:0:0.2" />
                             <ColorAnimation Storyboard.TargetName="StrokeBackground" Storyboard.TargetProperty="Color" To="White" Duration="0:0:0.2" />
                         </Storyboard>
                     </VisualState>
@@ -44,7 +44,7 @@
                         <Storyboard>
                             <ColorAnimation Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Color" To="#77e81123" Duration="0:0:0.2" />
                             <DoubleAnimation Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Opacity" To="1.0" Duration="0:0:0.2" />
-                            <ColorAnimation Storyboard.TargetName="StrokeBackground" Storyboard.TargetProperty="Color" To="Black" Duration="0:0:0.2" />
+                            <ColorAnimation Storyboard.TargetName="StrokeBackground" Storyboard.TargetProperty="Color" To="White" Duration="0:0:0.2" />
                         </Storyboard>
                     </VisualState>
                 </VisualStateGroup>

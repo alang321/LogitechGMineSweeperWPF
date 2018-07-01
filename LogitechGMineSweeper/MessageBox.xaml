@@ -3,7 +3,7 @@
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" x:Class="LogitechGMineSweeper.MessageBox"
-    Title="LogitechG Minesweeper" Height="160" Width="390.333"
+    Title="LogitechG Minesweeper" Height="131.333" Width="390.333"
     Background="#BAFFFFFF"
     AllowsTransparency="True"
     WindowStyle="None"
@@ -37,7 +37,7 @@
                     <RowDefinition Height="33*"/>
                     <RowDefinition Height="7*"/>
                 </Grid.RowDefinitions>
-                <Label VerticalContentAlignment="Center" Content="Hello" Name="MessageTitle" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" Foreground="Black" Panel.ZIndex="500" Height="30" HorizontalAlignment="Left" Width="349" Margin="8,0,0,0"/>
+                <Label VerticalContentAlignment="Center" Content="Title" Name="MessageTitle" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" Foreground="Black" Panel.ZIndex="500" Height="30" HorizontalAlignment="Left" Width="349" Margin="8,0,0,0"/>
                 <Button HorizontalAlignment="Right" Padding="100,10,5,0" Template="{StaticResource closeButton}" Panel.ZIndex="600" VerticalAlignment="Top" Width="45" Height="30" Click="Button_Click_4"/>
             </Grid>
             <Label Margin="10,33,10,39" VerticalContentAlignment="Center" Panel.ZIndex="500" Foreground="Black" Grid.Column="1" FontSize="14" Grid.RowSpan="3">
@@ -46,10 +46,10 @@
             <Grid Grid.Row="2" Grid.ColumnSpan="2"   Grid.Column="0" Margin="0,0.2,-0.2,0.4" >
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
 
-                    <Button Template="{StaticResource ButtonBorder}" Name="btnOk" Content="OK" Margin="3,5" MinWidth="70" Height="35" Click="Button_Click" Foreground="Black" FontSize="14" Background="white" VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                    <Button Template="{StaticResource ButtonBorder}" Name="btnYes" Content="Yes" Margin="3,5" MinWidth="70" Height="35" Click="Button_Click" Foreground="Black" FontSize="14" Background="white" VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                    <Button Template="{StaticResource ButtonBorder}" Name="btnNo" Content="No"  Margin="3,5" MinWidth="70" Height="35" Click="Button_Click" Foreground="Black" FontSize="14" Background="white" VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                    <Button Template="{StaticResource ButtonBorder}" Name="btnCancel" Margin="3,5" Content="Cancel" MinWidth="70"  Height="35" Click="Button_Click" Foreground="Black" Background="white" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                    <Button Template="{StaticResource ButtonBorder}" FontFamily="Helvetica" Name="btnOk" Content="OK" Margin="3,5" MinWidth="70" Height="27" Click="Button_Click" Foreground="Black" FontSize="14" Background="white" VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                    <Button Template="{StaticResource ButtonBorder}" FontFamily="Helvetica" Name="btnYes" Content="Yes" Margin="3,5" MinWidth="70" Height="27" Click="Button_Click" Foreground="Black" FontSize="14" Background="white" VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                    <Button Template="{StaticResource ButtonBorder}" FontFamily="Helvetica" Name="btnNo" Content="No"  Margin="3,5" MinWidth="70" Height="27" Click="Button_Click" Foreground="Black" FontSize="14" Background="white" VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                    <Button Template="{StaticResource ButtonBorder}" FontFamily="Helvetica" Name="btnCancel" Margin="3,5" Content="Cancel" MinWidth="70"  Height="27" Click="Button_Click" Foreground="Black" Background="white" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                 </StackPanel>
             </Grid>
         </Grid>

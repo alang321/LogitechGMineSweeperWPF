@@ -438,7 +438,7 @@ namespace LogitechGMineSweeper
 
         private void Button_set(object sender, RoutedEventArgs e)
         {
-            if ((MessageBox.Show("Reset settings", "Are you sure you want to reset? All settings will be lost.", MessageBoxButton.OKCancel) == MessageBoxResult.OK))
+            if ((MessageBox.Show("Reset settings", "Are you sure you want to reset all settings?", MessageBoxButton.OKCancel) == MessageBoxResult.OK))
             {
                 ResetSettings();
 
@@ -448,7 +448,7 @@ namespace LogitechGMineSweeper
 
         private void Button_col(object sender, RoutedEventArgs e)
         {
-            if ((MessageBox.Show("Reset Colors", "Are you sure you want to reset? All Colors will be lost.", MessageBoxButton.OKCancel) == MessageBoxResult.OK))
+            if ((MessageBox.Show("Reset colors", "Are you sure you want to reset all colors?", MessageBoxButton.OKCancel) == MessageBoxResult.OK))
             {
                 ResetColors();
             }
@@ -456,7 +456,7 @@ namespace LogitechGMineSweeper
 
         private void Button_sta(object sender, RoutedEventArgs e)
         {
-            if ((MessageBox.Show("Reset statistics", "Are you sure you want to reset? All statistics will be lost.", MessageBoxButton.OKCancel) == MessageBoxResult.OK))
+            if ((MessageBox.Show("Reset statistics", "Are you sure you want to reset all statistics?", MessageBoxButton.OKCancel) == MessageBoxResult.OK))
             {
                 ResetStatistics();
 

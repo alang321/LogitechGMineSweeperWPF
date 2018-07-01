@@ -40,57 +40,29 @@
 
 
         <Canvas Margin="0,30,0,196">
-            <!--<Grid Canvas.Top="0"  IsHitTestVisible="False" Name="AnimatedSideBarSelected" Height="45" Width="206" Background="Transparent" RenderTransformOrigin="0.5,0.5">
-                <Border BorderThickness="0" Opacity="0.1" CornerRadius="0,0,0,0" BorderBrush="Black" Background="Black" HorizontalAlignment="Right" Width="206" Height="45" VerticalAlignment="Bottom"/>
-            </Grid>-->
             <Grid Canvas.Top="0"  IsHitTestVisible="False" Name="AnimatedSideBarSelected" Height="45" Width="5" Background="Transparent" RenderTransformOrigin="0.5,0.5">
                 <Border BorderThickness="0" Opacity="0.7" CornerRadius="0,0,0,0" Margin="0,9" BorderBrush="Black" Background="Black"/>
             </Grid>
-            <!--<Grid Canvas.Top="0"  IsHitTestVisible="False" Name="AnimatedSideBarSelected" Height="45" Width="5" Background="Transparent" RenderTransformOrigin="0.5,0.5" Canvas.Left="201">
-                <Border BorderThickness="0" Opacity="0.7" CornerRadius="0,0,0,0" Margin="0,9" BorderBrush="Black" Background="Black"/>
-            </Grid>-->
-            <Button Name="settings" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="206" Height="45" Canvas.Top="0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Settings" Grid.ColumnSpan="2">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Template" Value="{StaticResource navButton}"/>
-                    </Style>
-                </Button.Style>
+
+            <Button Template="{StaticResource navButton}" Name="settings" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="206" Height="45" Canvas.Top="0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Settings" Grid.ColumnSpan="2">
                 <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
                     <Image Source="symbols/settings.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
                     <TextBlock Text="  Settings" VerticalAlignment="Center" Height="25" />
                 </StackPanel>
             </Button>
-
-            <Button Canvas.Top="45" Name="colors" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Colors" Grid.ColumnSpan="2">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Template" Value="{StaticResource navButton}"/>
-                    </Style>
-                </Button.Style>
+            <Button Template="{StaticResource navButton}" Canvas.Top="45" Name="colors" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Colors" Grid.ColumnSpan="2">
                 <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
                     <Image Source="symbols/color.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
                     <TextBlock Text="  Colors" VerticalAlignment="Center" Height="25" />
                 </StackPanel>
             </Button>
-
-            <Button Name="stats" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Canvas.Top="90" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Statistics" Grid.ColumnSpan="2">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Template" Value="{StaticResource navButton}"/>
-                    </Style>
-                </Button.Style>
+            <Button Template="{StaticResource navButton}" Name="stats" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Canvas.Top="90" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Statistics" Grid.ColumnSpan="2">
                 <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
                     <Image Source="symbols/stats.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
                     <TextBlock Text="  Statistics" VerticalAlignment="Center" Height="25" />
                 </StackPanel>
             </Button>
-
-            <Button Name="reset" HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalAlignment="Center" Width="206" Height="45" Canvas.Top="135" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Reset" Grid.ColumnSpan="2">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Template" Value="{StaticResource navButton}"/>
-                    </Style>
-                </Button.Style>
+            <Button Template="{StaticResource navButton}" Name="reset" HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalAlignment="Center" Width="206" Height="45" Canvas.Top="135" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Reset" Grid.ColumnSpan="2">
                 <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
                     <Image Source="symbols/reset.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
                     <TextBlock VerticalAlignment="Center" Height="25" ><Run Text="  "/><Run Text="Reset"/></TextBlock>
@@ -112,9 +84,9 @@
                                 <RowDefinition Height="9*"/>
                                 <RowDefinition Height="16*"/>
                             </Grid.RowDefinitions>
-                            <TextBox Focusable="False" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,2,0,0" Height="22" x:Name="NUDTextBox" TextAlignment="Right" TextChanged="NUDTextBox_TextChanged" Margin="35,0,0,0" Width="49" Grid.RowSpan="2"/>
-                            <RepeatButton BorderThickness="0" Template="{StaticResource RepeatButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Interval="180" x:Name="NUDButtonUP" FontSize="8" FontFamily="Marlett" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="NUDButtonUP_Click" Margin="83,0,0,0" Height="11" Width="15" Grid.RowSpan="2"/>
-                            <RepeatButton BorderThickness="0" Template="{StaticResource RepeatButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="11" Interval="180" x:Name="NUDButtonDown" FontSize="8" FontFamily="Marlett" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="NUDButtonDown_Click" Margin="83,3,0,0" Width="15" Grid.Row="1"/>
+                            <TextBox Padding="0,0,0,0" IsHitTestVisible="False" Focusable="False" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" x:Name="NUDTextBox" TextAlignment="Right" TextChanged="NUDTextBox_TextChanged" Margin="35,0,0,0" Width="49" Grid.RowSpan="2"/>
+                            <RepeatButton BorderThickness="0" Template="{StaticResource RepeatButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Interval="140" x:Name="NUDButtonUP" FontSize="8" FontFamily="Marlett" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="NUDButtonUP_Click" Margin="83,0,0,0" Height="11" Width="15" Grid.RowSpan="2"/>
+                            <RepeatButton BorderThickness="0" Template="{StaticResource RepeatButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="11" Interval="140" x:Name="NUDButtonDown" FontSize="8" FontFamily="Marlett" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="NUDButtonDown_Click" Margin="83,3,0,0" Width="15" Grid.Row="1"/>
                             <Label Panel.ZIndex="500" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsHitTestVisible="False" Padding="0,0,0,0" FontSize="9" FontFamily="Marlett" Content="6" Margin="83,3,0,0" Grid.Row="1"/>
                             <Label Panel.ZIndex="500" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsHitTestVisible="False" Padding="0,0,0,0" FontSize="9" FontFamily="Marlett" Content="5" Margin="83,0,0,11" Grid.RowSpan="2"/>
                         </Grid>
@@ -293,6 +265,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
+        
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="27" Margin="10,0,0,9.4" Width="196" Grid.ColumnSpan="2">
             <Label HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Timer:" Opacity="1" FontSize="16" Foreground="black" Height="30" Width="53"/>
             <Label HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="30:00" Opacity="1" Name="TimerDisplay" FontSize="16" Margin="0,0,0,0" Foreground="black" Height="30" Width="143"/>
