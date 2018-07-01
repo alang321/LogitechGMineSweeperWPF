@@ -49,25 +49,25 @@
                         <Grid Canvas.Top="0" IsHitTestVisible="False" Name="AnimatedSideBarSelected" Height="45" Width="4" Background="Transparent" RenderTransformOrigin="0.5,0.5">
                             <Border BorderThickness="0" Opacity="0.7" CornerRadius="0,0,0,0" Margin="0,10" BorderBrush="Black" Background="Black"/>
                         </Grid>
-                        <Button Template="{StaticResource navButton}" RenderTransformOrigin="0.108,0.49" Name="settings" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="204" Height="45" Canvas.Top="0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Settings" Grid.ColumnSpan="2">
+                        <Button Template="{StaticResource navButton}" RenderTransformOrigin="0.108,0.49" Name="settings" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Width="45" Height="45" Canvas.Top="0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Click="Click_Settings" Grid.ColumnSpan="2">
                             <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Margin="8,0,0,0" Width="95">
                                 <Image Source="symbols/settings.png" Width="16" Height="16" VerticalAlignment="Center" Margin="2,0,0,0"/>
                                 <TextBlock Name="Stack1" Margin="7,0,0,0" Text="  Settings" VerticalAlignment="Center" Height="25" />
                             </StackPanel>
                         </Button>
-                        <Button Template="{StaticResource navButton}" RenderTransformOrigin="{Binding RenderTransformOrigin, ElementName=settings}" Canvas.Top="45" Name="colors" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="204" Height="45" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Colors" Grid.ColumnSpan="2">
+                        <Button Template="{StaticResource navButton}" RenderTransformOrigin="{Binding RenderTransformOrigin, ElementName=settings}" Canvas.Top="45" Name="colors" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="{Binding Width, ElementName=settings}" Height="45" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Colors" Grid.ColumnSpan="2">
                             <StackPanel Orientation="Horizontal" Margin="8,0,0,0" Width="95">
                                 <Image Source="symbols/color.png" Width="16" Height="16" VerticalAlignment="Center" Margin="2,0,0,0"/>
                                 <TextBlock Name="Stack2" Margin="{Binding Margin, ElementName=Stack1}" Text="  Colors" VerticalAlignment="Center" Height="25" />
                             </StackPanel>
                         </Button>
-                        <Button Template="{StaticResource navButton}" RenderTransformOrigin="{Binding RenderTransformOrigin, ElementName=settings}" Name="stats" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="204" Height="45" Canvas.Top="90" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Statistics" Grid.ColumnSpan="2">
+                        <Button Template="{StaticResource navButton}" RenderTransformOrigin="{Binding RenderTransformOrigin, ElementName=settings}" Name="stats" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="{Binding Width, ElementName=settings}" Height="45" Canvas.Top="90" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Statistics" Grid.ColumnSpan="2">
                             <StackPanel Orientation="Horizontal" Margin="8,0,0,0" Width="95">
                                 <Image Source="symbols/stats.png" Width="16" Height="16" VerticalAlignment="Center" Margin="2,0,0,0"/>
                                 <TextBlock Name="Stack3" Margin="{Binding Margin, ElementName=Stack1}" Text="  Statistics" VerticalAlignment="Center" Height="25" />
                             </StackPanel>
                         </Button>
-                        <Button Template="{StaticResource navButton}" RenderTransformOrigin="{Binding RenderTransformOrigin, ElementName=settings}" Name="reset" HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalAlignment="Center" Width="204" Height="45" Canvas.Top="135" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Reset" Grid.ColumnSpan="2">
+                        <Button Template="{StaticResource navButton}" RenderTransformOrigin="{Binding RenderTransformOrigin, ElementName=settings}" Name="reset" HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalAlignment="Center" Width="{Binding Width, ElementName=settings}" Height="45" Canvas.Top="135" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Reset" Grid.ColumnSpan="2">
                             <StackPanel Orientation="Horizontal" Margin="8,0,0,0" Width="95">
                                 <Image Source="symbols/reset.png" Width="16" Height="16" VerticalAlignment="Center" Margin="2,0,0,0"/>
                                 <TextBlock Name="Stack4" Margin="{Binding Margin, ElementName=Stack1}" VerticalAlignment="Center" Height="25" Text="  Reset"></TextBlock>

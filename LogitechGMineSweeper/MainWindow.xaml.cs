@@ -82,6 +82,24 @@ namespace LogitechGMineSweeper
         //HamburgerMenu
         bool Collapsed = true;
 
+        DoubleAnimation widthAnimationButtonCollapse = new DoubleAnimation()
+        {
+            BeginTime = TimeSpan.FromSeconds(0.3),
+            AccelerationRatio = 0.3,
+            DecelerationRatio = 0.3,
+            To = 45,
+            Duration = new Duration(TimeSpan.FromSeconds(0))
+        };
+
+        DoubleAnimation widthAnimationButtonsExpand = new DoubleAnimation()
+        {
+            BeginTime = TimeSpan.FromSeconds(0),
+            AccelerationRatio = 0.3,
+            DecelerationRatio = 0.3,
+            To = 183,
+            Duration = new Duration(TimeSpan.FromSeconds(0))
+        };
+
         DoubleAnimation pointAnimationHamburgerMenu = new DoubleAnimation()
         {
             AccelerationRatio = 0.5,
@@ -444,6 +462,7 @@ namespace LogitechGMineSweeper
 
         private void Collapse()
         {
+            settings.BeginAnimation(Button.WidthProperty, widthAnimationButtonCollapse);
             Collapsed = true;
             pointAnimationHamburgerMenu.To = 45;
             Cover.IsHitTestVisible = false;
@@ -459,6 +478,7 @@ namespace LogitechGMineSweeper
 
         private void Expand()
         {
+            settings.BeginAnimation(Button.WidthProperty, widthAnimationButtonsExpand);
             Collapsed = false;
             pointAnimationHamburgerMenu.To = 183;
             Cover.IsHitTestVisible = true;
