@@ -64,7 +64,6 @@ namespace LogitechGMineSweeper
 
         #region Constructor and Variables
 
-
         enum PagesStartingPoints { settings = 0, colors = -405, stats = -810, reset = -1215 }
 
         [DllImport("user32.dll")]
@@ -80,7 +79,151 @@ namespace LogitechGMineSweeper
 
         #region objects animation
 
-        Storyboard storyboard = new Storyboard();
+        //HamburgerMenu
+        bool Collapsed = true;
+
+        DoubleAnimation pointAnimationHamburgerMenu = new DoubleAnimation()
+        {
+            AccelerationRatio = 0.5,
+            DecelerationRatio = 0.5,
+            Duration = new Duration(TimeSpan.FromSeconds(0.3))
+        };
+
+        ThicknessAnimation thicknessCollapseAnimationHamburgerMenu = new ThicknessAnimation()
+        {
+            To = new Thickness(7, 0, 0, 0),
+            BeginTime = TimeSpan.FromSeconds(0.25),
+            AccelerationRatio = 0.5,
+            DecelerationRatio = 0.5,
+            Duration = new Duration(TimeSpan.FromSeconds(0.1))
+        };
+
+        ThicknessAnimation thicknessExpandAnimationHamburgerMenu = new ThicknessAnimation()
+        {
+            To = new Thickness(0, 0, 0, 0),
+            BeginTime = TimeSpan.FromSeconds(0),
+            AccelerationRatio = 0.5,
+            DecelerationRatio = 0.5,
+            Duration = new Duration(TimeSpan.FromSeconds(0.1))
+        };
+
+        ThicknessAnimation thicknessAnimationTimer = new ThicknessAnimation()
+        {
+            BeginTime = TimeSpan.FromSeconds(0),
+            AccelerationRatio = 0.5,
+            DecelerationRatio = 0.5,
+            Duration = new Duration(TimeSpan.FromSeconds(0.3))
+        };
+
+        /*ColorAnimation colorAnimationHamburgerMenu = new ColorAnimation()
+        {
+            BeginTime = TimeSpan.FromSeconds(0),
+            AccelerationRatio = 0.5,
+            DecelerationRatio = 0.5,
+            Duration = new Duration(TimeSpan.FromSeconds(0.3))
+        };*/
+
+        #region Animation arrow
+
+        Storyboard HamburgerArrow = new Storyboard();
+        Storyboard HamburgerNormal = new Storyboard();
+        //arrow
+        //topline
+
+        DoubleAnimation arrowTopLineAnimationHamburgerMenuY1 = new DoubleAnimation()
+        {
+            AccelerationRatio = Config.ArrowAcceleration,
+            DecelerationRatio = Config.ArrowDeceleration,
+            Duration = Config.ArrowAnimDuration
+        };
+
+        DoubleAnimation arrowTopLineAnimationHamburgerMenuY2 = new DoubleAnimation()
+        {
+            AccelerationRatio = Config.ArrowAcceleration,
+            DecelerationRatio = Config.ArrowDeceleration,
+            Duration = Config.ArrowAnimDuration
+        };
+
+        DoubleAnimation arrowTopLineAnimationHamburgerMenuX2 = new DoubleAnimation()
+        {
+            AccelerationRatio = Config.ArrowAcceleration,
+            DecelerationRatio = Config.ArrowDeceleration,
+            Duration = Config.ArrowAnimDuration
+        };
+
+        //bottomline
+
+        DoubleAnimation arrowBottomLineAnimationHamburgerMenuY1 = new DoubleAnimation()
+        {
+            AccelerationRatio = Config.ArrowAcceleration,
+            DecelerationRatio = Config.ArrowDeceleration,
+            Duration = Config.ArrowAnimDuration
+        };
+
+        DoubleAnimation arrowBottomLineAnimationHamburgerMenuY2 = new DoubleAnimation()
+        {
+            AccelerationRatio = Config.ArrowAcceleration,
+            DecelerationRatio = Config.ArrowDeceleration,
+            Duration = Config.ArrowAnimDuration
+        };
+
+        DoubleAnimation arrowBottomLineAnimationHamburgerMenuX2 = new DoubleAnimation()
+        {
+            AccelerationRatio = Config.ArrowAcceleration,
+            DecelerationRatio = Config.ArrowDeceleration,
+            Duration = Config.ArrowAnimDuration
+        };
+
+        //hamburger
+        //topline
+
+        DoubleAnimation hamburgerTopLineAnimationHamburgerMenuY1 = new DoubleAnimation()
+        {
+            AccelerationRatio = Config.HamburgerAcceleration,
+            DecelerationRatio = Config.HamburgerDeceleration,
+            Duration = Config.HamburgerAnimDuration
+        };
+
+        DoubleAnimation hamburgerTopLineAnimationHamburgerMenuX2 = new DoubleAnimation()
+        {
+            AccelerationRatio = Config.HamburgerAcceleration,
+            DecelerationRatio = Config.HamburgerDeceleration,
+            Duration = Config.HamburgerAnimDuration
+        };
+
+        DoubleAnimation hamburgerTopLineAnimationHamburgerMenuY2 = new DoubleAnimation()
+        {
+            AccelerationRatio = Config.HamburgerAcceleration,
+            DecelerationRatio = Config.HamburgerDeceleration,
+            Duration = Config.HamburgerAnimDuration
+        };
+
+        //bottomline
+
+        DoubleAnimation hamburgerBottomLineAnimationHamburgerMenuY1 = new DoubleAnimation()
+        {
+            AccelerationRatio = Config.HamburgerAcceleration,
+            DecelerationRatio = Config.HamburgerDeceleration,
+            Duration = Config.HamburgerAnimDuration
+        };
+
+        DoubleAnimation hamburgerBottomLineAnimationHamburgerMenuX2 = new DoubleAnimation()
+        {
+            AccelerationRatio = Config.HamburgerAcceleration,
+            DecelerationRatio = Config.HamburgerDeceleration,
+            Duration = Config.HamburgerAnimDuration
+        };
+
+        DoubleAnimation hamburgerBottomLineAnimationHamburgerMenuY2 = new DoubleAnimation()
+        {
+            AccelerationRatio = Config.HamburgerAcceleration,
+            DecelerationRatio = Config.HamburgerDeceleration,
+            Duration = Config.HamburgerAnimDuration
+        };
+
+        #endregion
+
+        //nav menu
         Button[] NavButtons;
 
         DoubleAnimation pointAnimationSelected = new DoubleAnimation()
@@ -102,44 +245,138 @@ namespace LogitechGMineSweeper
         public MainWindow()
         {
             InitializeComponent();
+            
+            AllInit();
+        }
 
-            dispatcherTimer.Tick += DispatcherTimer_Tick;
-            dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
-            dispatcherTimer.Stop();
+        #endregion
 
+        #region Initialization
+
+        private void AllInit()
+        {
+            InitMinesweeper();
+            Config.InitKeyboardLayoutsArray();
+            InitKeyboardLayoutDisplay();
+            InitAnimations();
+            InitTimer();
+            InitUI();
+            UpdateStats();
+        }
+
+        private void InitMinesweeper()
+        {
             SaveFileSettings settingsFile = new SaveFileSettings(Config.PathSettingsFile, Config.UseBackgroundDefault, Config.KeyboardLayoutDefaultIndex, Config.BombsDefault, Config.defaultSetLogiLogo, Config.MinBombs, Config.MaxBombs, Config.KeyboardLayouts.Length - 1);
             MineSweeper = new MineSweeper(settingsFile, new SaveFileGlobalStatistics(Config.PathGlobalStatisticsFile), Config.KeyboardLayouts[settingsFile.LayoutIndex], new SaveFileColors(Config.PathColorsFile, Config.ColorsDefault));
 
             MineSweeper.StatsChangedEvent += new MineSweeper.UpdateStatsEventHandler(UpdateStats);
             MineSweeper.UpdateTimerEvent += new MineSweeper.TimerEventHandler(UpdateTimer);
+        }
 
+        private void InitKeyboardLayoutDisplay()
+        {
+            //init the keyboardusercontrols and let the right one subscribe to the print board events
+            InitKeyboardUserControlsEvent?.Invoke(new KeyboardLayoutChangedEventArgs(MineSweeper.KeyboardLayout.Index));
+            KeyboardDisplayContainer.Children.Add(MineSweeper.KeyboardLayout.KeyboardDisplayPage as UserControl);
+            MineSweeper.KeyLayoutChangedEvent += LayoutChangedHandler;
+        }
+
+        private void InitAnimations()
+        {
+            //arrow
+
+            //TopLine
+            //Y1
+            arrowTopLineAnimationHamburgerMenuY1.To = 10;
+            Storyboard.SetTarget(arrowTopLineAnimationHamburgerMenuY1, LineTop);
+            Storyboard.SetTargetProperty(arrowTopLineAnimationHamburgerMenuY1, new PropertyPath("(Line.Y1)"));
+            HamburgerArrow.Children.Add(arrowTopLineAnimationHamburgerMenuY1);
+            //X2
+            arrowTopLineAnimationHamburgerMenuX2.To = 10;
+            Storyboard.SetTarget(arrowTopLineAnimationHamburgerMenuX2, LineTop);
+            Storyboard.SetTargetProperty(arrowTopLineAnimationHamburgerMenuX2, new PropertyPath("(Line.X2)"));
+            HamburgerArrow.Children.Add(arrowTopLineAnimationHamburgerMenuX2);
+            //Y2
+            arrowTopLineAnimationHamburgerMenuY2.To = 3;
+            Storyboard.SetTarget(arrowTopLineAnimationHamburgerMenuY2, LineTop);
+            Storyboard.SetTargetProperty(arrowTopLineAnimationHamburgerMenuY2, new PropertyPath("(Line.Y2)"));
+            HamburgerArrow.Children.Add(arrowTopLineAnimationHamburgerMenuY2);
+
+            //BottomLine
+            //Y1
+            arrowBottomLineAnimationHamburgerMenuY1.To = 10;
+            Storyboard.SetTarget(arrowBottomLineAnimationHamburgerMenuY1, LineBottom);
+            Storyboard.SetTargetProperty(arrowBottomLineAnimationHamburgerMenuY1, new PropertyPath("(Line.Y1)"));
+            HamburgerArrow.Children.Add(arrowBottomLineAnimationHamburgerMenuY1);
+            //X2
+            arrowBottomLineAnimationHamburgerMenuX2.To = 10;
+            Storyboard.SetTarget(arrowBottomLineAnimationHamburgerMenuX2, LineBottom);
+            Storyboard.SetTargetProperty(arrowBottomLineAnimationHamburgerMenuX2, new PropertyPath("(Line.X2)"));
+            HamburgerArrow.Children.Add(arrowBottomLineAnimationHamburgerMenuX2);
+            //Y2
+            arrowBottomLineAnimationHamburgerMenuY2.To = 17;
+            Storyboard.SetTarget(arrowBottomLineAnimationHamburgerMenuY2, LineBottom);
+            Storyboard.SetTargetProperty(arrowBottomLineAnimationHamburgerMenuY2, new PropertyPath("(Line.Y2)"));
+            HamburgerArrow.Children.Add(arrowBottomLineAnimationHamburgerMenuY2);
+
+            //Hamburger
+
+            //TopLine
+            //Y1
+            hamburgerTopLineAnimationHamburgerMenuY1.To = 5;
+            Storyboard.SetTarget(hamburgerTopLineAnimationHamburgerMenuY1, LineTop);
+            Storyboard.SetTargetProperty(hamburgerTopLineAnimationHamburgerMenuY1, new PropertyPath("(Line.Y1)"));
+            HamburgerNormal.Children.Add(hamburgerTopLineAnimationHamburgerMenuY1);
+            //X2
+            hamburgerTopLineAnimationHamburgerMenuX2.To = 18;
+            Storyboard.SetTarget(hamburgerTopLineAnimationHamburgerMenuX2, LineTop);
+            Storyboard.SetTargetProperty(hamburgerTopLineAnimationHamburgerMenuX2, new PropertyPath("(Line.X2)"));
+            HamburgerNormal.Children.Add(hamburgerTopLineAnimationHamburgerMenuX2);
+            //Y2
+            hamburgerTopLineAnimationHamburgerMenuY2.To = 5;
+            Storyboard.SetTarget(hamburgerTopLineAnimationHamburgerMenuY2, LineTop);
+            Storyboard.SetTargetProperty(hamburgerTopLineAnimationHamburgerMenuY2, new PropertyPath("(Line.Y2)"));
+            HamburgerNormal.Children.Add(hamburgerTopLineAnimationHamburgerMenuY2);
+
+            //BottomLine
+            //Y1
+            hamburgerBottomLineAnimationHamburgerMenuY1.To = 15;
+            Storyboard.SetTarget(hamburgerBottomLineAnimationHamburgerMenuY1, LineBottom);
+            Storyboard.SetTargetProperty(hamburgerBottomLineAnimationHamburgerMenuY1, new PropertyPath("(Line.Y1)"));
+            HamburgerNormal.Children.Add(hamburgerBottomLineAnimationHamburgerMenuY1);
+            //X2
+            hamburgerBottomLineAnimationHamburgerMenuX2.To = 18;
+            Storyboard.SetTarget(hamburgerBottomLineAnimationHamburgerMenuX2, LineBottom);
+            Storyboard.SetTargetProperty(hamburgerBottomLineAnimationHamburgerMenuX2, new PropertyPath("(Line.X2)"));
+            HamburgerNormal.Children.Add(hamburgerBottomLineAnimationHamburgerMenuX2);
+            //Y2
+            hamburgerBottomLineAnimationHamburgerMenuY2.To = 15;
+            Storyboard.SetTarget(hamburgerBottomLineAnimationHamburgerMenuY2, LineBottom);
+            Storyboard.SetTargetProperty(hamburgerBottomLineAnimationHamburgerMenuY2, new PropertyPath("(Line.Y2)"));
+            HamburgerNormal.Children.Add(hamburgerBottomLineAnimationHamburgerMenuY2);
+
+            //Side Bar
+            NavButtons = new Button[] { settings, colors, stats, reset };
+        }
+
+        private void InitTimer()
+        {
+            dispatcherTimer.Tick += DispatcherTimer_Tick;
+            dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
+            dispatcherTimer.Stop();
+        }
+
+        private void InitUI()
+        {
             //add all keyboardlayouts to Combo Box
             foreach (KeyboardLayout layout in Config.KeyboardLayouts)
             {
                 KeyLayout.Items.Add(layout.Text);
             }
-
-            Config.InitKeyboardLayoutsArray();
-            //init the keyboardusercontrols and let the right one subscribe to the print board events
-            InitKeyboardUserControlsEvent?.Invoke(new KeyboardLayoutChangedEventArgs(MineSweeper.KeyboardLayout.Index));
-            KeyboardDisplayContainer.Children.Add(MineSweeper.KeyboardLayout.KeyboardDisplayPage as UserControl);
-            MineSweeper.KeyLayoutChangedEvent += LayoutChangedHandler;
-
+            UpdateTimerText();
             //select current keylayout
             KeyLayout.SelectedIndex = MineSweeper.KeyboardLayout.Index;
             NUDTextBox.Text = Convert.ToString(MineSweeper.Bombs);
-
-            UpdateStats();
-            UpdateTimerText();
-
-            //animation side bar
-            NavButtons = new Button[] { settings, colors, stats, reset };
-            Storyboard.SetTarget(pointAnimationSelected, AnimatedSideBarSelected);
-            Storyboard.SetTargetProperty(pointAnimationSelected, new PropertyPath(Canvas.TopProperty));
-            Storyboard.SetTarget(pointAnimationNavSlide, Pages);
-            Storyboard.SetTargetProperty(pointAnimationNavSlide, new PropertyPath(Canvas.TopProperty));
-            storyboard.Children.Add(pointAnimationNavSlide);
-            storyboard.Children.Add(pointAnimationSelected);
         }
 
         #endregion
@@ -182,6 +419,57 @@ namespace LogitechGMineSweeper
             SetWindowCompositionAttribute(windowHelper.Handle, ref data);
 
             Marshal.FreeHGlobal(accentPtr);
+        }
+
+        #endregion
+
+        #region Hamburger Menu
+        
+        private void Click_Ham(object sender, RoutedEventArgs e)
+        {
+            if (Collapsed)
+            {
+                Expand();
+            }
+            else
+            {
+                Collapse();
+            }
+        }
+
+        private void Click_Cover(object sender, RoutedEventArgs e)
+        {
+            Collapse();
+        }
+
+        private void Collapse()
+        {
+            Collapsed = true;
+            pointAnimationHamburgerMenu.To = 45;
+            Cover.IsHitTestVisible = false;
+            Stack1.BeginAnimation(TextBlock.MarginProperty, thicknessCollapseAnimationHamburgerMenu);
+            thicknessAnimationTimer.To = new Thickness(0, 165, 0, 0);
+            TimerDisplay.BeginAnimation(Label.MarginProperty, thicknessAnimationTimer);
+            settings.RenderTransformOrigin = new Point(0.108, 0.49);
+            //colorAnimationHamburgerMenu.To = Color.FromArgb(0, 0, 0, 0);
+            //CoverColor.BeginAnimation(SolidColorBrush.ColorProperty, colorAnimationHamburgerMenu);
+            HamMenu.BeginAnimation(DockPanel.WidthProperty, pointAnimationHamburgerMenu);
+            HamburgerNormal.Begin();
+        }
+
+        private void Expand()
+        {
+            Collapsed = false;
+            pointAnimationHamburgerMenu.To = 204;
+            Cover.IsHitTestVisible = true;
+            Stack1.BeginAnimation(TextBlock.MarginProperty, thicknessExpandAnimationHamburgerMenu);
+            thicknessAnimationTimer.To = new Thickness(10, 165, 0, 0);
+            TimerDisplay.BeginAnimation(Label.MarginProperty, thicknessAnimationTimer);
+            settings.RenderTransformOrigin = new Point(0.5, 0.5);
+            //colorAnimationHamburgerMenu.To = Color.FromArgb(100, 0, 0, 0);
+            //CoverColor.BeginAnimation(SolidColorBrush.ColorProperty, colorAnimationHamburgerMenu);
+            HamMenu.BeginAnimation(DockPanel.WidthProperty, pointAnimationHamburgerMenu);
+            HamburgerArrow.Begin();
         }
 
         #endregion
@@ -353,7 +641,7 @@ namespace LogitechGMineSweeper
 
         #endregion
 
-        #region KeyboardLayoutCHanged EventHnadler
+        #region KeyboardLayoutChanged EventHandler
 
         private void LayoutChangedHandler(KeyboardLayoutChangedEventArgs index)
         {
@@ -383,37 +671,33 @@ namespace LogitechGMineSweeper
                     case 0:
                         CheckBoxSetLogiLogo.IsChecked = MineSweeper.SetLogiLogo;
                         KeyboardDisplayShown = false;
-                        pointAnimationSelected.From = Canvas.GetTop(AnimatedSideBarSelected);
                         pointAnimationSelected.To = Canvas.GetTop(settings);
-                        pointAnimationNavSlide.From = Canvas.GetTop(Pages);
                         pointAnimationNavSlide.To = (int)PagesStartingPoints.settings;
-                        storyboard.Begin();
+                        AnimatedSideBarSelected.BeginAnimation(Canvas.TopProperty, pointAnimationSelected);
+                        Pages.BeginAnimation(Canvas.TopProperty, pointAnimationNavSlide);
                         break;
                     case 1:
                         KeyboardDisplayShown = true;
                         UpdateDisplayEvent?.Invoke();
                         FlagUseBackground.IsChecked = MineSweeper.UseBackground;
-                        pointAnimationSelected.From = Canvas.GetTop(AnimatedSideBarSelected);
                         pointAnimationSelected.To = Canvas.GetTop(colors);
-                        pointAnimationNavSlide.From = Canvas.GetTop(Pages);
                         pointAnimationNavSlide.To = (int)PagesStartingPoints.colors;
-                        storyboard.Begin();
+                        AnimatedSideBarSelected.BeginAnimation(Canvas.TopProperty, pointAnimationSelected);
+                        Pages.BeginAnimation(Canvas.TopProperty, pointAnimationNavSlide);
                         break;
                     case 2:
                         KeyboardDisplayShown = false;
-                        pointAnimationSelected.From = Canvas.GetTop(AnimatedSideBarSelected);
                         pointAnimationSelected.To = Canvas.GetTop(stats);
-                        pointAnimationNavSlide.From = Canvas.GetTop(Pages);
                         pointAnimationNavSlide.To = (int)PagesStartingPoints.stats;
-                        storyboard.Begin();
+                        AnimatedSideBarSelected.BeginAnimation(Canvas.TopProperty, pointAnimationSelected);
+                        Pages.BeginAnimation(Canvas.TopProperty, pointAnimationNavSlide);
                         break;
                     case 3:
                         KeyboardDisplayShown = false;
-                        pointAnimationSelected.From = Canvas.GetTop(AnimatedSideBarSelected);
                         pointAnimationSelected.To = Canvas.GetTop(reset);
-                        pointAnimationNavSlide.From = Canvas.GetTop(Pages);
                         pointAnimationNavSlide.To = (int)PagesStartingPoints.reset;
-                        storyboard.Begin();
+                        AnimatedSideBarSelected.BeginAnimation(Canvas.TopProperty, pointAnimationSelected);
+                        Pages.BeginAnimation(Canvas.TopProperty, pointAnimationNavSlide);
                         break;
                 }
             }

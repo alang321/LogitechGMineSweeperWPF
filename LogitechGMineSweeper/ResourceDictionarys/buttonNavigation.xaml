@@ -10,9 +10,9 @@
                 <Grid.Background>
                     <SolidColorBrush x:Name="ButtonBackground" Color="#00000000"/>
                 </Grid.Background>
-                <ContentPresenter RenderTransformOrigin="0.5,0.5" Name="RootElement" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center" Margin="4,5,4,4">
+                <ContentPresenter RenderTransformOrigin="{TemplateBinding RenderTransformOrigin}" Name="RootElement" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center" Margin="4,5,4,4">
                     <ContentPresenter.RenderTransform>
-                        <ScaleTransform ScaleX="1.0" ScaleY="1.0"></ScaleTransform>
+                        <ScaleTransform ScaleX="1.0" ScaleY="1.0"/>
                     </ContentPresenter.RenderTransform>
                 </ContentPresenter>
             </Grid>

@@ -4,7 +4,7 @@
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" x:Class="LogitechGMineSweeper.MainWindow"
-    Title="LogitechG Minesweeper" Height="407.5" Width="685"
+    Title="LogitechG Minesweeper" Height="407.5" Width="559"
     Background="#BAFFFFFF"
     AllowsTransparency="True"
     WindowStyle="None"
@@ -15,251 +15,265 @@
     xmlns:local="clr-namespace:LogitechGMineSweeper"
     WindowStartupLocation="CenterScreen"
     MinHeight="394"
-    MinWidth="600"
     Loaded="Window_Loaded"
     BorderBrush="Black">
 
-    <Grid Margin="0,0,0,-0.4">
-        <Grid.RowDefinitions>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="204" />
-
-            <ColumnDefinition />
-
-        </Grid.ColumnDefinitions>
-        <Rectangle Panel.ZIndex="-500" Name="Test" Visibility="Visible" Fill="White" Grid.Column="1" Margin="2,0,0.2,0.4"></Rectangle>
-
-        <Label Panel.ZIndex="-500" VerticalAlignment="Top" Margin="5,0,0,0" HorizontalAlignment="Left" Content="LogitechG MineSweeper" VerticalContentAlignment="Center" FontSize="11" Height="30" Foreground="#FF3E3A3A" Width="128"/>
-
-        <Rectangle Fill="Transparent" Stretch="Fill"  Grid.ColumnSpan="2" Panel.ZIndex="500" MouseLeftButtonDown="Stack_mousedown" Height="30" VerticalAlignment="Top" Margin="0,0,0,0" />
-        <Rectangle Fill="White" Stretch="Fill" Panel.ZIndex="500" MouseLeftButtonDown="Stack_mousedown" Height="30" VerticalAlignment="Top" Margin="2,0,0,0" Grid.Column="1" />
-        <Rectangle Fill="Black" Stretch="Fill" Panel.ZIndex="500" MouseLeftButtonDown="Stack_mousedown" Height="16" VerticalAlignment="Top" Margin="2,-16,0,0" Grid.Column="1" RenderTransformOrigin="0.5,0.5" ></Rectangle>
-        <Rectangle Fill="Black" Stretch="Fill" Panel.ZIndex="500" MouseLeftButtonDown="Stack_mousedown" Height="16" VerticalAlignment="Bottom" Margin="2,0,0,-15.6" Grid.Column="1" RenderTransformOrigin="0.5,0.5" ></Rectangle>
-        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Background="Transparent" Height="30" Panel.ZIndex="600" VerticalAlignment="Top" Margin="0,0,0,0" HorizontalAlignment="Right" Grid.Column="1" Width="108">
+    <Grid Margin="0,0,0,0">
+        <StackPanel MouseLeftButtonDown="Stack_mousedown" Orientation="Horizontal" FlowDirection="RightToLeft" Background="Transparent" Height="30" Panel.ZIndex="600" VerticalAlignment="Top" Margin="0,0,0,0" HorizontalAlignment="Right" Width="280">
             <Button Template="{StaticResource closeButton}" HorizontalAlignment="Right" Panel.ZIndex="600" Margin="0,0,0,0" Width="45" Click="Click_Close"/>
             <Button Template="{StaticResource minimizeButton}" HorizontalAlignment="Right" Panel.ZIndex="600" Margin="0,0,0,0" Width="45" Click="Click_Minimize"/>
         </StackPanel>
-
-
-        <Canvas Margin="0,30,0,196">
-            <Grid Canvas.Top="0"  IsHitTestVisible="False" Name="AnimatedSideBarSelected" Height="45" Width="5" Background="Transparent" RenderTransformOrigin="0.5,0.5">
-                <Border BorderThickness="0" Opacity="0.7" CornerRadius="0,0,0,0" Margin="0,9" BorderBrush="Black" Background="Black"/>
-            </Grid>
-
-            <Button Template="{StaticResource navButton}" Name="settings" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="206" Height="45" Canvas.Top="0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Settings" Grid.ColumnSpan="2">
-                <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
-                    <Image Source="symbols/settings.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                    <TextBlock Text="  Settings" VerticalAlignment="Center" Height="25" />
-                </StackPanel>
-            </Button>
-            <Button Template="{StaticResource navButton}" Canvas.Top="45" Name="colors" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Colors" Grid.ColumnSpan="2">
-                <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
-                    <Image Source="symbols/color.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                    <TextBlock Text="  Colors" VerticalAlignment="Center" Height="25" />
-                </StackPanel>
-            </Button>
-            <Button Template="{StaticResource navButton}" Name="stats" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Height="45" Canvas.Top="90" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Statistics" Grid.ColumnSpan="2">
-                <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
-                    <Image Source="symbols/stats.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                    <TextBlock Text="  Statistics" VerticalAlignment="Center" Height="25" />
-                </StackPanel>
-            </Button>
-            <Button Template="{StaticResource navButton}" Name="reset" HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalAlignment="Center" Width="206" Height="45" Canvas.Top="135" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Reset" Grid.ColumnSpan="2">
-                <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
-                    <Image Source="symbols/reset.png" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                    <TextBlock VerticalAlignment="Center" Height="25" ><Run Text="  "/><Run Text="Reset"/></TextBlock>
-                </StackPanel>
-            </Button>
-        </Canvas>
-
-        <Canvas Grid.Column="1" Margin="0,40,0,-1214.6" RenderTransformOrigin="0.5,0.5">
-            <StackPanel Name="Pages" Margin="15,0,0,0" Canvas.Top="0">
-                <Grid Height="365" Name="Tab1">
-                    <Grid Margin="0,-13,0,0">
-                        <Label Margin="0,0,0,0" Content="Settings" FontWeight="{Binding FontWeight, ElementName=fonttitle}" FontSize="26" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <Grid Margin="0,52,0,0.2">
-                            <Label FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Content="Change Bomb-Number" Height="32" FontSize="16"/>
-                            <Grid HorizontalAlignment="Left" Margin="50,41,0,261.8" >
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="9*"/>
-                                    <RowDefinition Height="16*"/>
-                                </Grid.RowDefinitions>
-                                <TextBox Padding="0,0,0,0" IsHitTestVisible="False" Focusable="False" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" x:Name="NUDTextBox" TextAlignment="Right" TextChanged="NUDTextBox_TextChanged" Margin="35,0,0,0" Width="49" Grid.RowSpan="2"/>
-                                <RepeatButton BorderThickness="0" Template="{StaticResource RepeatButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Interval="140" x:Name="NUDButtonUP" FontSize="8" FontFamily="Marlett" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="NUDButtonUP_Click" Margin="83,0,0,0" Height="11" Width="15" Grid.RowSpan="2"/>
-                                <RepeatButton BorderThickness="0" Template="{StaticResource RepeatButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="11" Interval="140" x:Name="NUDButtonDown" FontSize="8" FontFamily="Marlett" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="NUDButtonDown_Click" Margin="83,3,0,0" Width="15" Grid.Row="1"/>
-                                <Label Panel.ZIndex="500" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsHitTestVisible="False" Padding="0,0,0,0" FontSize="9" FontFamily="Marlett" Content="6" Margin="83,2,0,1" Grid.Row="1"/>
-                                <Label Panel.ZIndex="500" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsHitTestVisible="False" Padding="0,0,0,0" FontSize="9" FontFamily="Marlett" Content="5" Margin="83,0,0,11" Grid.RowSpan="2"/>
-                            </Grid>
-                            <Label FontSize="14" HorizontalAlignment="Left" Content="Bombs:" Width="100" Margin="20,37,0,261.8"/>
-
-                            <Label HorizontalAlignment="Left" FontSize="14" Content="Keyboard-Layout:" Margin="20,174,0,120.8"/>
-
-                            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="26,80,0,204.8" Height="27">
-                                <Button Template="{StaticResource Button}" FontFamily="Helvetica" FontSize="14" Content="Easy" Click="Click_Easy" Height="27" Width="95"/>
-                                <Button Template="{StaticResource Button}" FontFamily="Helvetica" FontSize="14" Content="Medium" Click="Click_Medium" Margin="19,0,0,0" Width="95"/>
-                                <Button Template="{StaticResource Button}" FontFamily="Helvetica" FontSize="14" Content="Hard" Margin="19,0,0,0" Width="95" Click="Click_Hard"/>
-                            </StackPanel>
-
-                            <Label HorizontalAlignment="Left" FontWeight="DemiBold" VerticalAlignment="Top" Margin="0,139,0,0" Content="Change Keyboard-Layout" Height="32" FontSize="16"/>
-                            <ComboBox VirtualizingPanel.ScrollUnit="Pixel" MaxDropDownHeight="100" HorizontalAlignment="Left" VerticalContentAlignment="Center" BorderThickness="2" FontSize="14" Name="KeyLayout" Margin="148,176,0,120.8" SelectionChanged="KeyLayout_SelectionChanged" Width="48"/>
-
-                            <Label HorizontalAlignment="Left" FontWeight="DemiBold" VerticalAlignment="Top" Margin="0,236,0,0" Content="Set LogitechG Logo Color (Leads to Keyboard Flashing)" Height="32" FontSize="16"/>
-                            <CheckBox Style="{StaticResource TextAlignLeft}" IsThreeState="False" FontSize="14" Checked="CheckBoxSetLogiLogo_Checked" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Unchecked="CheckBoxSetLogiLogo_Unchecked" HorizontalAlignment="Left" Name="CheckBoxSetLogiLogo" Content="Set LogiLogo" Margin="24,271,0,0" VerticalAlignment="Top" Width="103"/>
+        <Rectangle Fill="Black" Stretch="Fill" Panel.ZIndex="500" MouseLeftButtonDown="Stack_mousedown" Height="16" VerticalAlignment="Top" Margin="0,-16,-1,0" RenderTransformOrigin="0.5,0.5" />
+        <Rectangle Fill="Black" Stretch="Fill" Panel.ZIndex="500" MouseLeftButtonDown="Stack_mousedown" Height="16" VerticalAlignment="Bottom" Margin="0,0,0,-16" RenderTransformOrigin="0.5,0.5" />
+        <Rectangle Fill="Black" Stretch="Fill" Panel.ZIndex="500" MouseLeftButtonDown="Stack_mousedown" Height="406" VerticalAlignment="Bottom" Margin="557,0,-3,0" RenderTransformOrigin="0.5,0.5" >
+            <Rectangle.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Rectangle.RenderTransform>
+        </Rectangle>
+        <StackPanel Orientation="Horizontal">
+            <DockPanel Name="HamMenu" Width="45" Margin="0,0,0,0">
+                <StackPanel Orientation="Vertical">
+                    <Button Padding="0,0,0,0" RenderTransformOrigin="0.5,0.5" Template="{StaticResource hamburgerButton}" HorizontalContentAlignment="Left" FontFamily="Helvetica" FontSize="14" Click="Click_Ham" Grid.ColumnSpan="2">
+                        <Grid Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20" Width="20">
+                            <Line Name="LineTop" X1="2" Y1="5" X2="18" Y2="5" StrokeStartLineCap="Round" Stroke="#373737" StrokeEndLineCap="Round"  StrokeThickness="1.5"/>
+                            <Line Name="Middle" X1="2" Y1="10" X2="18" Y2="10" StrokeStartLineCap="Round" Stroke="#373737" StrokeEndLineCap="Round"  StrokeThickness="1.5"/>
+                            <Line Name="LineBottom" X1="2" Y1="15" X2="18" Y2="15" StrokeStartLineCap="Round" Stroke="#373737" StrokeEndLineCap="Round"  StrokeThickness="1.5"/>
                         </Grid>
-                    </Grid>
-                </Grid>
-                <Grid Height="365" Name="Tab2" Margin="0,40,0,0">
-                    <Grid Margin="0,-13,-0.2,0" Height="364" VerticalAlignment="Top">
-                        <Label Name="fonttitle" Margin="0,0,0,0" Content="Colors" FontWeight="Normal" FontSize="26" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    </Button>
+                    <Canvas Height="180">
+                        <Grid Canvas.Top="0" IsHitTestVisible="False" Name="AnimatedSideBarSelected" Height="45" Width="5" Background="Transparent" RenderTransformOrigin="0.5,0.5">
+                            <Border BorderThickness="0" Opacity="0.7" CornerRadius="0,0,0,0" Margin="0,9" BorderBrush="Black" Background="Black"/>
+                        </Grid>
+                        <Button Template="{StaticResource navButton}" RenderTransformOrigin="0.108,0.49" Name="settings" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="204" Height="45" Canvas.Top="0" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Settings" Grid.ColumnSpan="2">
+                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Margin="8,0,0,0" Width="95">
+                                <Image Source="symbols/settings.png" Width="16" Height="16" VerticalAlignment="Center" Margin="2,0,0,0"/>
+                                <TextBlock Name="Stack1" Margin="7,0,0,0" Text="  Settings" VerticalAlignment="Center" Height="25" />
+                            </StackPanel>
+                        </Button>
+                        <Button Template="{StaticResource navButton}" RenderTransformOrigin="{Binding RenderTransformOrigin, ElementName=settings}" Canvas.Top="45" Name="colors" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="204" Height="45" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Colors" Grid.ColumnSpan="2">
+                            <StackPanel Orientation="Horizontal" Margin="8,0,0,0" Width="95">
+                                <Image Source="symbols/color.png" Width="16" Height="16" VerticalAlignment="Center" Margin="2,0,0,0"/>
+                                <TextBlock Name="Stack2" Margin="{Binding Margin, ElementName=Stack1}" Text="  Colors" VerticalAlignment="Center" Height="25" />
+                            </StackPanel>
+                        </Button>
+                        <Button Template="{StaticResource navButton}" RenderTransformOrigin="{Binding RenderTransformOrigin, ElementName=settings}" Name="stats" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="204" Height="45" Canvas.Top="90" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Statistics" Grid.ColumnSpan="2">
+                            <StackPanel Orientation="Horizontal" Margin="8,0,0,0" Width="95">
+                                <Image Source="symbols/stats.png" Width="16" Height="16" VerticalAlignment="Center" Margin="2,0,0,0"/>
+                                <TextBlock Name="Stack3" Margin="{Binding Margin, ElementName=Stack1}" Text="  Statistics" VerticalAlignment="Center" Height="25" />
+                            </StackPanel>
+                        </Button>
+                        <Button Template="{StaticResource navButton}" RenderTransformOrigin="{Binding RenderTransformOrigin, ElementName=settings}" Name="reset" HorizontalContentAlignment="Left" HorizontalAlignment="Center" VerticalAlignment="Center" Width="204" Height="45" Canvas.Top="135" Background="#00DEDEDE" BorderBrush="#00707070" FontSize="16" Grid.Column="0" Click="Click_Reset" Grid.ColumnSpan="2">
+                            <StackPanel Orientation="Horizontal" Margin="8,0,0,0" Width="95">
+                                <Image Source="symbols/reset.png" Width="16" Height="16" VerticalAlignment="Center" Margin="2,0,0,0"/>
+                                <TextBlock Name="Stack4" Margin="{Binding Margin, ElementName=Stack1}" VerticalAlignment="Center" Height="25" Text="  Reset"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </Canvas>
 
-                        <Label VerticalAlignment="Top" HorizontalAlignment="Left" FontWeight="DemiBold" Margin="0,52,0,0" Content="Click on a key to change its color" FontSize="16"/>
+                    <Label VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="30:00" Opacity="1" Name="TimerDisplay" Padding="0,00,0,0" FontFamily="Helvetica" FontSize="15" Margin="0,165,0,0" Foreground="black" Height="30" Width="45"/>
+                </StackPanel>
+            </DockPanel>
+            <Canvas HorizontalAlignment="Stretch" Width="auto">
+                <Label IsHitTestVisible="False" Panel.ZIndex="9999" VerticalAlignment="Top" Margin="5,0,0,0" HorizontalAlignment="Left" Content="LogitechG MineSweeper" VerticalContentAlignment="Center" FontSize="11" Height="30" Foreground="#FF3E3A3A" Width="128" Grid.Column="1"/>
 
-                        <Grid Name="KeyboardDisplayContainer" Margin="20,84,48.2,155"></Grid>
+                <Rectangle Panel.ZIndex="999" IsHitTestVisible="False" Name="Cover" MouseDown="Click_Cover" Visibility="Visible" Grid.Column="2" Height="406" Width="512">
+                    <Rectangle.Fill>
+                        <SolidColorBrush x:Name="CoverColor"  Color="#00000000"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle Panel.ZIndex="-500" Name="Test" Visibility="Visible" Fill="White" Grid.Column="2" Height="406" Width="512"/>
+                <Rectangle Fill="White" Stretch="Fill" Panel.ZIndex="9998" MouseLeftButtonDown="Stack_mousedown" Height="30" VerticalAlignment="Top" Grid.Column="1" Width="512" />
 
-                        <Label FontWeight="DemiBold" Content="Change colors" VerticalAlignment="Top" Margin="0,209,0,0" FontSize="16"/>
-                        <ListView VirtualizingPanel.ScrollUnit="Pixel" HorizontalAlignment="Left" Height="118" Margin="20,246,0,0" VerticalAlignment="Top" Width="381">
-                            <ListViewItem MouseUp="Zero_Click" IsSelected="True">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Width="190"><Run Text="0 Sourrounding Bombs"/></TextBlock>
-                                    <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush0}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Zero" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
-                                </StackPanel>
-                            </ListViewItem>
-                            <ListViewItem MouseUp="One_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Width="190"><Run Text="1 Sourrounding Bomb"/></TextBlock>
-                                    <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush1}" Stroke="Black" StrokeThickness="0.5" x:Name="One" Margin="106,0,0,0" Width="54"/>
-                                </StackPanel>
-                            </ListViewItem>
-                            <ListViewItem MouseUp="Two_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Width="190"><Run Text="2 Sourrounding Bombs"/></TextBlock>
-                                    <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush2}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Two" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
-                                </StackPanel>
-                            </ListViewItem>
-                            <ListViewItem MouseUp="Three_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Width="190"><Run Text="3 Sourrounding Bombs"/></TextBlock>
-                                    <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush3}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Three" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
-                                </StackPanel>
-                            </ListViewItem>
-                            <ListViewItem MouseUp="Four_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Width="190"><Run Text="4 Sourrounding Bombs"/></TextBlock>
-                                    <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush4}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Four" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
-                                </StackPanel>
-                            </ListViewItem>
-                            <ListViewItem MouseUp="Five_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Width="190"><Run Text="5 Sourrounding Bombs"/></TextBlock>
-                                    <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush5}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Five" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
-                                </StackPanel>
-                            </ListViewItem>
-                            <ListViewItem MouseUp="Six_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Width="190"><Run Text="6 Sourrounding Bombs"/></TextBlock>
-                                    <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush6}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Six" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
-                                </StackPanel>
-                            </ListViewItem>
-                            <ListViewItem  MouseUp="Covered_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Width="190"><Run Text="Covered Field"/></TextBlock>
-                                    <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush8}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Covered" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
-                                </StackPanel>
-                            </ListViewItem>
-                            <ListViewItem  MouseUp="Bomb_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Width="190"><Run Text="Bomb Field"/></TextBlock>
-                                    <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush7}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Bomb" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
-                                </StackPanel>
-                            </ListViewItem>
-                            <ListViewItem  MouseUp="Flag_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Width="190"><Run Text="Flagged Field"/></TextBlock>
-                                    <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush10}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Flag" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
-                                </StackPanel>
-                            </ListViewItem>
-                            <ListViewItem MouseUp="ShiftFlag_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Opacity="{Binding Opacity, ElementName=ShiftFlag}" Width="142"><Run Text="Shift"/></TextBlock>
-                                    <CheckBox IsThreeState="False" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" HorizontalAlignment="Left" Name="FlagUseBackground" Content="Use Background Color" Margin="0,0,0,0" VerticalAlignment="Top"/>
-                                    <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush16}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="ShiftFlag" Margin="15,0,0,0" Width="{Binding Width, ElementName=One}"/>
-                                </StackPanel>
-                            </ListViewItem>
-                            <ListViewItem  MouseUp="Counter_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Width="190"><Run Text="Bomb Counter"/></TextBlock>
-                                    <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush15}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Counter" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
-                                </StackPanel>
-                            </ListViewItem>
-                            <ListViewItem  MouseUp="Default_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Width="190"><Run Text="Background Default"/></TextBlock>
-                                    <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush14}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Default" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
-                                </StackPanel>
-                            </ListViewItem>
-                            <ListViewItem  MouseUp="Victory_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Width="190"><Run Text="Background Victory"/></TextBlock>
-                                    <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush13}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Victory" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
-                                </StackPanel>
-                            </ListViewItem>
-                            <ListViewItem MouseUp="Defeat_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Width="190"><Run Text="Background Defeat"/></TextBlock>
-                                    <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush12}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Defeat" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
-                                </StackPanel>
-                            </ListViewItem>
-                            <ListViewItem MouseUp="New_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Width="190"><Run Text="New Game Key"/></TextBlock>
-                                    <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush11}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="New" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
-                                </StackPanel>
-                            </ListViewItem>
-                        </ListView>
-                    </Grid>
-                </Grid>
-                <Grid Height="365" Name="Tab3" Margin="0,40,0,0">
-                    <Grid Margin="0,-13,0,0.2">
-                        <Label Margin="0,0,0,0" Content="Statistics" FontWeight="{Binding FontWeight, ElementName=fonttitle}" FontSize="26" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <Label Content="Global Statistics:" FontWeight="DemiBold" FontSize="16" HorizontalAlignment="Left" Margin="0,52,0,0" VerticalAlignment="Top"/>
-                        <Label Name="gloWins" HorizontalContentAlignment="Right" FontSize="14" Content="WinsValue" HorizontalAlignment="Left" Margin="73,85,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.625,1.038" Width="89"/>
-                        <Label Name="gloLosses" HorizontalContentAlignment="Right" FontSize="14" Content="LossesValue" HorizontalAlignment="Left" Margin="73,114,0,0" VerticalAlignment="Top" Width="89"/>
-                        <Label Name="gloTotal" HorizontalContentAlignment="Right" FontSize="14" Content="TotalValue" HorizontalAlignment="Left" Margin="73,143,0,0" VerticalAlignment="Top" Width="89"/>
-                        <Label Name="local" Content="Local Statistics" FontWeight="DemiBold" FontSize="16" HorizontalAlignment="Left" Margin="0,196,0,0" VerticalAlignment="Top"/>
-                        <Label FontWeight="DemiBold" Content="Best Time:" FontSize="14" HorizontalAlignment="Left" Margin="20,228,0,0" VerticalAlignment="Top"/>
-                        <Label FontWeight="DemiBold" Content="Wins:" FontSize="14" HorizontalAlignment="Left" Margin="20,257,0,0" VerticalAlignment="Top"/>
-                        <Label FontWeight="DemiBold" Content="Losses:" FontSize="14" HorizontalAlignment="Left" Margin="20,286,0,0" VerticalAlignment="Top"/>
-                        <Label FontWeight="DemiBold" Content="Total:" FontSize="14" HorizontalAlignment="Left" Margin="20,315,0,0" VerticalAlignment="Top"/>
-                        <Label FontWeight="DemiBold" Content="Wins:" FontSize="14" HorizontalAlignment="Left" Margin="20,85,0,0" VerticalAlignment="Top"/>
-                        <Label FontWeight="DemiBold" Content="Losses:" FontSize="14" HorizontalAlignment="Left" Margin="20,114,0,0" VerticalAlignment="Top"/>
-                        <Label FontWeight="DemiBold" Content="Total:" FontSize="14" HorizontalAlignment="Left" Margin="20,143,0,0" VerticalAlignment="Top"/>
-                        <Label HorizontalContentAlignment="Right" Name="locBest"  FontSize="14" Content="LocalBestTimeValue" HorizontalAlignment="Left" Margin="-6,228,0,0" VerticalAlignment="Top" Width="168"/>
-                        <Label HorizontalContentAlignment="Right" Name="locWins" FontSize="14" Content="LocalWinsValue" HorizontalAlignment="Left" Margin="20,257,0,0" VerticalAlignment="Top" Width="142"/>
-                        <Label HorizontalContentAlignment="Right" Name="locLosses" FontSize="14" Content="LocalLossesValue" HorizontalAlignment="Left" Margin="20,286,0,0" VerticalAlignment="Top" Width="142"/>
-                        <Label HorizontalContentAlignment="Right" Name="locTotal" FontSize="14" Content="LocalTotalValue" HorizontalAlignment="Left" Margin="20,315,0,0" VerticalAlignment="Top" Width="142"/>
 
-                    </Grid>
-                </Grid>
-                <Grid Height="365" Name="Tab4" Margin="0,40,0,0">
-                    <Grid Margin="0,-13,0,0.2">
-                        <Label Margin="0,0,0,0" Content="Reset" FontWeight="{Binding FontWeight, ElementName=fonttitle}" FontSize="26" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <Label FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,52,0,0" Content="Reset settings, statistics or colors" Height="32" FontSize="16"/>
-                        <Label FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,158,0,0" Content="Reset all preferences and statistics" Height="32" FontSize="16"/>
-                        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="26,94,0,0" Height="32">
-                            <Button Template="{StaticResource Button}" FontFamily="Helvetica" FontSize="14" Content="Reset Settings" Click="Button_set" Height="30" Width="115"/>
-                            <Button Template="{StaticResource Button}" Margin="14,0,0,0" FontFamily="Helvetica" FontSize="14" Content="Reset Statistics" Click="Button_sta" Height="30" Width="115"/>
-                            <Button Template="{StaticResource Button}" Margin="14,0,0,0" FontFamily="Helvetica" FontSize="14" Content="Reset Colors" Click="Button_col" Height="30" Width="115"/>
-                        </StackPanel>
-                        <Button HorizontalAlignment="Left" Template="{StaticResource Button}" Margin="26,200,0,142.8" FontFamily="Helvetica" FontSize="14" Content="Reset Everything" Click="Button_all" Height="30" Width="115"/>
-                    </Grid>
-                </Grid>
-            </StackPanel>
-        </Canvas>
+                <Canvas Grid.Column="1" Margin="0,40,0,-1214.6" RenderTransformOrigin="0.5,0.5">
+                    <StackPanel Name="Pages" Canvas.Top="0" Margin="7,0,0,0" Canvas.Left="15" Width="454">
+                        <Grid Height="365" Name="Tab1">
+                            <Grid Margin="0,-13,0,0">
+                                <Label Margin="0,0,0,0" Content="Settings" FontWeight="{Binding FontWeight, ElementName=fonttitle}" FontSize="26" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                <Grid Margin="0,52,0,0.2">
+                                    <Label FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Content="Change Bomb-Number" Height="32" FontSize="16"/>
+                                    <Grid HorizontalAlignment="Left" Margin="50,41,0,261.8" >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="9*"/>
+                                            <RowDefinition Height="16*"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBox Padding="0,0,0,0" IsHitTestVisible="False" Focusable="False" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" x:Name="NUDTextBox" TextAlignment="Right" TextChanged="NUDTextBox_TextChanged" Margin="35,0,0,0" Width="49" Grid.RowSpan="2"/>
+                                        <RepeatButton BorderThickness="0" Template="{StaticResource RepeatButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Interval="140" x:Name="NUDButtonUP" FontSize="8" FontFamily="Marlett" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="NUDButtonUP_Click" Margin="83,0,0,0" Height="11" Width="15" Grid.RowSpan="2"/>
+                                        <RepeatButton BorderThickness="0" Template="{StaticResource RepeatButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="11" Interval="140" x:Name="NUDButtonDown" FontSize="8" FontFamily="Marlett" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="NUDButtonDown_Click" Margin="83,3,0,0" Width="15" Grid.Row="1"/>
+                                        <Label Panel.ZIndex="500" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsHitTestVisible="False" Padding="0,0,0,0" FontSize="9" FontFamily="Marlett" Content="6" Margin="83,2,0,1" Grid.Row="1"/>
+                                        <Label Panel.ZIndex="500" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsHitTestVisible="False" Padding="0,0,0,0" FontSize="9" FontFamily="Marlett" Content="5" Margin="83,0,0,11" Grid.RowSpan="2"/>
+                                    </Grid>
+                                    <Label FontSize="14" HorizontalAlignment="Left" Content="Bombs:" Width="100" Margin="20,37,0,261.8"/>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="27" Margin="10,0,0,9.4" Width="196" Grid.ColumnSpan="2">
-            <Label HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Timer:" Opacity="1" FontSize="16" Foreground="black" Height="30" Width="53"/>
-            <Label HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="30:00" Opacity="1" Name="TimerDisplay" FontSize="16" Margin="0,0,0,0" Foreground="black" Height="30" Width="143"/>
+                                    <Label HorizontalAlignment="Left" FontSize="14" Content="Keyboard-Layout:" Margin="20,174,0,120.8"/>
+
+                                    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="26,80,0,204.8" Height="27">
+                                        <Button Template="{StaticResource Button}" FontFamily="Helvetica" FontSize="14" Content="Easy" Click="Click_Easy" Height="27" Width="95"/>
+                                        <Button Template="{StaticResource Button}" FontFamily="Helvetica" FontSize="14" Content="Medium" Click="Click_Medium" Margin="19,0,0,0" Width="95"/>
+                                        <Button Template="{StaticResource Button}" FontFamily="Helvetica" FontSize="14" Content="Hard" Margin="19,0,0,0" Width="95" Click="Click_Hard"/>
+                                    </StackPanel>
+
+                                    <Label HorizontalAlignment="Left" FontWeight="DemiBold" VerticalAlignment="Top" Margin="0,139,0,0" Content="Change Keyboard-Layout" Height="32" FontSize="16"/>
+                                    <ComboBox VirtualizingPanel.ScrollUnit="Pixel" MaxDropDownHeight="100" HorizontalAlignment="Left" VerticalContentAlignment="Center" BorderThickness="2" FontSize="14" Name="KeyLayout" Margin="148,176,0,120.8" SelectionChanged="KeyLayout_SelectionChanged" Width="48"/>
+
+                                    <Label HorizontalAlignment="Left" FontWeight="DemiBold" VerticalAlignment="Top" Margin="0,236,0,0" Content="Set LogitechG Logo Color (Leads to Keyboard Flashing)" Height="32" FontSize="16"/>
+                                    <CheckBox Style="{StaticResource TextAlignLeft}" IsThreeState="False" FontSize="14" Checked="CheckBoxSetLogiLogo_Checked" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Unchecked="CheckBoxSetLogiLogo_Unchecked" HorizontalAlignment="Left" Name="CheckBoxSetLogiLogo" Content="Set LogiLogo" Margin="24,271,0,0" VerticalAlignment="Top" Width="103"/>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Grid Height="365" Name="Tab2" Margin="0,40,0,0">
+                            <Grid Margin="0,-13,-0.2,0" Height="364" VerticalAlignment="Top">
+                                <Label Name="fonttitle" Margin="0,0,0,0" Content="Colors" FontWeight="Normal" FontSize="26" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                                <Label VerticalAlignment="Top" HorizontalAlignment="Left" FontWeight="DemiBold" Margin="0,52,0,0" Content="Click on a key to change its color" FontSize="16"/>
+
+                                <Grid Name="KeyboardDisplayContainer" Margin="20,84,48.2,155"></Grid>
+
+                                <Label FontWeight="DemiBold" Content="Change colors" VerticalAlignment="Top" Margin="0,209,0,0" FontSize="16"/>
+                                <ListView VirtualizingPanel.ScrollUnit="Pixel" HorizontalAlignment="Left" Height="118" Margin="20,246,0,0" VerticalAlignment="Top" Width="381">
+                                    <ListViewItem MouseUp="Zero_Click" IsSelected="True">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Width="190"><Run Text="0 Sourrounding Bombs"/></TextBlock>
+                                            <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush0}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Zero" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem MouseUp="One_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Width="190"><Run Text="1 Sourrounding Bomb"/></TextBlock>
+                                            <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush1}" Stroke="Black" StrokeThickness="0.5" x:Name="One" Margin="106,0,0,0" Width="54"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem MouseUp="Two_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Width="190"><Run Text="2 Sourrounding Bombs"/></TextBlock>
+                                            <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush2}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Two" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem MouseUp="Three_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Width="190"><Run Text="3 Sourrounding Bombs"/></TextBlock>
+                                            <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush3}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Three" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem MouseUp="Four_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Width="190"><Run Text="4 Sourrounding Bombs"/></TextBlock>
+                                            <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush4}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Four" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem MouseUp="Five_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Width="190"><Run Text="5 Sourrounding Bombs"/></TextBlock>
+                                            <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush5}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Five" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem MouseUp="Six_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Width="190"><Run Text="6 Sourrounding Bombs"/></TextBlock>
+                                            <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush6}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Six" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem  MouseUp="Covered_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Width="190"><Run Text="Covered Field"/></TextBlock>
+                                            <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush8}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Covered" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem  MouseUp="Bomb_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Width="190"><Run Text="Bomb Field"/></TextBlock>
+                                            <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush7}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Bomb" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem  MouseUp="Flag_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Width="190"><Run Text="Flagged Field"/></TextBlock>
+                                            <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush10}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Flag" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem MouseUp="ShiftFlag_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Opacity="{Binding Opacity, ElementName=ShiftFlag}" Width="142"><Run Text="Shift"/></TextBlock>
+                                            <CheckBox IsThreeState="False" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" HorizontalAlignment="Left" Name="FlagUseBackground" Content="Use Background Color" Margin="0,0,0,0" VerticalAlignment="Top"/>
+                                            <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush16}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="ShiftFlag" Margin="15,0,0,0" Width="{Binding Width, ElementName=One}"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem  MouseUp="Counter_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Width="190"><Run Text="Bomb Counter"/></TextBlock>
+                                            <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush15}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Counter" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem  MouseUp="Default_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Width="190"><Run Text="Background Default"/></TextBlock>
+                                            <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush14}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Default" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem  MouseUp="Victory_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Width="190"><Run Text="Background Victory"/></TextBlock>
+                                            <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush13}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Victory" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem MouseUp="Defeat_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Width="190"><Run Text="Background Defeat"/></TextBlock>
+                                            <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush12}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="Defeat" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem MouseUp="New_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Width="190"><Run Text="New Game Key"/></TextBlock>
+                                            <Rectangle Fill="{DynamicResource ResourceKey=buttonColorBrush11}" Stroke="{Binding Stroke, ElementName=One}" StrokeThickness="{Binding StrokeThickness, ElementName=One}" x:Name="New" Margin="{Binding Margin, ElementName=One}" Width="{Binding Width, ElementName=One}"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                </ListView>
+                            </Grid>
+                        </Grid>
+                        <Grid Height="365" Name="Tab3" Margin="0,40,0,0">
+                            <Grid Margin="0,-13,0,0.2">
+                                <Label Margin="0,0,0,0" Content="Statistics" FontWeight="{Binding FontWeight, ElementName=fonttitle}" FontSize="26" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                <Label Content="Global Statistics:" FontWeight="DemiBold" FontSize="16" HorizontalAlignment="Left" Margin="0,52,0,0" VerticalAlignment="Top"/>
+                                <Label Name="gloWins" HorizontalContentAlignment="Right" FontSize="14" Content="WinsValue" HorizontalAlignment="Left" Margin="73,85,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.625,1.038" Width="89"/>
+                                <Label Name="gloLosses" HorizontalContentAlignment="Right" FontSize="14" Content="LossesValue" HorizontalAlignment="Left" Margin="73,114,0,0" VerticalAlignment="Top" Width="89"/>
+                                <Label Name="gloTotal" HorizontalContentAlignment="Right" FontSize="14" Content="TotalValue" HorizontalAlignment="Left" Margin="73,143,0,0" VerticalAlignment="Top" Width="89"/>
+                                <Label Name="local" Content="Local Statistics" FontWeight="DemiBold" FontSize="16" HorizontalAlignment="Left" Margin="0,196,0,0" VerticalAlignment="Top"/>
+                                <Label FontWeight="DemiBold" Content="Best Time:" FontSize="14" HorizontalAlignment="Left" Margin="20,228,0,0" VerticalAlignment="Top"/>
+                                <Label FontWeight="DemiBold" Content="Wins:" FontSize="14" HorizontalAlignment="Left" Margin="20,257,0,0" VerticalAlignment="Top"/>
+                                <Label FontWeight="DemiBold" Content="Losses:" FontSize="14" HorizontalAlignment="Left" Margin="20,286,0,0" VerticalAlignment="Top"/>
+                                <Label FontWeight="DemiBold" Content="Total:" FontSize="14" HorizontalAlignment="Left" Margin="20,315,0,0" VerticalAlignment="Top"/>
+                                <Label FontWeight="DemiBold" Content="Wins:" FontSize="14" HorizontalAlignment="Left" Margin="20,85,0,0" VerticalAlignment="Top"/>
+                                <Label FontWeight="DemiBold" Content="Losses:" FontSize="14" HorizontalAlignment="Left" Margin="20,114,0,0" VerticalAlignment="Top"/>
+                                <Label FontWeight="DemiBold" Content="Total:" FontSize="14" HorizontalAlignment="Left" Margin="20,143,0,0" VerticalAlignment="Top"/>
+                                <Label HorizontalContentAlignment="Right" Name="locBest"  FontSize="14" Content="LocalBestTimeValue" HorizontalAlignment="Left" Margin="-6,228,0,0" VerticalAlignment="Top" Width="168"/>
+                                <Label HorizontalContentAlignment="Right" Name="locWins" FontSize="14" Content="LocalWinsValue" HorizontalAlignment="Left" Margin="20,257,0,0" VerticalAlignment="Top" Width="142"/>
+                                <Label HorizontalContentAlignment="Right" Name="locLosses" FontSize="14" Content="LocalLossesValue" HorizontalAlignment="Left" Margin="20,286,0,0" VerticalAlignment="Top" Width="142"/>
+                                <Label HorizontalContentAlignment="Right" Name="locTotal" FontSize="14" Content="LocalTotalValue" HorizontalAlignment="Left" Margin="20,315,0,0" VerticalAlignment="Top" Width="142"/>
+
+                            </Grid>
+                        </Grid>
+                        <Grid Height="365" Name="Tab4" Margin="0,40,0,0">
+                            <Grid Margin="0,-13,0,0.2">
+                                <Label Margin="0,0,0,0" Content="Reset" FontWeight="{Binding FontWeight, ElementName=fonttitle}" FontSize="26" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                <Label FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,52,0,0" Content="Reset settings, statistics or colors" Height="32" FontSize="16"/>
+                                <Label FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,158,0,0" Content="Reset all preferences and statistics" Height="32" FontSize="16"/>
+                                <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="26,94,0,0" Height="32">
+                                    <Button Template="{StaticResource Button}" FontFamily="Helvetica" FontSize="14" Content="Reset Settings" Click="Button_set" Height="30" Width="115"/>
+                                    <Button Template="{StaticResource Button}" Margin="14,0,0,0" FontFamily="Helvetica" FontSize="14" Content="Reset Statistics" Click="Button_sta" Height="30" Width="115"/>
+                                    <Button Template="{StaticResource Button}" Margin="14,0,0,0" FontFamily="Helvetica" FontSize="14" Content="Reset Colors" Click="Button_col" Height="30" Width="115"/>
+                                </StackPanel>
+                                <Button HorizontalAlignment="Left" Template="{StaticResource Button}" Margin="26,200,0,142.8" FontFamily="Helvetica" FontSize="14" Content="Reset Everything" Click="Button_all" Height="30" Width="115"/>
+                            </Grid>
+                        </Grid>
+                    </StackPanel>
+                </Canvas>
+            </Canvas>
         </StackPanel>
     </Grid>
 </Window>

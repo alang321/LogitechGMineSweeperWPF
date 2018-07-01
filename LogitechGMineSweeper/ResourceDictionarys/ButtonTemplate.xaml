@@ -11,7 +11,7 @@
                     <SolidColorBrush x:Name="ButtonBackground" Color="#cdcdcd"/>
                 </Grid.Background>
                 <Rectangle Name="border" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,0" Stroke="#7b7b7b" StrokeThickness="0"/>
-                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4,5,4,4"/>
+                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="4,5,4,4"/>
             </Grid>
             <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup x:Name="CommonStates">

@@ -35,7 +35,7 @@ namespace LogitechGMineSweeper
         #region timer
 
         //max timer duration
-        public static TimeSpan MaxTimerValue { get; } = TimeSpan.FromHours(10);
+        public static TimeSpan MaxTimerValue { get; } = TimeSpan.FromSeconds(3599);
 
         //atrinf´g display when time is not
         public static string TimeNotSetText { get; } = "--:--";
@@ -47,7 +47,18 @@ namespace LogitechGMineSweeper
         public static Color Default { get; set; } = Colors.Black;
 
         //text that is displayed next to timer on new record
-        public static string TextNewRecord { get; } = " - Record!";
+        public static string TextNewRecord { get; } = "!";
+
+        #endregion
+
+        #region Animations
+        
+        public static TimeSpan ArrowAnimDuration { get; } = TimeSpan.FromSeconds(0.1);
+        public static TimeSpan HamburgerAnimDuration { get; } = TimeSpan.FromSeconds(0.1);
+        public static double ArrowAcceleration { get; } = 0.5;
+        public static double ArrowDeceleration { get; } = 0.5;
+        public static double HamburgerAcceleration { get; } = 0.5;
+        public static double HamburgerDeceleration { get; } = 0.5;
 
         #endregion
 
