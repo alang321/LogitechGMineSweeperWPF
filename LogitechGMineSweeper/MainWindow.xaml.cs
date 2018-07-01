@@ -5,7 +5,6 @@ using System.Windows.Interop;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows.Media.Animation;
 
@@ -65,6 +64,9 @@ namespace LogitechGMineSweeper
 
         #region Constructor and Variables
 
+
+        enum PagesStartingPoints { settings = 0, colors = -405, stats = -810, reset = -1215 }
+
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
@@ -74,9 +76,11 @@ namespace LogitechGMineSweeper
         //variable for minesweeper object
         public MineSweeper MineSweeper { get; set; }
 
-        #region objects animated bar
+        public int SelectedIndex { get; set; } = 0;
 
-        Storyboard storyboardSelected = new Storyboard();
+        #region objects animation
+
+        Storyboard storyboard = new Storyboard();
         Button[] NavButtons;
 
         DoubleAnimation pointAnimationSelected = new DoubleAnimation()
@@ -86,19 +90,26 @@ namespace LogitechGMineSweeper
             Duration = new Duration(TimeSpan.FromSeconds(0.15))
         };
 
+        DoubleAnimation pointAnimationNavSlide = new DoubleAnimation()
+        {
+            AccelerationRatio = 0.5,
+            DecelerationRatio = 0.5,
+            Duration = new Duration(TimeSpan.FromSeconds(0.4))
+        };
+
         #endregion
 
         public MainWindow()
         {
             InitializeComponent();
-            
+
             dispatcherTimer.Tick += DispatcherTimer_Tick;
             dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
             dispatcherTimer.Stop();
 
-            SaveFileSettings settingsFile = new SaveFileSettings(Config.PathSettingsFile, Config.UseBackgroundDefault, Config.KeyboardLayoutDefaultIndex, Config.BombsDefault, Config.defaultSetLogiLogo, Config.MinBombs, Config.MaxBombs, Config.KeyboardLayouts.Length-1);
+            SaveFileSettings settingsFile = new SaveFileSettings(Config.PathSettingsFile, Config.UseBackgroundDefault, Config.KeyboardLayoutDefaultIndex, Config.BombsDefault, Config.defaultSetLogiLogo, Config.MinBombs, Config.MaxBombs, Config.KeyboardLayouts.Length - 1);
             MineSweeper = new MineSweeper(settingsFile, new SaveFileGlobalStatistics(Config.PathGlobalStatisticsFile), Config.KeyboardLayouts[settingsFile.LayoutIndex], new SaveFileColors(Config.PathColorsFile, Config.ColorsDefault));
-            
+
             MineSweeper.StatsChangedEvent += new MineSweeper.UpdateStatsEventHandler(UpdateStats);
             MineSweeper.UpdateTimerEvent += new MineSweeper.TimerEventHandler(UpdateTimer);
 
@@ -107,10 +118,12 @@ namespace LogitechGMineSweeper
             {
                 KeyLayout.Items.Add(layout.Text);
             }
-            
+
             Config.InitKeyboardLayoutsArray();
             //init the keyboardusercontrols and let the right one subscribe to the print board events
             InitKeyboardUserControlsEvent?.Invoke(new KeyboardLayoutChangedEventArgs(MineSweeper.KeyboardLayout.Index));
+            KeyboardDisplayContainer.Children.Add(MineSweeper.KeyboardLayout.KeyboardDisplayPage as UserControl);
+            MineSweeper.KeyLayoutChangedEvent += LayoutChangedHandler;
 
             //select current keylayout
             KeyLayout.SelectedIndex = MineSweeper.KeyboardLayout.Index;
@@ -123,9 +136,10 @@ namespace LogitechGMineSweeper
             NavButtons = new Button[] { settings, colors, stats, reset };
             Storyboard.SetTarget(pointAnimationSelected, AnimatedSideBarSelected);
             Storyboard.SetTargetProperty(pointAnimationSelected, new PropertyPath(Canvas.TopProperty));
-            storyboardSelected.Children.Add(pointAnimationSelected);
-
-            _menuTabControl.SelectedIndex = 0;
+            Storyboard.SetTarget(pointAnimationNavSlide, Pages);
+            Storyboard.SetTargetProperty(pointAnimationNavSlide, new PropertyPath(Canvas.TopProperty));
+            storyboard.Children.Add(pointAnimationNavSlide);
+            storyboard.Children.Add(pointAnimationSelected);
         }
 
         #endregion
@@ -183,7 +197,7 @@ namespace LogitechGMineSweeper
 
             TimeSpan t = TimeSpan.FromMilliseconds(ms);
 
-            if(t.Hours == 0)
+            if (t.Hours == 0)
             {
                 return string.Format("{0:D2}:{1:D2}", t.Minutes, t.Seconds);
             }
@@ -324,7 +338,7 @@ namespace LogitechGMineSweeper
         #endregion
 
         #region SetLogiLogo Checkbox
-        
+
         private void CheckBoxSetLogiLogo_Checked(object sender, RoutedEventArgs e)
         {
             MineSweeper.SetLogiLogo = true;
@@ -339,62 +353,89 @@ namespace LogitechGMineSweeper
 
         #endregion
 
+        #region KeyboardLayoutCHanged EventHnadler
+
+        private void LayoutChangedHandler(KeyboardLayoutChangedEventArgs index)
+        {
+            KeyboardDisplayContainer.Children.Clear();
+            KeyboardDisplayContainer.Children.Add(MineSweeper.KeyboardLayout.KeyboardDisplayPage as UserControl);
+        }
+
+        #endregion
+
         #region Nav-Buttons
 
-        //if you use num keys to change selection
-        private void TabSelectionChanged(object sender, RoutedEventArgs e)
+        private void TabSelectionChanged(int selectedIndex)
         {
-            switch (_menuTabControl.SelectedIndex)
+            if (selectedIndex != this.SelectedIndex)
             {
-                case 0:
-                    CheckBoxSetLogiLogo.IsChecked = MineSweeper.SetLogiLogo;
-                    KeyboardDisplayShown = false;
-                    pointAnimationSelected.From = Canvas.GetTop(AnimatedSideBarSelected);
-                    pointAnimationSelected.To = Canvas.GetTop(settings);
-                    storyboardSelected.Begin();
-                    break;
-                case 1:
-                    FlagUseBackground.IsChecked = MineSweeper.UseBackground;
-                    KeyboardDisplayContainer.Children.Clear();
-                    KeyboardDisplayContainer.Children.Add(MineSweeper.KeyboardLayout.KeyboardDisplayPage as UserControl);
+                //if its gonna pass the color selector tab update display
+                if ((selectedIndex > 1 && this.SelectedIndex == 0) || (this.SelectedIndex > 1 && selectedIndex == 0))
+                {
                     UpdateDisplayEvent?.Invoke();
-                    KeyboardDisplayShown = true;
-                    pointAnimationSelected.From = Canvas.GetTop(AnimatedSideBarSelected);
-                    pointAnimationSelected.To = Canvas.GetTop(colors);
-                    storyboardSelected.Begin();
-                    break;
-                case 2:
-                    KeyboardDisplayShown = false;
-                    pointAnimationSelected.From = Canvas.GetTop(AnimatedSideBarSelected);
-                    pointAnimationSelected.To = Canvas.GetTop(stats);
-                    storyboardSelected.Begin();
-                    break;
-                case 3:
-                    KeyboardDisplayShown = false;
-                    pointAnimationSelected.From = Canvas.GetTop(AnimatedSideBarSelected);
-                    pointAnimationSelected.To = Canvas.GetTop(reset);
-                    storyboardSelected.Begin();
-                    break;
+                    FlagUseBackground.IsChecked = MineSweeper.UseBackground;
+                }
+
+                this.SelectedIndex = selectedIndex;
+
+                switch (selectedIndex)
+                {
+                    case 0:
+                        CheckBoxSetLogiLogo.IsChecked = MineSweeper.SetLogiLogo;
+                        KeyboardDisplayShown = false;
+                        pointAnimationSelected.From = Canvas.GetTop(AnimatedSideBarSelected);
+                        pointAnimationSelected.To = Canvas.GetTop(settings);
+                        pointAnimationNavSlide.From = Canvas.GetTop(Pages);
+                        pointAnimationNavSlide.To = (int)PagesStartingPoints.settings;
+                        storyboard.Begin();
+                        break;
+                    case 1:
+                        KeyboardDisplayShown = true;
+                        UpdateDisplayEvent?.Invoke();
+                        FlagUseBackground.IsChecked = MineSweeper.UseBackground;
+                        pointAnimationSelected.From = Canvas.GetTop(AnimatedSideBarSelected);
+                        pointAnimationSelected.To = Canvas.GetTop(colors);
+                        pointAnimationNavSlide.From = Canvas.GetTop(Pages);
+                        pointAnimationNavSlide.To = (int)PagesStartingPoints.colors;
+                        storyboard.Begin();
+                        break;
+                    case 2:
+                        KeyboardDisplayShown = false;
+                        pointAnimationSelected.From = Canvas.GetTop(AnimatedSideBarSelected);
+                        pointAnimationSelected.To = Canvas.GetTop(stats);
+                        pointAnimationNavSlide.From = Canvas.GetTop(Pages);
+                        pointAnimationNavSlide.To = (int)PagesStartingPoints.stats;
+                        storyboard.Begin();
+                        break;
+                    case 3:
+                        KeyboardDisplayShown = false;
+                        pointAnimationSelected.From = Canvas.GetTop(AnimatedSideBarSelected);
+                        pointAnimationSelected.To = Canvas.GetTop(reset);
+                        pointAnimationNavSlide.From = Canvas.GetTop(Pages);
+                        pointAnimationNavSlide.To = (int)PagesStartingPoints.reset;
+                        storyboard.Begin();
+                        break;
+                }
             }
         }
 
         private void Click_Settings(object sender, RoutedEventArgs e)
         {
-            _menuTabControl.SelectedIndex = 0;
+            TabSelectionChanged(0);
         }
         private void Click_Colors(object sender, RoutedEventArgs e)
         {
-            _menuTabControl.SelectedIndex = 1;
+            TabSelectionChanged(1);
         }
 
         private void Click_Statistics(object sender, RoutedEventArgs e)
         {
-            _menuTabControl.SelectedIndex = 2;
+            TabSelectionChanged(2);
         }
 
         private void Click_Reset(object sender, RoutedEventArgs e)
         {
-            _menuTabControl.SelectedIndex = 3;
+            TabSelectionChanged(3);
         }
 
         #endregion
@@ -498,7 +539,7 @@ namespace LogitechGMineSweeper
         {
             MineSweeper.GlobalStats.ResetToDefault();
 
-            foreach(KeyboardLayout layout in Config.KeyboardLayouts)
+            foreach (KeyboardLayout layout in Config.KeyboardLayouts)
             {
                 layout.SaveFile.ResetToDefault();
             }
@@ -514,7 +555,7 @@ namespace LogitechGMineSweeper
         private void ColorPopupCreator(int index)
         {
             byte[] current = { MineSweeper.Colors[index, 0], MineSweeper.Colors[index, 1], MineSweeper.Colors[index, 2] };
-            
+
             if ((ColorPopup.Show(System.Windows.Media.Color.FromArgb(0xFF, MineSweeper.Colors[index, 2], MineSweeper.Colors[index, 1], MineSweeper.Colors[index, 0]), index) == MessageBoxResult.OK))
             {
                 MineSweeper.ColorsFile.SavedColors = MineSweeper.Colors;
@@ -614,7 +655,7 @@ namespace LogitechGMineSweeper
         {
             ColorPopupCreator((int)MineSweeper.MapEnum.BackgroundDefeat);
         }
-        
+
         private void ShiftFlag_Click(object sender, RoutedEventArgs e)
         {
             if (!(bool)FlagUseBackground.IsChecked)

@@ -55,7 +55,7 @@ namespace LogitechGMineSweeper
                 mainWnd.Show();
             }
 
-            if(mainWnd._menuTabControl.SelectedIndex == 1)
+            if (mainWnd.SelectedIndex == 1)
             {
                 mainWnd.KeyboardDisplayShown = true;
             }
