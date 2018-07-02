@@ -84,9 +84,7 @@ namespace LogitechGMineSweeper
 
         DoubleAnimation widthAnimationButtonCollapse = new DoubleAnimation()
         {
-            BeginTime = TimeSpan.FromSeconds(0.3),
-            AccelerationRatio = 0.3,
-            DecelerationRatio = 0.3,
+            BeginTime = Config.MenuCollapseExpandDuration,
             To = 45,
             Duration = new Duration(TimeSpan.FromSeconds(0))
         };
@@ -94,9 +92,7 @@ namespace LogitechGMineSweeper
         DoubleAnimation widthAnimationButtonsExpand = new DoubleAnimation()
         {
             BeginTime = TimeSpan.FromSeconds(0),
-            AccelerationRatio = 0.3,
-            DecelerationRatio = 0.3,
-            To = 183,
+            To = Config.MenuExpandWidth,
             Duration = new Duration(TimeSpan.FromSeconds(0))
         };
 
@@ -104,13 +100,13 @@ namespace LogitechGMineSweeper
         {
             AccelerationRatio = 0.5,
             DecelerationRatio = 0.5,
-            Duration = new Duration(TimeSpan.FromSeconds(0.3))
+            Duration = new Duration(Config.MenuCollapseExpandDuration)
         };
 
         ThicknessAnimation thicknessCollapseAnimationHamburgerMenu = new ThicknessAnimation()
         {
             To = new Thickness(7, 0, 0, 0),
-            BeginTime = TimeSpan.FromSeconds(0.25),
+            BeginTime = Config.MenuCollapseTextSlideOutStart,
             AccelerationRatio = 0.5,
             DecelerationRatio = 0.5,
             Duration = new Duration(TimeSpan.FromSeconds(0.1))
@@ -130,7 +126,7 @@ namespace LogitechGMineSweeper
             BeginTime = TimeSpan.FromSeconds(0),
             AccelerationRatio = 0.5,
             DecelerationRatio = 0.5,
-            Duration = new Duration(TimeSpan.FromSeconds(0.3))
+            Duration = new Duration(Config.MenuCollapseExpandDuration)
         };
 
         /*ColorAnimation colorAnimationHamburgerMenu = new ColorAnimation()
@@ -138,7 +134,7 @@ namespace LogitechGMineSweeper
             BeginTime = TimeSpan.FromSeconds(0),
             AccelerationRatio = 0.5,
             DecelerationRatio = 0.5,
-            Duration = new Duration(TimeSpan.FromSeconds(0.3))
+            Duration = new Duration(Config.MenuExpandDuration)
         };*/
 
         #region Animation arrow
@@ -147,6 +143,13 @@ namespace LogitechGMineSweeper
         Storyboard HamburgerNormal = new Storyboard();
         //arrow
         //topline
+
+        DoubleAnimation arrowTopLineAnimationHamburgerMenuX1 = new DoubleAnimation()
+        {
+            AccelerationRatio = Config.ArrowAcceleration,
+            DecelerationRatio = Config.ArrowDeceleration,
+            Duration = Config.ArrowAnimDuration
+        };
 
         DoubleAnimation arrowTopLineAnimationHamburgerMenuY1 = new DoubleAnimation()
         {
@@ -170,6 +173,13 @@ namespace LogitechGMineSweeper
         };
 
         //bottomline
+
+        DoubleAnimation arrowBottomLineAnimationHamburgerMenuX1 = new DoubleAnimation()
+        {
+            AccelerationRatio = Config.ArrowAcceleration,
+            DecelerationRatio = Config.ArrowDeceleration,
+            Duration = Config.ArrowAnimDuration
+        };
 
         DoubleAnimation arrowBottomLineAnimationHamburgerMenuY1 = new DoubleAnimation()
         {
@@ -195,6 +205,13 @@ namespace LogitechGMineSweeper
         //hamburger
         //topline
 
+        DoubleAnimation hamburgerTopLineAnimationHamburgerMenuX1 = new DoubleAnimation()
+        {
+            AccelerationRatio = Config.HamburgerAcceleration,
+            DecelerationRatio = Config.HamburgerDeceleration,
+            Duration = Config.HamburgerAnimDuration
+        };
+
         DoubleAnimation hamburgerTopLineAnimationHamburgerMenuY1 = new DoubleAnimation()
         {
             AccelerationRatio = Config.HamburgerAcceleration,
@@ -217,6 +234,13 @@ namespace LogitechGMineSweeper
         };
 
         //bottomline
+
+        DoubleAnimation hamburgerBottomLineAnimationHamburgerMenuX1 = new DoubleAnimation()
+        {
+            AccelerationRatio = Config.HamburgerAcceleration,
+            DecelerationRatio = Config.HamburgerDeceleration,
+            Duration = Config.HamburgerAnimDuration
+        };
 
         DoubleAnimation hamburgerBottomLineAnimationHamburgerMenuY1 = new DoubleAnimation()
         {
@@ -248,14 +272,14 @@ namespace LogitechGMineSweeper
         {
             AccelerationRatio = 0.5,
             DecelerationRatio = 0.5,
-            Duration = new Duration(TimeSpan.FromSeconds(0.15))
+            Duration = new Duration(Config.BlackSideBarSpeed)
         };
 
         DoubleAnimation pointAnimationNavSlide = new DoubleAnimation()
         {
             AccelerationRatio = 0.5,
             DecelerationRatio = 0.5,
-            Duration = new Duration(TimeSpan.FromSeconds(0.3))
+            Duration = new Duration(Config.PagesSlideSpeed)
         };
 
         #endregion
@@ -301,38 +325,51 @@ namespace LogitechGMineSweeper
 
         private void InitAnimations()
         {
+            //Side Bar
+            NavButtons = new Button[] { settings, colors, stats, reset };
+
             //arrow
 
             //TopLine
+            //X1
+            arrowTopLineAnimationHamburgerMenuX1.To = 10;
+            Storyboard.SetTarget(arrowTopLineAnimationHamburgerMenuX1, LineTop);
+            Storyboard.SetTargetProperty(arrowTopLineAnimationHamburgerMenuX1, new PropertyPath("(Line.X1)"));
+            HamburgerArrow.Children.Add(arrowTopLineAnimationHamburgerMenuX1);
             //Y1
-            arrowTopLineAnimationHamburgerMenuY1.To = 10;
+            arrowTopLineAnimationHamburgerMenuY1.To = 3;
             Storyboard.SetTarget(arrowTopLineAnimationHamburgerMenuY1, LineTop);
             Storyboard.SetTargetProperty(arrowTopLineAnimationHamburgerMenuY1, new PropertyPath("(Line.Y1)"));
             HamburgerArrow.Children.Add(arrowTopLineAnimationHamburgerMenuY1);
             //X2
-            arrowTopLineAnimationHamburgerMenuX2.To = 10;
+            arrowTopLineAnimationHamburgerMenuX2.To = 2;
             Storyboard.SetTarget(arrowTopLineAnimationHamburgerMenuX2, LineTop);
             Storyboard.SetTargetProperty(arrowTopLineAnimationHamburgerMenuX2, new PropertyPath("(Line.X2)"));
             HamburgerArrow.Children.Add(arrowTopLineAnimationHamburgerMenuX2);
             //Y2
-            arrowTopLineAnimationHamburgerMenuY2.To = 3;
+            arrowTopLineAnimationHamburgerMenuY2.To = 10;
             Storyboard.SetTarget(arrowTopLineAnimationHamburgerMenuY2, LineTop);
             Storyboard.SetTargetProperty(arrowTopLineAnimationHamburgerMenuY2, new PropertyPath("(Line.Y2)"));
             HamburgerArrow.Children.Add(arrowTopLineAnimationHamburgerMenuY2);
 
             //BottomLine
+            //X1
+            arrowBottomLineAnimationHamburgerMenuX1.To = 10;
+            Storyboard.SetTarget(arrowBottomLineAnimationHamburgerMenuX1, LineBottom);
+            Storyboard.SetTargetProperty(arrowBottomLineAnimationHamburgerMenuX1, new PropertyPath("(Line.X1)"));
+            HamburgerArrow.Children.Add(arrowBottomLineAnimationHamburgerMenuX1);
             //Y1
-            arrowBottomLineAnimationHamburgerMenuY1.To = 10;
+            arrowBottomLineAnimationHamburgerMenuY1.To = 17;
             Storyboard.SetTarget(arrowBottomLineAnimationHamburgerMenuY1, LineBottom);
             Storyboard.SetTargetProperty(arrowBottomLineAnimationHamburgerMenuY1, new PropertyPath("(Line.Y1)"));
             HamburgerArrow.Children.Add(arrowBottomLineAnimationHamburgerMenuY1);
             //X2
-            arrowBottomLineAnimationHamburgerMenuX2.To = 10;
+            arrowBottomLineAnimationHamburgerMenuX2.To = 2;
             Storyboard.SetTarget(arrowBottomLineAnimationHamburgerMenuX2, LineBottom);
             Storyboard.SetTargetProperty(arrowBottomLineAnimationHamburgerMenuX2, new PropertyPath("(Line.X2)"));
             HamburgerArrow.Children.Add(arrowBottomLineAnimationHamburgerMenuX2);
             //Y2
-            arrowBottomLineAnimationHamburgerMenuY2.To = 17;
+            arrowBottomLineAnimationHamburgerMenuY2.To = 10;
             Storyboard.SetTarget(arrowBottomLineAnimationHamburgerMenuY2, LineBottom);
             Storyboard.SetTargetProperty(arrowBottomLineAnimationHamburgerMenuY2, new PropertyPath("(Line.Y2)"));
             HamburgerArrow.Children.Add(arrowBottomLineAnimationHamburgerMenuY2);
@@ -340,6 +377,11 @@ namespace LogitechGMineSweeper
             //Hamburger
 
             //TopLine
+            //X1
+            hamburgerTopLineAnimationHamburgerMenuX1.To = 2;
+            Storyboard.SetTarget(hamburgerTopLineAnimationHamburgerMenuX1, LineTop);
+            Storyboard.SetTargetProperty(hamburgerTopLineAnimationHamburgerMenuX1, new PropertyPath("(Line.X1)"));
+            HamburgerNormal.Children.Add(hamburgerTopLineAnimationHamburgerMenuX1);
             //Y1
             hamburgerTopLineAnimationHamburgerMenuY1.To = 5;
             Storyboard.SetTarget(hamburgerTopLineAnimationHamburgerMenuY1, LineTop);
@@ -357,6 +399,11 @@ namespace LogitechGMineSweeper
             HamburgerNormal.Children.Add(hamburgerTopLineAnimationHamburgerMenuY2);
 
             //BottomLine
+            //X1
+            hamburgerBottomLineAnimationHamburgerMenuX1.To = 2;
+            Storyboard.SetTarget(hamburgerBottomLineAnimationHamburgerMenuX1, LineBottom);
+            Storyboard.SetTargetProperty(hamburgerBottomLineAnimationHamburgerMenuX1, new PropertyPath("(Line.X1)"));
+            HamburgerNormal.Children.Add(hamburgerBottomLineAnimationHamburgerMenuX1);
             //Y1
             hamburgerBottomLineAnimationHamburgerMenuY1.To = 15;
             Storyboard.SetTarget(hamburgerBottomLineAnimationHamburgerMenuY1, LineBottom);
@@ -372,9 +419,6 @@ namespace LogitechGMineSweeper
             Storyboard.SetTarget(hamburgerBottomLineAnimationHamburgerMenuY2, LineBottom);
             Storyboard.SetTargetProperty(hamburgerBottomLineAnimationHamburgerMenuY2, new PropertyPath("(Line.Y2)"));
             HamburgerNormal.Children.Add(hamburgerBottomLineAnimationHamburgerMenuY2);
-
-            //Side Bar
-            NavButtons = new Button[] { settings, colors, stats, reset };
         }
 
         private void InitTimer()
@@ -391,9 +435,9 @@ namespace LogitechGMineSweeper
             {
                 KeyLayout.Items.Add(layout.Text);
             }
-            UpdateTimerText();
             //select current keylayout
             KeyLayout.SelectedIndex = MineSweeper.KeyboardLayout.Index;
+            UpdateTimerText();
             NUDTextBox.Text = Convert.ToString(MineSweeper.Bombs);
         }
 

@@ -31,7 +31,7 @@
                     <VisualState x:Name="Normal">
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2" />
-                            <ColorAnimation Storyboard.TargetName="StrokeBackground" Storyboard.TargetProperty="Color" To="Black" Duration="0:0:0.2" />
+                            <ColorAnimation Storyboard.TargetName="StrokeBackground" Storyboard.TargetProperty="Color" To="Black" Duration="0:0:0.1" />
                         </Storyboard>
                     </VisualState>
                     <VisualState x:Name="MouseOver">

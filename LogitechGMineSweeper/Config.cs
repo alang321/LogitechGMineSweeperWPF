@@ -59,6 +59,15 @@ namespace LogitechGMineSweeper
         public static double ArrowDeceleration { get; } = 0.5;
         public static double HamburgerAcceleration { get; } = 0.5;
         public static double HamburgerDeceleration { get; } = 0.5;
+        
+        public static TimeSpan MenuCollapseExpandDuration { get; } = TimeSpan.FromSeconds(0.2);
+        public static double MenuExpandWidth { get; } = 183;
+
+        public static TimeSpan MenuCollapseTextSlideOutStart { get; } = MenuCollapseExpandDuration - TimeSpan.FromSeconds(0.05);
+
+        //Nav Menu
+        public static TimeSpan BlackSideBarSpeed { get; } = TimeSpan.FromSeconds(0.15);
+        public static TimeSpan PagesSlideSpeed { get; } = TimeSpan.FromSeconds(0.2);
 
         #endregion
 

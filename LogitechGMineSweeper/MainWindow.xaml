@@ -78,7 +78,7 @@
                     <Label VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="30:00" Opacity="1" Name="TimerDisplay" Padding="0,00,0,0" FontFamily="Helvetica" FontSize="15" Margin="0,165,0,0" Foreground="black" Height="30" Width="45"/>
                 </StackPanel>
             </DockPanel>
-            <Canvas HorizontalAlignment="Stretch" Width="auto">
+            <Canvas HorizontalAlignment="Stretch" Width="512">
                 <Label IsHitTestVisible="False" Panel.ZIndex="9999" VerticalAlignment="Top" Margin="5,0,0,0" HorizontalAlignment="Left" Content="LogitechG MineSweeper" VerticalContentAlignment="Center" FontSize="11" Height="30" Foreground="#FF3E3A3A" Width="128" Grid.Column="1"/>
 
                 <Rectangle Panel.ZIndex="999" IsHitTestVisible="False" Name="Cover" MouseDown="Click_Cover" Visibility="Visible" Grid.Column="2" Height="406" Width="512">
