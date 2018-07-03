@@ -122,7 +122,7 @@
                                     <ComboBox VirtualizingPanel.ScrollUnit="Pixel" MaxDropDownHeight="100" HorizontalAlignment="Left" VerticalContentAlignment="Center" BorderThickness="2" FontSize="14" Name="KeyLayout" Margin="148,176,0,120.8" SelectionChanged="KeyLayout_SelectionChanged" Width="48"/>
 
                                     <Label HorizontalAlignment="Left" FontWeight="DemiBold" VerticalAlignment="Top" Margin="0,236,0,0" Content="Set LogitechG Logo Color (Leads to Keyboard Flashing)" Height="32" FontSize="16"/>
-                                    <CheckBox Style="{StaticResource TextAlignLeft}" IsThreeState="False" FontSize="14" Checked="CheckBoxSetLogiLogo_Checked" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Unchecked="CheckBoxSetLogiLogo_Unchecked" HorizontalAlignment="Left" Name="CheckBoxSetLogiLogo" Content="Set LogiLogo" Margin="24,271,0,0" VerticalAlignment="Top" Width="103"/>
+                                    <CheckBox Style="{StaticResource TextAlignLeft}" IsThreeState="False" FontSize="14" Checked="CheckBoxSetLogiLogo_Checked" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Unchecked="CheckBoxSetLogiLogo_Unchecked" HorizontalAlignment="Left" Name="CheckBoxSetLogiLogo" Content="Set LogiLogo" Margin="24,277,0,0" VerticalAlignment="Top" Width="103"/>
                                 </Grid>
                             </Grid>
                         </Grid>

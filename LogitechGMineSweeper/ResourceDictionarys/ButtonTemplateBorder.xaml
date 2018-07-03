@@ -10,7 +10,7 @@
                 <Grid.Background>
                     <SolidColorBrush x:Name="ButtonBackground" Color="#FFFFFF"/>
                 </Grid.Background>
-                <Rectangle Name="border" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,0" StrokeThickness="1">
+                <Rectangle SnapsToDevicePixels="True" Name="border" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,0" StrokeThickness="1">
                     <Rectangle.Stroke>
                         <SolidColorBrush x:Name="BorderColor" Color="#000000"/>
                     </Rectangle.Stroke>

@@ -175,6 +175,8 @@ namespace LogitechGMineSweeper
 
         #endregion
 
+        public static bool MouseWheelForNavigation { get; } = false;
+
         //array for the words displayed in the color picker popup
         public static string[] ColorPickerTitles { get; } = { "0 Bombs", "1 Bomb", "2 Bombs", "3 Bombs", "4 Bombs", "5 Bombs", "6 Bombs", "Bomb Field", "Covered Field", "Offboard", "Flag", "New Game Key", "Defeat Background", "Victory Background", "Default Background", "Bomb Counter", "Shift Keys" };
     }

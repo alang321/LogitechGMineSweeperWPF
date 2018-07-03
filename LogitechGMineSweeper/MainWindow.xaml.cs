@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using System.Linq;
 using System.Windows.Media.Animation;
+using System.Windows.Input;
 
 namespace LogitechGMineSweeper
 {
@@ -298,12 +299,14 @@ namespace LogitechGMineSweeper
         private void AllInit()
         {
             InitMinesweeper();
-            Config.InitKeyboardLayoutsArray();
             InitKeyboardLayoutDisplay();
             InitAnimations();
             InitTimer();
             InitUI();
             UpdateStats();
+            
+            this.KeyDown += new KeyEventHandler(KeyPress);  // add the keydown event handler
+            if(Config.MouseWheelForNavigation) this.MouseWheel += new MouseWheelEventHandler(MouseWheelUpDown);  // add the keydown event handler
         }
 
         private void InitMinesweeper()
@@ -317,6 +320,7 @@ namespace LogitechGMineSweeper
 
         private void InitKeyboardLayoutDisplay()
         {
+            Config.InitKeyboardLayoutsArray();
             //init the keyboardusercontrols and let the right one subscribe to the print board events
             InitKeyboardUserControlsEvent?.Invoke(new KeyboardLayoutChangedEventArgs(MineSweeper.KeyboardLayout.Index));
             KeyboardDisplayContainer.Children.Add(MineSweeper.KeyboardLayout.KeyboardDisplayPage as UserControl);
@@ -440,6 +444,7 @@ namespace LogitechGMineSweeper
             UpdateTimerText();
             NUDTextBox.Text = Convert.ToString(MineSweeper.Bombs);
         }
+
 
         #endregion
 
@@ -716,6 +721,45 @@ namespace LogitechGMineSweeper
         #endregion
 
         #region Nav-Buttons
+
+        public void KeyPress(object sender, KeyEventArgs ky)
+        {
+            switch (ky.Key)
+            {
+                case Key.PageUp:
+                    if (SelectedIndex > 0)
+                    {
+                        TabSelectionChanged(SelectedIndex - 1);
+                    }
+                    break;
+                case Key.PageDown:
+                    if (SelectedIndex < 3)
+                    {
+                        TabSelectionChanged(SelectedIndex + 1);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void MouseWheelUpDown(object sender, MouseWheelEventArgs ky)
+        {
+            if(ky.Delta < 0)
+            {
+                if (SelectedIndex < 3)
+                {
+                    TabSelectionChanged(SelectedIndex + 1);
+                }
+            }
+            else
+            {
+                if (SelectedIndex > 0)
+                {
+                    TabSelectionChanged(SelectedIndex - 1);
+                }
+            }
+        }
 
         private void TabSelectionChanged(int selectedIndex)
         {

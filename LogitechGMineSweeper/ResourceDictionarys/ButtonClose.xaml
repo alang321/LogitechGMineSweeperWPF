@@ -13,12 +13,12 @@
                 <Border x:Name="border" CornerRadius="0" BorderBrush="Transparent" BorderThickness="0.0" Background="Transparent">
                 </Border>
                 <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Height="9.9" Width="9.9">
-                    <Line Name="Cross" X1="0.3" Y1="0.3" X2="9.6" Y2="9.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round"  StrokeThickness="1">
+                    <Line SnapsToDevicePixels="True" Name="Cross" X1="0.3" Y1="0.3" X2="9.6" Y2="9.6" StrokeThickness="1">
                         <Line.Stroke>
                             <SolidColorBrush x:Name="StrokeBackground" Color="Black"/>
                         </Line.Stroke>
                     </Line>
-                    <Line Name="Cross2" X1="0.3" Y1="9.6" X2="9.6" Y2="0.3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"  StrokeThickness="1">
+                    <Line SnapsToDevicePixels="True" Name="Cross2" X1="0.3" Y1="9.6" X2="9.6" Y2="0.3" StrokeThickness="1">
                         <Line.Stroke>
                             <SolidColorBrush Color="{Binding Color, ElementName=StrokeBackground}"/>
                         </Line.Stroke>
@@ -30,21 +30,20 @@
                 <VisualStateGroup x:Name="CommonStates">
                     <VisualState x:Name="Normal">
                         <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2" />
+                            <ColorAnimation Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Color" To="#00e81123" Duration="0:0:0.15" />
                             <ColorAnimation Storyboard.TargetName="StrokeBackground" Storyboard.TargetProperty="Color" To="Black" Duration="0:0:0.1" />
                         </Storyboard>
                     </VisualState>
                     <VisualState x:Name="MouseOver">
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Color" To="#FFe81123" Duration="0:0:0.2" />
-                            <ColorAnimation Storyboard.TargetName="StrokeBackground" Storyboard.TargetProperty="Color" To="White" Duration="0:0:0.2" />
+                            <ColorAnimation Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Color" To="#FFe81123" Duration="0:0:0.15" />
+                            <ColorAnimation Storyboard.TargetName="StrokeBackground" Storyboard.TargetProperty="Color" To="White" Duration="0:0:0.15" />
                         </Storyboard>
                     </VisualState>
                     <VisualState x:Name="Pressed">
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Color" To="#77e81123" Duration="0:0:0.2" />
-                            <DoubleAnimation Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Opacity" To="1.0" Duration="0:0:0.2" />
-                            <ColorAnimation Storyboard.TargetName="StrokeBackground" Storyboard.TargetProperty="Color" To="White" Duration="0:0:0.2" />
+                            <ColorAnimation Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Color" To="#77e81123" Duration="0:0:0.15" />
+                            <ColorAnimation Storyboard.TargetName="StrokeBackground" Storyboard.TargetProperty="Color" To="Black" Duration="0:0:0.15" />
                         </Storyboard>
                     </VisualState>
                 </VisualStateGroup>
